@@ -1,0 +1,5 @@
+.idea/
+docs/build
+docs/source/.autosummary
+
+venv/
