@@ -13,4 +13,4 @@ Table Of Contents
    :maxdepth: 2
 
    quickstart
-   api
+   developer/index

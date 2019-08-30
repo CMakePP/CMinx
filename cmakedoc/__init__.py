@@ -1,2 +1,2 @@
-from .cmake_regexer import CMakeRegexer
+from .parser import Parser
 

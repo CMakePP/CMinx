@@ -1,4 +1,4 @@
-import context
+import context  # Sets up PYTHON_PATH for this test
 import cmakedoc.parse_block_comment as pbc
 import unittest
 
@@ -31,7 +31,7 @@ class TestParseBlockComment(unittest.TestCase):
 
 class TestParseBlockDocstring(unittest.TestCase):
     def test_non_block_docstring_start(self):
-        self.assertRaises(ValueError, pbc.parse_block_comment, ['hi'])
+        self.assertRaises(ValueError, pbc.parse_block_docstring, ['hi'])
 
 
 if __name__ == '__main__':

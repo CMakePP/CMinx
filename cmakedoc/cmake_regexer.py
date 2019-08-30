@@ -17,6 +17,7 @@ class CMakeRegexer:
     - "block docstring" : e.g. ``#[[[ Beginning of block doc string``
     - "block comment start" : e.g. ``#[[``
     - "block comment end" : e.g. ``#]]``
+    - ``blank`` : e.g. ``     ``
     - "other" : e.g. ``set(var value)``
 
     All regexes strive to embrace the full flexibility of the CMake language so
@@ -78,7 +79,13 @@ class CMakeRegexer:
         :raise ValueError: If ``purpose`` is not a recognized purpose.
         """
 
-        if purpose not in self.regexes:
+        if purpose not in self.regexes and purpose != 'other':
             raise ValueError(purpose + " is not a known purpose.")
+
+        if purpose == 'other':
+            for type_i, regex_i in self.regexes.items():
+                if regex_i.match(line):
+                    return False
+            return True
 
         return bool(self.regexes[purpose].match(line))

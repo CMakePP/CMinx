@@ -4,7 +4,24 @@ from .cmake_regexer import CMakeRegexer
 def _parse_signature(fxn_type, lines):
     """Code factorization for parse_function_start/parse_macro_start.
 
-    This function actually implements
+    This function actually implements ``parse_function_start`` and
+    ``parse_macro_start``. It starts by looping over lines until the end of the
+    signature is found (*i.e.*, the closing ``)``). The function then removes
+    CMake code from ``lines`` until ``lines`` is set to the line after the
+    function/macro definition.
+
+    :param fxn_type: Either "function" or "macro" depending on whether we are
+                     parsing a function or a macro.
+    :type fxn_type: str
+    :param lines: The CMake code we are extracting the signature from.
+    :type lines: list[str]
+    :return: The signature of the function/macro that is being defined and
+             ``lines`` advanced to the CMake code line following the function or
+             macro definition.
+    :rtype: tuple[str, list[str]]
+    :raise SyntaxError: If the closing ``)`` can not be found or if the
+                        corresponding ``endfunction()``/``endmacro()`` can not
+                        be found.
     """
     data = lines[0]
     new_first_line = 1
@@ -53,7 +70,7 @@ def parse_function_start(lines):
              definition.
     :rtype: tuple[str, list[str]]
     """
-    if not CMakeRegexer().has_purpose("function start", lines[0]):
+    if not CMakeRegexer().has_purpose(lines[0], "function start"):
         raise ValueError(lines[0] + " is not the start of a CMake function")
 
     return _parse_signature("function", lines)
@@ -74,7 +91,7 @@ def parse_macro_start(lines):
              definition.
     :rtype: tuple[str, list[str]]
     """
-    if not CMakeRegexer().has_purpose("macro start", lines[0]):
+    if not CMakeRegexer().has_purpose(lines[0], "macro start"):
         raise ValueError(lines[0] + " is not the start of a CMake macro")
 
     return _parse_signature("macro", lines)

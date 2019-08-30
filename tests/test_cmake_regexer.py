@@ -1,4 +1,5 @@
-from context import cmakedoc
+import context  # Sets up PYTHON_PATH for this test
+from cmakedoc.cmake_regexer import CMakeRegexer as CMakeRegexer
 import unittest
 
 
@@ -18,7 +19,7 @@ class TestCMakeRegexer(unittest.TestCase):
             "blank": ["", "\n", "    ", "    \n"],
             "other": ["set(var value)", "file(stuff)"]
         }
-        self.regexer = cmakedoc.CMakeRegexer()
+        self.regexer = CMakeRegexer()
 
     def test_get_purpose(self):
         for type_i, strs_i in self.strs2test.items():
@@ -30,8 +31,6 @@ class TestCMakeRegexer(unittest.TestCase):
     def test_has_purpose(self):
         regexer = self.regexer
         for type_i, strs_i in self.strs2test.items():
-            if type_i == 'other':
-                continue
             for str_i in strs_i:
                 for type_j in self.strs2test.keys():
                     if type_j == 'other':

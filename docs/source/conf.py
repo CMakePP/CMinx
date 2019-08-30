@@ -26,6 +26,7 @@ sys.path.insert(0, root_path)
 templates_path = ['.templates']
 source_suffix = '.rst'
 master_doc = 'index'
+numfig = True
 exclude_patterns = ['build', '.templates']
 pygments_style = 'sphinx'
 html_theme = 'sphinx_rtd_theme'

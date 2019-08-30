@@ -1,4 +1,4 @@
-import context
+import context  # Sets up PYTHON_PATH for this test
 import cmakedoc.parse_signature as ps
 import unittest
 
@@ -41,10 +41,22 @@ class TestParseFunctionStart(unittest.TestCase):
     def test_not_function(self):
         self.assertRaises(ValueError, ps.parse_function_start, ['Hello World'])
 
+    def test_function(self):
+        lines = 'function(my_fxn arg1)\nendfunction()'.splitlines()
+        data, lines = ps.parse_function_start(lines)
+        self.assertEqual(data, 'function(my_fxn arg1)')
+        self.assertEqual(lines, [])
+
 
 class TestParseMacroStart(unittest.TestCase):
     def test_not_function(self):
         self.assertRaises(ValueError, ps.parse_macro_start, ['Hello World'])
+
+    def test_macro(self):
+        lines = 'macro(my_macro arg1)\nendmacro()'.splitlines()
+        data, lines = ps.parse_macro_start(lines)
+        self.assertEqual(data, 'macro(my_macro arg1)')
+        self.assertEqual(lines, [])
 
 
 if __name__ == '__main__':
