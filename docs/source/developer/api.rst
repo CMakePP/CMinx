@@ -22,4 +22,4 @@ Functions
 
    cmakedoc.parse_block_comment
    cmakedoc.parse_signature
-   cmakedoc.parse_single_line_comment
+   cmakedoc.parse_single_line
