@@ -7,3 +7,6 @@ docs/source/developer/.autosummary
 
 # Python virtual environment
 venv/
+
+# Coverage reports
+tests/.coverage

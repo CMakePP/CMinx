@@ -1,4 +1,7 @@
 # CMakeDoc
+[![Build Status](https://travis-ci.com/CMakePP/CMakeDoc.svg?branch=master)](https://travis-ci.com/CMakePP/CMakeDoc)
+[![codecov](https://codecov.io/gh/CMakePP/CMakeDoc/branch/master/graph/badge.svg)](https://codecov.io/gh/CMakePP/CMakeDoc)
+
 
 A common software practice is to keep documentation close to the functions and
 classes that are being documented (ideally in the same source file). Most
