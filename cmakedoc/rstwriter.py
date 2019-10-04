@@ -33,12 +33,20 @@ class RSTWriter(object):
 
 	@title.setter
 	def title(self, new_title):
-		"""Rebuild heading and replace the old one in the document tree whenever title is changed"""
+		"""
+		Rebuild heading and replace the old one in the document tree whenever title is changed
+
+		:param new_title: The new section title to be used.
+		"""
 		self.__title = new_title
 		self.document[0] = self.build_heading()
 
 	def bulleted_list(self, *items):
-		"""Add a bulleted list to the document tree."""
+		"""
+		Add a bulleted list to the document tree.
+
+		:param items: varargs containing the desired list items.
+		"""
 		list_string = "\n"
 		for item in items:
 			list_string += f"* {item}\n"
@@ -135,6 +143,11 @@ class RSTWriter(object):
 		return document_string
 
 	def __str__(self):
+		"""
+		Equivalent to :func: `~cmakedoc.RSTWriter.to_text`
+
+		:return: The completed RST document in string form.
+		"""
 		return self.to_text()
 
 	def write_to_file(self, file):
@@ -169,23 +182,44 @@ class Directive(RSTWriter):
 	"""
 
 	def __init__(self, name, indent=0, *arguments):
+		"""
+		:param name: Name of the directive being constructed, eg. toctree or admonition.
+
+		:param indent: Indent level of this directive. 0 is root, 1 is under another directive, etc.
+
+		:param arguments: Varargs to be used as the directive arguments, eg. a topic's title.
+		"""
+
 		self.indent: int = indent
 		self.arguments = arguments
 		super().__init__(name)
 
 	def directive(self, title, *arguments):
-		"""Add a sub-directive"""
+		"""
+		Add a sub-directive.
+
+		:param title: Name of the new subdirective, eg. toctree or admonition.
+
+		:param arguments: Varargs used as the directive arguments, such as a topic's title.
+		"""
 		d = Directive(title, self.indent + 1, *arguments)
 		self.document.append(d)
 		return d
 
 	def build_heading(self):
 		"""
-		Build directive heading format (ex. '.. toctree::') and return
+		Build directive heading format (ex. '.. toctree::') and return.
+
+		:return: Correctly formatted directive heading string.
 		"""
 		return f"\n{self.get_indents(self.indent)}.. {self.title}:: {self.format_arguments()}"
 
 	def format_arguments(self):
+		"""
+		Format argument list into the correct argument string for use with directives.
+
+		:return: A string representing the directive arguments.
+		"""
 		return ','.join(map(str, self.arguments))
 
 	def option(self, name: str, value=""):
@@ -196,7 +230,9 @@ class Directive(RSTWriter):
 
 	def get_indents(self, num):
 		"""
-		Get the string containing the necessary indent
+		Get the string containing the necessary indent.
+
+		:return: A string containing the correct number of whitespace characters, derived from the indent level.
 		"""
 		indents = ""
 		for i in range(0, num):
@@ -205,7 +241,9 @@ class Directive(RSTWriter):
 
 	def text(self, txt):
 		"""
-		Add paragraph to document tree, adds proper indenting for directives as well
+		Add paragraph to document tree, adds proper indenting for directives as well.
+
+		:param txt: Content of the new paragraph.
 		"""
 		self.document.append(f"\n{self.get_indents(self.indent + 1)}{txt}")
 
