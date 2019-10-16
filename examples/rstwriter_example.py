@@ -24,7 +24,7 @@ d.text("Social network")
 #d.option('maxdepth', 2)
 #d.text('file/to/include')
 
-#Johnn wants an image under his admonition
+#John wants an image under his admonition
 img = d.directive("image", "image.png")
 
 #Images can also have options, here we change the image width and height, stretching it
@@ -38,6 +38,14 @@ s.text("Subsection's content")
 #Adding lists. These use varargs so if you have a prebuilt list already you'll want to splat it out
 s.bulleted_list("Item 1", "Item 2", "Item 3")
 s.enumerated_list("Item 1", "Item 2", "Item 3")
+
+#Make a table of values
+tab = [
+[0, 1, 2, 3],
+[4, 5, 6, 7],
+[8, 9, 10, 11]
+]
+s.simple_table(tab, column_headings=["Column 1", "Column 2", "Column 3", "Column 4"])
 
 #Automatically rebuild header whenever title changes
 writer.title = "This title is different"
