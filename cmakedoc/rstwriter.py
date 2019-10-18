@@ -27,6 +27,12 @@ class RSTWriter(object):
 		self.section_level: int = section_level
 		self.document = [self.build_heading()] #Heading must be first in the document tree
 
+	def clear(self):
+		"""
+		Clear all document tree elements (besides required heading)
+		"""
+		del self.document[1:]
+
 	@property
 	def title(self):
 		return self.__title
