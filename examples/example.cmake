@@ -1,7 +1,8 @@
 #[[
-THIS SHOULD BE SKIPPED
+# THIS SHOULD BE SKIPPED
 #]]
 include_guard()
+
 #[[[
 # This function has very basic documentation.
 #
@@ -19,4 +20,10 @@ endfunction()
 #[[[
 # list
 #]]
-set(MyString "Value" "Value 2")
+set(MyList "Value" "Value 2")
+
+
+#[[[
+# string
+#]]
+set(MyString "String")
