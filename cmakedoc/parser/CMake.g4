@@ -6,11 +6,18 @@ License for use and distribution: Eclipse Public License
 CMake language grammar reference:
 https://cmake.org/cmake/help/v3.12/manual/cmake-language.7.html
 
+Modified by Branden Butler on behalf of Ames Laboratory/Department of Energy
+October 31st, 2019
+
 */
 
 grammar CMake;
 
-
+/*
+Changes:
+	Renamed from file to cmake_file to avoid conflict with Python
+	Added documented_command to list of expected parser rules
+*/
 cmake_file
 	: (documented_command | command_invocation)* EOF
 	;
@@ -18,12 +25,6 @@ cmake_file
 command_invocation
 	: Identifier '(' (single_argument|compound_argument)* ')'
 	;
-
-documented_command
-	: Bracket_doccomment command_invocation
-	;
-
-
 
 single_argument
 	: Identifier | Unquoted_argument | Bracket_argument | Quoted_argument
@@ -79,10 +80,6 @@ Bracket_arg_nested
 	| '[' .*? ']'
 	;
 
-Bracket_doccomment
-        : '#[[[' .*? '#]]'
-	;
-
 
 Bracket_comment
 	: '#[' Bracket_arg_nested ']'
@@ -107,3 +104,16 @@ Space
 	: [ \t]+
 	-> skip
 	;
+
+
+
+/*Begin CMakeDoc*/
+
+documented_command
+	: Bracket_doccomment command_invocation
+	;
+
+Bracket_doccomment
+        : '#[[[' .*? '#]]'
+	;
+
