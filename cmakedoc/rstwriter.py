@@ -53,10 +53,8 @@ class RSTWriter(object):
 
 		:param items: varargs containing the desired list items.
 		"""
-		list_string = "\n"
-		for item in items:
-			list_string += f"* {item}\n"
-		self.document.append(list_string)
+
+		self.document.append(List(items, List.BULLETED))
 
 	def enumerated_list(self, *items):
 		"""
@@ -66,10 +64,7 @@ class RSTWriter(object):
 
 		:param items: varargs containing the desired list items.
 		"""
-		list_string = "\n"
-		for i in range(0, len(items)):
-			list_string += f"{i + 1}. {items[i]}\n"
-		self.document.append(list_string)
+		self.document.append(List(items, List.ENUMERATED))
 
 	def field(self, field_name: str, field_text: str):
 		"""
@@ -79,7 +74,7 @@ class RSTWriter(object):
 
 		:param field_text: Value of the field, such as the author's name.
 		"""
-		self.document.append(f":{field_name}: {field_text}")
+		self.document.append(Field(field_name, field_text))
 
 
 	def doctest(self, test_line: str, expected_output: str):
@@ -93,7 +88,7 @@ class RSTWriter(object):
 
 		:param expected_output: The exact string that is expected to be returned when test_line is evaluated.
 		"""
-		self.document.append(f"\n>>> {test_line}\n{expected_output}\n")
+		self.document.append(DocTest(test_line, expected_output))
 
 	def section(self, title: str):
 		"""
@@ -111,7 +106,7 @@ class RSTWriter(object):
 
 		:param txt: The content of the new paragraph.
 		"""
-		self.document.append(f"\n{txt}")
+		self.document.append(Paragraph(txt, '\n'))
 
 	def directive(self, name, *arguments):
 		"""
@@ -129,12 +124,9 @@ class RSTWriter(object):
 		"""
 		Adds overline and underline to RSTWriter.title (character is RSTWriter.header_char) and returns it
 
-		:return: The formatted heading string.
+		:return: A fully constructed Heading object.
 		"""
-		heading = ""
-		for i in self.__title:
-			heading += self.header_char
-		return f"\n{heading}\n{self.__title}\n{heading}"
+		return Heading(self.__title, self.header_char)
 
 	def simple_table(self, tab, column_headings=[]):
 		"""
@@ -149,73 +141,7 @@ class RSTWriter(object):
 		:raise ValueError: If tab has inconsistent numbers of columns or column_headings length (if nonzero) does not match number of columns in tab.
 		"""
 
-		#Easiest way to do this is loop over all cells and find the longest element, use that to compute the row separator width, and then loop over cells again to add them in with proper separation
-		#Fastest way is to compute the separator width, then use list comprehension to build the table string. Probably going to be much less readable.
-		#Performance differences will be minimal unless we're building tables with thousands of cells.
-		row_separator = ""
-		row_separator_width = 0
-
-		#Used to ensure number of columns is consistent throughout the table;
-		#Length of row gives number of cells in row, which corresponds to number of columns
-		num_columns = len(tab[0])
-
-		if len(column_headings) != 0 and len(column_headings) != num_columns:
-			raise ValueError("Different number of headings than number of columns in table")
-
-		#Find the longest cell to use as the row separator width
-		#Yes I know doing it this way is inefficient, but readability is more important unless we're dealing with thousands of cells.
-		for row in tab:
-			#Check column number against number of cells in row; should be equal
-			if len(row) != num_columns:
-				raise ValueError("Number of columns in table is inconsistent")
-			for cell in row:
-				cell_length = len(str(cell)) #Temporarily cache in case calculating length is time-consuming.
-				row_separator_width = cell_length if cell_length > row_separator_width else row_separator_width
-
-
-		#Account for column headings, in case they're longer than the cells
-		for heading in column_headings:
-			length = len(heading) #Cache so only need to compute length once
-			row_separator_width = length if length > row_separator_width else row_separator_width
-
-
-		#We know the width, now to construct the separator itself
-		for i in range(row_separator_width):
-			row_separator += "="
-
-		table_str = ""
-		heading_lines = ["", "", ""] #Index zero is heading overline, index 1 is headings, index 2 is underline
-		#Build heading overlines/underlines and add correct spacing
-		for heading in column_headings:
-			heading_len = len(heading)
-			for i in range(0, row_separator_width):
-				heading_lines[0] += '='
-
-				#If current line position is not greater than the length of the heading, add the character at position
-				#Else, add spaces until end of row separator
-				if i < heading_len:
-					heading_lines[1] += heading[i]
-				else:
-					heading_lines[1] += " "
-			heading_lines[0] += "  " #Recommended 2 spaces between columns
-			heading_lines[1] += "  "
-
-		heading_lines[2] = heading_lines[0] #Overline and underline should be the same
-		table_str += "\n".join(heading_lines) + "\n"
-
-		#Add cells to table string
-		for row in tab:
-			row_str = ""
-			for cell in row:
-				row_str += str(cell)
-				for i in range(0, row_separator_width - len(str(cell))):
-					row_str += " "
-				row_str += "  "
-			table_str += row_str + "\n"
-		for columns in tab[0]:
-			table_str += row_separator + "  "
-		table_str += "\n"
-		self.document.append(table_str)
+		self.document.append(SimpleTable(tab, column_headings))
 
 	def to_text(self):
 		"""
@@ -262,6 +188,222 @@ class RSTWriter(object):
 				#Not file-like object or string
 				raise TypeError(f"File is neither a string nor a file-like object, type is {type(file)}, cannot write RST document")
 
+class Paragraph(object):
+	"""
+	Represents an RST paragraph
+	"""
+	def __init__(self, text, prefix=""):
+		self.text = text
+		self.prefix = prefix
+		self.text_string = ""
+		self.build_text_string()
+	def build_text_string(self):
+		self.text_string = self.prefix + self.text
+
+	def __str__(self):
+		return self.text_string
+
+
+class Field(object):
+	"""
+	Represents an RST field, such as Author
+	"""
+
+	def __init__(self, field_name, field_text):
+		self.field_name = field_name
+		self.field_text = field_text
+		self.field_string = ""
+		self.build_field_string()
+
+	def build_field_string(self):
+		self.field_string = f":{self.field_name}: {self.field_text}"
+
+	def __str__(self):
+		return self.field_string
+
+class DocTest(object):
+	"""
+	Represents an RST DocTest
+	"""
+	def __init__(self, test_line, expected_output):
+		self.test_line = test_line
+		self.expected_output = expected_output
+		self.doctest_string = ""
+		self.build_doctest_string()
+
+	def build_doctest_string(self):
+		self.doctest_string = f"\n>>> {self.test_line}\n{self.expected_output}\n"
+
+	def __str__(self):
+		return self.doctest_string
+
+class List(object):
+	"""
+	Represents one of the two types of RST lists:
+	Enumerated or Bulleted
+	"""
+	ENUMERATED = 0
+	BULLETED = 1
+
+	def __init__(self, items, list_type: int):
+		self.items = items
+		self.list_type = list_type
+		self.list_string = ""
+		self.build_list_string()
+
+	def build_list_string(self):
+		self.list_string = "\n"
+		if self.list_type == self.ENUMERATED:
+			for i in range(0, len(self.items)):
+				self.list_string += f"{i + 1}. {self.items[i]}\n"
+		elif self.list_type == self.BULLETED:
+			for item in self.items:
+				self.list_string += f"* {item}\n"
+		else:
+			raise ValueError("Unknown list type")
+
+	def __str__(self):
+		return self.list_string
+
+
+class Heading(object):
+	"""
+	Represents a section heading
+	"""
+	def __init__(self, title, header_char):
+		self.title = title
+		self.header_char = header_char
+		self.heading_string = ""
+		self.build_heading_string()
+
+	def build_heading_string(self):
+		heading = ""
+		for i in self.title:
+			heading += self.header_char
+		self.heading_string = f"\n{heading}\n{self.title}\n{heading}"
+
+	def __str__(self):
+		return self.heading_string
+
+class SimpleTable(object):
+	"""
+	Represents an RST simple table.
+	"""
+	def __init__(self, tab, headings):
+		self.table = tab
+		self.column_headings = headings
+		self.table_string = ""
+		self.build_table_string()
+
+	def build_table_string(self):
+
+		#Easiest way to do this is loop over all cells and find the longest element, use that to compute the row separator width, and then loop over cells again to add them in with proper separation
+		#Fastest way is to compute the separator width, then use list comprehension to build the table string. Probably going to be much less readable.
+		#Performance differences will be minimal unless we're building tables with thousands of cells.
+		row_separator = ""
+		row_separator_width = 0
+
+		#Used to ensure number of columns is consistent throughout the table;
+		#Length of row gives number of cells in row, which corresponds to number of columns
+		num_columns = len(self.table[0])
+
+		if len(self.column_headings) != 0 and len(self.column_headings) != num_columns:
+			raise ValueError("Different number of headings than number of columns in table")
+
+		#Find the longest cell to use as the row separator width
+		#Yes I know doing it this way is inefficient, but readability is more important unless we're dealing with thousands of cells.
+		for row in self.table:
+			#Check column number against number of cells in row; should be equal
+			if len(row) != num_columns:
+				raise ValueError("Number of columns in table is inconsistent")
+			for cell in row:
+				cell_length = len(str(cell)) #Temporarily cache in case calculating length is time-consuming.
+				row_separator_width = cell_length if cell_length > row_separator_width else row_separator_width
+
+
+		#Account for column headings, in case they're longer than the cells
+		for heading in self.column_headings:
+			length = len(heading) #Cache so only need to compute length once
+			row_separator_width = length if length > row_separator_width else row_separator_width
+
+
+		#We know the width, now to construct the separator itself
+		for i in range(row_separator_width):
+			row_separator += "="
+
+		table_str = ""
+		heading_lines = ["", "", ""] #Index zero is heading overline, index 1 is headings, index 2 is underline
+		#Build heading overlines/underlines and add correct spacing
+		for heading in self.column_headings:
+			heading_len = len(heading)
+			for i in range(0, row_separator_width):
+				heading_lines[0] += '='
+
+				#If current line position is not greater than the length of the heading, add the character at position
+				#Else, add spaces until end of row separator
+				if i < heading_len:
+					heading_lines[1] += heading[i]
+				else:
+					heading_lines[1] += " "
+			heading_lines[0] += "  " #Recommended 2 spaces between columns
+			heading_lines[1] += "  "
+
+		heading_lines[2] = heading_lines[0] #Overline and underline should be the same
+		table_str += "\n".join(heading_lines) + "\n"
+
+		#Add cells to table string
+		for row in self.table:
+			row_str = ""
+			for cell in row:
+				row_str += str(cell)
+				for i in range(0, row_separator_width - len(str(cell))):
+					row_str += " "
+				row_str += "  "
+			table_str += row_str + "\n"
+		for columns in self.table[0]:
+			table_str += row_separator + "  "
+		table_str += "\n"
+		self.table_string = table_str
+	def __str__(self):
+		return self.table_string
+
+
+class DirectiveHeading(object):
+	"""
+	Represents the unique heading for a Directive (.. :<name>:)
+	"""
+
+	def __init__(self, title: str, indent: str, args):
+		self.title = title
+		self.indent = indent
+		self.args = args
+		self.heading_string = ""
+		self.build_heading_string()
+
+	def build_heading_string(self):
+		self.heading_string = f"\n{self.indent}.. {self.title}:: {self.args}"
+
+	def __str__(self):
+		return self.heading_string
+
+class Option(object):
+	"""
+	Represents a directive option, such as maxdepth
+	"""
+	def __init__(self, name, value, indent):
+		self.name = name
+		self.value = value
+		self.indent = indent
+		self.option_string = ""
+		self.build_option_string()
+
+	def build_option_string(self):
+		self.option_string = f"{self.indent}:{self.name}: {self.value}"
+
+	def __str__(self):
+		return self.option_string
+
+
 class Directive(RSTWriter):
 	"""
 	Use :func:`cmakedoc.RSTWriter.directive` to construct.
@@ -300,7 +442,7 @@ class Directive(RSTWriter):
 
 		:return: Correctly formatted directive heading string.
 		"""
-		return f"\n{self.get_indents(self.indent)}.. {self.title}:: {self.format_arguments()}"
+		return DirectiveHeading(self.title, self.get_indents(self.indent), self.format_arguments())
 
 	def format_arguments(self):
 		"""
@@ -314,7 +456,7 @@ class Directive(RSTWriter):
 		"""
 		Add an option, such as toctree's maxdepth. Does not verify if valid option
 		"""
-		self.document.append(f"{self.get_indents(self.indent+1)}:{name}: {value}")
+		self.document.append(Option(name, value, self.get_indents(self.indent+1)))
 
 	def get_indents(self, num):
 		"""
@@ -333,6 +475,6 @@ class Directive(RSTWriter):
 
 		:param txt: Content of the new paragraph.
 		"""
-		self.document.append(f"\n{self.get_indents(self.indent + 1)}{txt}")
+		self.document.append(Paragraph(txt, self.get_indents(self.indent + 1)))
 
 
