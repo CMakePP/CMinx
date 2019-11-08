@@ -2,7 +2,7 @@
 
 import context
 from cmakedoc.rstwriter import RSTWriter
-from cmakedoc.rst_validator import RSTValidator
+from rst_validator import RSTValidator
 import unittest
 import os
 
