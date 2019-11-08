@@ -198,6 +198,11 @@ class Paragraph(object):
 		self.text_string = ""
 		self.build_text_string()
 	def build_text_string(self):
+		"""
+		Populates Paragraph.text_string with the
+		RST string cooresponding to this paragraph
+		"""
+
 		self.text_string = self.prefix + self.text
 
 	def __str__(self):
@@ -216,6 +221,11 @@ class Field(object):
 		self.build_field_string()
 
 	def build_field_string(self):
+		"""
+		Populates Field.field_string with the
+		RST string cooresponding to this field
+		"""
+
 		self.field_string = f":{self.field_name}: {self.field_text}"
 
 	def __str__(self):
@@ -232,6 +242,10 @@ class DocTest(object):
 		self.build_doctest_string()
 
 	def build_doctest_string(self):
+		"""
+		Populates DocTest.doctest_string with the
+		RST string cooresponding to this DocTest
+		"""
 		self.doctest_string = f"\n>>> {self.test_line}\n{self.expected_output}\n"
 
 	def __str__(self):
@@ -252,6 +266,11 @@ class List(object):
 		self.build_list_string()
 
 	def build_list_string(self):
+		"""
+		Populates List.list_string with the
+		RST string cooresponding to this list
+		"""
+
 		self.list_string = "\n"
 		if self.list_type == self.ENUMERATED:
 			for i in range(0, len(self.items)):
@@ -277,6 +296,10 @@ class Heading(object):
 		self.build_heading_string()
 
 	def build_heading_string(self):
+		"""
+		Populates Heading.heading_string with the
+		RST string cooresponding to this heading
+		"""
 		heading = ""
 		for i in self.title:
 			heading += self.header_char
@@ -296,7 +319,10 @@ class SimpleTable(object):
 		self.build_table_string()
 
 	def build_table_string(self):
-
+		"""
+		Populates SimpleTable.table_string with the
+		RST string equivalent of this table
+		"""
 		#Easiest way to do this is loop over all cells and find the longest element, use that to compute the row separator width, and then loop over cells again to add them in with proper separation
 		#Fastest way is to compute the separator width, then use list comprehension to build the table string. Probably going to be much less readable.
 		#Performance differences will be minimal unless we're building tables with thousands of cells.
@@ -422,6 +448,7 @@ class Directive(RSTWriter):
 
 		self.indent: int = indent
 		self.arguments = arguments
+		self.options = []
 		super().__init__(name)
 
 	def directive(self, title, *arguments):
@@ -456,7 +483,7 @@ class Directive(RSTWriter):
 		"""
 		Add an option, such as toctree's maxdepth. Does not verify if valid option
 		"""
-		self.document.append(Option(name, value, self.get_indents(self.indent+1)))
+		self.options.append(Option(name, value, self.get_indents(self.indent+1)))
 
 	def get_indents(self, num):
 		"""
@@ -477,4 +504,17 @@ class Directive(RSTWriter):
 		"""
 		self.document.append(Paragraph(txt, self.get_indents(self.indent + 1)))
 
+	def to_text(self):
+		"""
+		Return text representation of this document
 
+		:return: The completed RST document in string form.
+		"""
+		document_string = f"{self.document[0]}\n"
+
+		for option in self.options:
+			document_string += f"{option}\n"
+
+		for element in self.document[1:]:
+			document_string += f"{element}\n"
+		return document_string
