@@ -8,5 +8,8 @@ docs/source/developer/.autosummary
 # Python virtual environment
 venv/
 
+# Python3 __pycache__
+__pycache__/
+
 # Coverage reports
 tests/.coverage
