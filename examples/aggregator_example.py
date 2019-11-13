@@ -27,7 +27,7 @@ def main(argv):
 
     #All of the documented commands are now stored in aggregator.documented,
     #each element is a namedtuple repesenting the type of documentation it is.
-    #So far we can document functions and variables (only strings and lists built using set)
+    #So far we can document functions, macros, and variables (only strings and lists built using set)
     print(aggregator.documented)
 
 if __name__ == '__main__':

@@ -16,6 +16,13 @@ function(say_hi_to person)
     message("Hi ${person}")
 endfunction()
 
+#[[[
+# This macro says hi
+#]]
+macro(macro_say_hi person)
+   message("Hi ${person}")
+endmacro()
+
 
 #[[[
 # list

@@ -23,8 +23,10 @@ from .CMakeParser import CMakeParser
 from .CMakeListener import CMakeListener
 
 FunctionDocumentation = namedtuple('FunctionDocumentation', 'function params doc')
-
+MacroDocumentation = namedtuple("MacroDocumentation", "macro params doc")
 VariableDocumentation = namedtuple('VariableDocumentation', 'varname type value doc')
+
+
 VarType = Enum("VarType", "String List Unset")
 
 class DocumentationAggregator(CMakeListener):
@@ -46,7 +48,18 @@ class DocumentationAggregator(CMakeListener):
          :param docstring: Cleaned docstring.
          """
          params = [param.Identifier().getText() for param in ctx.command_invocation().single_argument()[1:]] #Extract declared function parameters
-         self.documented.append(FunctionDocumentation(ctx.command_invocation().single_argument()[0].Identifier().getText(), params, docstring))
+         self.documented.append(FunctionDocumentation(ctx.command_invocation().single_argument()[0].Identifier().getText(), params, docstring)) #Extracts function name and adds the completed function documentation to the 'documented' list
+
+    def process_macro(self, ctx:CMakeParser.Documented_commandContext, docstring: str):
+         """
+         Extracts macro name and declared parameters.
+
+         :param ctx: Documented command context. Constructed by the Antlr4 parser.
+
+         :param docstring: Cleaned docstring.
+         """
+         params = [param.Identifier().getText() for param in ctx.command_invocation().single_argument()[1:]] #Extract declared macro parameters
+         self.documented.append(MacroDocumentation(ctx.command_invocation().single_argument()[0].Identifier().getText(), params, docstring)) #Extracts macro name and adds the completed macro documentation to the 'documented' list
 
     def process_set(self, ctx:CMakeParser.Documented_commandContext, docstring: str):
         """
