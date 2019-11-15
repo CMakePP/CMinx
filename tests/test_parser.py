@@ -7,7 +7,7 @@ import unittest
 """
 class TestParser(unittest.TestCase):
     def setUp(self):
-        self.parser = Parser()
+        self.parser = CMakeParser()
 
     def test_bad_purpose(self):
         self.assertRaises(KeyError, self.parser.parse, ['endfunction()'])

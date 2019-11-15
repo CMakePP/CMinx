@@ -26,6 +26,7 @@ FunctionDocumentation = namedtuple('FunctionDocumentation', 'function params doc
 MacroDocumentation = namedtuple("MacroDocumentation", "macro params doc")
 VariableDocumentation = namedtuple('VariableDocumentation', 'varname type value doc')
 
+DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation)
 
 VarType = Enum("VarType", "String List Unset")
 
@@ -78,6 +79,12 @@ class DocumentationAggregator(CMakeListener):
              self.documented.append(VariableDocumentation(varname, VarType.List, values, docstring))
         elif arg_len == 1: #String
              value = ctx.command_invocation().single_argument()[1].getText()
+
+             #Includes the quote marks, need to remove them to get just the raw string
+             if value[0] is '"':
+                 value = value[1:]
+             if value[-1] is '"':
+                 value = value[:-1]
              self.documented.append(VariableDocumentation(varname, VarType.String, value, docstring))
         else: #Unset
              self.documented.append(VariableDocumentation(varname, VarType.Unset, None, docstring))
