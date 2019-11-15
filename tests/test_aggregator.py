@@ -43,14 +43,6 @@ class TestAggregator(unittest.TestCase):
              self.assertNotEqual(doced_command, None)
              self.assertIn(type(doced_command), DOC_TYPES, "Unknown documentation type")
 
-
-    def test_no_ending_paren(self):
-        with self.assertRaises(CMakeSyntaxError):
-            self.input_stream = InputStream('''
-function(TEST
-            ''')
-            self.reset()
-
     def test_doccomment_function_leading_space(self):
         docstring = "This is a function"
         function_name = "TEST_FUNC"
