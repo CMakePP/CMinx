@@ -71,6 +71,35 @@ function(MyFunction arg1)\n    message("${arg1}")\nendfunction()
                 params = element.single_argument()
                 self.assertEqual(params, [])
 
+
+    def test_function_multi_arg(self):
+        self.input_stream = InputStream('''
+function(MyFunction arg1 arg2)\n    message("${arg1}" "${arg2}")\nendfunction()
+        ''')
+        self.reset()
+        self.assertEqual(len(self.aggregator.elements), 3, "Different number of extracted elements")
+        for element in self.aggregator.elements:
+            self.assertEqual(type(element), CMakeParser.Command_invocationContext)
+        for i in range(0, len(self.aggregator.elements)):
+            element = self.aggregator.elements[i]
+            if i is 0:
+                #function() command
+                self.assertEqual(element.Identifier().getText().lower(), "function")
+                self.assertEqual(element.single_argument()[0].Identifier().getText(), "MyFunction")
+                params = [param.Identifier().getText() for param in element.single_argument()[1:]] #Extract declared function parameters
+                self.assertListEqual(params, ["arg1", "arg2"])
+            elif i is 1:
+                #message() command
+                self.assertEqual(element.Identifier().getText().lower(), "message")
+                params = [param.Quoted_argument().getText() for param in element.single_argument()] #Extract message() params
+                self.assertListEqual(params, ['"${arg1}"', '"${arg2}"'])
+            elif i is 2:
+                #endfunction() command
+                self.assertEqual(element.Identifier().getText().lower(), "endfunction")
+                params = element.single_argument()
+                self.assertEqual(params, [])
+
+
     """
     def test_function_start(self):
         lines = 'function(my_fxn arg1)\nendfunction()'.splitlines()

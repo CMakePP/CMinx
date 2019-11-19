@@ -1,17 +1,54 @@
 import context  # Sets up PYTHON_PATH for this test
-#import cmakedoc.parse_single_line as pslc
+from cmakedoc.parser.CMakeLexer import CMakeLexer
+from antlr4 import InputStream
 import unittest
 
 #TODO Adapt old tests to new framework
-"""
-class TestParseLineComment(unittest.TestCase):
+
+class TestLexer(unittest.TestCase):
     def setUp(self):
-        self.slc = 'single line comment'
-        self.sld = 'single line docstring'
+        self.stream = InputStream("")
+        self.reset()
+    def reset(self):
+        self.lexer = CMakeLexer(self.stream)
+        self.tokens = self.lexer.getAllTokens()
+
 
     def test_empty_lines(self):
-        self.assertRaises(ValueError, pslc._parse_single_line, self.slc, [])
+        self.assertListEqual([], self.tokens)
 
+    def test_line_comment(self):
+        self.stream = InputStream('#This is a line comment')
+        self.reset()
+        self.assertListEqual([], self.tokens)
+
+    def test_block_comment(self):
+        self.stream = InputStream('#[[This is a block comment#]]')
+        self.reset()
+        self.assertListEqual([], self.tokens)
+
+    def test_block_doccomment(self):
+        doc = '#[[[\nThis is a doccomment\n#]]'
+        self.stream = InputStream(doc)
+        self.reset()
+        self.assertListEqual([token.type for token in self.tokens], [CMakeLexer.Bracket_doccomment])
+        self.assertEqual(self.tokens[0].text, doc)
+
+    def test_identifier(self):
+        doc = 'function'
+        self.stream = InputStream(doc)
+        self.reset()
+        self.assertListEqual([token.type for token in self.tokens], [CMakeLexer.Identifier])
+        self.assertEqual(self.tokens[0].text, doc)
+
+    def test_identifier(self):
+        doc = '"This is a quoted argument"'
+        self.stream = InputStream(doc)
+        self.reset()
+        self.assertListEqual([token.type for token in self.tokens], [CMakeLexer.Quoted_argument])
+        self.assertEqual(self.tokens[0].text, doc)
+
+"""
     def test_only_comment(self):
         lines = '#hello world'.splitlines()
         data, lines = pslc._parse_single_line(self.slc, lines)
