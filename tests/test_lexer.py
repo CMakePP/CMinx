@@ -41,7 +41,7 @@ class TestLexer(unittest.TestCase):
         self.assertListEqual([token.type for token in self.tokens], [CMakeLexer.Identifier])
         self.assertEqual(self.tokens[0].text, doc)
 
-    def test_identifier(self):
+    def test_quoted_argument(self):
         doc = '"This is a quoted argument"'
         self.stream = InputStream(doc)
         self.reset()

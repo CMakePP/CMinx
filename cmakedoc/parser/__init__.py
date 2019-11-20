@@ -28,10 +28,10 @@ class ParserErrorListener( ErrorListener ):
         Antlr4 Python documentation is pretty sparse, but it appears this is called when the
         parser encounters a section where multiple parse rules apply and it cannot resolve which to execute.
 
-        :raises RuntimeException:
+        :raises RuntimeError:
         """
 
-        raise RuntimeException("Parse ambiguity")
+        raise RuntimeError("Parse ambiguity")
 
     def reportAttemptingFullContext(self, recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs):
         """
@@ -40,9 +40,9 @@ class ParserErrorListener( ErrorListener ):
         in while processing a context-sensitive parser rule and tries
         to run a full-context (I think that means global or root context) parser rule
 
-        :raises RuntimeException:
+        :raises RuntimeError:
         """
-        raise RuntimeException("Parser attempting full context")
+        raise RuntimeError("Parser attempting full context")
 
     def reportContextSensitivity(self, recognizer, dfa, startIndex, stopIndex, prediction, configs):
         """
@@ -50,6 +50,6 @@ class ParserErrorListener( ErrorListener ):
         but this appears to be triggered when a problem occurs during resolution
         of a context-sensitive parser rule
 
-        :raises RuntimeException
+        :raises RuntimeError
         """
-        raise RuntimeException("Parser context sensitivity")
+        raise RuntimeError("Parser context sensitivity")

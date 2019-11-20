@@ -3,7 +3,6 @@ import context
 import unittest
 import sys
 from antlr4 import *
-from antlr4.error.ErrorListener import ErrorListener
 from cmakedoc.parser.CMakeLexer import CMakeLexer
 from cmakedoc.parser.CMakeParser import CMakeParser
 from cmakedoc.parser.CMakeListener import CMakeListener
@@ -122,6 +121,29 @@ set({var_name} {params[0]} {params[1]})
         self.assertEqual(self.aggregator.documented[0].type, VarType.List)
 
         self.assertListEqual([param.strip() for param in self.aggregator.documented[0].value], params, "Incorrect list elements extracted")
+
+    def test_unset(self):
+        docstring = "Unsetting a variable"
+        var_name = "myvar"
+
+        self.input_stream = InputStream(f'''
+#[[[
+ {docstring}
+#]]
+set({var_name})
+        ''')
+        self.reset()
+        self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
+        self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
+        self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
+        self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect var_name extracted")
+        self.assertEqual(self.aggregator.documented[0].type, VarType.Unset)
+
+
+    def test_unknown_documented_command(self):
+        self.input_stream = InputStream('#[[[\nThis is documentation for an unknown command\n#]]\nimport_guard()')
+        with self.assertRaises(NotImplementedError):
+            self.reset()
 
 if __name__ == '__main__':
     unittest.main()
