@@ -1,5 +1,6 @@
 import context
 from antlr4 import *
+from antlr4.error.Errors import InputMismatchException
 from cmakedoc.parser import ParserErrorListener, CMakeSyntaxError
 from cmakedoc.parser.CMakeParser import CMakeParser
 from cmakedoc.parser.CMakeLexer import CMakeLexer
@@ -104,6 +105,13 @@ function(MyFunction arg1 arg2)\n    message("${arg1}" "${arg2}")\nendfunction()
             self.input_stream = InputStream('''
 function(TEST
             ''')
+            self.reset()
+
+    def test_mismatch(self):
+        with self.assertRaises(InputMismatchException):
+            self.input_stream = InputStream('''
+()
+                ''')
             self.reset()
 
 if __name__ == '__main__':

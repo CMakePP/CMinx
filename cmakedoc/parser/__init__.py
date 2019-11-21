@@ -13,43 +13,68 @@ class ParserErrorListener( ErrorListener ):
 
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         """
-        Called when the parser expects a particular token but encounters a different one.
-
-        :raises CMakeSyntaxError:
+        As per the Antlr4 Javadoc:
+            Upon syntax error, notify any interested parties. This is not how to recover from errors or compute error messages.
+            ErrorStrategy specifies how to recover from syntax errors and how to compute error messages.
+            This listener's job is simply to emit a computed message, though it has enough information to create its own message in many cases.
+            The RecognitionException (e) is non-null for all syntax errors except when we discover mismatched token errors that we can recover from in-line,
+            without returning from the surrounding rule (via the single token insertion and deletion mechanism).
+        :raises RecognitionException: When the mismatched token cannot be recovered from
+        :raises CMakeSyntaxError: When it is possible to recover from this error via single token insertion/deletion.
         """
-
-        s = CMakeSyntaxError()
-        s.lineno = line
-        s.msg = msg
-        raise s
+        if e is not None:
+            raise e
+        else:
+            s = CMakeSyntaxError()
+            s.lineno = f"{line}:{column}"
+            s.msg = msg
+            raise s
 
     def reportAmbiguity(self, recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs):
         """
-        Antlr4 Python documentation is pretty sparse, but it appears this is called when the
-        parser encounters a section where multiple parse rules apply and it cannot resolve which to execute.
+        As per the Antlr4 Javadoc:
+            This method is called by the parser when a full-context prediction results in an ambiguity.
+            Each full-context prediction which does not result in a syntax error will call either ErrorListener.reportContextSensitivity() or ErrorListener.reportAmbiguity().
 
-        :raises RuntimeError:
+            When ambigAlts is not None, it contains the set of potentially viable alternatives identified by the prediction algorithm. When ambigAlts is None, use ATNConfigSet.getAlts() to obtain the represented alternatives from the configs argument.
+
+            When exact is True, all of the potentially viable alternatives are truly viable, i.e. this is reporting an exact ambiguity. When exact is False, at least two of the potentially viable alternatives are viable for the current input, but the prediction algorithm terminated as soon as it determined that at least the minimum potentially viable alternative is truly viable.
+
+            When the PredictionMode.LL_EXACT_AMBIG_DETECTION prediction mode is used, the parser is required to identify exact ambiguities so exact will always be true.
+
+            This method is not used by lexers.
+
+        :raises RuntimeError: Unconditionally, we should not encounter ambiguities
         """
 
         raise RuntimeError("Parse ambiguity")
 
     def reportAttemptingFullContext(self, recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs):
         """
-        Very little documentation for the Python Antlr4 API,
-        but this appears to be triggered when the parser encounters an error
-        in while processing a context-sensitive parser rule and tries
-        to run a full-context (I think that means global or root context) parser rule
+        As per the Antlr4 Javadoc:
+            This method is called when an SLL conflict occurs and the parser is about to use the full context information to make an LL decision.
+            If one or more configurations in configs contains a semantic predicate, the predicates are evaluated before this method is called. The subset of alternatives which are still viable after predicates are evaluated is reported in conflictingAlts.
 
-        :raises RuntimeError:
+            This method is not used by lexers.
+
+        Currently this is a no-op, it is unknown whether we should allow or disallow full context LL decisions.
         """
-        raise RuntimeError("Parser attempting full context")
+        pass
 
     def reportContextSensitivity(self, recognizer, dfa, startIndex, stopIndex, prediction, configs):
         """
-        Very little documentation for the Python Antlr4 API,
-        but this appears to be triggered when a problem occurs during resolution
-        of a context-sensitive parser rule
+        As per the Antlr4 Javadoc:
+            This method is called by the parser when a full-context prediction has a unique result.
+            Each full-context prediction which does not result in a syntax error will call either ErrorListener.reportContextSensitivity() or ErrorListener.reportAmbiguity().
 
-        :raises RuntimeError
+            For prediction implementations that only evaluate full-context predictions when an SLL conflict is found (including the default ParserATNSimulator implementation), this method reports cases where SLL conflicts were resolved to unique full-context predictions, i.e. the decision was context-sensitive.
+            This report does not necessarily indicate a problem, and it may appear even in completely unambiguous grammars.
+            configs may have more than one represented alternative if the full-context prediction algorithm does not evaluate predicates before beginning the full-context prediction. In all cases, the final prediction is passed as the prediction argument.
+
+            Note that the definition of "context sensitivity" in this method differs from the concept in DecisionInfo.contextSensitivities. This method reports all instances where an SLL conflict occurred but LL parsing produced a unique result, whether or not that unique result matches the minimum alternative in the SLL conflicting set.
+
+            This method is not used by lexers.
+
+        This method is currently a no-op, as it being called does not indicate an error necessarily.
         """
-        raise RuntimeError("Parser context sensitivity")
+        pass
