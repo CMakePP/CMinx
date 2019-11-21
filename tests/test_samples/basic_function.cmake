@@ -1,6 +1,6 @@
 include_guard()
 
-#[[#[[
+#[[[
 This function has very basic documentation.
 
 This function's description stays close to idealized formatting and does not do
