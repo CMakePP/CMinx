@@ -106,6 +106,7 @@ class DocumentationAggregator(CMakeListener):
               if cleaned_line and cleaned_line[0] == " ": #String is not empty and first character is a space
                    cleaned_line = cleaned_line[1:] #Cleans optional singular space
               cleaned_lines.append(cleaned_line)
+         cleaned_lines[-1] = cleaned_lines[-1].rstrip("#]")
          cleaned_doc = "\n".join(cleaned_lines)
          command = ctx.command_invocation().Identifier().getText().lower()
          if f"process_{command}" in dir(self):
