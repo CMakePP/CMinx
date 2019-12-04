@@ -12,7 +12,6 @@ from .parser.aggregator import FunctionDocumentation, MacroDocumentation, Variab
 class Documenter(object):
     def __init__(self, files, output):
         self.writer = RSTWriter(f"Documentation for file {files[0]}")
-
         #We need a string stream of some kind, FileStream is easiest
         self.input_stream = FileStream(files[0])
 

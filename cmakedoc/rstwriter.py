@@ -202,8 +202,7 @@ class Paragraph(object):
 		Populates Paragraph.text_string with the
 		RST string cooresponding to this paragraph
 		"""
-
-		self.text_string = self.prefix + self.text
+		self.text_string = "\n".join([self.prefix + text for text in self.text.split("\n")])
 
 	def __str__(self):
 		return self.text_string
