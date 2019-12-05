@@ -504,7 +504,14 @@ class Directive(RSTWriter):
 		"""
 		self.document.append(Paragraph(txt, self.get_indents(self.indent + 1)))
 
-	def field(self, name, txt):
+	def field(self, name: str, txt: str):
+		"""
+		Add a field to document tree, adds proper indenting for directives.
+
+		:param name: Name of the field
+		:param txt: Text of the field
+		"""
+
 		self.document.append(Field(name, txt, self.get_indents(self.indent + 1)))
 
 	def to_text(self):
