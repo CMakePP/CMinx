@@ -8,12 +8,14 @@ include_guard()
 #
 # This function's description stays close to idealized formatting and does not do
 # anything fancy.
-
+#
 # :param person: The person this function says hi to
+# :param me: What my name is
 # :type person: string
+# :type me: string
 #]]
-function(say_hi_to person)
-    message("Hi ${person}")
+function(say_hi_to person me)
+    message("Hi ${person}, I am ${me}")
 endfunction()
 
 #[[[

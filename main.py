@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
-from cmakedoc import documenter
+from cmakedoc.documenter import Documenter
 import sys
-documenter.Documenter(sys.argv[1:], "")
+
+if __name__ == "__main__":
+    documenter = Documenter(sys.argv[1:], "")
+    documenter.process()
