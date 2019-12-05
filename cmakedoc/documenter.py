@@ -60,5 +60,5 @@ class Documenter(object):
     def process_variable_doc(self, doc):
         d = self.writer.directive("data", f"{doc.varname}")
         d.text(doc.doc)
-        d.text(f"Default value: {doc.value}")
+        d.field("Default value", doc.value)
         d.field("type", doc.type)

@@ -213,10 +213,11 @@ class Field(object):
 	Represents an RST field, such as Author
 	"""
 
-	def __init__(self, field_name, field_text):
+	def __init__(self, field_name, field_text, prefix=""):
 		self.field_name = field_name
 		self.field_text = field_text
 		self.field_string = ""
+		self.prefix = prefix
 		self.build_field_string()
 
 	def build_field_string(self):
@@ -225,7 +226,7 @@ class Field(object):
 		RST string cooresponding to this field
 		"""
 
-		self.field_string = f":{self.field_name}: {self.field_text}"
+		self.field_string = f"\n{self.prefix}:{self.field_name}: {self.field_text}"
 
 	def __str__(self):
 		return self.field_string
@@ -502,6 +503,9 @@ class Directive(RSTWriter):
 		:param txt: Content of the new paragraph.
 		"""
 		self.document.append(Paragraph(txt, self.get_indents(self.indent + 1)))
+
+	def field(self, name, txt):
+		self.document.append(Field(name, txt, self.get_indents(self.indent + 1)))
 
 	def to_text(self):
 		"""
