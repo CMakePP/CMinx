@@ -11,6 +11,7 @@ from .parser.aggregator import FunctionDocumentation, MacroDocumentation, Variab
 
 class Documenter(object):
     def __init__(self, files, output):
+        self.output = output
         self.writer = RSTWriter(f"{files[0]}")
         #We need a string stream of some kind, FileStream is easiest
         self.input_stream = FileStream(files[0])
@@ -35,8 +36,10 @@ class Documenter(object):
         #each element is a namedtuple repesenting the type of documentation it is.
         #So far we can document functions, macros, and variables (only strings and lists built using set)
         self.process_docs(self.aggregator.documented)
-        print(self.writer)
-        self.writer.write_to_file("test.rst")
+        if self.output is not None:
+             self.writer.write_to_file(self.output)
+        else:
+             print(self.writer)
 
     def process_docs(self, docs):
         for doc in docs:
