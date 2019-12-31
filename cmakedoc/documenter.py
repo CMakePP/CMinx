@@ -10,11 +10,10 @@ from .parser.aggregator import DocumentationAggregator
 from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation
 
 class Documenter(object):
-    def __init__(self, files, output):
-        self.output = output
-        self.writer = RSTWriter(f"{files[0]}")
+    def __init__(self, file: str):
+        self.writer = RSTWriter(file)
         #We need a string stream of some kind, FileStream is easiest
-        self.input_stream = FileStream(files[0])
+        self.input_stream = FileStream(file)
 
         #Convert those strings into tokens and build a stream from those
         self.lexer = CMakeLexer(self.input_stream)
@@ -36,10 +35,7 @@ class Documenter(object):
         #each element is a namedtuple repesenting the type of documentation it is.
         #So far we can document functions, macros, and variables (only strings and lists built using set)
         self.process_docs(self.aggregator.documented)
-        if self.output is not None:
-             self.writer.write_to_file(self.output)
-        else:
-             print(self.writer)
+        return self.writer
 
     def process_docs(self, docs):
         for doc in docs:
