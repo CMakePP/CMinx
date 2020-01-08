@@ -5,26 +5,33 @@ import sys
 import argparse
 import os
 
-if __name__ == "__main__":
+def main(args = sys.argv[1:]):
     parser = argparse.ArgumentParser()
-    parser.add_argument("file", help="CMake file to generate documentation for. If directory, will generate documentation for all .cmake files")
+    parser.add_argument("file", nargs="+", help="CMake file to generate documentation for. If directory, will generate documentation for all .cmake files")
     parser.add_argument("-o", "--output", help="Directory to output generated RST to. If not specified will print to standard output. Output files will have the original filename with the cmake extension replaced by .rst")
     parser.add_argument("-r", "--recursive", help="If specified, will generate documentation for all subdirectories of specified directory recursively", action="store_true")
-    args = parser.parse_args()
-    files = []
-    input_path = os.path.abspath(args.file)
-    trailing_file = os.path.basename(os.path.normpath(input_path))
+    args = parser.parse_args(args)
     output_path = None
     if args.output is not None:
          output_path = os.path.abspath(args.output)
          print(f"Writing RST files to {output_path}")
+
+    for input in args.file:
+         document(input, output_path, args.recursive)
+
+
+def document(file, output_path = None, recursive = None):
+
+    files = []
+    input_path = os.path.abspath(file)
+
     if os.path.isdir(input_path):
         #Walk dir and add cmake files to list
         for root, subdirs, filenames in os.walk(input_path):
              for file in filenames:
                   if "cmake" == file.split(".")[-1].lower():
                        files.append(os.path.join(root, file))
-             if not args.recursive:
+             if not recursive:
                   break
     elif os.path.isfile(input_path):
         files.append(input_path)
@@ -52,3 +59,6 @@ if __name__ == "__main__":
          else: #Output was not specified so print to screen
               print(output_writer)
               print()
+
+if __name__ == "__main__":
+     main()
