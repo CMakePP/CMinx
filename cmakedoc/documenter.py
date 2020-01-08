@@ -10,8 +10,10 @@ from .parser.aggregator import DocumentationAggregator
 from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation
 
 class Documenter(object):
-    def __init__(self, file: str):
-        self.writer = RSTWriter(file)
+    def __init__(self, file: str, title: str = None):
+        title =  file if title is None else title
+
+        self.writer = RSTWriter(title)
         #We need a string stream of some kind, FileStream is easiest
         self.input_stream = FileStream(file)
 

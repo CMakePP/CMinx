@@ -13,6 +13,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     files = []
     input_path = os.path.abspath(args.file)
+    trailing_file = os.path.basename(os.path.normpath(input_path))
     output_path = None
     if args.output is not None:
          output_path = os.path.abspath(args.output)
@@ -32,14 +33,22 @@ if __name__ == "__main__":
         exit(1)
 
     for file in files:
-         documenter = Documenter(file)
+         if os.path.isdir(input_path):
+              header_name = os.path.relpath(file, input_path) #Path to file relative to input_path
+         else:
+              header_name = file
+         documenter = Documenter(file, header_name)
          output_writer = documenter.process()
-         if output_path != None:
+         if output_path != None: #Determine where to place generated RST file
               print(f"Writing for file {file}")
               if os.path.isdir(output_path):
                    output_filename = os.path.join(output_path, ".".join(os.path.basename(file).split(".")[:-1]) + ".rst")
+                   if os.path.isdir(input_path):
+                        subpath = os.path.relpath(file, input_path) #Path to file relative to input_path
+                        output_filename = os.path.join(output_path, os.path.join(os.path.dirname(subpath), ".".join(os.path.basename(file).split(".")[:-1]) + ".rst"))
                    print(f"Writing RST file {output_filename}")
+                   os.makedirs(os.path.dirname(output_filename), exist_ok=True) #Make sure we have all the directories created
                    output_writer.write_to_file(output_filename)
-         else:
+         else: #Output was not specified so print to screen
               print(output_writer)
               print()
