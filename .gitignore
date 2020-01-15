@@ -13,3 +13,6 @@ __pycache__/
 
 # Coverage reports
 tests/.coverage
+
+# Generated RST
+/output/
