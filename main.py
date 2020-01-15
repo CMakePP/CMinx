@@ -1,13 +1,48 @@
 #!/usr/bin/python3
 
+"""
+Generate Sphinx-compatible RST documentation for CMake files.
+Documentation is written in a special form of block comments,
+denoted by the starting characters :code: `#[[[` and ending with the standard :code: `#]]`.
+
+Usage: main.py [-h] [-o OUTPUT] [-r] file [file ...]
+
+positional arguments:
+  file                  CMake file to generate documentation for. If
+                        directory, will generate documentation for all *.cmake
+                        files (case-insensitive)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -o OUTPUT, --output OUTPUT
+                        Directory to output generated RST to. If not specified
+                        will print to standard output. Output files will have
+                        the original filename with the cmake extension
+                        replaced by .rst
+  -r, --recursive       If specified, will generate documentation for all
+                        subdirectories of specified directory recursively
+
+
+:Author: Branden Butler
+:License: Apache 2.0
+"""
+
 from cmakedoc.documenter import Documenter
 import sys
 import argparse
 import os
 
 def main(args = sys.argv[1:]):
-    parser = argparse.ArgumentParser()
-    parser.add_argument("file", nargs="+", help="CMake file to generate documentation for. If directory, will generate documentation for all .cmake files")
+    """
+    CMake Documentation Generator program entry point.
+
+    :param args: Array of strings containing program arguments, excluding program name. Same format as sys.argv[1:].
+    """
+
+    parser = argparse.ArgumentParser(description="""
+Automatic documentation generator for CMake files. This program generates Sphinx-compatible RST documents, which are incompatible with standard docutils.
+    """)
+    parser.add_argument("file", nargs="+", help="CMake file to generate documentation for. If directory, will generate documentation for all *.cmake files (case-insensitive)")
     parser.add_argument("-o", "--output", help="Directory to output generated RST to. If not specified will print to standard output. Output files will have the original filename with the cmake extension replaced by .rst")
     parser.add_argument("-r", "--recursive", help="If specified, will generate documentation for all subdirectories of specified directory recursively", action="store_true")
     args = parser.parse_args(args)
@@ -17,11 +52,20 @@ def main(args = sys.argv[1:]):
          print(f"Writing RST files to {output_path}")
 
     for input in args.file:
+         #Process all files specified on command line
          document(input, output_path, args.recursive)
 
 
-def document(file, output_path = None, recursive = None):
+def document(file, output_path = None, recursive = False):
+    """
+    Handler for documenting each specified file or directory. Will locate all cmake files in directory
+    (and subdirs if recursive is true) and write generated RST output to corresponding files output_path,
+    or if None will output to standard output.
 
+    :param file: String locating a file or directory to document.
+    :param output_path: String pointing to the directory to place generated files, will output to stdout if None
+    :param recursive: Whether to generate documentation for subdirectories or not.
+    """
     files = []
     input_path = os.path.abspath(file)
 
