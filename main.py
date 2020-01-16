@@ -91,6 +91,7 @@ def document(file, output_path = None, recursive = False):
          documenter = Documenter(file, header_name)
          output_writer = documenter.process()
          if output_path != None: #Determine where to place generated RST file
+              os.makedirs(output_path, exist_ok=True)
               print(f"Writing for file {file}")
               if os.path.isdir(output_path):
                    output_filename = os.path.join(output_path, ".".join(os.path.basename(file).split(".")[:-1]) + ".rst")
