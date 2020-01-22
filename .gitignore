@@ -16,3 +16,8 @@ tests/.coverage
 
 # Generated RST
 /output/
+
+#Python egg build directory
+*.egg-info
+/build
+/dist
