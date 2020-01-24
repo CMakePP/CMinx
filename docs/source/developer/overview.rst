@@ -13,21 +13,20 @@ Parsing
 
       How CMakeDoc parses a CMake source file.
 
-In CMakeDoc parsing of a source file is the role of the ``Parser`` class. Given
-a ``Parser`` instance:
+In CMakeDoc parsing of a source file is the role of the Antlr4 parsing runtime, generated from
+the modified CMake.g4 grammar file.
 
-#. The contents of a CMake source file are fed to the instance's ``parse``
-   member function.
-#. The ``parse`` function instance loops over the file's contents line-by-line.
-#. For each line a ``CMakeRegexer`` instance identifies what the line does
-   (*e.g.*, is it the start of a user-defined CMake function, a block comment,
-   or a blank line).
-#. Once the purpose of the line is known, ``parse`` dispatches the file buffer
-   to an appropriate handler function.
-#. The handler extracts the block of CMake code and advances the file buffer to
-   past the extracted code.
-#. ``parse`` repeats this process with the next line in the buffer until the
-   file buffer is depleted.
-#. ``parse`` returns a list of the code blocks, tagged with its purpose.
+#. As per the standard usage, the file contents are read into an
+   Antlr4 FileStream, which is then passed to the generated CMake lexer.
+#. The lexer generates a token stream, which is then fed into the CMakeParser.
+#. The parser generates a tree of parse elements, called contexts,
+   which are then walked over by the ParseTreeWalker.
+#. The walker calls the aggregator methods upon entering or exiting
+   parse rules, such as entering a DocumentedCommand parse rule.
+#. The documentation aggregator generates NamedTuples representing the type
+   of documentation generated, such as FunctionDocumentation, complete
+   with all relevant information, and adds them to a *documented* list.
+#. From there, Documenter loops over the documentation list,
+   generating equivalent RST via RSTWriter for each type of documentation.
 
 This process is diagrammatically summarized in :numref:`parsing_flowchart`.
