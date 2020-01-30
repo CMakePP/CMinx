@@ -1,3 +1,13 @@
+from antlr4 import * #FIXME Remove unused imports
+from enum import Enum
+from collections import namedtuple
+
+#Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention inconsistencies here
+from .CMakeParser import CMakeParser
+from .CMakeListener import CMakeListener
+
+
+
 """
 This module interfaces with the generated CMake parser.
 It also subclasses CMakeListener to aggregate and further
@@ -13,14 +23,6 @@ supports Unset in case someone wants to document why something is unset.
 """
 
 
-from antlr4 import * #FIXME Remove unused imports
-from enum import Enum
-from collections import namedtuple
-
-
-#Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention inconsistencies here
-from .CMakeParser import CMakeParser
-from .CMakeListener import CMakeListener
 
 FunctionDocumentation = namedtuple('FunctionDocumentation', 'function params doc')
 MacroDocumentation = namedtuple("MacroDocumentation", "macro params doc")

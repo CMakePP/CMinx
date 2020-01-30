@@ -19,7 +19,12 @@ function(say_hi_to person me)
 endfunction()
 
 #[[[
-# This macro says hi
+This macro says hi.
+This documentation uses a differing format,
+but is still processed correctly.
+
+:param person: The person we want to greet.
+:type person: string 
 #]]
 macro(macro_say_hi person)
    message("Hi ${person}")
@@ -27,12 +32,14 @@ endmacro()
 
 
 #[[[
-# list
+# This is an example of variable documentation.
+# This variable is a list of string values.
 #]]
 set(MyList "Value" "Value 2")
 
 
 #[[[
-# string
+# This is another example of variable documentation.
+# This variable is a string variable.
 #]]
 set(MyString "String")

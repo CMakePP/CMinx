@@ -6,12 +6,17 @@ Overview of How CMakeDoc Works
 Parsing
 -------
 
-.. sidebar:: Source File Parsing.
+.. sidebar:: Source File Parsing and Documentation Aggregation.
 
    .. _parsing_flowchart:
    .. figure:: uml_diagrams/parsing.png
 
       How CMakeDoc parses a CMake source file.
+
+   .. _aggregation_flowchart:
+   .. figure:: uml_diagrams/aggregation.png
+
+      How CMakeDoc aggregates documentation from the parse tree.
 
 In CMakeDoc parsing of a source file is the role of the Antlr4 parsing runtime, generated from
 the modified CMake.g4 grammar file.
