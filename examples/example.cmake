@@ -1,5 +1,6 @@
 #[[
-# THIS SHOULD BE SKIPPED
+# This is a normal block comment and will not
+# be treated as a doccomment.
 #]]
 include_guard()
 

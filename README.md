@@ -22,10 +22,13 @@ included in a normal Sphinx documentation set-up.
 
 ## Installing
 
-#### With PIP / PyPI
+#### With PIP / PyPI in Virtual Environment
 Run:
 ```console
-foo@bar:~$ sudo pip3 install cmakedoc
+foo@bar:~$ mkdir virt-env #Directory for our virtual environment
+foo@bar:~$ python3 -m venv virt-env && cd virt-env #Create our virtual environment and enter the directory
+foo@bar:~/virt-env$ source ./bin/activate #Activate virtual environment
+(virt-env) foo@bar:~/virt-env$ pip3 install cmakedoc #Install package in virt-env
 ```
 
 #### Manually
@@ -34,8 +37,11 @@ Run the following commands one at a time:
 ```console
 foo@bar:~$ git clone github.com/CMakePP/CMakeDoc.git
 foo@bar:~$ cd CMakeDoc/
-foo@bar:~/CMakeDoc$ sudo pip3 install . #If pip installed
-foo@bar:~/CMakeDoc$ sudo python3 setup.py install #If pip not installed
+foo@bar:~/CMakeDoc$ mkdir virt-env #Directory for our virtual environment
+foo@bar:~/CMakeDoc$ python3 -m venv virt-env && cd virt-env #Create our virtual environment and enter the directory
+foo@bar:~/CMakeDoc/virt-env$ source ./bin/activate #Activate virtual environment
+(virt-env) foo@bar:~/CMakeDoc/virt-env$ pip3 install . #If pip installed
+(virt-env) foo@bar:~/CMakeDoc/virt-env$ python3 setup.py install #If pip not installed
 ```
 
 ## Usage
@@ -63,10 +69,15 @@ optional arguments:
 ```
 
 ### Example
+Here we show an example CMake file, called `example.cmake`, that contains
+doccomments documenting functions, macros, and variables.
+The file contents are shown below.
+
 example.cmake:
 ```cmake                                                                                      
 #[[
-# THIS SHOULD BE SKIPPED
+# This is a normal block comment and
+# will not be treated as a doccomment.
 #]]
 include_guard()
 
@@ -94,17 +105,21 @@ endmacro()
 
 
 #[[[
-# list
+# This is an example of variable documentation.
+# This variable is a list of string values.
 #]]
 set(MyList "Value" "Value 2")
 
 
 #[[[
-# string
+# This is another example of variable documentation.
+# This variable is a string variable.
 #]]
 set(MyString "String")
 
 ```
+
+To generate the documentation, we enter our system shell (example assumes Bash-like shell on a Unix-like system).
 
 Generating documentation in directory `output`:
 ```console
@@ -136,13 +151,19 @@ foo@bar:~$ cat output/example.rst
    .. warning:: This is a macro, and so does not introduce a new scope.
 
    
-   This macro says hi
+   This macro says hi.
+   This documentation uses a differing format,
+   but is still processed correctly.
+   
+   :param person: The person we want to greet.
+   :type person: string 
    
 
 
 .. data:: MyList
    
-   list
+   This is an example of variable documentation.
+   This variable is a list of string values.
    
 
    :Default value: ['"Value"', '"Value 2"']
@@ -152,7 +173,8 @@ foo@bar:~$ cat output/example.rst
 
 .. data:: MyString
    
-   string
+   This is another example of variable documentation.
+   This variable is a string variable.
    
 
    :Default value: String
