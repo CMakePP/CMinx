@@ -2,21 +2,24 @@
 Overview of How CMakeDoc Works
 ##############################
 
--------
-Parsing
--------
-
-.. sidebar:: Source File Parsing and Documentation Aggregation.
+.. sidebar:: Source File Parsing
 
    .. _parsing_flowchart:
    .. figure:: uml_diagrams/parsing.png
 
       How CMakeDoc parses a CMake source file.
 
+
    .. _aggregation_flowchart:
    .. figure:: uml_diagrams/aggregation.png
 
       How CMakeDoc aggregates documentation from the parse tree.
+
+-------
+Parsing
+-------
+
+
 
 In CMakeDoc parsing of a source file is the role of the Antlr4 parsing runtime, generated from
 the modified CMake.g4 grammar file.
@@ -26,12 +29,29 @@ the modified CMake.g4 grammar file.
 #. The lexer generates a token stream, which is then fed into the CMakeParser.
 #. The parser generates a tree of parse elements, called contexts,
    which are then walked over by the ParseTreeWalker.
+
+This process is diagrammatically summarized in :numref:`parsing_flowchart`.
+
+
+-----------
+Aggregation
+-----------
+
+After the parser generates the parse tree, CMakeDoc walks the tree and aggregates the various documentation.
+
 #. The walker calls the aggregator methods upon entering or exiting
-   parse rules, such as entering a DocumentedCommand parse rule.
-#. The documentation aggregator generates NamedTuples representing the type
+   parse rules, such as entering a :code:`documented_command` parse rule.
+#. The parse rule enterDocumented_command cleans the doccomment and
+   extracts the documented command. For example, if a function definition
+   is documented, enterDocumented_command will extract the :code:`function` command.
+#. The aggregator then locates the subprocessor that corresponds to the extracted command,
+   for example if the extracted command is :code:`function` then the subprocessor would be
+   :code:`process_function()`. This subhandler is then executed with the parse context and
+   cleaned docstring.
+#. The documentation aggregator subhandler generates NamedTuples representing the type
    of documentation generated, such as FunctionDocumentation, complete
    with all relevant information, and adds them to a *documented* list.
 #. From there, Documenter loops over the documentation list,
    generating equivalent RST via RSTWriter for each type of documentation.
 
-This process is diagrammatically summarized in :numref:`parsing_flowchart`.
+This process is diagrammatically summarized in :numref:`aggregation_flowchart`.
