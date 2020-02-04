@@ -25,10 +25,9 @@ included in a normal Sphinx documentation set-up.
 #### With PIP / PyPI in Virtual Environment
 Run:
 ```console
-foo@bar:~$ mkdir virt-env #Directory for our virtual environment
-foo@bar:~$ python3 -m venv virt-env && cd virt-env #Create our virtual environment and enter the directory
-foo@bar:~/virt-env$ source ./bin/activate #Activate virtual environment
-(virt-env) foo@bar:~/virt-env$ pip3 install cmakedoc #Install package in virt-env
+foo@bar:~$ python3 -m venv virt-env #Create our virtual environment
+foo@bar:~$ source virt-env/bin/activate #Activate virtual environment
+(virt-env) foo@bar:~$ pip3 install cmakedoc #Install package in virt-env
 ```
 
 #### Manually
@@ -37,11 +36,10 @@ Run the following commands one at a time:
 ```console
 foo@bar:~$ git clone github.com/CMakePP/CMakeDoc.git
 foo@bar:~$ cd CMakeDoc/
-foo@bar:~/CMakeDoc$ mkdir virt-env #Directory for our virtual environment
-foo@bar:~/CMakeDoc$ python3 -m venv virt-env && cd virt-env #Create our virtual environment and enter the directory
-foo@bar:~/CMakeDoc/virt-env$ source ./bin/activate #Activate virtual environment
-(virt-env) foo@bar:~/CMakeDoc/virt-env$ pip3 install . #If pip installed
-(virt-env) foo@bar:~/CMakeDoc/virt-env$ python3 setup.py install #If pip not installed
+foo@bar:~/CMakeDoc$ python3 -m venv virt-env #Create our virtual environment
+foo@bar:~/CMakeDoc$ source virt-env/bin/activate #Activate virtual environment
+(virt-env) foo@bar:~/CMakeDoc$ pip3 install . #If pip installed
+(virt-env) foo@bar:~/CMakeDoc$ python3 setup.py install #If pip not installed
 ```
 
 ## Usage

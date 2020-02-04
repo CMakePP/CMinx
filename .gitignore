@@ -2,6 +2,9 @@
 docs/build
 docs/source/developer/.autosummary
 
+# Built example output
+examples/sphinx/build
+
 # CLion settings
 .idea/
 

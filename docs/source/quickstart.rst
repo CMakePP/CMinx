@@ -69,10 +69,9 @@ Run:
 
 .. code:: console
 
-   foo@bar:~$ mkdir virt-env #Directory for our virtual environment
-   foo@bar:~$ python3 -m venv virt-env && cd virt-env #Create our virtual environment and enter the directory
-   foo@bar:~/virt-env$ source ./bin/activate #Activate virtual environment
-   (virt-env) foo@bar:~/virt-env$ pip3 install cmakedoc #Install package in virt-env
+   foo@bar:~$ python3 -m venv virt-env #Create our virtual environment
+   foo@bar:~$ source virt-env/bin/activate #Activate virtual environment
+   (virt-env) foo@bar:~$ pip3 install cmakedoc #Install package in virt-env
 
 ========
 Manually
@@ -84,11 +83,10 @@ Run the following commands one at a time:
 
    foo@bar:~$ git clone github.com/CMakePP/CMakeDoc.git
    foo@bar:~$ cd CMakeDoc/
-   foo@bar:~/CMakeDoc$ mkdir virt-env #Directory for our virtual environment
-   foo@bar:~/CMakeDoc$ python3 -m venv virt-env && cd virt-env #Create our virtual environment and enter the directory
-   foo@bar:~/CMakeDoc/virt-env$ source ./bin/activate #Activate virtual environment
-   (virt-env) foo@bar:~/CMakeDoc/virt-env$ pip3 install . #If pip installed
-   (virt-env) foo@bar:~/CMakeDoc/virt-env$ python3 setup.py install #If pip not installed
+   foo@bar:~/CMakeDoc$ python3 -m venv virt-env #Create our virtual environment
+   foo@bar:~/CMakeDoc$ source virt-env/bin/activate #Activate virtual environment
+   (virt-env) foo@bar:~/CMakeDoc$ pip3 install . #If pip installed
+   (virt-env) foo@bar:~/CMakeDoc$ python3 setup.py install #If pip not installed
 
 #####
 Usage
@@ -126,49 +124,9 @@ The file contents are shown below.
 
 example.cmake:
 
-.. code:: cmake
 
-   #[[
-   # This is a normal block comment and
-   # will not be treated as a doccomment.
-   #]]
-   include_guard()
-
-   #[[[
-   # This function has very basic documentation.
-   #
-   # This function's description stays close to idealized formatting and does not do
-   # anything fancy.
-   #
-   # :param person: The person this function says hi to
-   # :param me: What my name is
-   # :type person: string
-   # :type me: string
-   #]]
-   function(say_hi_to person me)
-       message("Hi ${person}, I am ${me}")
-   endfunction()
-
-   #[[[
-   # This macro says hi
-   #]]
-   macro(macro_say_hi person)
-      message("Hi ${person}")
-   endmacro()
-
-
-   #[[[
-   # This is an example of variable documentation.
-   # This variable is a list of string values.
-   #]]
-   set(MyList "Value" "Value 2")
-
-
-   #[[[
-   # This is another example of variable documentation.
-   # This variable is a string variable.
-   #]]
-   set(MyString "String")
+.. include:: ../../examples/example.cmake
+   :literal:
 
 
 
@@ -182,61 +140,10 @@ Generating documentation in directory :code:`output`:
       Writing RST files to /home/foo/output
       Writing for file /home/foo/example.cmake
       Writing RST file /home/foo/output/example.rst
-      foo@bar:~$ cat output/example.rst
-      #######################
-      /home/foo/example.cmake
-      #######################
 
-      .. function:: say_hi_to(person me)
-      
-         This function has very basic documentation.
-   
-         This function's description stays close to idealized formatting and does not do
-         anything fancy.
-   
-         :param person: The person this function says hi to
-         :param me: What my name is
-         :type person: string
-         :type me: string
-   
+The resultant file :code: `output/example.rst`:
 
+.. include:: ../../examples/sphinx/source/example.rst
+   :literal:
 
-      .. function:: macro_say_hi(person)
-   
-         .. warning:: This is a macro, and so does not introduce a new scope.
-
-   
-         This macro says hi.
-         This documentation uses a differing format,
-         but is still processed correctly.
-   
-         :param person: The person we want to greet.
-         :type person: string 
-   
-
-
-      .. data:: MyList
-   
-         This is an example of variable documentation.
-         This variable is a list of string values.
-   
-
-         :Default value: ['"Value"', '"Value 2"']
-
-         :type: VarType.List
-
-
-      .. data:: MyString
-   
-         This is another example of variable documentation.
-         This variable is a string variable.
-   
-
-         :Default value: String
-
-         :type: VarType.String
-
-
-
-
-
+Place this file in a Sphinx source directory and add it to your :code: `toctree` to render it.
