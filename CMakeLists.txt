@@ -1,7 +1,8 @@
+cmake_minimum_required(VERSION 3.13) #TODO Find actual min version required
+
 find_program(PYTHON "python3")
 
 if (PYTHON)
-    message(${PYTHON})
     set(SETUP_PY_IN "${CMAKE_CURRENT_SOURCE_DIR}/setup.py") #setup.py has logic to automatically switch between CMake variables and normal operation
     set(SETUP_PY    "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
     set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/cmakedoc/__init__.py")
