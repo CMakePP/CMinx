@@ -6,10 +6,8 @@ python:
   - "3.8-dev"
   - "nightly"
 
-before_script:
-  - python -m pip || wget -qO- https://bootstrap.pypa.io/get-pip.py | python
-
 install:
+  - python -m pip || wget -qO- https://bootstrap.pypa.io/get-pip.py | python
   - pip install coverage
   - pip install codecov
   - pip install wheel
