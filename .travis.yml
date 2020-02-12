@@ -16,6 +16,7 @@ install:
   - pip install codecov
   - pip install wheel
   - pip install -e .
+  - pip install docutils
 
 script:
   - cd tests
