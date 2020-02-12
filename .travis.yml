@@ -1,6 +1,5 @@
 language: python
 python:
-  - "2.7"
   - "3.4"
   - "3.5"
   - "3.6"
@@ -8,9 +7,16 @@ python:
   - "3.7-dev"
   - "3.8-dev"
   - "nightly"
+
+before_script:
+  - python -m pip || wget -qO- https://bootstrap.pypa.io/get-pip.py | python
+
 install:
   - pip install coverage
   - pip install codecov
+  - pip install wheel
+  - pip install -e .
+
 script:
   - cd tests
   - coverage run test_all.py
