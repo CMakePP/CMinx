@@ -3,16 +3,22 @@ CMakeDoc API
 ------------
 
 This is a list of all functions within the CMakeDoc project. These functions are
-meant for use by developers. Users should ...
+meant for use by developers. Users should run the :code:`cmakedoc` command.
 
-Classes
+Modules
 ^^^^^^^
 
 .. autosummary::
    :toctree: .autosummary
 
-   cmakedoc.cmake_regexer
-   cmakedoc.parser
+   
+   cmakedoc.rstwriter
+   cmakedoc.documenter
+   cmakedoc.parser.aggregator
+   cmakedoc.parser.CMakeLexer
+   cmakedoc.parser.CMakeParser
+   cmakedoc.parser.CMakeListener
+   cmakedoc.parser.CMakeVisitor
 
 Functions
 ^^^^^^^^^
@@ -20,6 +26,5 @@ Functions
 .. autosummary::
    :toctree: .autosummary
 
-   cmakedoc.parse_block_comment
-   cmakedoc.parse_signature
-   cmakedoc.parse_single_line
+   cmakedoc.document
+   cmakedoc.main

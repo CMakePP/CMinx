@@ -1,14 +1,3 @@
-#!/usr/bin/python3
-import sys
-from antlr4 import *
-from .parser import ParserErrorListener
-from .parser.CMakeLexer import CMakeLexer
-from .parser.CMakeParser import CMakeParser
-from .parser.CMakeListener import CMakeListener
-from .rstwriter import RSTWriter
-from .parser.aggregator import DocumentationAggregator
-from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation
-
 
 """
 This file contains the Documenter class, which combines functionality
@@ -19,6 +8,19 @@ for CMake files.
 :License: Apache 2.0
 
 """
+
+
+
+import sys
+from antlr4 import *
+from .parser import ParserErrorListener
+from .parser.CMakeLexer import CMakeLexer
+from .parser.CMakeParser import CMakeParser
+from .parser.CMakeListener import CMakeListener
+from .rstwriter import RSTWriter
+from .parser.aggregator import DocumentationAggregator
+from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation
+
 
 
 class Documenter(object):
