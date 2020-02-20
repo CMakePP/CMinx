@@ -33,11 +33,13 @@ class RSTValidator:
 
     """
 
-    def __init__(self, writer: RSTWriter, werror=False):
+    def __init__(self, writer: RSTWriter, werror=False, doc=None):
         """
         :param writer: RSTWriter that will be validated.
 
         :param werror: Whether DocUtils warnings should be treated as a failed validation.
+
+        :param doc: Optional DocUtils document to validate against. If None, a document will be generated from the output of writer
         """
         self.mapping = {
             paragraph: self.process_paragraph,
@@ -53,6 +55,7 @@ class RSTValidator:
         }
         self.writer = writer
         self.parser = docutils.parsers.rst.Parser()
+        self.doc = doc
         self.validated = False
         self.werror = werror
         self.failures = []
@@ -69,9 +72,10 @@ class RSTValidator:
 
         self.validated = True #Assume everything works until something fails down the line
         self.failures = []
-        doc = self.parse_rst(self.writer.to_text())
-        self.process_element(doc[0], self.writer)
-        for msg in doc.parse_messages:
+        if self.doc is None:
+            self.doc = RSTValidator.parse_rst(self.parser, self.writer.to_text())
+        self.process_element(self.doc[0], self.writer)
+        for msg in self.doc.parse_messages:
             self.process_message(msg)
         return self.validated
 
@@ -85,7 +89,8 @@ class RSTValidator:
         self.failures.append(msg)
         self.validated = False
 
-    def parse_rst(self, text: str) -> docutils.nodes.document:
+    @staticmethod
+    def parse_rst(parser, text: str) -> docutils.nodes.document:
         """
         Parse the RST text into a DocUtils document, using the RST parser
 
@@ -95,7 +100,7 @@ class RSTValidator:
         components = (docutils.parsers.rst.Parser,)
         settings = docutils.frontend.OptionParser(components=components).get_default_values()
         document = docutils.utils.new_document('<rst-doc>', settings=settings)
-        self.parser.parse(text, document)
+        parser.parse(text, document)
         return document
 
 

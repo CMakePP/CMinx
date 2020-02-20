@@ -9,10 +9,11 @@ from cmakedoc.parser.CMakeListener import CMakeListener
 from cmakedoc.parser.aggregator import DocumentationAggregator, DOC_TYPES, FunctionDocumentation, MacroDocumentation, VariableDocumentation, VarType
 from cmakedoc.parser import ParserErrorListener, CMakeSyntaxError
 
+
 class TestAggregator(unittest.TestCase):
 
     def setUp(self):
-        self.filename = "test_samples/basic_function.cmake"
+        self.filename = "test_samples/example.cmake"
         #We need a string stream of some kind, FileStream is easiest
         self.input_stream = FileStream(self.filename)
         self.reset()
