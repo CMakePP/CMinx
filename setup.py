@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
 import os
+
 from setuptools import setup
 
 #Split the prefix and var so they aren't automatically replaced by CMake
 prefix = "$"
 var = '{CMAKE_CURRENT_SOURCE_DIR}'
-dir='${CMAKE_CURRENT_SOURCE_DIR}'
+dir='${CMAKE_CURRENT_SOURCE_DIR}' #This will be replaced by CMake and will therefore not equal prefix+var
 
 config = {
       'name': 'CMakeDoc',
@@ -29,8 +30,9 @@ config = {
       ]
      }
 
+#Check to see if running under CMake
 if not ((prefix + var) == dir):
 	config.update({'package_dir': { 'cmakedoc':  os.path.join(dir, "cmakedoc")}})
-	#print(f"UPDATING CONFIG: {config}")
+
 
 setup(**config)
