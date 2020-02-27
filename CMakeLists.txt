@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.12) #Python3 package locator only added in 3.12
 
+project(cmakedoc DESCRIPTION "CMake automatic documentation generator" LANGUAGES NONE) #Not using any compiled languages so don't list, removes check for compilers
+
 find_package(Python3 COMPONENTS Interpreter)
 
 #[[[
