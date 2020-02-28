@@ -69,7 +69,6 @@ def document(input, output_path = None, recursive = False):
     """
     files = []
     input_path = os.path.abspath(input)
-
     if os.path.isdir(input_path):
         #Walk dir and add cmake files to list
         for root, subdirs, filenames in os.walk(input_path):
@@ -97,7 +96,8 @@ def document(input, output_path = None, recursive = False):
                   break
     elif os.path.isfile(input_path):
         files.append(input_path)
-        document_single_file(input_path, input_path)
+        os.makedirs(os.path.join(output_path, input), exist_ok=True)
+        document_single_file(input_path, '.', output_path)
     else:
         print("File is a special file (socket, FIFO, device file) and is unsupported", file=sys.stderr)
         exit(1)
@@ -105,7 +105,6 @@ def document(input, output_path = None, recursive = False):
 
 
 def document_single_file(file, root, output_path = None, recursive = False):
-
 
      if os.path.isdir(root):
           header_name = os.path.relpath(file, root) #Path to file relative to input_path
