@@ -27,7 +27,7 @@ class TestInit(unittest.TestCase):
 
     def test_document(self):
       cmakedoc.document(self.input_path, self.output_dir, True)
-      self.assertTrue(os.path.isfile(os.path.join(os.path.join(self.output_dir, self.input_dir), self.input_file_prefix + "." + self.output_file_postfix)), "Output file does not exist")
+      self.assertTrue(os.path.isfile(os.path.join(self.output_dir, self.input_file_prefix + "." + self.output_file_postfix)), "Output file does not exist")
 
     def test_recursive(self):
       args = ["-r", "-o", self.output_dir, os.getcwd()]

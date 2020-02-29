@@ -59,17 +59,18 @@ Automatic documentation generator for CMake files. This program generates Sphinx
 
 def document(input, output_path = None, recursive = False):
     """
-    Handler for documenting each specified file or directory. Will locate all cmake files in directory
-    (and subdirs if recursive is true) and write generated RST output to corresponding files in output_path,
-    or if None will output to standard output.
+    Handler for documenting CMake files or all files in a directory. Performs preprocessing before handing off
+    to document_single_file over all detected files. Also generates index.rst files for all directories.
 
     :param input: String locating a file or directory to document.
     :param output_path: String pointing to the directory to place generated files, will output to stdout if None
     :param recursive: Whether to generate documentation for subdirectories or not.
     """
-    files = []
     input_path = os.path.abspath(input)
-    if os.path.isdir(input_path):
+    if not os.path.exists(input_path):
+        print(f"Error: File or directory \"{input_path}\" does not exist", file=sys.stderr)
+        exit(-1)
+    elif os.path.isdir(input_path):
         #Walk dir and add cmake files to list
         for root, subdirs, filenames in os.walk(input_path):
              if output_path is not None:
@@ -88,23 +89,29 @@ def document(input, output_path = None, recursive = False):
 
              for file in filenames:
                   if "cmake" == file.split(".")[-1].lower():
-                       files.append(os.path.join(root, file))
                        document_single_file(os.path.join(root, file), input_path, output_path)
 
 
              if not recursive:
                   break
     elif os.path.isfile(input_path):
-        files.append(input_path)
-        os.makedirs(os.path.join(output_path, input), exist_ok=True)
-        document_single_file(input_path, '.', output_path)
+        os.makedirs(output_path, exist_ok=True)
+        document_single_file(input_path, input_path, output_path)
     else:
         print("File is a special file (socket, FIFO, device file) and is unsupported", file=sys.stderr)
         exit(1)
 
 
 
-def document_single_file(file, root, output_path = None, recursive = False):
+def document_single_file(file, root, output_path = None):
+     """
+     Documents a single file, generates the RST, and places the file in the respective directory if output_dir specified.
+
+     :param file: Path to the CMake file to be documented
+     :param root: Directory considered to be the root of the source tree. The RST header and output tree will be generated from the relative path between file and root
+     :param output_path: Directory to serve as the root of the output tree. Subdirectories will be created as needed to place generated RST files in.
+     """
+
 
      if os.path.isdir(root):
           header_name = os.path.relpath(file, root) #Path to file relative to input_path
