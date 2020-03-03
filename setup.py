@@ -7,11 +7,15 @@ from setuptools import setup
 #Split the prefix and var so they aren't automatically replaced by CMake
 prefix = "$"
 var = '{CMAKE_CURRENT_SOURCE_DIR}'
-dir='${CMAKE_CURRENT_SOURCE_DIR}' #This will be replaced by CMake and will therefore not equal prefix+var
+dir = '${CMAKE_CURRENT_SOURCE_DIR}' #This will be replaced by CMake and will therefore not equal prefix+var
+
+version = None
+with open("version.txt", "r") as f:
+      version = f.read().strip()
 
 config = {
       'name': 'CMakeDoc',
-      'version': '1.0',
+      'version': version,
       'description': 'Documentation Generator for the CMake language',
       'author': 'Branden Butler',
       'author_email': 'bwtbutler@hotmail.com',

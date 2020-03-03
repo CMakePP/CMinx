@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.12) #Python3 package locator only added in 3.12
 set (CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-project(cmakedoc DESCRIPTION "CMake automatic documentation generator" LANGUAGES NONE VERSION 1.0.0) #Not using any compiled languages so don't list, removes check for compilers
+
+file(STRINGS "version.txt" VERSION)
+
+project(cmakedoc DESCRIPTION "CMake automatic documentation generator" LANGUAGES NONE VERSION ${VERSION}) #Not using any compiled languages so don't list, removes check for compilers
 
 include(find_python_module)
 
