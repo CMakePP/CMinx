@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12) #Python3 package locator only added in 3.12
 
 project(cmakedoc DESCRIPTION "CMake automatic documentation generator" LANGUAGES NONE VERSION 1.0.0) #Not using any compiled languages so don't list, removes check for compilers
 
-find_package(Python3 COMPONENTS Interpreter)
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
 
 #[[[
 # Custom function to locate a Python module. Requires the Python interpreter to be located first.
@@ -36,31 +36,26 @@ function(find_python_module module)
 endfunction(find_python_module)
 
 
-if (Python3_FOUND)
-    #We have Python, now let's check to see if we have setuptools
-    find_python_module(setuptools REQUIRED)
+#We have Python, now let's check to see if we have setuptools
+find_python_module(setuptools REQUIRED)
 
-    if (PY_SETUPTOOLS)
+if (PY_SETUPTOOLS)
 
-        set(SETUP_PY_IN "${CMAKE_CURRENT_SOURCE_DIR}/setup.py") #setup.py has logic to automatically switch between CMake variables and normal operation
-        set(SETUP_PY    "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
-        set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/cmakedoc/__init__.py")
-        set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
+    set(SETUP_PY_IN "${CMAKE_CURRENT_SOURCE_DIR}/setup.py") #setup.py has logic to automatically switch between CMake variables and normal operation
+    set(SETUP_PY    "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
+    set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/cmakedoc/__init__.py")
+    set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
 
-        configure_file(${SETUP_PY_IN} ${SETUP_PY})
+    configure_file(${SETUP_PY_IN} ${SETUP_PY})
 
-        add_custom_command(OUTPUT ${OUTPUT}
-                           COMMAND ${Python3_EXECUTABLE} ${SETUP_PY} build
-                           COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
-                           DEPENDS ${DEPS})
+    add_custom_command(OUTPUT ${OUTPUT}
+                       COMMAND ${Python3_EXECUTABLE} ${SETUP_PY} build
+                       COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
+                       DEPENDS ${DEPS})
 
-        add_custom_target(target ALL DEPENDS ${OUTPUT})
+    add_custom_target(target ALL DEPENDS ${OUTPUT})
 
-        install(CODE "execute_process(COMMAND ${PYTHON} ${SETUP_PY} install)")
-    else()
-        message(FATAL_ERROR "setuptools Python3 package not installed")
-    endif()
+    install(CODE "execute_process(COMMAND ${PYTHON} ${SETUP_PY} install)")
 else()
-    message(FATAL_ERROR "No Python3 interpreter found, please install Python 3 and add it to your system PATH.")
-
+    message(FATAL_ERROR "setuptools Python3 package not installed")
 endif()
