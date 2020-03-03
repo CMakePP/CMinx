@@ -15,9 +15,14 @@ find_package(Python3 COMPONENTS Interpreter REQUIRED)
 #
 #]]
 function(find_python_module module)
+        set(options REQUIRED)
+        set(single_vals "")
+        set(multi_vals "")
+        cmake_parse_arguments(PYMODULE "${options}" "${single_vals}" "${multi_vals}" ${ARGN})
+
 	string(TOUPPER ${module} module_upper)
 	if(NOT PY_${module_upper})
-		if(ARGC GREATER 1 AND ARGV1 STREQUAL "REQUIRED")
+		if(${PYMODULE_REQUIRED})
 			set(${module}_FIND_REQUIRED TRUE)
 		endif()
 		# A module's location is usually a directory, but for binary modules
