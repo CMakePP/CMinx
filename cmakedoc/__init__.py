@@ -95,7 +95,8 @@ def document(input, output_path = None, recursive = False):
              if not recursive:
                   break
     elif os.path.isfile(input_path):
-        os.makedirs(output_path, exist_ok=True)
+        if output_path is not None:
+            os.makedirs(output_path, exist_ok=True)
         document_single_file(input_path, input_path, output_path)
     else:
         print("File is a special file (socket, FIFO, device file) and is unsupported", file=sys.stderr)
