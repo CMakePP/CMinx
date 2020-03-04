@@ -1,3 +1,5 @@
+include_guard()
+
 #[[[
 # Custom function to locate a Python module. Requires the Python interpreter to be located first.
 #
