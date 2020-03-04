@@ -21,7 +21,7 @@ extract the comment blocks verbatim and create `*.rst` files which can be
 included in a normal Sphinx documentation set-up.
 
 ## Installing
-
+You can find installation instructions here: [How to install](docs/source/installation.rst)
 
 #### Manually
 Run the following commands one at a time:
