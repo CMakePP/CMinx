@@ -45,9 +45,9 @@ execute_process(COMMAND "${VENV_PIP}" "install" "-e" "${CMAKE_CURRENT_BINARY_DIR
 
 
 add_custom_command(OUTPUT ${OUTPUT}
-                   COMMAND ${VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py" "--distpath=${CMAKE_CURRENT_BINARY_DIR}/dist"
-                   COMMAND "/usr/bin/bash" "-c" "mkdir -p ${CMAKE_INSTALL_PREFIX}/bin"
-                   COMMAND "/usr/bin/bash" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${CMAKE_INSTALL_PREFIX}/bin/cmakedoc"
+                   COMMAND ${VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py" "--distpath=${CMAKE_CURRENT_BINARY_DIR}/dist" "--runtime-tmpdir=${CMAKE_INSTALL_PREFIX}/bin/.cmakedoc"
+                   COMMAND "sh" "-c" "mkdir -p ${CMAKE_INSTALL_PREFIX}/bin/.cmakedoc" #Creates bin and .cmakedoc if needed
+                   COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${CMAKE_INSTALL_PREFIX}/bin/cmakedoc"
                    COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
                    DEPENDS ${DEPS})
 
