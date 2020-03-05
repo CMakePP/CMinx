@@ -8,10 +8,12 @@ from setuptools import setup
 prefix = "$"
 var = '{CMAKE_CURRENT_SOURCE_DIR}'
 dir = '${CMAKE_CURRENT_SOURCE_DIR}' #This will be replaced by CMake and will therefore not equal prefix+var
+version_file = "version.txt"
+version = "1.0.0" #Default to 1.0.0 if no version file found
+if os.path.isfile(version_file):
+    with open(version_file, "r") as f:
+        version = f.read().strip()
 
-version = None
-with open("version.txt", "r") as f:
-      version = f.read().strip()
 
 config = {
       'name': 'CMakeDoc',
@@ -36,7 +38,7 @@ config = {
 
 #Check to see if running under CMake
 if not ((prefix + var) == dir):
-	config.update({'package_dir': { 'cmakedoc':  os.path.join(dir, "cmakedoc")}})
+    config.update({'package_dir': { 'cmakedoc':  os.path.join(dir, "cmakedoc")}})
 
 
 setup(**config)
