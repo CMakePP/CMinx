@@ -17,13 +17,9 @@ find_package(Python3 COMPONENTS Interpreter REQUIRED)
 find_python_module(setuptools REQUIRED)
 find_python_module(venv REQUIRED)
 
-set(SETUP_PY_IN "${CMAKE_CURRENT_SOURCE_DIR}/setup.py") #setup.py has logic to automatically switch between CMake variables and normal operation TODO: NOT NEEDED ANYMORE
-set(SETUP_PY    "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
 set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/cmakedoc/__init__.py")
 set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
 
-
-configure_file(${SETUP_PY_IN} ${SETUP_PY})
 
 #[[[
 # Points to the location of the build virtual environment.
@@ -31,6 +27,8 @@ configure_file(${SETUP_PY_IN} ${SETUP_PY})
 set(VENV "${CMAKE_CURRENT_BINARY_DIR}/virtual-env")
 
 #Create virtual environment in the build directory
+message(STATUS "Creating virtual environment for build directory...")
+
 execute_process(COMMAND "${Python3_EXECUTABLE}" "-m" 
                         "venv" "${VENV}"
                         RESULT_VARIABLE _venv_status 
@@ -49,6 +47,9 @@ set(VENV_PYTHON_EXECUTABLE "${VENV}/bin/python3")
 # Location of the virtual environment pip.
 #]]
 set(VENV_PIP "${VENV}/bin/pip3")
+
+#Install needed dependencies
+message(STATUS "Installing build dependencies in virtual environment...")
 
 execute_process(COMMAND "${VENV_PIP}" "install" "pyinstaller") #Install our build tool to our build environment
 
