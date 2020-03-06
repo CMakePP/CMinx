@@ -50,11 +50,11 @@ set(VENV_PYTHON_EXECUTABLE "${VENV}/bin/python3")
 #]]
 set(VENV_PIP "${VENV}/bin/pip3")
 
-execute_process(COMMAND "${VENV_PIP}" "install" "pyinstaller" "wheel") #Install our build tool to our build environment
+execute_process(COMMAND "${VENV_PIP}" "install" "pyinstaller") #Install our build tool to our build environment
 
 
-#This "installs" the program in our build directory, in editable mode, meaning really only the dependencies are installed so that pyinstaller can find them
-execute_process(COMMAND "${VENV_PIP}" "install" "-e" "${CMAKE_CURRENT_BINARY_DIR}")
+#Install program specific dependencies so that pyinstaller can find them.
+execute_process(COMMAND "${VENV_PIP}" "install" "-r" "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt")
 
 
 

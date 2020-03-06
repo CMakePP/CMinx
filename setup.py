@@ -13,7 +13,8 @@ version = "1.0.0" #Default to 1.0.0 if no version file found
 if os.path.isfile(version_file):
     with open(version_file, "r") as f:
         version = f.read().strip()
-
+with open("requirements.txt", "r") as f:
+    dependencies = f.read().split()
 
 config = {
       'name': 'CMakeDoc',
@@ -31,9 +32,7 @@ config = {
       'package_data':  {
            "": ["*.g4", "*.interp", "*.tokens"]
       },
-      'install_requires':  [
-          "antlr4-python3-runtime",
-      ]
+      'install_requires':  dependencies
      }
 
 #Check to see if running under CMake
