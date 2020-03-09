@@ -502,7 +502,7 @@ class Directive(RSTWriter):
 
 		:param txt: Content of the new paragraph.
 		"""
-		self.document.append(Paragraph(txt, self.get_indents(self.indent + 1)))
+		self.document.append(Paragraph(txt, '\n' + self.get_indents(self.indent + 1)))
 
 	def field(self, name: str, txt: str):
 		"""

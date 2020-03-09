@@ -7,7 +7,7 @@ Convenience script to call cmakedoc.main()
 :License: Apache 2.0
 """
 
-import cmakedoc
+from cmakedoc import *
 
 if __name__ == "__main__":
-     cmakedoc.main()
+     main()

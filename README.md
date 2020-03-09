@@ -21,14 +21,7 @@ extract the comment blocks verbatim and create `*.rst` files which can be
 included in a normal Sphinx documentation set-up.
 
 ## Installing
-
-#### With PIP / PyPI in Virtual Environment
-Run:
-```console
-foo@bar:~$ python3 -m venv virt-env #Create our virtual environment
-foo@bar:~$ source virt-env/bin/activate #Activate virtual environment
-(virt-env) foo@bar:~$ pip3 install cmakedoc #Install package in virt-env
-```
+You can find installation instructions here: [How to install](docs/source/installation.rst)
 
 #### Manually
 Run the following commands one at a time:
@@ -38,6 +31,7 @@ foo@bar:~$ git clone github.com/CMakePP/CMakeDoc.git
 foo@bar:~$ cd CMakeDoc/
 foo@bar:~/CMakeDoc$ python3 -m venv virt-env #Create our virtual environment
 foo@bar:~/CMakeDoc$ source virt-env/bin/activate #Activate virtual environment
+(virt-env) foo@bar:~/CMakeDoc$ pip3 install wheel #Necessary dependency to install manually with pip
 (virt-env) foo@bar:~/CMakeDoc$ pip3 install . #If pip installed
 (virt-env) foo@bar:~/CMakeDoc$ python3 setup.py install #If pip not installed
 ```

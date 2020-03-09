@@ -57,36 +57,8 @@ and markup you like. That said, you will probably only want to use:
 
 as those are the subset of Python language features CMake actually supports.
 
-##########
-Installing
-##########
 
-======================================
-With PIP / PyPI in Virtual Environment
-======================================
-
-Run:
-
-.. code:: console
-
-   foo@bar:~$ python3 -m venv virt-env #Create our virtual environment
-   foo@bar:~$ source virt-env/bin/activate #Activate virtual environment
-   (virt-env) foo@bar:~$ pip3 install cmakedoc #Install package in virt-env
-
-========
-Manually
-========
-
-Run the following commands one at a time:
-
-.. code:: console
-
-   foo@bar:~$ git clone github.com/CMakePP/CMakeDoc.git
-   foo@bar:~$ cd CMakeDoc/
-   foo@bar:~/CMakeDoc$ python3 -m venv virt-env #Create our virtual environment
-   foo@bar:~/CMakeDoc$ source virt-env/bin/activate #Activate virtual environment
-   (virt-env) foo@bar:~/CMakeDoc$ pip3 install . #If pip installed
-   (virt-env) foo@bar:~/CMakeDoc$ python3 setup.py install #If pip not installed
+.. include:: installation.rst
 
 #####
 Usage

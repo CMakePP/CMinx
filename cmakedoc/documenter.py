@@ -37,6 +37,9 @@ class Documenter(object):
         title =  file if title is None else title
 
         self.writer = RSTWriter(title)
+
+        self.module = self.writer.directive("module", title)
+
         #We need a string stream of some kind, FileStream is easiest
         self.input_stream = FileStream(file)
 
