@@ -1,9 +1,9 @@
 ------------
-CMakeDoc API
+CMinx API
 ------------
 
-This is a list of all functions within the CMakeDoc project. These functions are
-meant for use by developers. Users should run the :code:`cmakedoc` command.
+This is a list of all functions within the CMinx project. These functions are
+meant for use by developers. Users should run the :code:`cminx` command.
 
 Modules
 ^^^^^^^
@@ -12,13 +12,13 @@ Modules
    :toctree: .autosummary
 
    
-   cmakedoc.rstwriter
-   cmakedoc.documenter
-   cmakedoc.parser.aggregator
-   cmakedoc.parser.CMakeLexer
-   cmakedoc.parser.CMakeParser
-   cmakedoc.parser.CMakeListener
-   cmakedoc.parser.CMakeVisitor
+   cminx.rstwriter
+   cminx.documenter
+   cminx.parser.aggregator
+   cminx.parser.CMakeLexer
+   cminx.parser.CMakeParser
+   cminx.parser.CMakeListener
+   cminx.parser.CMakeVisitor
 
 Functions
 ^^^^^^^^^
@@ -26,5 +26,5 @@ Functions
 .. autosummary::
    :toctree: .autosummary
 
-   cmakedoc.document
-   cmakedoc.main
+   cminx.document
+   cminx.main

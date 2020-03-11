@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from cmakedoc.rstwriter import RSTWriter
+from cminx.rstwriter import RSTWriter
 
 #First construct the root writer, only argument is the document title
 writer = RSTWriter("This is a test")

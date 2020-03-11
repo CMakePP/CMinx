@@ -1,5 +1,5 @@
 ##############################
-Overview of How CMakeDoc Works
+Overview of How CMinx Works
 ##############################
 
 .. sidebar:: Source File Parsing
@@ -7,13 +7,13 @@ Overview of How CMakeDoc Works
    .. _parsing_flowchart:
    .. figure:: uml_diagrams/parsing.png
 
-      How CMakeDoc parses a CMake source file.
+      How CMinx parses a CMake source file.
 
 
    .. _aggregation_flowchart:
    .. figure:: uml_diagrams/aggregation.png
 
-      How CMakeDoc aggregates documentation from the parse tree.
+      How CMinx aggregates documentation from the parse tree.
 
 -------
 Parsing
@@ -21,7 +21,7 @@ Parsing
 
 
 
-In CMakeDoc parsing of a source file is the role of the Antlr4 parsing runtime, generated from
+In CMinx parsing of a source file is the role of the Antlr4 parsing runtime, generated from
 the modified CMake.g4 grammar file.
 
 #. As per the standard usage, the file contents are read into an
@@ -37,7 +37,7 @@ This process is diagrammatically summarized in :numref:`parsing_flowchart`.
 Aggregation
 -----------
 
-After the parser generates the parse tree, CMakeDoc walks the tree and aggregates the various documentation.
+After the parser generates the parse tree, CMinx walks the tree and aggregates the various documentation.
 
 #. The walker calls the aggregator methods upon entering or exiting
    parse rules, such as entering a :code:`documented_command` parse rule.

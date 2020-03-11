@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'CMake Documentation Example'
+project = 'CMinx Examples'
 copyright = '2020, Branden Butler'
 author = 'Branden Butler'
 
@@ -42,7 +42,7 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['.templates']
+templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -66,7 +66,7 @@ language = None
 exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = None
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -85,7 +85,7 @@ html_theme = 'sphinx_rtd_theme'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['.static']
+html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -101,7 +101,7 @@ html_static_path = ['.static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'CMakeDocumentationExampledoc'
+htmlhelp_basename = 'CMinxExamplesdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -128,7 +128,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'CMakeDocumentationExample.tex', 'CMake Documentation Example Documentation',
+    (master_doc, 'CMinxExamples.tex', 'CMinx Examples Documentation',
      'Branden Butler', 'manual'),
 ]
 
@@ -138,7 +138,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'cmakedocumentationexample', 'CMake Documentation Example Documentation',
+    (master_doc, 'cminxexamples', 'CMinx Examples Documentation',
      [author], 1)
 ]
 
@@ -149,8 +149,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'CMakeDocumentationExample', 'CMake Documentation Example Documentation',
-     author, 'CMakeDocumentationExample', 'One line description of project.',
+    (master_doc, 'CMinxExamples', 'CMinx Examples Documentation',
+     author, 'CMinxExamples', 'One line description of project.',
      'Miscellaneous'),
 ]
 

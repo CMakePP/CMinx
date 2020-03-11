@@ -1,8 +1,8 @@
 ########
-CMakeDoc
+CMinx
 ########
 
-Welcome to the documentation for CMakeDoc! CMakeDoc is a tool for extracting API
+Welcome to the documentation for CMinx! CMinx is a tool for extracting API
 documentation from CMake files.
 
 -----------------

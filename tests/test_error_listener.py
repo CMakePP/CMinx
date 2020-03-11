@@ -2,7 +2,7 @@
 
 import context
 import unittest
-from cmakedoc.parser import ParserErrorListener, CMakeSyntaxError
+from cminx.parser import ParserErrorListener, CMakeSyntaxError
 
 class TestErrorListener(unittest.TestCase):
     def setUp(self):

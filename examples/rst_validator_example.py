@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-from cmakedoc.rstwriter import RSTWriter
-from cmakedoc.rst_validator import RSTValidator
+from cminx.rstwriter import RSTWriter
+#from cminx.rst_validator import RSTValidator #No longer in cminx package, included in test/ directory instead as not needed for general operation
 
 if __name__ == "__main__":
 

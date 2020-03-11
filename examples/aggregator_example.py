@@ -2,10 +2,10 @@
 
 import sys
 from antlr4 import *
-from cmakedoc.parser.CMakeLexer import CMakeLexer
-from cmakedoc.parser.CMakeParser import CMakeParser
-from cmakedoc.parser.CMakeListener import CMakeListener
-from cmakedoc.parser.aggregator import DocumentationAggregator
+from cminx.parser.CMakeLexer import CMakeLexer
+from cminx.parser.CMakeParser import CMakeParser
+from cminx.parser.CMakeListener import CMakeListener
+from cminx.parser.aggregator import DocumentationAggregator
 
 
 def main(argv):

@@ -10,21 +10,21 @@ if os.path.isfile(version_file):
     with open(version_file, "r") as f:
         version = f.read().strip()
 
-#This will fail if not requirements.txt found, as it should
+#This will fail if requirements.txt not found, as it should
 with open("requirements.txt", "r") as f:
     dependencies = f.read().split()
 
 setup(
-      name = 'CMakeDoc',
+      name = 'CMinx',
       version = version,
       description = 'Documentation Generator for the CMake language',
       author = 'Branden Butler',
       author_email = 'bwtbutler@hotmail.com',
-      url = 'https =//github.com/CMakePP/CMakeDoc',
-      packages = ['cmakedoc', 'cmakedoc.parser'],
+      url = 'https =//github.com/CMakePP/CMinx',
+      packages = ['cminx', 'cminx.parser'],
       entry_points = {
         'console_scripts': [
-            'cmakedoc = cmakedoc:main',
+            'cminx = cminx:main',
         ],
       },
       package_data =  {
