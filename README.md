@@ -4,9 +4,7 @@ https://travis-ci.com/CMakePP/CMakeDoc)
 [![codecov](
 https://codecov.io/gh/CMakePP/CMakeDoc/branch/master/graph/badge.svg)](
 https://codecov.io/gh/CMakePP/CMakeDoc)
-[![Documentation Status](
-https://readthedocs.org/projects/cminx/badge/?version=latest)](
-https://cminx.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/cmakedoc/badge/?version=latest)](https://cmakedoc.readthedocs.io/en/latest/?badge=latest)
 
 A common software practice is to keep documentation close to the functions and
 classes that are being documented (ideally in the same source file). Most
