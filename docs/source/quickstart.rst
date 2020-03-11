@@ -7,16 +7,16 @@ Quickstart
    This tutorial assumes you are familiar with reStructuredText (reST) and
    CMake.
 
-According to CMakeDoc, the contents of a CMake file can be broken into three
+According to CMinx, the contents of a CMake file can be broken into three
 categories:
 
-#. Documentation comments - what CMakeDoc extracts
+#. Documentation comments - what CMinx extracts
 
 #. Annotation comments - Comments that are not documentation
 
 #. CMake source code - Everything else
 
-To distinguish between the two types of comments CMakeDoc borrows the convention
+To distinguish between the two types of comments CMinx borrows the convention
 that documentation comments start with an additional comment character. Thus to
 indicate that a CMake comment is documentation use :code:`#[[[` (the block
 comment should still end with :code:`#]]`).
@@ -67,9 +67,9 @@ Usage
 For each CMake function or variable that you would like to document, prepend it with a block doc-comment.
 A block doc-comment begins with :code:`#[[[` and ends with :code:`#]]`.
 
-Then run :code:`cmakedoc` on your CMake files, outputting to a directory of your choosing. The help text is printed below for reference::
+Then run :code:`cminx` on your CMake files, outputting to a directory of your choosing. The help text is printed below for reference::
 
-   Usage: cmakedoc [-h] [-o OUTPUT] [-r] file [file ...]
+   Usage: cminx [-h] [-o OUTPUT] [-r] file [file ...]
 
    positional arguments:
       file                 CMake file to generate documentation for. If
@@ -108,7 +108,7 @@ Generating documentation in directory :code:`output`:
 
 .. code:: console
 
-      foo@bar:~$ cmakedoc -o output/ example.cmake
+      foo@bar:~$ cminx -o output/ example.cmake
       Writing RST files to /home/foo/output
       Writing for file /home/foo/example.cmake
       Writing RST file /home/foo/output/example.rst

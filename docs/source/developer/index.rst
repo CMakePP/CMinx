@@ -3,7 +3,7 @@ Developer Documentation
 #######################
 
 The following documentation topics are meant primarily for developers working on
-CMakeDoc.
+CMinx.
 
 -----------------
 Table of Contents

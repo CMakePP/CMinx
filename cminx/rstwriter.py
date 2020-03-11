@@ -156,7 +156,7 @@ class RSTWriter(object):
 
 	def __str__(self):
 		"""
-		Equivalent to :func: `~cmakedoc.RSTWriter.to_text`
+		Equivalent to :func: `~cminx.RSTWriter.to_text`
 
 		:return: The completed RST document in string form.
 		"""
@@ -432,7 +432,7 @@ class Option(object):
 
 class Directive(RSTWriter):
 	"""
-	Use :func:`cmakedoc.RSTWriter.directive` to construct.
+	Use :func:`cminx.RSTWriter.directive` to construct.
 	Represents an RST directive, such as toctree or an admonition.
 	Does not verify that the directive or its arguments are valid.
 	"""

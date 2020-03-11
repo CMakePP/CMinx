@@ -3,11 +3,11 @@ import context
 import unittest
 import sys
 from antlr4 import *
-from cmakedoc.parser.CMakeLexer import CMakeLexer
-from cmakedoc.parser.CMakeParser import CMakeParser
-from cmakedoc.parser.CMakeListener import CMakeListener
-from cmakedoc.parser.aggregator import DocumentationAggregator, DOC_TYPES, FunctionDocumentation, MacroDocumentation, VariableDocumentation, VarType
-from cmakedoc.parser import ParserErrorListener, CMakeSyntaxError
+from cminx.parser.CMakeLexer import CMakeLexer
+from cminx.parser.CMakeParser import CMakeParser
+from cminx.parser.CMakeListener import CMakeListener
+from cminx.parser.aggregator import DocumentationAggregator, DOC_TYPES, FunctionDocumentation, MacroDocumentation, VariableDocumentation, VarType
+from cminx.parser import ParserErrorListener, CMakeSyntaxError
 
 
 class TestAggregator(unittest.TestCase):

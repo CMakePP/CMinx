@@ -1,5 +1,5 @@
 import context  # Sets up PYTHON_PATH for this test
-from cmakedoc.parser.CMakeLexer import CMakeLexer
+from cminx.parser.CMakeLexer import CMakeLexer
 from antlr4 import InputStream
 import unittest
 

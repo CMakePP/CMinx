@@ -4,7 +4,7 @@ import unittest
 import sys
 import os
 import shutil
-import cmakedoc
+import cminx
 
 
 class TestInit(unittest.TestCase):
@@ -26,12 +26,12 @@ class TestInit(unittest.TestCase):
 
 
     def test_document(self):
-      cmakedoc.document(self.input_path, self.output_dir, True)
+      cminx.document(self.input_path, self.output_dir, True)
       self.assertTrue(os.path.isfile(os.path.join(self.output_dir, self.input_file_prefix + "." + self.output_file_postfix)), "Output file does not exist")
 
     def test_recursive(self):
       args = ["-r", "-o", self.output_dir, os.getcwd()]
-      cmakedoc.main(args)
+      cminx.main(args)
       self.assertTrue(os.path.isdir(os.path.join(self.output_dir, self.input_dir)), "Output directory structure incorrect")
       self.assertTrue(os.path.isfile(os.path.join(os.path.join(self.output_dir, self.input_dir), self.input_file_prefix + "." + self.output_file_postfix)), "Output file does not exist")
 

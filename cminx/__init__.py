@@ -3,7 +3,7 @@ Generate Sphinx-compatible RST documentation for CMake files.
 Documentation is written in a special form of block comments,
 denoted by the starting characters :code: `#[[[` and ending with the standard :code: `#]]`.
 
-Usage: cmakedoc [-h] [-o OUTPUT] [-r] file [file ...]
+Usage: cminx [-h] [-o OUTPUT] [-r] file [file ...]
 
 positional arguments:
   file                  CMake file to generate documentation for. If
@@ -25,7 +25,7 @@ optional arguments:
 :License: Apache 2.0
 """
 
-from cmakedoc.documenter import Documenter
+from cminx.documenter import Documenter
 from .parser.aggregator import DocumentationAggregator
 from .rstwriter import RSTWriter
 from .documenter import Documenter

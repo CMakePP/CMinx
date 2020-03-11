@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from cmakedoc.rstwriter import RSTWriter, Heading, Paragraph, List, Field, DocTest, SimpleTable, Directive, DirectiveHeading, Option
+from cminx.rstwriter import RSTWriter, Heading, Paragraph, List, Field, DocTest, SimpleTable, Directive, DirectiveHeading, Option
 
 from docutils.nodes import *
 import docutils.parsers.rst

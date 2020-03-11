@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import context
-from cmakedoc.rstwriter import RSTWriter
+from cminx.rstwriter import RSTWriter
 from rst_validator import RSTValidator
 import unittest
 import os

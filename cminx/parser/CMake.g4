@@ -107,7 +107,7 @@ Space
 
 
 
-/*Begin CMakeDoc*/
+/*Begin CMinx*/
 
 documented_command
 	: Bracket_doccomment command_invocation

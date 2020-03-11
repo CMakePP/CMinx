@@ -1,10 +1,10 @@
 import context
 from antlr4 import *
 from antlr4.error.Errors import InputMismatchException
-from cmakedoc.parser import ParserErrorListener, CMakeSyntaxError
-from cmakedoc.parser.CMakeParser import CMakeParser
-from cmakedoc.parser.CMakeLexer import CMakeLexer
-from cmakedoc.parser.CMakeListener import CMakeListener
+from cminx.parser import ParserErrorListener, CMakeSyntaxError
+from cminx.parser.CMakeParser import CMakeParser
+from cminx.parser.CMakeLexer import CMakeLexer
+from cminx.parser.CMakeListener import CMakeListener
 
 import unittest
 

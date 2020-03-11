@@ -3,7 +3,7 @@ set (CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/version.txt" VERSION)
 
-project(cmakedoc DESCRIPTION "CMake automatic documentation generator" LANGUAGES NONE VERSION ${VERSION}) #Not using any compiled languages so don't list, removes check for compilers
+project(cminx DESCRIPTION "CMake automatic documentation generator" LANGUAGES NONE VERSION ${VERSION}) #Not using any compiled languages so don't list, removes check for compilers
 
 #Allows us to locate any arbitrary Python3 module.
 include(find_python_module)
@@ -17,7 +17,7 @@ find_package(Python3 COMPONENTS Interpreter REQUIRED)
 find_python_module(setuptools REQUIRED)
 find_python_module(venv REQUIRED)
 
-set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/cmakedoc/__init__.py")
+set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/cminx/__init__.py")
 set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
 
 
@@ -66,9 +66,9 @@ execute_process(COMMAND "${VENV_PIP}" "install" "-r" "${CMAKE_CURRENT_SOURCE_DIR
 # Third line copies the resultant executable to the installation path.
 #]]
 add_custom_command(OUTPUT ${OUTPUT}
-                   COMMAND ${VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py" "--distpath=${CMAKE_CURRENT_BINARY_DIR}/dist" "--runtime-tmpdir=${CMAKE_INSTALL_PREFIX}/bin/.cmakedoc"
-                   COMMAND "sh" "-c" "mkdir -p ${CMAKE_INSTALL_PREFIX}/bin/.cmakedoc" #Creates bin and .cmakedoc if needed
-                   COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${CMAKE_INSTALL_PREFIX}/bin/cmakedoc"
+                   COMMAND ${VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py" "--distpath=${CMAKE_CURRENT_BINARY_DIR}/dist" "--runtime-tmpdir=${CMAKE_INSTALL_PREFIX}/bin/.cminx"
+                   COMMAND "sh" "-c" "mkdir -p ${CMAKE_INSTALL_PREFIX}/bin/.cminx" #Creates bin and .cminx if needed
+                   COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${CMAKE_INSTALL_PREFIX}/bin/cminx"
                    COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
                    DEPENDS ${DEPS})
 
