@@ -1,5 +1,5 @@
 # cminx
-[![Build Status](https://travis-ci.com/CMakePP/CMakeDoc.svg?branch=master)](
+[![Build Status](https://travis-ci.com/CMakePP/CMinx.svg?branch=master)](
 https://travis-ci.com/CMakePP/CMakeDoc)
 [![codecov](
 https://codecov.io/gh/CMakePP/CMakeDoc/branch/master/graph/badge.svg)](
