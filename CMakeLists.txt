@@ -79,6 +79,6 @@ install(TARGETS RUNTIME)
 
 
 include("cminx")
-cminx_gen_rst("${CMAKE_CURRENT_SOURCE_DIR}/cmake/cminx.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/docs/source/developer/cmake")
+cminx_gen_rst("${CMAKE_CURRENT_SOURCE_DIR}/cmake/" "${CMAKE_CURRENT_SOURCE_DIR}/docs/source/developer/cmake")
 
 cminx_add_docs_target("${CMAKE_CURRENT_SOURCE_DIR}/docs" "${CMAKE_CURRENT_BINARY_DIR}/docs" html)

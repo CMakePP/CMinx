@@ -35,4 +35,4 @@ CMake
 .. toctree::
    :maxdepth: 2
 
-   cmake/cminx
+   cmake/index
