@@ -78,7 +78,7 @@ add_custom_target(target ALL DEPENDS ${OUTPUT})
 install(TARGETS RUNTIME)
 
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/cminx/cminx.cmake")
-cminx_gen_rst("${CMAKE_CURRENT_SOURCE_DIR}/cminx/" "${CMAKE_CURRENT_SOURCE_DIR}/docs/source/developer/cmake")
+include("cminx")
+cminx_gen_rst("${CMAKE_CURRENT_SOURCE_DIR}/cmake/cminx.cmake" "${CMAKE_CURRENT_SOURCE_DIR}/docs/source/developer/cmake")
 
 cminx_add_docs_target("${CMAKE_CURRENT_SOURCE_DIR}/docs" "${CMAKE_CURRENT_BINARY_DIR}/docs" html)

@@ -1,4 +1,3 @@
-set(CMAKEDOC_VENV "${VENV}")
 set(CMAKEDOC_SRC "${CMAKE_CURRENT_SOURCE_DIR}")
 
 
@@ -11,7 +10,7 @@ set(CMAKEDOC_SRC "${CMAKE_CURRENT_SOURCE_DIR}")
 # :type output: dir
 #]]
 function(cminx_gen_rst _cgd_dir _cgd_output)
-        execute_process(COMMAND "${CMAKEDOC_VENV}/bin/python3" "${CMAKEDOC_SRC}/main.py" ${_cgd_dir} "-o" "${_cgd_output}" WORKING_DIRECTORY "${CMAKEDOC_SRC}" OUTPUT_VARIABLE process_output)
+        execute_process(COMMAND "${VENV_PYTHON_EXECUTABLE}" "${CMAKEDOC_SRC}/main.py" ${_cgd_dir} "-o" "${_cgd_output}" WORKING_DIRECTORY "${CMAKEDOC_SRC}" OUTPUT_VARIABLE process_output)
 	message("${process_output}")
 
 endfunction()
