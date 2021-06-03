@@ -11,7 +11,7 @@ Run the following commands one at a time:
 
 .. code:: console
 
-   foo@bar:~$ git clone github.com/CMakePP/CMinx.git
+   foo@bar:~$ git clone https://github.com/CMakePP/CMinx.git
    foo@bar:~$ cd CMinx/
    foo@bar:~/CMinx$ python3 -m venv virt-env #Create our virtual environment
    foo@bar:~/CMinx$ source virt-env/bin/activate #Activate virtual environment
@@ -26,7 +26,7 @@ Run:
 
 .. code:: console
 
-   foo@bar:~$ git clone github.com/CMakePP/CMinx.git
+   foo@bar:~$ git clone https://github.com/CMakePP/CMinx.git
    foo@bar:~$ cd CMinx/
    foo@bar:~/CMinx$ mkdir build && cd build
    foo@bar:~/CMinx/build$ cmake ..
