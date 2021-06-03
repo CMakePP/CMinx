@@ -1,9 +1,7 @@
 # cminx
 [![Build Status](https://travis-ci.com/CMakePP/CMinx.svg?branch=master)](
 https://travis-ci.com/CMakePP/CMakeDoc)
-[![codecov](
-https://codecov.io/gh/CMakePP/CMakeDoc/branch/master/graph/badge.svg)](
-https://codecov.io/gh/CMakePP/CMakeDoc)
+[![codecov](https://codecov.io/gh/CMakePP/CMinx/branch/master/graph/badge.svg?token=wbiPq8Gnrs)](https://codecov.io/gh/CMakePP/CMinx)
 [![Documentation Status](https://readthedocs.org/projects/cmakedoc/badge/?version=latest)](https://cmakedoc.readthedocs.io/en/latest/?badge=latest)
 
 A common software practice is to keep documentation close to the functions and
