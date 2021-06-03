@@ -21,8 +21,12 @@ You can find installation instructions here: [How to install](docs/source/instal
 
 
 ## Usage
-For each CMake function or variable that you would like to document, prepend it with a block doc-comment.
-A block doc-comment begins with `#[[[` and ends with `#]]`.
+
+For each CMake function or variable that you would like to document, prepend it with a block 
+doc-comment. A block doc-comment begins with `#[[[` and ends with `#]]`. Note that block 
+**doc**-comments start with an extra `[` to distinguish them from normal block comments (which 
+start with `#[[`). Normal block comments are ignored by CMinx while parsing, whereas block 
+doc-comments will be used to generate reStructuredText documentation.
 
 Then run `cminx` on your CMake files, outputting to a directory of your choosing. The help text is printed below for reference:
 ```
