@@ -28,3 +28,11 @@ Functions
 
    cminx.document
    cminx.main
+
+CMake
+^^^^^
+
+.. toctree::
+   :maxdepth: 2
+
+   cmake/index

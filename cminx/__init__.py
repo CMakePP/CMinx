@@ -83,8 +83,9 @@ def document(input, output_path = None, recursive = False):
                   toctree.option("maxdepth", 2)
                   for file in [f for f in filenames if f.lower().endswith(".cmake")]:
                        toctree.text('.'.join(file.split('.')[:-1]))
-                  for dir in subdirs:
-                       toctree.text(os.path.join(dir, "index.rst"))
+                  if recursive:
+                       for dir in subdirs:
+                            toctree.text(os.path.join(dir, "index.rst"))
                   index.write_to_file(os.path.join(os.path.join(output_path, rel_path), "index.rst"))
 
              for file in filenames:
