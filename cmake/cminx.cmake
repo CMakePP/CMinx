@@ -26,6 +26,6 @@ endfunction()
 # :type _cad_sphinx_target: desc
 #]]
 function(cminx_add_docs_target _cad_doc_dir _cad_output_dir _cad_sphinx_target)
-	add_custom_target(docs COMMAND make "${_cad_sphinx_target}" "BUILDDIR=${_cad_output_dir}" WORKING_DIRECTORY "${_cad_doc_dir}")
+	add_custom_target(docs COMMAND make "${_cad_sphinx_target}" "BUILDDIR=${_cad_output_dir}" "SPHINXBUILD=python3 -m sphinx" WORKING_DIRECTORY "${_cad_doc_dir}")
 endfunction()
 
