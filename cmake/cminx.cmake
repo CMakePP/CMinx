@@ -10,8 +10,11 @@ set(CMAKEDOC_SRC "${CMAKE_CURRENT_SOURCE_DIR}")
 # :type output: dir
 #]]
 function(cminx_gen_rst _cgd_dir _cgd_output)
-        execute_process(COMMAND "${VENV_PYTHON_EXECUTABLE}" "${CMAKEDOC_SRC}/main.py" ${_cgd_dir} "-o" "${_cgd_output}" WORKING_DIRECTORY "${CMAKEDOC_SRC}" OUTPUT_VARIABLE process_output)
+        execute_process(COMMAND "${VENV_PYTHON_EXECUTABLE}" "${CMAKEDOC_SRC}/main.py" ${_cgd_dir} "-o" "${_cgd_output}" WORKING_DIRECTORY "${CMAKEDOC_SRC}" OUTPUT_VARIABLE process_output ERROR_VARIABLE process_err RESULT_VARIABLE process_result)
 	message("${process_output}")
+        if(NOT process_result EQUAL 0)
+            message(FATAL_ERROR "Failed to generate RST. Result code was: ${process_result}. Error output was: ${process_err}")
+        endif()
 
 endfunction()
 
