@@ -1,6 +1,6 @@
 include_guard()
 
-set(CMAKEDOC_SRC "${CMAKE_CURRENT_SOURCE_DIR}")
+set(CMAKEDOC_SRC "${CMAKE_CURRENT_SOURCE_DIR}" CACHE FILEPATH "Location of CMinx")
 
 
 #[[[
