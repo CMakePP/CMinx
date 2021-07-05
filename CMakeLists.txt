@@ -84,3 +84,6 @@ if(BUILD_DOCS)
 
     cminx_add_docs_target("${CMAKE_CURRENT_SOURCE_DIR}/docs" "${CMAKE_CURRENT_BINARY_DIR}/docs" html)
 endif()
+
+#Define functions and set source directory
+include("cminx")
