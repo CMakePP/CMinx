@@ -26,7 +26,7 @@ set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
 #[[[
 # Points to the location of the build virtual environment.
 #]]
-set(VENV "${CMAKE_CURRENT_BINARY_DIR}/virtual-env")
+set(VENV "${CMAKE_CURRENT_BINARY_DIR}/virtual-env" CACHE FILEPATH "Directory of the virtual environment")
 
 #Create virtual environment in the build directory
 message(STATUS "Creating virtual environment for build directory...")
@@ -43,12 +43,12 @@ endif()
 #[[[
 # Location of the virtual environment python 3 executable.
 #]]
-set(VENV_PYTHON_EXECUTABLE "${VENV}/bin/python3")
+set(VENV_PYTHON_EXECUTABLE "${VENV}/bin/python3" CACHE FILEPATH "The location of the virtual environment Python3 executable.")
 
 #[[[
 # Location of the virtual environment pip.
 #]]
-set(VENV_PIP "${VENV}/bin/pip3")
+set(VENV_PIP "${VENV}/bin/pip3" CACHE FILEPATH "The location of the Pip3 to be used for the virtual environment")
 
 #Install needed dependencies
 message(STATUS "Installing build dependencies in virtual environment...")
