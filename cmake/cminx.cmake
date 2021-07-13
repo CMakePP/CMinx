@@ -22,6 +22,8 @@ endfunction()
 
 #[[[
 # Add a custom target to the makefile called "docs" that calls Sphinx.
+# Sphinx is automatically installed in the virtual environment and the target
+# automatically uses that installed instance.
 #
 # :param _cad_doc_dir: Root directory of the sphinx docs where the makefile is located.
 # :type _cad_doc_dir: dir
