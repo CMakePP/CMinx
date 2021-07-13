@@ -5,6 +5,7 @@ file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/version.txt" VERSION)
 
 project(cminx DESCRIPTION "CMake automatic documentation generator" LANGUAGES NONE VERSION ${VERSION}) #Not using any compiled languages so don't list, removes check for compilers
 
+option(BUILD_DOCS "Whether documentation targets should be added" OFF)
 
 #Allows us to locate any arbitrary Python3 module.
 include(find_python_module)
@@ -25,7 +26,7 @@ set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
 #[[[
 # Points to the location of the build virtual environment.
 #]]
-set(VENV "${CMAKE_CURRENT_BINARY_DIR}/virtual-env")
+set(VENV "${CMAKE_CURRENT_BINARY_DIR}/virtual-env" CACHE FILEPATH "Directory of the virtual environment")
 
 #Create virtual environment in the build directory
 message(STATUS "Creating virtual environment for build directory...")
@@ -42,12 +43,12 @@ endif()
 #[[[
 # Location of the virtual environment python 3 executable.
 #]]
-set(VENV_PYTHON_EXECUTABLE "${VENV}/bin/python3")
+set(VENV_PYTHON_EXECUTABLE "${VENV}/bin/python3" CACHE FILEPATH "The location of the virtual environment Python3 executable.")
 
 #[[[
 # Location of the virtual environment pip.
 #]]
-set(VENV_PIP "${VENV}/bin/pip3")
+set(VENV_PIP "${VENV}/bin/pip3" CACHE FILEPATH "The location of the Pip3 to be used for the virtual environment")
 
 #Install needed dependencies
 message(STATUS "Installing build dependencies in virtual environment...")
@@ -77,8 +78,12 @@ add_custom_target(target ALL DEPENDS ${OUTPUT})
 
 install(TARGETS RUNTIME)
 
+if(BUILD_DOCS)
+    include("cminx")
+    cminx_gen_rst("${CMAKE_CURRENT_SOURCE_DIR}/cmake/" "${CMAKE_CURRENT_SOURCE_DIR}/docs/source/developer/cmake")
 
+    cminx_add_docs_target("${CMAKE_CURRENT_SOURCE_DIR}/docs" "${CMAKE_CURRENT_BINARY_DIR}/docs" html)
+endif()
+
+#Define functions and set source directory
 include("cminx")
-cminx_gen_rst("${CMAKE_CURRENT_SOURCE_DIR}/cmake/" "${CMAKE_CURRENT_SOURCE_DIR}/docs/source/developer/cmake")
-
-cminx_add_docs_target("${CMAKE_CURRENT_SOURCE_DIR}/docs" "${CMAKE_CURRENT_BINARY_DIR}/docs" html)
