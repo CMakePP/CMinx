@@ -1,3 +1,5 @@
+import sys
+
 from antlr4 import * #FIXME Remove unused imports
 from enum import Enum
 from collections import namedtuple
@@ -27,8 +29,10 @@ supports Unset in case someone wants to document why something is unset.
 FunctionDocumentation = namedtuple('FunctionDocumentation', 'function params doc')
 MacroDocumentation = namedtuple("MacroDocumentation", "macro params doc")
 VariableDocumentation = namedtuple('VariableDocumentation', 'varname type value doc')
+TestDocumentation = namedtuple('TestDocumentation', 'name expect_fail doc')
+SectionDocumentation = namedtuple('SectionDocumentation', 'name expect_fail doc')
 
-DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation)
+DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation)
 
 VarType = Enum("VarType", "String List Unset")
 
@@ -64,6 +68,63 @@ class DocumentationAggregator(CMakeListener):
          params = [param.Identifier().getText() for param in ctx.command_invocation().single_argument()[1:]] #Extract declared macro parameters
          self.documented.append(MacroDocumentation(ctx.command_invocation().single_argument()[0].Identifier().getText(), params, docstring)) #Extracts macro name and adds the completed macro documentation to the 'documented' list
 
+    def process_ct_add_test(self, ctx:CMakeParser.Documented_commandContext, docstring: str):
+         """
+         Extracts test name and declared parameters.
+
+         :param ctx: Documented command context. Constructed by the Antlr4 parser.
+
+         :param docstring: Cleaned docstring.
+         """
+         params = [param.Identifier().getText() for param in ctx.command_invocation().single_argument()] #Extract parameters
+         name = ""
+         expect_fail = False
+         for i in range(0, len(params)):
+              param = params[i]
+              if param.upper() == "NAME":
+                   try:
+                        name = params[i + 1]
+                   except IndexError:
+                        pretty_text = '\n'.join(ctx.Bracket_doccomment().getText().split('\n'))
+                        pretty_text += f"\n{ctx.command_invocation().getText()}"
+
+                        print(f"ct_add_test() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+                        return
+
+              if param.upper() == "EXPECTFAIL":
+                   expect_fail = True
+
+         self.documented.append(TestDocumentation(name, expect_fail, docstring))
+
+    def process_ct_add_section(self, ctx:CMakeParser.Documented_commandContext, docstring: str):
+         """
+         Extracts section name and declared parameters.
+
+         :param ctx: Documented command context. Constructed by the Antlr4 parser.
+
+         :param docstring: Cleaned docstring.
+         """
+         params = [param.Identifier().getText() for param in ctx.command_invocation().single_argument()] #Extract parameters
+         name = ""
+         expect_fail = False
+         for i in range(0, len(params)):
+              param = params[i]
+              if param.upper() == "NAME":
+                   try:
+                        name = params[i + 1]
+                   except IndexError:
+                        pretty_text = '\n'.join(ctx.Bracket_doccomment().getText().split('\n'))
+                        pretty_text += f"\n{ctx.command_invocation().getText()}"
+
+                        print(f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+                        return
+
+              if param.upper() == "EXPECTFAIL":
+                   expect_fail = True
+
+         self.documented.append(SectionDocumentation(name, expect_fail, docstring))
+
+
     def process_set(self, ctx:CMakeParser.Documented_commandContext, docstring: str):
         """
         Extracts variable name and values from the documented set command.
@@ -83,9 +144,9 @@ class DocumentationAggregator(CMakeListener):
              value = ctx.command_invocation().single_argument()[1].getText()
 
              #Includes the quote marks, need to remove them to get just the raw string
-             if value[0] is '"':
+             if value[0] == '"':
                  value = value[1:]
-             if value[-1] is '"':
+             if value[-1] == '"':
                  value = value[:-1]
              self.documented.append(VariableDocumentation(varname, VarType.String, value, docstring))
         else: #Unset
@@ -102,9 +163,22 @@ class DocumentationAggregator(CMakeListener):
          """
          text = ctx.Bracket_doccomment().getText()
          lines = text.split("\n")
+
+         # If last line starts with leading spaces or tabs, count how many and remove from all lines
+         num_spaces = 0
+         for i in range(0, len(lines[-1])):
+              print(f"Character {i}: {lines[-1][i]}")
+              if lines[-1][i] != "#":
+                   num_spaces = num_spaces + 1
+                   print(f"Num spaces: {num_spaces}")
+              else:
+                   break
+         print(f"Second line without spaces:\n{lines[1][num_spaces:]}")
+
          cleaned_lines = []
          for line in lines:
-              cleaned_line = line.lstrip("#[]") #Remove all hash marks and brackets from the left side only
+              cleaned_line = line[num_spaces:] #Remove global indent from left side
+              cleaned_line = cleaned_line.lstrip("#[]") #Remove all hash marks and brackets from the left side only
               if cleaned_line and cleaned_line[0] == " ": #String is not empty and first character is a space
                    cleaned_line = cleaned_line[1:] #Cleans optional singular space
               cleaned_lines.append(cleaned_line)
