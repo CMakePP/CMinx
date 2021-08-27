@@ -167,13 +167,10 @@ class DocumentationAggregator(CMakeListener):
          # If last line starts with leading spaces or tabs, count how many and remove from all lines
          num_spaces = 0
          for i in range(0, len(lines[-1])):
-              print(f"Character {i}: {lines[-1][i]}")
               if lines[-1][i] != "#":
                    num_spaces = num_spaces + 1
-                   print(f"Num spaces: {num_spaces}")
               else:
                    break
-         print(f"Second line without spaces:\n{lines[1][num_spaces:]}")
 
          cleaned_lines = []
          for line in lines:
