@@ -26,10 +26,10 @@ Generating documentation in directory :code:`output`:
       Writing for file /home/foo/example.cmake
       Writing RST file /home/foo/output/example.rst
 
-The resultant file :code: `output/example.rst`:
+The resultant file :code:`output/example.rst`:
 
 .. include:: ../../examples/sphinx/source/example.rst
    :literal:
 
-Place this file in a Sphinx source directory and add it to your :code: `toctree`
+Place this file in a Sphinx source directory and add it to your :code:`toctree`
 to render it.
