@@ -1,23 +1,17 @@
-#######
-Example
-#######
+################
+Example Workflow
+################
 
-Here we show an example CMake file, called :code:`example.cmake`, that contains
-doccomments documenting functions, macros, and variables.
-The file contents are shown below.
+Here we show a start to finish example of using CMinx. We assume you have a
+CMake file, called :code:`example.cmake`, in your current directory. The
+contents of :code:`example.cmake` are:
 
-example.cmake:
-
-
-.. include:: ../../examples/example.cmake
+.. include:: ../../tests/test_samples/example.cmake
    :literal:
 
-
-
-To generate the documentation, we enter our system shell (example assumes 
-Bash-like shell on a Unix-like system).
-
-Generating documentation in directory :code:`output`:
+To generate the documentation, we enter our system shell (example assumes
+Bash-like shell on a Unix-like system). Assuming CMinx is in our path and we
+want to generate the documentation in the directory :code:`output`, we run:
 
 .. code:: console
 

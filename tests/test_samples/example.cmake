@@ -20,12 +20,12 @@ function(say_hi_to person me)
 endfunction()
 
 #[[[
-This macro says hi.
-This documentation uses a differing format,
-but is still processed correctly.
-
-:param person: The person we want to greet.
-:type person: string 
+# This macro says hi.
+# This documentation uses a differing format,
+# but is still processed correctly.
+#
+# :param person: The person we want to greet.
+# :type person: string
 #]]
 macro(macro_say_hi person)
    message("Hi ${person}")

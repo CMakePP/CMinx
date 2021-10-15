@@ -1,0 +1,29 @@
+
+#################
+basic_macro.cmake
+#################
+
+.. module:: basic_macro.cmake
+
+
+.. function:: macro_say_hi(person)
+
+   .. warning:: This is a macro, and so does not introduce a new scope.
+
+
+   
+
+   This macro says hi.
+
+   This documentation uses a differing format,
+
+   but is still processed correctly.
+
+   
+
+   :param person: The person we want to greet.
+
+   :type person: string
+
+   
+
