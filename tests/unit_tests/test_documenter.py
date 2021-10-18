@@ -12,7 +12,7 @@ from rst_validator import RSTValidator
 class TestDocumenter(unittest.TestCase):
 
     def setUp(self):
-        self.filename = "test_samples/example.cmake"
+        self.filename = context.example_cmake
         self.reset()
 
     def reset(self):
