@@ -6,5 +6,6 @@
         "markdown",
         "latex",
         "plaintext"
-    ]
+    ],
+    "python.pythonPath": "docs/virt_env/bin/python3"
 }

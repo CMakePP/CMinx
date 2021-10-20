@@ -1,12 +1,11 @@
 #!/usr/bin/python3
 import context
 import unittest
-import sys
 import os
 import shutil
 import context
 import cminx
-
+import helpers
 
 class TestInit(unittest.TestCase):
     """ Tests the functions found in __init__.py
@@ -14,15 +13,12 @@ class TestInit(unittest.TestCase):
 
     def setUp(self):
         self.cwd = os.path.abspath(os.path.dirname(__file__))
-        self.input_file_prefix = "example"
-        self.input_file_postfix = "cmake"
         self.input_dir = context.example_dir
-        self.input_path = os.path.join(context.example_cmake)
         self.output_dir = os.path.join(self.cwd, "output")
-        self.output_file_postfix = "rst"
+        self.input_file = context.example_cmake
+        self.output_file = os.path.join(self.output_dir, "example.rst")
 
     def tearDown(self):
-        print("calling tearDown")
         try:
             shutil.rmtree(self.output_dir)
             pass
@@ -31,20 +27,33 @@ class TestInit(unittest.TestCase):
 
 
     def test_document(self):
-      print("running test_document")
-      cminx.document(self.input_path, self.output_dir, True)
-      self.assertTrue(os.path.isfile(os.path.join(self.output_dir, self.input_file_prefix + "." + self.output_file_postfix)), "Output file does not exist")
+      """Tests the document command in the CMinx module"""
+      cminx.document(self.input_file, self.output_dir, True)
+
+      # Test that the top-level directory was found
+      is_dir = os.path.isdir(self.output_dir)
+      self.assertTrue(is_dir, "Output directory structure incorrect")
+
+      # Test that the file is in the directory
+      is_file = os.path.isfile(self.output_file)
+      self.assertTrue(is_file, "Output file does not exist")
 
     def test_recursive(self):
-      print("running test_recursive")
-      args = ["-r", "-o", self.output_dir, self.cwd]
+      """Tests the use of CMinx in recursive mode"""
+      args = ["-r", "-o", self.output_dir, self.input_dir]
       cminx.main(args)
-      out_file_name = self.input_file_prefix + "." + self.output_file_postfix
-      top_dir = os.path.join(self.output_dir, self.input_dir)
-      file_path = os.path.join(self.output_dir, out_file_name)
-      print(file_path)
-      self.assertTrue(os.path.isdir(top_dir), "Output directory structure incorrect")
-      self.assertTrue(os.path.isfile(file_path), "Output file does not exist")
+
+      # Test that the top-level directory was found
+      is_dir = os.path.isdir(self.output_dir)
+      self.assertTrue(is_dir, "Output directory structure incorrect")
+
+      # Test that reST file is in top-level directory
+      is_file = os.path.isfile(self.output_file)
+      self.assertTrue(is_file, "Output file does not exist")
+
+      diff = helpers.diff_files(self.output_file, context.corr_example_rst)
+      self.assertTrue(diff == "")
+
 
 
 if __name__ == '__main__':

@@ -22,8 +22,11 @@ Directory Overview
 examples
 ========
 
-This directory contains examples of how to write CMinx documentation, and how to
-use the Python classes which are part of CMinx.
+This directory contains examples of how to write CMinx documentation, and  how
+to use the Python classes which are part of CMinx. Compared to the content in
+the ``test_samples`` directory, the contents of ``examples`` are meant to be
+more tutorial like whereas the contents of ``test_samples`` are more
+snippet-like.
 
 test_samples
 ============
