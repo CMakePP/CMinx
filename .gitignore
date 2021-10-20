@@ -20,9 +20,12 @@ __pycache__/
 tests/.coverage
 
 # Generated RST
-/output/
+output/
 
 #Python egg build directory
 *.egg-info
 /build
 /dist
+
+#Install directory Ryan uses for testing
+install/
