@@ -6,6 +6,23 @@
 #
 ################################################################################
 import difflib
+import sys
+import os
+import cminx
+
+def quiet_cminx(args):
+    """
+    Hides CMinx's printing so we get clean test logs.
+
+    :param args: The arguments to pass to the CMinx command.
+    :type args: [str]
+
+    :return: None
+    """
+    sys.stdout = open(os.devnull, 'w')
+    cminx.main(args)
+    sys.stdout = sys.__stdout__
+
 
 def diff_files(generated_file, corr_file):
     """
@@ -22,7 +39,7 @@ def diff_files(generated_file, corr_file):
 
     :return: The difference between the input files, in a format akin to the
              ``diff`` command.
-    :rtype: string
+    :rtype: str
 
     .. note::
 

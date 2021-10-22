@@ -10,11 +10,8 @@ ct_test.cmake
 
    .. warning:: This is a CMakeTest test definition, do not call this manually.
 
-
    
-
    This is how you document a CMakeTest test.
-
    
 
 
@@ -22,10 +19,7 @@ ct_test.cmake
 
    .. warning:: This is a CMakeTest section definition, do not call this manually.
 
-
    
-
    And this is how you document a CMakeTest section.
-
    
 

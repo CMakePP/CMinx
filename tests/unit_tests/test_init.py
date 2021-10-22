@@ -3,6 +3,7 @@ import context
 import unittest
 import os
 import shutil
+import sys
 import context
 import cminx
 import helpers
@@ -28,7 +29,9 @@ class TestInit(unittest.TestCase):
 
     def test_document(self):
       """Tests the document command in the CMinx module"""
+      sys.stdout = open(os.devnull, 'w')
       cminx.document(self.input_file, self.output_dir, True)
+      sys.stdout = sys.__stdout__
 
       # Test that the top-level directory was found
       is_dir = os.path.isdir(self.output_dir)
@@ -41,7 +44,7 @@ class TestInit(unittest.TestCase):
     def test_recursive(self):
       """Tests the use of CMinx in recursive mode"""
       args = ["-r", "-o", self.output_dir, self.input_dir]
-      cminx.main(args)
+      helpers.quiet_cminx(args)
 
       # Test that the top-level directory was found
       is_dir = os.path.isdir(self.output_dir)

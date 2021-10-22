@@ -6,7 +6,7 @@ import docutils
 from cminx.rstwriter import Directive
 from cminx.parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation
 from cminx.documenter import Documenter
-from rst_validator import RSTValidator
+from .rst_validator import RSTValidator
 
 
 class TestDocumenter(unittest.TestCase):

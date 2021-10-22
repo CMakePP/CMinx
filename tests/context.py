@@ -32,3 +32,6 @@ example_sphinx = os.path.join(example_dir, "sphinx")
 
 # The correct examples.rst file
 corr_example_rst = os.path.join(example_sphinx, "source", "example.rst")
+
+# The directory containing test_samples
+test_samples_dir = os.path.abspath(os.path.join(tests_dir, "test_samples"))
