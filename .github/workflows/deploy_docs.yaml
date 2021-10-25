@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: '3.x'
       - name: Build Docs
-        run: >
+        run: |
           python3 -m venv virt_env
           source virt_env/bin/activate
           cd docs
