@@ -1,0 +1,29 @@
+name: CMinx Installed via PIP
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+      - name: Build
+        run: >
+          python3 -m venv virt_env
+          source virt_env/bin/activate
+          pip install coverage
+          pip install codecov
+          pip3 install wheel
+          pip3 install .
+      - name: Test
+        run: >
+          cd tests
+          coverage run test_all.py
+          codecov
