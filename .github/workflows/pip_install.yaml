@@ -24,6 +24,7 @@ jobs:
           pip3 install .
       - name: Test
         run: |
+          source virt_env/bin/activate
           cd tests
           coverage run test_all.py
           codecov
