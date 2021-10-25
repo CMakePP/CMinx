@@ -25,4 +25,5 @@ Table Of Contents
    documenting/index
    full_example
    usage
+   about
    developer/index

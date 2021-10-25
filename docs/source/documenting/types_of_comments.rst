@@ -16,12 +16,12 @@ the convention that documentation comments start with an additional comment
 character. Thus to indicate that a CMake comment is documentation use
 :code:`#[[[` (the block comment should still end with :code:`#]]`). For example:
 
-.. literalinclude:: ../../../tests/test_samples/example.cmake
+.. literalinclude:: ../../../tests/examples/example.cmake
    :language: cmake
    :lines: 7-20
 
 For comparison, an annotation comment looks like:
 
-.. literalinclude:: ../../../tests/test_samples/example.cmake
+.. literalinclude:: ../../../tests/examples/example.cmake
    :language: cmake
    :lines: 1-5
