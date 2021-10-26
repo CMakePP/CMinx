@@ -2,12 +2,27 @@
 import datetime
 import os
 import sys
+
+#####
+#  Gather some metadata about the project
+#####
+
 now = datetime.datetime.now()
+docs_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+root_dir = os.path.join(docs_dir, "..")
 
 project = 'CMinx'
-author = 'Ryan M. Richard'
-version = '1.0.0'  # The short X.Y version
-release = '1.0.0alpha'  # The full version, including alpha/beta/rc tags
+author = 'CMakePP Team'
+version  = ""
+release  = ""
+
+# release includes alpha, beta, rc, etc.; version is pure numeric
+with open(os.path.join(root_dir, "version.txt")) as f:
+    release = f.read()
+    pieces = release.split('.')
+    version = pieces[0] + '.' + pieces[1] +'.'
+    version += ''.join(filter(str.isdigit, pieces[2]))
+
 
 ################################################################################
 #             Shouldn't need to modify anything below this point               #
@@ -31,24 +46,6 @@ exclude_patterns = ['build', '.templates']
 pygments_style = 'sphinx'
 # Required theme setup
 html_theme = 'sphinx_rtd_theme'
-
-# html_theme_options = {
-#     'analytics_id': 'G-XXXXXXXXXX',  #  Provided by Google in your dashboard
-#     'analytics_anonymize_ip': False,
-#     'logo_only': False,
-#     'display_version': True,
-#     'prev_next_buttons_location': 'bottom',
-#     'style_external_links': True,
-#     'vcs_pageview_mode': 'blob',
-#     #'style_nav_header_background': 'white',
-#     # Toc options
-#     'collapse_navigation': True,
-#     'sticky_navigation': True,
-#     'navigation_depth': 4,
-#     'includehidden': True,
-#     'titles_only': False,
-
-# }
 
 htmlhelp_basename = project + 'doc'
 extensions = [
