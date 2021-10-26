@@ -12,5 +12,5 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: apache/skywalking-eyes@v0.2.0
-         with:
-           config: .github/.licenserc.yaml
+        with:
+          config: .github/.licenserc.yaml
