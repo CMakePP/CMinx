@@ -1,6 +1,0 @@
-﻿cminx.main
-==========
-
-.. currentmodule:: cminx
-
-.. autofunction:: main

@@ -1,5 +1,0 @@
-﻿cminx.documenter
-================
-
-.. automodule:: cminx.documenter
-   :members:

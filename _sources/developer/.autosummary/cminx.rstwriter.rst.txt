@@ -1,5 +1,0 @@
-﻿cminx.rstwriter
-===============
-
-.. automodule:: cminx.rstwriter
-   :members:

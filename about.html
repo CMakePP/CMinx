@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMinx Background &mdash; CMinx 1.0.0alpha documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Developer Documentation" href="developer/index.html" />
+    <link rel="prev" title="Usage" href="usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> CMinx
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="documenting/index.html">Using CMinx to Document Your Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="full_example.html">Example Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CMinx Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-official-solution">The Official Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sphinx-domain-solutions">Sphinx Domain Solutions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sphinx-s-unofficial-cmake-domain">Sphinx’s (Unofficial) CMake Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scikit-build-modern-cmake-domain">scikit-build Modern CMake Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#marcokoch-cmake-domain">MarcoKoch CMake Domain</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cminx">CMinx</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CMinx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>CMinx Background</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/about.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cminx-background">
+<h1>CMinx Background<a class="headerlink" href="#cminx-background" title="Permalink to this headline"></a></h1>
+<p>This page is meant to provide historical background about documenting CMake
+modules and the creation of the CMinx project.</p>
+<section id="the-official-solution">
+<h2>The Official Solution<a class="headerlink" href="#the-official-solution" title="Permalink to this headline"></a></h2>
+<p>A user, <code class="docutils literal notranslate"><span class="pre">tjwrona1992</span></code>, asked on
+<a class="reference external" href="https://stackoverflow.com/q/54660549">StackOverflow</a> how to get their
+custom CMake module’s documentation to show up using the <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--help-module</span></code>
+command. According to their self
+<a class="reference external" href="https://stackoverflow.com/a/54671996">answer</a>, they received the following
+email reply from Brad King (a CMake developer):</p>
+<blockquote>
+<div><p>There is no way to do this. The only reason –help-module exists at all is
+because prior to 3.0 the documentation was generated by the CMake binary
+itself, and people were used to the option being available. It is only for
+builtin modules and only available for legacy reasons, and may one day go
+away in favor of the man pages and html docs.</p>
+<p>The online docs, like those at <a class="reference external" href="https://cmake.org/cmake/help/v3.14">https://cmake.org/cmake/help/v3.14</a> do publish
+a /objects.inv to support intersphinx:</p>
+<p><a class="reference external" href="http://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html">http://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html</a></p>
+<p>This was done on request of some users so I haven’t looked into how that
+works, but one should be able to use sphinx to generate one’s own
+documentation and still cross-reference CMake’s online docs.</p>
+<p>If you get that working we’d welcome a MR to add docs describing how,
+perhaps in</p>
+<p><a class="reference external" href="https://gitlab.kitware.com/cmake/cmake/blob/master/Help/dev/documentation.rst">https://gitlab.kitware.com/cmake/cmake/blob/master/Help/dev/documentation.rst</a></p>
+</div></blockquote>
+<p>The question was asked (and answered) in 2019, suggesting that as of 2019 the
+official way to write documentation for a CMake module was via Sphinx. It should
+be noted that this solution requires you to write the entirety of the
+documentation manually (<em>i.e.</em>, there is no tool which will extract the
+signatures of the functions, the variable names, <em>etc.</em>).</p>
+</section>
+<section id="sphinx-domain-solutions">
+<h2>Sphinx Domain Solutions<a class="headerlink" href="#sphinx-domain-solutions" title="Permalink to this headline"></a></h2>
+<p>Sphinx domains are a way to package up language-specific directives, and roles.</p>
+<section id="sphinx-s-unofficial-cmake-domain">
+<h3>Sphinx’s (Unofficial) CMake Domain<a class="headerlink" href="#sphinx-s-unofficial-cmake-domain" title="Permalink to this headline"></a></h3>
+<p><a class="reference external" href="https://github.com/sphinx-contrib/cmakedomain">link</a></p>
+<p>Started (and finished) on 10/21/2013, this is the official (unofficial) CMake
+domain for Sphinx. The actual domain is pretty bare bones providing:</p>
+<ul class="simple">
+<li><p>syntax highlighting for code blocks,</p></li>
+<li><p>a directive for documenting a macro, and</p></li>
+<li><p>a directive for documenting a variable</p></li>
+</ul>
+<p>What makes this Sphinx’s official (unofficial) CMake domain is that it is
+available from the <a class="reference external" href="https://github.com/sphinx-contrib">sphinx_contrib</a>
+organization, which is an organization run by Sphinx for unofficial Sphinx
+extensions.</p>
+<p>As of 10/25/2021 the repo:</p>
+<ul class="simple">
+<li><p>has no release information,</p></li>
+<li><p>was last committed to on 10/21/2013,</p></li>
+<li><p>has 1 watcher (<strong>not</strong> the author),</p></li>
+<li><p>0 stars, and</p></li>
+<li><p>1 fork</p></li>
+</ul>
+<p>In summary, it feels safe to say that this repo has been abandoned.</p>
+</section>
+<section id="scikit-build-modern-cmake-domain">
+<h3>scikit-build Modern CMake Domain<a class="headerlink" href="#scikit-build-modern-cmake-domain" title="Permalink to this headline"></a></h3>
+<p><a class="reference external" href="https://github.com/scikit-build/moderncmakedomain">link</a></p>
+<p>Started on 10/14/2018 by GitHub user <code class="docutils literal notranslate"><span class="pre">bruxisma</span></code>, and acquired by scikit-build
+in August of 20201, this project hosts a mirror of the CMake domain Kitware
+uses
+<a class="reference external" href="https://github.com/Kitware/CMake/tree/master/Utilities/Sphinx">internally</a>.</p>
+<p>It contains support for documenting:</p>
+<ul class="simple">
+<li><p>variables,</p></li>
+<li><p>functions,</p></li>
+<li><p>environment variables, and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">autodoc</span></code> style extractor</p></li>
+</ul>
+<p>Of note they also maintain a pypi package which makes it easy to include in your
+Sphinx setup.</p>
+<p>As of 10/25/2021 the repo:</p>
+<ul class="simple">
+<li><p>is in v3.19,</p></li>
+<li><p>was last committed to on 8/15/2021,</p></li>
+<li><p>has 1 watcher (the author),</p></li>
+<li><p>9 stars, and</p></li>
+<li><p>3 forks</p></li>
+</ul>
+</section>
+<section id="marcokoch-cmake-domain">
+<h3>MarcoKoch CMake Domain<a class="headerlink" href="#marcokoch-cmake-domain" title="Permalink to this headline"></a></h3>
+<p><a href="#id1"><span class="problematic" id="id2">`link https://github.com/MarcoKoch/sphinx-cmake_domain`__</span></a></p>
+<p>Started on 7/7/2020, and developed seemingly independent of scikit-build’s CMake
+domain. Supports:</p>
+<ul class="simple">
+<li><p>variables,</p></li>
+<li><p>macros,</p></li>
+<li><p>functions,</p></li>
+<li><p>modules, and</p></li>
+<li><p>targets</p></li>
+</ul>
+<p>As of 10/25/2021 the repo:</p>
+<ul class="simple">
+<li><p>is in a beta state,</p></li>
+<li><p>was last committed to on 9/6/2020,</p></li>
+<li><p>has 1 watcher (the author),</p></li>
+<li><p>0 stars, and</p></li>
+<li><p>0 forks</p></li>
+</ul>
+<p>In summary this project also seems to be abandoned, but given that it’s being
+run by a solo developer, it’s also possible that it’s on the back-burner for
+the moment.</p>
+</section>
+</section>
+<section id="cminx">
+<h2>CMinx<a class="headerlink" href="#cminx" title="Permalink to this headline"></a></h2>
+<p>Started 8/26/2019. CMinx is envisioned as a Doxygen-like solution to
+documenting CMake modules. This means that CMinx is run on your source directory
+and in return generates the reST files for you.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="developer/index.html" class="btn btn-neutral float-right" title="Developer Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Ryan M. Richard.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

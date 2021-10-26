@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CMinx API &mdash; CMinx 1.0.0alpha documentation</title>
+  <title>Using CMinx to Document Your Code &mdash; CMinx 1.0.0alpha documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Documenting CMinx" href="documentation.html" />
-    <link rel="prev" title="Overview of How CMinx Works" href="overview.html" /> 
+    <link rel="next" title="Types of Comments" href="types_of_comments.html" />
+    <link rel="prev" title="Quickstart" href="../quickstart.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,24 +44,18 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../documenting/index.html">Using CMinx to Document Your Code</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using CMinx to Document Your Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="types_of_comments.html">Types of Comments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function.html">Documenting a Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macro.html">Documenting a Macro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variable.html">Documenting a Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmaketest.html">Documenting a CMakeTest Test</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../full_example.html">Example Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">CMinx Background</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="index.html#table-of-contents">Table of Contents</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="overview.html">Overview of How CMinx Works</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">CMinx API</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#modules">Modules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#functions">Functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cmake">CMake</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="documentation.html">Documenting CMinx</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Documentation</a></li>
 </ul>
 
         </div>
@@ -78,10 +72,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Developer Documentation</a> &raquo;</li>
-      <li>CMinx API</li>
+      <li>Using CMinx to Document Your Code</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/developer/api.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/documenting/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -89,45 +82,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cminx-api">
-<h1>CMinx API<a class="headerlink" href="#cminx-api" title="Permalink to this headline"></a></h1>
-<p>This is a list of all functions within the CMinx project. These functions are
-meant for use by developers. Users should run the <code class="code docutils literal notranslate"><span class="pre">cminx</span></code> command.</p>
-<section id="modules">
-<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline"></a></h2>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-</tbody>
-</table>
-</section>
-<section id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h2>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-</tbody>
-</table>
-</section>
-<section id="cmake">
-<h2>CMake<a class="headerlink" href="#cmake" title="Permalink to this headline"></a></h2>
-<div class="toctree-wrapper compound">
+  <section id="using-cminx-to-document-your-code">
+<h1>Using CMinx to Document Your Code<a class="headerlink" href="#using-cminx-to-document-your-code" title="Permalink to this headline"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This documentation assumes you are familiar with reStructuredText (reST) and
+CMake.</p>
 </div>
-</section>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="types_of_comments.html">Types of Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="function.html">Documenting a Function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function.html#recommended-rest-directives">Recommended reST Directives</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="macro.html">Documenting a Macro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variable.html">Documenting a Variable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmaketest.html">Documenting a CMakeTest Test</a></li>
+</ul>
+</div>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="overview.html" class="btn btn-neutral float-left" title="Overview of How CMinx Works" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="documentation.html" class="btn btn-neutral float-right" title="Documenting CMinx" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="types_of_comments.html" class="btn btn-neutral float-right" title="Types of Comments" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

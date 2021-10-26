@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documenting a Function &mdash; CMinx 1.0.0alpha documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Documenting a Macro" href="macro.html" />
+    <link rel="prev" title="Types of Comments" href="types_of_comments.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> CMinx
+          </a>
+              <div class="version">
+                1.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Using CMinx to Document Your Code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="types_of_comments.html">Types of Comments</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Documenting a Function</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#recommended-rest-directives">Recommended reST Directives</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="macro.html">Documenting a Macro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variable.html">Documenting a Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmaketest.html">Documenting a CMakeTest Test</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../full_example.html">Example Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">CMinx Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CMinx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Using CMinx to Document Your Code</a> &raquo;</li>
+      <li>Documenting a Function</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/documenting/function.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="documenting-a-function">
+<h1>Documenting a Function<a class="headerlink" href="#documenting-a-function" title="Permalink to this headline"></a></h1>
+<p>CMinx more or less copies your documentation comments verbatim to the resulting
+reST file. Strictly speaking this means you can put whatever you want in the
+comments; however, it is strongly recommended that you follow usual Python reST
+conventions so that you can get the most out of Sphinx’s parsing of the reST
+file. A good template is:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
+<span class="c"># Short description. Runs up to the first blank line. So this is still the</span>
+<span class="c"># short description.</span>
+<span class="c">#</span>
+<span class="c"># Longer description goes here and includes all text and paragraphs from</span>
+<span class="c"># here forward that are not part of reST directives.</span>
+<span class="c">#</span>
+<span class="c"># The parameters, keywords, and their types will be pulled out of the longer</span>
+<span class="c"># description and placed in separate sections regardless of where they</span>
+<span class="c"># appear.</span>
+<span class="c">#</span>
+<span class="c"># :param name_of_param: Description of what `name_of_param` is used for</span>
+<span class="c">#</span>
+<span class="c"># The next line is a reST directive and will not be part of the longer</span>
+<span class="c"># description.</span>
+<span class="c">#</span>
+<span class="c"># .. note::</span>
+<span class="c">#</span>
+<span class="c">#    This is a note, it will show up using reST&#39;s native note section</span>
+<span class="c">#]]</span>
+</pre></div>
+</div>
+<section id="recommended-rest-directives">
+<h2>Recommended reST Directives<a class="headerlink" href="#recommended-rest-directives" title="Permalink to this headline"></a></h2>
+<p>reST’s default set of directives encompasses many language nuances which are
+not found in the CMake language. Of the default reST directives, the ones that
+map directly to aspects of the CMake language are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">:param</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">parameter&gt;:</span> <span class="pre">&lt;description</span> <span class="pre">of</span> <span class="pre">parameter&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:keyword</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">keyword&gt;:</span> <span class="pre">&lt;description</span> <span class="pre">of</span> <span class="pre">keyword&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:type</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">parameter&gt;:</span> <span class="pre">&lt;type</span> <span class="pre">of</span> <span class="pre">parameter</span> <span class="pre">named</span> <span class="pre">&quot;name</span> <span class="pre">of</span> <span class="pre">parameter&quot;&gt;</span></code></p></li>
+</ul>
+<p>Respectively these document: positional arguments, keyword arguments (<em>i.e.</em>,
+arguments to be parsed by <code class="docutils literal notranslate"><span class="pre">cmake_parse_arguments</span></code>), and the type of a
+positional argument or keyword. Unlike most languages CMake does not natively
+support returns.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since CMake is an interpreted language, it may not be obvious at first, but
+CMake does have types. In one context or another, native CMake distinguishes
+among: booleans, command names, file paths, floating-point numbers, integers,
+generator expressions, target names, strings, and lists. A list can contain
+any of the aforementioned types (including other lists) and all objects can
+be implicitly converted to stings.</p>
+</div>
+<p>An example using all three of these directives:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
+<span class="c"># Variation of say_hi_to, which takes lists of people and cats to say hi to.</span>
+<span class="c">#</span>
+<span class="c"># This function is basically the same as ``say_hi_to``, but accounts for the</span>
+<span class="c"># fact that you may want to say hi to multiple people and maybe even a cat or</span>
+<span class="c"># two.</span>
+<span class="c">#</span>
+<span class="c"># :param me: The name of the person saying hi.</span>
+<span class="c"># :type me: string</span>
+<span class="c"># :keyword PERSONS: The person or persons to say hi to.</span>
+<span class="c"># :type PERSONS: list of strings</span>
+<span class="c"># :keyword CATS: The cat or cats to say hi to.</span>
+<span class="c"># :type CATS: list of strings</span>
+<span class="c">#]]</span>
+<span class="nb">function</span><span class="p">(</span><span class="s">advanced_say_hi_to</span> <span class="s">me</span><span class="p">)</span>
+    <span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="s">PARSE_ARGV</span> <span class="s">1</span> <span class="s">_asht</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;PERSONS;CATS&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;I, ${me}, want to say hi to the following &quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;people: ${_asht_PERSONS} and the following cats: ${_asht_CATS}&quot;</span><span class="p">)</span>
+<span class="nb">endfunction</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Assuming the above CMake lives in the file <code class="docutils literal notranslate"><span class="pre">advanced_function.cmake</span></code>, CMinx
+will generate the reST file:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">#######################</span>
+<span class="gh">advanced_function.cmake</span>
+<span class="gh">#######################</span>
+
+<span class="p">..</span> <span class="ow">module</span><span class="p">::</span> advanced_function.cmake
+
+
+<span class="p">..</span> <span class="ow">function</span><span class="p">::</span> advanced_say_hi_to(me)
+   
+   Variation of say_hi_to, which takes lists of people and cats to say hi to.
+   
+   This function is basically the same as <span class="s">``say_hi_to``</span>, but accounts for the
+   fact that you may want to say hi to multiple people and maybe even a cat or
+   two.
+   
+   <span class="nc">:param me:</span> The name of the person saying hi.
+   <span class="nc">:type me:</span> string
+   <span class="nc">:keyword PERSONS:</span> The person or persons to say hi to.
+   <span class="nc">:type PERSONS:</span> list of strings
+   <span class="nc">:keyword CATS:</span> The cat or cats to say hi to.
+   <span class="nc">:type CATS:</span> list of strings
+   
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="types_of_comments.html" class="btn btn-neutral float-left" title="Types of Comments" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="macro.html" class="btn btn-neutral float-right" title="Documenting a Macro" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Ryan M. Richard.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

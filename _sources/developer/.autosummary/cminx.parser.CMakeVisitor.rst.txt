@@ -1,5 +1,0 @@
-﻿cminx.parser.CMakeVisitor
-=========================
-
-.. automodule:: cminx.parser.CMakeVisitor
-   :members:

@@ -1,5 +1,0 @@
-﻿cminx.parser.aggregator
-=======================
-
-.. automodule:: cminx.parser.aggregator
-   :members:

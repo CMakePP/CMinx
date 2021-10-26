@@ -1,6 +1,0 @@
-﻿cminx.document
-==============
-
-.. currentmodule:: cminx
-
-.. autofunction:: document

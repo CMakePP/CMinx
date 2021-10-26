@@ -1,5 +1,0 @@
-﻿cminx.parser.CMakeParser
-========================
-
-.. automodule:: cminx.parser.CMakeParser
-   :members:
