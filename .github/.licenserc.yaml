@@ -9,9 +9,9 @@ header:
     - tests
   paths-ignore:
     - "__pycache__"
-    - "parser"
+    - "parser/"
     - "build"
-    - ".templates"
+    - ".templates/"
     - "virt_env"
 
 
