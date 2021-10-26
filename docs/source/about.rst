@@ -109,7 +109,7 @@ As of 10/25/2021 the repo:
 MarcoKoch CMake Domain
 ======================
 
-`link https://github.com/MarcoKoch/sphinx-cmake_domain`__
+`link <https://github.com/MarcoKoch/sphinx-cmake_domain>`__
 
 Started on 7/7/2020, and developed seemingly independent of scikit-build's CMake
 domain. Supports:

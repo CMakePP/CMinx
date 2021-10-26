@@ -29,14 +29,35 @@ master_doc = 'index'
 numfig = True
 exclude_patterns = ['build', '.templates']
 pygments_style = 'sphinx'
+# Required theme setup
 html_theme = 'sphinx_rtd_theme'
-html_static_path = []
+
+# html_theme_options = {
+#     'analytics_id': 'G-XXXXXXXXXX',  #  Provided by Google in your dashboard
+#     'analytics_anonymize_ip': False,
+#     'logo_only': False,
+#     'display_version': True,
+#     'prev_next_buttons_location': 'bottom',
+#     'style_external_links': True,
+#     'vcs_pageview_mode': 'blob',
+#     #'style_nav_header_background': 'white',
+#     # Toc options
+#     'collapse_navigation': True,
+#     'sticky_navigation': True,
+#     'navigation_depth': 4,
+#     'includehidden': True,
+#     'titles_only': False,
+
+# }
+
 htmlhelp_basename = project + 'doc'
 extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.githubpages',
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary'
+    'sphinx.ext.autosummary',
+    'sphinx_rtd_theme'
+
 ]
 autosummary_generate = True
 
