@@ -8,7 +8,8 @@ import sys
 #####
 
 now = datetime.datetime.now()
-docs_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+src_dir  = os.path.abspath(os.path.dirname(__file__))
+docs_dir = os.path.abspath(os.path.join(src_dir, ".."))
 root_dir = os.path.join(docs_dir, "..")
 
 project = 'CMinx'
@@ -23,6 +24,15 @@ with open(os.path.join(root_dir, "version.txt")) as f:
     version = pieces[0] + '.' + pieces[1] +'.'
     version += ''.join(filter(str.isdigit, pieces[2]))
 
+################################################################################
+# Run CMinx on itself
+################################################################################
+sys.path.insert(0, os.path.join(root_dir, "cminx"))
+import cminx
+cminx_out_dir = os.path.join(src_dir, "developer", "cmake")
+cminx_in_dir = os.path.join(root_dir, "cmake")
+args = ["-r", "-o", cminx_out_dir, cminx_in_dir]
+cminx.main(args)
 
 ################################################################################
 #             Shouldn't need to modify anything below this point               #
