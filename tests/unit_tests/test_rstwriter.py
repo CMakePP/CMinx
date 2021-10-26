@@ -2,7 +2,7 @@
 
 import context
 from cminx.rstwriter import RSTWriter
-from rst_validator import RSTValidator
+from .rst_validator import RSTValidator
 import unittest
 import os
 

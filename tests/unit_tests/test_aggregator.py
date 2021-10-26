@@ -13,7 +13,7 @@ from cminx.parser import ParserErrorListener, CMakeSyntaxError
 class TestAggregator(unittest.TestCase):
 
     def setUp(self):
-        self.filename = "test_samples/example.cmake"
+        self.filename = context.example_cmake
         #We need a string stream of some kind, FileStream is easiest
         self.input_stream = FileStream(self.filename)
         self.reset()

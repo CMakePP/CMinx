@@ -3,6 +3,9 @@
 example.cmake
 #############
 
+.. module:: example.cmake
+
+
 .. function:: say_hi_to(person me)
    
    This function has very basic documentation.
