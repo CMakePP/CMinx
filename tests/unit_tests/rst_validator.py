@@ -6,6 +6,7 @@ import docutils.parsers.rst
 import docutils.utils
 import docutils.frontend
 
+
 class ValidationError(RuntimeError):
     """
     Raised when something seriously wrong happens when validating RST structures.
@@ -16,6 +17,7 @@ class ValidationError(RuntimeError):
     3. The parsed section and the RSTWriter section have two different lengths
     """
     pass
+
 
 class RSTValidator:
     """
@@ -70,10 +72,11 @@ class RSTValidator:
         :raises ValidationError: If validation encounters an unrecoverable or severe problem.
         """
 
-        self.validated = True #Assume everything works until something fails down the line
+        self.validated = True  # Assume everything works until something fails down the line
         self.failures = []
         if self.doc is None:
-            self.doc = RSTValidator.parse_rst(self.parser, self.writer.to_text())
+            self.doc = RSTValidator.parse_rst(self.parser,
+                                              self.writer.to_text())
         self.process_element(self.doc[0], self.writer)
         for msg in self.doc.parse_messages:
             self.process_message(msg)
@@ -97,15 +100,15 @@ class RSTValidator:
         :param text: String containing RST document to be parsed
         """
 
-        components = (docutils.parsers.rst.Parser,)
-        settings = docutils.frontend.OptionParser(components=components).get_default_values()
+        components = (docutils.parsers.rst.Parser, )
+        settings = docutils.frontend.OptionParser(
+            components=components).get_default_values()
         document = docutils.utils.new_document('<rst-doc>', settings=settings)
         parser.parse(text, document)
         return document
 
-
     def process_message(self, msg: system_message):
-         """
+        """
          Processes all DocUtils messages found in the document tree, as well as those found in the parse_messages list.
          If the level is error and higher, or warning and higher if werror is True, then the validation status is set to False.
 
@@ -114,11 +117,12 @@ class RSTValidator:
          :raises ValidationError: If message's level is severe
          """
 
-         level = msg['level']
-         if level >= (2 if self.werror else 3): #Warn or higher if werror, else only error or higher
-              self.fail(msg)
-         if level >= 3: #Severe, we need to raise a stink about this
-              raise ValidationError(msg)
+        level = msg['level']
+        if level >= (2 if self.werror else
+                     3):  # Warn or higher if werror, else only error or higher
+            self.fail(msg)
+        if level >= 3:  # Severe, we need to raise a stink about this
+            raise ValidationError(msg)
 
     def process_element(self, element, to_validate):
         """
@@ -132,12 +136,14 @@ class RSTValidator:
 
         :raises ValidationError: If the processor used raises it or a processor could not be found.
         """
-        for t in type(element).mro(): #Look up the chain of superclasses until we find a mapping, in method resolution order
+        for t in type(element).mro(
+        ):  # Look up the chain of superclasses until we find a mapping, in method resolution order
             if t in self.mapping:
                 self.mapping[t](element, to_validate)
                 break
-        else: #For-else clause, executes if break is not called
-            raise ValidationError(f"No processor mapping found for {type(element)}")
+        else:  # For-else clause, executes if break is not called
+            raise ValidationError(
+                f"No processor mapping found for {type(element)}")
 
     def process_paragraph(self, para: paragraph, to_validate: Paragraph):
         """
@@ -148,7 +154,9 @@ class RSTValidator:
         :param to_validate: RSTWriter Paragraph element to be validated.
         """
         if para.astext() != to_validate.text:
-            self.fail(f"Parsed paragraph {para.astext()} != original paragraph {to_validate.text}")
+            self.fail(
+                f"Parsed paragraph {para.astext()} != original paragraph {to_validate.text}"
+            )
 
     def process_field_list(self, fields: field_list, to_validate: Field):
         """
@@ -162,10 +170,14 @@ class RSTValidator:
         name = fields[0][0].astext()
         text = fields[0][1].astext()
         if name != to_validate.field_name:
-            self.fail(f"Parsed field name '{name}' != original field name '{to_validate.field_name}'")
+            self.fail(
+                f"Parsed field name '{name}' != original field name '{to_validate.field_name}'"
+            )
 
         if text != to_validate.field_text:
-           self.fail(f"Parsed field text {text} != original field text '{to_validate.field_text}'")
+            self.fail(
+                f"Parsed field text {text} != original field text '{to_validate.field_text}'"
+            )
 
     def process_list(self, rst_list, to_validate: List):
         """
@@ -189,7 +201,9 @@ class RSTValidator:
         """
 
         if ad[0].astext() != to_validate.document[1].text:
-            self.fail("Parsed admonition text does not match original admonition text")
+            self.fail(
+                "Parsed admonition text does not match original admonition text"
+            )
 
     def process_image(self, img: image, to_validate: Directive):
         """
@@ -206,9 +220,12 @@ class RSTValidator:
         for option in to_validate.options:
             if option.name in img:
                 if str(option.value) != str(img[option.name]):
-                    self.fail("Parsed option values do not match original option values")
+                    self.fail(
+                        "Parsed option values do not match original option values"
+                    )
             else:
-                raise ValidationError(f"Option {option.name} not in parsed document")
+                raise ValidationError(
+                    f"Option {option.name} not in parsed document")
 
     def process_doctest(self, doctest: doctest_block, to_validate: DocTest):
         """
@@ -224,7 +241,9 @@ class RSTValidator:
         test_line = parts[0].lstrip("> ")
         expected_output = "\n".join(parts[1:])
         if test_line != to_validate.test_line or expected_output != to_validate.expected_output:
-            self.fail("Parsed test line or expected output do not match either of the original values")
+            self.fail(
+                "Parsed test line or expected output do not match either of the original values"
+            )
 
     def process_table(self, t: table, to_validate: SimpleTable):
         """
@@ -240,9 +259,11 @@ class RSTValidator:
         body_index = grouping.first_child_matching_class(tbody)
         body = grouping[body_index]
         for i in range(0, len(body)):
-           for j in range(0, len(body[i])):
-               if body[i][j].astext() != str(to_validate.table[i][j]):
-                   self.fail("Parsed table values do not match original table values")
+            for j in range(0, len(body[i])):
+                if body[i][j].astext() != str(to_validate.table[i][j]):
+                    self.fail(
+                        "Parsed table values do not match original table values"
+                    )
 
     def process_sect(self, sect: section, to_validate: RSTWriter):
         """
@@ -257,13 +278,25 @@ class RSTValidator:
         """
         sect_title = sect[0]
         if sect_title.astext() != to_validate.document[0].title:
-            self.fail(f"Parsed section title '{sect_title.astext()}' does not match original section title '{to_validate.document[0].title}'")
+            self.fail(
+                f"Parsed section title '{sect_title.astext()}' does not match original section title '{to_validate.document[0].title}'"
+            )
 
-        section_cleaned = list(filter(self.is_not_message, sect)) #Remove all messages and process them before processing rest of the document
-        if len(section_cleaned) != len(to_validate.document): #Our two documents are different lengths
-            raise ValidationError(["Parsed section and RSTWriter section are two different lengths", str(section_cleaned), str(to_validate.document)])
+        section_cleaned = list(
+            filter(self.is_not_message, sect)
+        )  # Remove all messages and process them before processing rest of the document
+        if len(section_cleaned) != len(
+                to_validate.document
+        ):  # Our two documents are different lengths
+            raise ValidationError([
+                "Parsed section and RSTWriter section are two different lengths",
+                str(section_cleaned),
+                str(to_validate.document)
+            ])
 
-        for i in range(1, len(section_cleaned)): #Section and to_validate should now have the same number of elements
+        for i in range(
+                1, len(section_cleaned)
+        ):  # Section and to_validate should now have the same number of elements
             self.process_element(section_cleaned[i], to_validate.document[i])
 
     def is_not_message(self, e) -> bool:
@@ -277,7 +310,5 @@ class RSTValidator:
         if system_message in type(e).mro():
             self.process_message(e)
             return False
-        else: #Included for readability
+        else:  # Included for readability
             return True
-
-

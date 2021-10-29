@@ -6,11 +6,13 @@ docs/source/developer/cmake
 # Built example output
 examples/sphinx/build
 
-# CLion settings
+# IDE settings
 .idea/
+.vscode/
 
 # Python virtual environment
 venv/
+virt_env/
 
 # Python3 __pycache__
 __pycache__/
@@ -19,9 +21,12 @@ __pycache__/
 tests/.coverage
 
 # Generated RST
-/output/
+output/
 
 #Python egg build directory
 *.egg-info
 /build
 /dist
+
+#Install directory Ryan uses for testing
+install/

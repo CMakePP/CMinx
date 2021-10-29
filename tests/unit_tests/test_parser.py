@@ -32,6 +32,7 @@ class TestParser(unittest.TestCase):
 
         #We now have a stream of CommonToken instead of strings, parsers require this type of stream
         self.parser = CMakeParser(self.stream)
+        self.parser.removeErrorListeners()
         self.parser.addErrorListener(ParserErrorListener())
         self.tree = self.parser.cmake_file()
 

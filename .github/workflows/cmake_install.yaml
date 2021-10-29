@@ -1,0 +1,26 @@
+name: CMinx Installed via CMake
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.9'
+      - uses: lukka/get-cmake@v3.20.1
+      - name: Build
+        run: |
+          cmake -S . -B build -DCMAKE_INSTALL_PREFIX=`pwd`/install
+          cmake --build build
+          cmake --install build
+          if ! command -v install/bin/cminx &> /dev/null
+          then
+              exit 1
+          fi

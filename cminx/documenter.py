@@ -19,7 +19,7 @@ from .parser.CMakeParser import CMakeParser
 from .parser.CMakeListener import CMakeListener
 from .rstwriter import RSTWriter
 from .parser.aggregator import DocumentationAggregator
-from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation
+from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation
 
 
 
@@ -86,6 +86,10 @@ class Documenter(object):
                 self.process_macro_doc(doc)
             elif isinstance(doc, VariableDocumentation):
                 self.process_variable_doc(doc)
+            elif isinstance(doc, TestDocumentation):
+                self.process_test_doc(doc)
+            elif isinstance(doc, SectionDocumentation):
+                self.process_section_doc(doc)
 
 
     def process_function_doc(self, doc: FunctionDocumentation):
@@ -110,6 +114,32 @@ class Documenter(object):
 
         d = self.writer.directive("function", f"{doc.macro}({' '.join(doc.params)})")
         warning = d.directive("warning", "This is a macro, and so does not introduce a new scope.")
+        d.text(doc.doc)
+
+    def process_test_doc(self, doc):
+        """
+        TestDocumentation processor. Generates the RST "function" directive containing
+        a "warning" directive explaining that it is a test.
+
+        :param doc: Documentation for the test
+        :type doc: TestDocumentation
+        """
+
+        d = self.writer.directive("function", f"{doc.name}({'EXPECTFAIL' if doc.expect_fail else ''})")
+        warning = d.directive("warning", "This is a CMakeTest test definition, do not call this manually.")
+        d.text(doc.doc)
+
+    def process_section_doc(self, doc):
+        """
+        SectionDocumentation processor. Generates the RST "function" directive containing
+        a "warning" directive explaining that it is a test.
+
+        :param doc: Documentation for the test
+        :type doc: SectionDocumentation
+        """
+
+        d = self.writer.directive("function", f"{doc.name}({'EXPECTFAIL' if doc.expect_fail else ''})")
+        warning = d.directive("warning", "This is a CMakeTest section definition, do not call this manually.")
         d.text(doc.doc)
 
     def process_variable_doc(self, doc):
