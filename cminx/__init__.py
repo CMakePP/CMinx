@@ -3,23 +3,20 @@ Generate Sphinx-compatible RST documentation for CMake files.
 Documentation is written in a special form of block comments,
 denoted by the starting characters :code: `#[[[` and ending with the standard :code: `#]]`.
 
-Usage: cminx [-h] [-o OUTPUT] [-r] file [file ...]
+Usage: main.py [-h] [-o OUTPUT] [-r] [-p PREFIX] file [file ...]
+
+Automatic documentation generator for CMake files. This program generates Sphinx-compatible RST documents, which are incompatible with standard docutils.
 
 positional arguments:
-  file                  CMake file to generate documentation for. If
-                        directory, will generate documentation for all *.cmake
-                        files (case-insensitive)
+  file                  CMake file to generate documentation for. If directory, will generate documentation for all *.cmake files (case-insensitive)
 
 optional arguments:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
-                        Directory to output generated RST to. If not specified
-                        will print to standard output. Output files will have
-                        the original filename with the cmake extension
-                        replaced by .rst
-  -r, --recursive       If specified, will generate documentation for all
-                        subdirectories of specified directory recursively
-
+                        Directory to output generated RST to. If not specified will print to standard output. Output files will have the original filename with the cmake extension replaced by .rst
+  -r, --recursive       If specified, will generate documentation for all subdirectories of specified directory recursively
+  -p PREFIX, --prefix PREFIX
+                        If specified, all output files will have headers generated as if the prefix was the top level package.
 
 :Author: Branden Butler
 :License: Apache 2.0
@@ -61,12 +58,16 @@ Automatic documentation generator for CMake files. This program generates Sphinx
 
 def document(input, output_path = None, recursive = False, prefix = None):
     """
-    Handler for documenting CMake files or all files in a directory. Performs preprocessing before handing off
-    to document_single_file over all detected files. Also generates index.rst files for all directories.
+    Handler for documenting CMake files or all files in a directory. Performs
+    preprocessing before handing off to document_single_file over all detected
+    files. Also generates index.rst files for all directories.
 
     :param input: String locating a file or directory to document.
-    :param output_path: String pointing to the directory to place generated files, will output to stdout if None
+    :param output_path: String pointing to the directory to place generated files,
+     will output to stdout if None
     :param recursive: Whether to generate documentation for subdirectories or not.
+    :param prefix: Prefix to be prepended to all RST titles. In recursive mode,
+     root files will have their titles replaced by the prefix.
     """
     input_path = os.path.abspath(input)
     if not os.path.exists(input_path):
@@ -124,6 +125,7 @@ def document_single_file(file, root, output_path = None, prefix = None):
      :param file: Path to the CMake file to be documented
      :param root: Directory considered to be the root of the source tree. The RST header and output tree will be generated from the relative path between file and root
      :param output_path: Directory to serve as the root of the output tree. Subdirectories will be created as needed to place generated RST files in.
+     :param prefix: Prefix to be prepended to all RST titles. If title was originally ``.``, replace with prefix.
      """
 
 
