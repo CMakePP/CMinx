@@ -57,7 +57,22 @@ class TestInit(unittest.TestCase):
       diff = helpers.diff_files(self.output_file, context.corr_example_rst)
       self.assertTrue(diff == "")
 
+    def test_recursive_prefix(self):
+      """Tests the use of CMinx in recursive mode with a prefix"""
+      args = ["-r", "-p", context.prefix, "-o", self.output_dir, self.input_dir]
+      helpers.quiet_cminx(args)
 
+      # Test that the top-level directory was found
+      is_dir = os.path.isdir(self.output_dir)
+      self.assertTrue(is_dir, "Output directory structure incorrect")
+
+      # Test that reST file is in top-level directory
+      is_file = os.path.isfile(self.output_file)
+      self.assertTrue(is_file, "Output file does not exist")
+
+      diff = helpers.diff_files(self.output_file, context.corr_example_prefix_rst)
+
+      self.assertTrue(diff == "")
 
 if __name__ == '__main__':
     unittest.main()
