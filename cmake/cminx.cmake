@@ -10,9 +10,40 @@ set(CMAKEDOC_SRC "${CMAKE_CURRENT_SOURCE_DIR}" CACHE FILEPATH "Location of CMinx
 # :type dir: dir
 # :param output: Directory to store output
 # :type output: dir
+# :param \*args: Optional arguments below. Pass to the function after all other parameters, order-sensitive.
+#
+# :Optional Arguments:
+#    * *Prefix* (``string``) -- A prefix to be passed to CMinx. All files will have
+#      the prefix prepended to their RST titles, and root-level files will have their
+#      titles replaced by the prefix in recursive mode.
 #]]
 function(cminx_gen_rst _cgd_dir _cgd_output)
-        execute_process(COMMAND "${VENV_PYTHON_EXECUTABLE}" "${CMAKEDOC_SRC}/main.py" ${_cgd_dir} "-o" "${_cgd_output}" WORKING_DIRECTORY "${CMAKEDOC_SRC}" OUTPUT_VARIABLE process_output ERROR_VARIABLE process_err RESULT_VARIABLE process_result)
+        if(${ARGC} GREATER 2)
+            execute_process(
+                COMMAND
+                    "${VENV_PYTHON_EXECUTABLE}"
+                    "${CMAKEDOC_SRC}/main.py"
+                    "${_cgd_dir}"
+                    "-o" "${_cgd_output}"
+                    "-p" "${ARGV2}"
+                WORKING_DIRECTORY "${CMAKEDOC_SRC}"
+                OUTPUT_VARIABLE process_output
+                ERROR_VARIABLE process_err
+                RESULT_VARIABLE process_result)
+        else()
+            execute_process(
+                COMMAND
+                    "${VENV_PYTHON_EXECUTABLE}"
+                    "${CMAKEDOC_SRC}/main.py"
+                    "${_cgd_dir}"
+                    "-o" "${_cgd_output}"
+                WORKING_DIRECTORY "${CMAKEDOC_SRC}"
+                OUTPUT_VARIABLE process_output
+                ERROR_VARIABLE process_err
+                RESULT_VARIABLE process_result
+            )
+
+        endif()
 	message("${process_output}")
         if(NOT process_result EQUAL 0)
             message(FATAL_ERROR "Failed to generate RST. Result code was: ${process_result}. Error output was: ${process_err}")

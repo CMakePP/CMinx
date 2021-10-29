@@ -30,8 +30,14 @@ example_cmake = os.path.join(example_dir, "example.cmake")
 # The sphinx directory in the example_dir
 example_sphinx = os.path.join(example_dir, "sphinx")
 
+# A prefix to be used to test CMinx's prefix option.
+prefix = "prefix"
+
 # The correct examples.rst file
 corr_example_rst = os.path.join(example_sphinx, "source", "example.rst")
+
+# The correct examples.rst file, with context.prefix as a prefix
+corr_example_prefix_rst = os.path.join(example_sphinx, "source", "example_prefix.rst")
 
 # The directory containing test_samples
 test_samples_dir = os.path.abspath(os.path.join(tests_dir, "test_samples"))

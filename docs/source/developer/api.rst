@@ -27,6 +27,7 @@ Functions
    :toctree: .autosummary
 
    cminx.document
+   cminx.document_single_file
    cminx.main
 
 CMake
