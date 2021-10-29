@@ -41,6 +41,21 @@ class TestInit(unittest.TestCase):
       is_file = os.path.isfile(self.output_file)
       self.assertTrue(is_file, "Output file does not exist")
 
+
+    def test_document_prefix(self):
+      """Tests the document command in the CMinx module with the prefix option"""
+      sys.stdout = open(os.devnull, 'w')
+      cminx.document(self.input_file, self.output_dir, recursive=True, prefix=context.prefix)
+      sys.stdout = sys.__stdout__
+
+      # Test that the top-level directory was found
+      is_dir = os.path.isdir(self.output_dir)
+      self.assertTrue(is_dir, "Output directory structure incorrect")
+
+      # Test that the file is in the directory
+      is_file = os.path.isfile(self.output_file)
+      self.assertTrue(is_file, "Output file does not exist")
+
     def test_recursive(self):
       """Tests the use of CMinx in recursive mode"""
       args = ["-r", "-o", self.output_dir, self.input_dir]
