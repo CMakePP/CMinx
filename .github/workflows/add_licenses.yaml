@@ -1,0 +1,21 @@
+name: Add Licenses
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  dmv:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Action
+        uses: actions/checkout@v2
+      - name: Run DMV
+        uses: rmrichard/dmv@main
+        with:
+          directories: cmake
+          owner: CMakePP
+          year: 2021
+      - name: Check
+        run: cat cmake/*

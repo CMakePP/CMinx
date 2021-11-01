@@ -5,13 +5,13 @@ CMinx API
 This is a list of all functions within the CMinx project. These functions are
 meant for use by developers. Users should run the :code:`cminx` command.
 
-Modules
-^^^^^^^
+Python Modules
+^^^^^^^^^^^^^^
 
 .. autosummary::
    :toctree: .autosummary
 
-   
+
    cminx.rstwriter
    cminx.documenter
    cminx.parser.aggregator
@@ -29,8 +29,8 @@ Functions
    cminx.document
    cminx.main
 
-CMake
-^^^^^
+CMake Modules
+^^^^^^^^^^^^^
 
 .. toctree::
    :maxdepth: 2
