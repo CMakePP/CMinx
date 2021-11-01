@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Action
         uses: actions/checkout@v2
       - name: Run DMV
-        uses: rmrichard/dmv@main
+        uses: ryanmrichard/dmv@main
         with:
           directories: cmake
           owner: CMakePP
