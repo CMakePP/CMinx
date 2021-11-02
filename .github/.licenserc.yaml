@@ -3,12 +3,12 @@ header:
     spdx-id: Apache-2.0
     copyright-owner: CMakePP
 
-  paths:
-    - .github/*
-    - cmake/*
-    - cminx/*
-
   paths-ignore:
     - cminx/parser/
+    - docs/source/.templates
+    - CODE_OF_CONDUCT.md
+    - LICENSE
+    - version.txt
+
 
   comment: never
