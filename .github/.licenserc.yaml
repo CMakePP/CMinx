@@ -6,6 +6,9 @@ header:
   paths-ignore:
     - cminx/parser/
     - docs/source/.templates
+    - docs/source/developer/uml_diagrams/*.drawio
+    - docs/Makefile
+    - tests/.coveragerc
     - CODE_OF_CONDUCT.md
     - LICENSE
     - version.txt
