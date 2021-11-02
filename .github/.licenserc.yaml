@@ -1,10 +1,13 @@
 header:
   license:
-  spdx-id: Apache-2.0
-  copyright-owner: CMakePP
+    spdx-id: Apache-2.0
+    copyright-owner: CMakePP
+
   paths:
-    - .github/
-    - cmake/
-    - cminx/
+    - .github/*
+    - cminx/*
+
   paths-ignore:
     - cminx/parser/
+
+  comment: never
