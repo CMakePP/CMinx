@@ -17,4 +17,4 @@ jobs:
           config: .github/.licenserc.yaml
           mode: fix
       - name: Check
-        run: cat cmake/*
+        run: cat .github/*
