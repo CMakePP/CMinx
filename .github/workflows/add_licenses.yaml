@@ -17,4 +17,4 @@ jobs:
           config: .github/.licenserc.yaml
           mode: fix
       - name: Check
-        run: cat .github/*
+        run: cat .github/workflows/*
