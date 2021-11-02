@@ -11,10 +11,16 @@ jobs:
     steps:
       - name: Checkout Action
         uses: actions/checkout@v2
-      - name: Run DMV
+      - name: Run License-Eye
         uses: ryanmrichard/skywalking-eyes@add_cmake_support
         with:
           config: .github/.licenserc.yaml
           mode: fix
+      -  uses: EndBug/add-and-commit@v4
+        with:
+          default_author: github_actions
+          push: false
       - name: Check
-        run: git status
+        run: echo "Committed ${committed}"
+        with:
+          committed: ${{ steps.Run-License-Eye.output.committed }}
