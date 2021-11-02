@@ -23,4 +23,4 @@ jobs:
           push: false
           pull: 'NO-PULL'
       - name: Check
-        run: echo "Committed ${{ steps.Commit-Changes.output.committed }}"
+        run: echo "Committed ${{ steps.commit-changes.output.committed }}"
