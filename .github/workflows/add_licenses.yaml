@@ -12,9 +12,9 @@ jobs:
       - name: Checkout Action
         uses: actions/checkout@v2
       - name: Run DMV
-        uses: ryanmrichard/skywalking-eyes@allow_fix
+        uses: ryanmrichard/skywalking-eyes@add_cmake_support
         with:
           config: .github/.licenserc.yaml
           mode: fix
       - name: Check
-        run: cat .github/workflows/*
+        run: cat cmake/*
