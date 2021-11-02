@@ -20,5 +20,6 @@ jobs:
         with:
           default_author: github_actions
           push: false
+          pull: 'NO-PULL'
       - name: Check
         run: echo "Committed ${{ steps.Run-License-Eye.output.committed }}"
