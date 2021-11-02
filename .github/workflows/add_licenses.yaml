@@ -15,5 +15,6 @@ jobs:
         uses: ryanmrichard/skywalking-eyes@allow_fix
         with:
           config: .github/.licenserc.yaml
+          mode: fix
       - name: Check
         run: cat cmake/*
