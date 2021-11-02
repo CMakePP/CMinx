@@ -6,13 +6,14 @@ on:
       - master
 
 jobs:
-  dmv:
+  license-eye:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Action
         uses: actions/checkout@v2
       - name: Run DMV
         uses: ryanmrichard/skywalking-eyes@allow_fix
-
+        with:
+          config: .github/.licenserc.yaml
       - name: Check
         run: cat cmake/*
