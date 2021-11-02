@@ -12,10 +12,7 @@ jobs:
       - name: Checkout Action
         uses: actions/checkout@v2
       - name: Run DMV
-        uses: ryanmrichard/dmv@main
-        with:
-          directories: cmake
-          owner: CMakePP
-          year: 2021
+        uses: ryanmrichard/skywalking-eyes@allow_fix
+
       - name: Check
         run: cat cmake/*
