@@ -21,7 +21,7 @@ jobs:
         id: push
         with:
           default_author: github_actions
-          pull: 'NO-PULL'
+          push: false
       - name: Raise an error if a push happened
         if: ${{ steps.push.outputs.pushed == true }}
         run: exit 1
