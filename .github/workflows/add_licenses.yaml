@@ -23,7 +23,6 @@ jobs:
         id: push
         with:
           default_author: github_actions
-          push: false
       - name: Raise an error if a push happened
         if: ${{ steps.push.outputs.pushed == true }}
         run: exit 1
