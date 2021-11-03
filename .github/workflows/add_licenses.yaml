@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout Action
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Run License-Eye
         uses: apache/skywalking-eyes@main
         with:
