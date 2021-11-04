@@ -18,12 +18,12 @@ header:
     copyright-owner: CMakePP
 
   paths-ignore:
-    - .github/workflows/*
+    - .github/
     - cminx/parser/
     - docs/source/.templates
     - docs/source/developer/uml_diagrams/*.drawio
     - docs/Makefile
-    - tests/.coveragerc
+    - tests/
     - CODE_OF_CONDUCT.md
     - LICENSE
     - version.txt
