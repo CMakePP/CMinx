@@ -2,12 +2,37 @@
 import datetime
 import os
 import sys
+
+#####
+#  Gather some metadata about the project
+#####
+
 now = datetime.datetime.now()
+src_dir  = os.path.abspath(os.path.dirname(__file__))
+docs_dir = os.path.abspath(os.path.join(src_dir, ".."))
+root_dir = os.path.join(docs_dir, "..")
 
 project = 'CMinx'
-author = 'Ryan M. Richard'
-version = '1.0.0'  # The short X.Y version
-release = '1.0.0alpha'  # The full version, including alpha/beta/rc tags
+author = 'CMakePP Team'
+version  = ""
+release  = ""
+
+# release includes alpha, beta, rc, etc.; version is pure numeric
+with open(os.path.join(root_dir, "version.txt")) as f:
+    release = f.read()
+    pieces = release.split('.')
+    version = pieces[0] + '.' + pieces[1] +'.'
+    version += ''.join(filter(str.isdigit, pieces[2]))
+
+################################################################################
+# Run CMinx on itself
+################################################################################
+sys.path.insert(0, os.path.join(root_dir, "cminx"))
+import cminx
+cminx_out_dir = os.path.join(src_dir, "developer", "cmake")
+cminx_in_dir = os.path.join(root_dir, "cmake")
+args = ["-r", "-o", cminx_out_dir, cminx_in_dir]
+cminx.main(args)
 
 ################################################################################
 #             Shouldn't need to modify anything below this point               #
@@ -29,14 +54,17 @@ master_doc = 'index'
 numfig = True
 exclude_patterns = ['build', '.templates']
 pygments_style = 'sphinx'
+# Required theme setup
 html_theme = 'sphinx_rtd_theme'
-html_static_path = []
+
 htmlhelp_basename = project + 'doc'
 extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.githubpages',
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary'
+    'sphinx.ext.autosummary',
+    'sphinx_rtd_theme'
+
 ]
 autosummary_generate = True
 
