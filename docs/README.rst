@@ -22,9 +22,11 @@ documentation depends on:
 - Python3
 - Sphinx
 - Sphinx Read-the-Docs Theme
+- CMinx
 
-with the exception of Python itself, all other dependencies are available from
-PIP (Python is likely available from your operating system's package manager).
+with the exception of Python itself, and CMinx, all other dependencies are
+available from PIP (Python is likely available from your operating system's
+package manager; CMinx is the current repo).
 
 **************************
 Building the Documentation

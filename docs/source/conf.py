@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import cminx
 import datetime
 import os
 import sys
@@ -41,8 +42,8 @@ with open(os.path.join(root_dir, "version.txt")) as f:
 ################################################################################
 # Run CMinx on itself
 ################################################################################
-sys.path.insert(0, os.path.join(root_dir, "cminx"))
-import cminx
+
+
 cminx_out_dir = os.path.join(src_dir, "developer", "cmake")
 cminx_in_dir = os.path.join(root_dir, "cmake")
 args = ["-r", "-o", cminx_out_dir, cminx_in_dir]
