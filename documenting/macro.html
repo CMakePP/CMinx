@@ -181,21 +181,7 @@
 <h1>Documenting a Macro<a class="headerlink" href="#documenting-a-macro" title="Permalink to this headline">¶</a></h1>
 <p>From the perspective of a CMinx user, one documents a macro in the same manner
 as a function. For example:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Copyright 2021 CMakePP</span>
-<span class="c">#</span>
-<span class="c"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c"># you may not use this file except in compliance with the License.</span>
-<span class="c"># You may obtain a copy of the License at</span>
-<span class="c">#</span>
-<span class="c"># http://www.apache.org/licenses/LICENSE-2.0</span>
-<span class="c">#</span>
-<span class="c"># Unless required by applicable law or agreed to in writing, software</span>
-<span class="c"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c"># See the License for the specific language governing permissions and</span>
-<span class="c"># limitations under the License.</span>
-<span class="c">#</span>
-<span class="c">#[[[</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
 <span class="c"># This macro says hi.</span>
 <span class="c"># This documentation uses a differing format,</span>
 <span class="c"># but is still processed correctly.</span>
@@ -212,22 +198,7 @@ as a function. For example:</p>
 being that functions introduce a new scope, whereas macros do not). CMinx will
 automatically note in the generated documentation whether the command being
 documented is a function or a macro.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="cp">.. Copyright 2021 CMakePP</span>
-<span class="cp">..</span>
-<span class="cp">.. Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="cp">.. you may not use this file except in compliance with the License.</span>
-<span class="cp">.. You may obtain a copy of the License at</span>
-<span class="gh">..</span>
-<span class="gh">.. http://www.apache.org/licenses/LICENSE-2.0</span>
-<span class="gh">..</span>
-<span class="cp">.. Unless required by applicable law or agreed to in writing, software</span>
-<span class="cp">.. distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="cp">.. WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="cp">.. See the License for the specific language governing permissions and</span>
-<span class="cp">.. limitations under the License.</span>
-<span class="cp">..</span>
-
-<span class="gh">#################</span>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">#################</span>
 <span class="gh">basic_macro.cmake</span>
 <span class="gh">#################</span>
 
@@ -238,14 +209,13 @@ documented is a function or a macro.</p>
 
 <span class="p">   ..</span> <span class="ow">warning</span><span class="p">::</span> This is a macro, and so does not introduce a new scope.
 
-   
+
    This macro says hi.
    This documentation uses a differing format,
    but is still processed correctly.
-   
+
    <span class="nc">:param person:</span> The person we want to greet.
    <span class="nc">:type person:</span> string
-   
 </pre></div>
 </div>
 </div>

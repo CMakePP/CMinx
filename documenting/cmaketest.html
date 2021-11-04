@@ -184,21 +184,7 @@
 Again, this is done analogous to other documentation use cases, <em>i.e.</em>, by
 proceeding the <code class="docutils literal notranslate"><span class="pre">ct_add_test</span></code> or <code class="docutils literal notranslate"><span class="pre">ct_add_section</span></code> command with a
 documentation comment. For example,</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Copyright 2021 CMakePP</span>
-<span class="c">#</span>
-<span class="c"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c"># you may not use this file except in compliance with the License.</span>
-<span class="c"># You may obtain a copy of the License at</span>
-<span class="c">#</span>
-<span class="c"># http://www.apache.org/licenses/LICENSE-2.0</span>
-<span class="c">#</span>
-<span class="c"># Unless required by applicable law or agreed to in writing, software</span>
-<span class="c"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c"># See the License for the specific language governing permissions and</span>
-<span class="c"># limitations under the License.</span>
-<span class="c">#</span>
-<span class="c">#[[[</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
 <span class="c"># This is how you document a CMakeTest test.</span>
 <span class="c">#]]</span>
 <span class="nb">ct_add_test</span><span class="p">(</span><span class="s">NAME</span> <span class="s">test1</span> <span class="s">EXPECTFAIL</span><span class="p">)</span>
@@ -215,22 +201,7 @@ documentation comment. For example,</p>
 </pre></div>
 </div>
 <p>which generates:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="cp">.. Copyright 2021 CMakePP</span>
-<span class="cp">..</span>
-<span class="cp">.. Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="cp">.. you may not use this file except in compliance with the License.</span>
-<span class="cp">.. You may obtain a copy of the License at</span>
-<span class="gh">..</span>
-<span class="gh">.. http://www.apache.org/licenses/LICENSE-2.0</span>
-<span class="gh">..</span>
-<span class="cp">.. Unless required by applicable law or agreed to in writing, software</span>
-<span class="cp">.. distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="cp">.. WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="cp">.. See the License for the specific language governing permissions and</span>
-<span class="cp">.. limitations under the License.</span>
-<span class="cp">..</span>
-
-<span class="gh">#############</span>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">#############</span>
 <span class="gh">ct_test.cmake</span>
 <span class="gh">#############</span>
 
@@ -241,18 +212,17 @@ documentation comment. For example,</p>
 
 <span class="p">   ..</span> <span class="ow">warning</span><span class="p">::</span> This is a CMakeTest test definition, do not call this manually.
 
-   
+
    This is how you document a CMakeTest test.
-   
+
 
 
 <span class="p">..</span> <span class="ow">function</span><span class="p">::</span> section1(EXPECTFAIL)
 
 <span class="p">   ..</span> <span class="ow">warning</span><span class="p">::</span> This is a CMakeTest section definition, do not call this manually.
 
-   
+
    And this is how you document a CMakeTest section.
-   
 </pre></div>
 </div>
 </div>

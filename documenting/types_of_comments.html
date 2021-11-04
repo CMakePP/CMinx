@@ -190,27 +190,28 @@ categories:</p>
 the convention that documentation comments start with an additional comment
 character. Thus to indicate that a CMake comment is documentation use
 <code class="code docutils literal notranslate"><span class="pre">#[[[</span></code> (the block comment should still end with <code class="code docutils literal notranslate"><span class="pre">#]]</span></code>). For example:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># http://www.apache.org/licenses/LICENSE-2.0</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
+<span class="c"># This function has very basic documentation.</span>
 <span class="c">#</span>
-<span class="c"># Unless required by applicable law or agreed to in writing, software</span>
-<span class="c"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c"># See the License for the specific language governing permissions and</span>
-<span class="c"># limitations under the License.</span>
+<span class="c"># This function&#39;s description stays close to idealized formatting and does not do</span>
+<span class="c"># anything fancy.</span>
 <span class="c">#</span>
-<span class="c">#[[</span>
+<span class="c"># :param person: The person this function says hi to</span>
+<span class="c"># :param me: What my name is</span>
+<span class="c"># :type person: string</span>
+<span class="c"># :type me: string</span>
+<span class="c">#]]</span>
+<span class="nb">function</span><span class="p">(</span><span class="s">say_hi_to</span> <span class="s">person</span> <span class="s">me</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;Hi ${person}, I am ${me}&quot;</span><span class="p">)</span>
+<span class="nb">endfunction</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>For comparison, an annotation comment looks like:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[</span>
 <span class="c"># This is a normal block comment and will not</span>
 <span class="c"># be treated as a doccomment.</span>
 <span class="c">#]]</span>
 <span class="nb">include_guard</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>For comparison, an annotation comment looks like:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Copyright 2021 CMakePP</span>
-<span class="c">#</span>
-<span class="c"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c"># you may not use this file except in compliance with the License.</span>
-<span class="c"># You may obtain a copy of the License at</span>
 </pre></div>
 </div>
 </div>

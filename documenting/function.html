@@ -233,21 +233,7 @@ any of the aforementioned types (including other lists) and all objects can
 be implicitly converted to stings.</p>
 </div>
 <p>An example using all three of these directives:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Copyright 2021 CMakePP</span>
-<span class="c">#</span>
-<span class="c"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c"># you may not use this file except in compliance with the License.</span>
-<span class="c"># You may obtain a copy of the License at</span>
-<span class="c">#</span>
-<span class="c"># http://www.apache.org/licenses/LICENSE-2.0</span>
-<span class="c">#</span>
-<span class="c"># Unless required by applicable law or agreed to in writing, software</span>
-<span class="c"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c"># See the License for the specific language governing permissions and</span>
-<span class="c"># limitations under the License.</span>
-<span class="c">#</span>
-<span class="c">#[[[</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
 <span class="c"># Variation of say_hi_to, which takes lists of people and cats to say hi to.</span>
 <span class="c">#</span>
 <span class="c"># This function is basically the same as ``say_hi_to``, but accounts for the</span>
@@ -270,22 +256,7 @@ be implicitly converted to stings.</p>
 </div>
 <p>Assuming the above CMake lives in the file <code class="docutils literal notranslate"><span class="pre">advanced_function.cmake</span></code>, CMinx
 will generate the reST file:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="cp">.. Copyright 2021 CMakePP</span>
-<span class="cp">..</span>
-<span class="cp">.. Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="cp">.. you may not use this file except in compliance with the License.</span>
-<span class="cp">.. You may obtain a copy of the License at</span>
-<span class="gh">..</span>
-<span class="gh">.. http://www.apache.org/licenses/LICENSE-2.0</span>
-<span class="gh">..</span>
-<span class="cp">.. Unless required by applicable law or agreed to in writing, software</span>
-<span class="cp">.. distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="cp">.. WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="cp">.. See the License for the specific language governing permissions and</span>
-<span class="cp">.. limitations under the License.</span>
-<span class="cp">..</span>
-
-<span class="gh">#######################</span>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">#######################</span>
 <span class="gh">advanced_function.cmake</span>
 <span class="gh">#######################</span>
 
@@ -293,20 +264,19 @@ will generate the reST file:</p>
 
 
 <span class="p">..</span> <span class="ow">function</span><span class="p">::</span> advanced_say_hi_to(me)
-   
+
    Variation of say_hi_to, which takes lists of people and cats to say hi to.
-   
+
    This function is basically the same as <span class="s">``say_hi_to``</span>, but accounts for the
    fact that you may want to say hi to multiple people and maybe even a cat or
    two.
-   
+
    <span class="nc">:param me:</span> The name of the person saying hi.
    <span class="nc">:type me:</span> string
    <span class="nc">:keyword PERSONS:</span> The person or persons to say hi to.
    <span class="nc">:type PERSONS:</span> list of strings
    <span class="nc">:keyword CATS:</span> The cat or cats to say hi to.
    <span class="nc">:type CATS:</span> list of strings
-   
 </pre></div>
 </div>
 </div>
