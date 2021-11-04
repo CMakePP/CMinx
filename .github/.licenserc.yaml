@@ -4,6 +4,7 @@ header:
     copyright-owner: CMakePP
 
   paths-ignore:
+    - .github/worklflows/*
     - cminx/parser/
     - docs/source/.templates
     - docs/source/developer/uml_diagrams/*.drawio
