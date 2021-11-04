@@ -12,11 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-################################################################################
-#
-# File: unit_tests/__init__.py
-#
-# Needed by ``unittest.discover`` to establish that  the ``unit_tests``
-# directory contains a test suite.
-#
-################################################################################
+header:
+  license:
+    spdx-id: Apache-2.0
+    copyright-owner: CMakePP
+
+  paths-ignore:
+    - .github/workflows/*
+    - cminx/parser/
+    - docs/source/.templates
+    - docs/source/developer/uml_diagrams/*.drawio
+    - docs/Makefile
+    - tests/.coveragerc
+    - CODE_OF_CONDUCT.md
+    - LICENSE
+    - version.txt
+
+
+  comment: never
