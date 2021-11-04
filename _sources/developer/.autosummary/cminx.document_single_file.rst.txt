@@ -1,0 +1,6 @@
+﻿cminx.document\_single\_file
+============================
+
+.. currentmodule:: cminx
+
+.. autofunction:: document_single_file
