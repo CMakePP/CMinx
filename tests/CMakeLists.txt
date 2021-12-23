@@ -7,4 +7,4 @@
 set(CT_DEFAULT_PRINT_LENGTH 80 CACHE STRING "The default print length for pass/fail lines. Can be overriden by individual tests.")
 ct_set_print_length("${CT_DEFAULT_PRINT_LENGTH}")
 
-ct_add_dir("cmake")
+ct_add_dir("cmake" CMAKE_OPTIONS "-DCMINX_PACKAGE_SEARCH_PATH=${CMINX_PACKAGE_SEARCH_PATH}")

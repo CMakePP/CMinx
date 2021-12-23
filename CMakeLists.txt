@@ -62,6 +62,7 @@ execute_process(COMMAND "${CMINX_VENV_PIP}" "install" "-r" "${CMAKE_CURRENT_SOUR
 #Write package config files
 configure_file("${CMAKE_CURRENT_LIST_DIR}/templates/CMinxConfig.cmake" "${CMAKE_CURRENT_BINARY_DIR}" @ONLY)
 configure_file("${CMAKE_CURRENT_LIST_DIR}/templates/CMinxConfigVersion.cmake" "${CMAKE_CURRENT_BINARY_DIR}" @ONLY)
+set(CMINX_PACKAGE_SEARCH_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 
 #[[
 # Installation command.

@@ -1,4 +1,4 @@
-find_package(CMinx 1.0.0 PATHS /home/branden/git/CMakeDoc/build NO_DEFAULT_PATH REQUIRED CONFIG)
+find_package(CMinx 1.0.0 PATHS "${CMINX_PACKAGE_SEARCH_PATH}" NO_DEFAULT_PATH REQUIRED CONFIG)
 include(cminx)
 
 set(cwd "${CMAKE_CURRENT_LIST_DIR}")
@@ -12,7 +12,7 @@ set(cwd "${CMAKE_CURRENT_LIST_DIR}")
 # Sets needed variables for tests to function.
 #]]
 macro(do_setup)
-  set(input_dir "${cwd}/input")
+  set(input_dir "${cwd}/../cmake_input")
   set(output_dir "${cwd}/output")
   set(input_file "${input_dir}/example.cmake")
   set(output_file "${output_dir}/example.rst")
