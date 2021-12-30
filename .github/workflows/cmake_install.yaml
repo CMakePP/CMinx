@@ -31,7 +31,7 @@ jobs:
       - uses: lukka/get-cmake@v3.20.1
       - name: Build
         run: |
-          cmake -S . -B build -DCMAKE_INSTALL_PREFIX=`pwd`/install -DBUILDTESTING=ON
+          cmake -S . -B build -DCMAKE_INSTALL_PREFIX=`pwd`/install -DBUILD_TESTING=ON
           cmake --build build
           cmake --install build
           if ! command -v install/bin/cminx &> /dev/null
