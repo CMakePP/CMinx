@@ -34,11 +34,13 @@ jobs:
           source virt_env/bin/activate
           pip install coverage
           pip install codecov
+          pip install pytest
           pip3 install wheel
           pip3 install .
       - name: Test
         run: |
           source virt_env/bin/activate
           cd tests
+          pytest
           coverage run test_all.py
           codecov
