@@ -32,7 +32,7 @@ from .parser.CMakeParser import CMakeParser
 from .parser.CMakeListener import CMakeListener
 from .rstwriter import RSTWriter
 from .parser.aggregator import DocumentationAggregator
-from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation
+from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation, GenericCommandDocumentation
 
 
 
@@ -103,6 +103,8 @@ class Documenter(object):
                 self.process_test_doc(doc)
             elif isinstance(doc, SectionDocumentation):
                 self.process_section_doc(doc)
+            elif isinstance(doc, GenericCommandDocumentation):
+                self.process_generic_command_doc(doc)
 
 
     def process_function_doc(self, doc: FunctionDocumentation):
@@ -167,3 +169,9 @@ class Documenter(object):
         d.text(doc.doc)
         d.field("Default value", doc.value)
         d.field("type", doc.type)
+
+
+    def process_generic_command_doc(self, doc):
+        d = self.writer.directive("function", f"{doc.name}({' '.join(doc.params)})")
+        warning = d.directive("warning", "This is a generic command invocation. It is not a function or macro definition.")
+        d.text(doc.doc)
