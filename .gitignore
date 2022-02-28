@@ -33,6 +33,7 @@ __pycache__/
 
 # Coverage reports
 tests/.coverage
+tests/coverage.xml
 
 # Generated RST
 output/
