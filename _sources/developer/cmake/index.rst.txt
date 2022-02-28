@@ -5,6 +5,6 @@
 
 .. toctree:: 
    :maxdepth: 2
-   find_python_module
    cminx
+   find_python_module
 
