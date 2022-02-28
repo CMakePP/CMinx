@@ -219,6 +219,13 @@ contents of <code class="code docutils literal notranslate"><span class="pre">ex
 <span class="c1"># This variable is a string variable.</span>
 <span class="c1">#]]</span>
 <span class="nb">set</span><span class="p">(</span><span class="n">MyString</span> <span class="s2">&quot;String&quot;</span><span class="p">)</span>
+
+<span class="c1">#[[[</span>
+<span class="c1"># This is a generic command invocation.</span>
+<span class="c1"># It will be documented as well, but with an admonition</span>
+<span class="c1"># stating it is an invocation and not a definition.</span>
+<span class="c1">#]]</span>
+<span class="n">message</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To generate the documentation, we enter our system shell (example assumes
@@ -287,6 +294,17 @@ want to generate the documentation in the directory <code class="code docutils l
    <span class="p">:</span><span class="n">Default</span> <span class="n">value</span><span class="p">:</span> <span class="n">String</span>
 
    <span class="p">:</span><span class="nb">type</span><span class="p">:</span> <span class="n">VarType</span><span class="o">.</span><span class="n">String</span>
+
+
+<span class="o">..</span> <span class="n">function</span><span class="p">::</span> <span class="n">message</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+
+   <span class="o">..</span> <span class="n">warning</span><span class="p">::</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">generic</span> <span class="n">command</span> <span class="n">invocation</span><span class="o">.</span> <span class="n">It</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">function</span> <span class="ow">or</span> <span class="n">macro</span> <span class="n">definition</span><span class="o">.</span>
+
+   
+   <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">generic</span> <span class="n">command</span> <span class="n">invocation</span><span class="o">.</span>
+   <span class="n">It</span> <span class="n">will</span> <span class="n">be</span> <span class="n">documented</span> <span class="k">as</span> <span class="n">well</span><span class="p">,</span> <span class="n">but</span> <span class="k">with</span> <span class="n">an</span> <span class="n">admonition</span>
+   <span class="n">stating</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">invocation</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">definition</span><span class="o">.</span>
+   
 
 </pre></div>
 </div>

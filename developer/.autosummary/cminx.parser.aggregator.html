@@ -255,6 +255,22 @@ Cleans the docstring and dispatches ctx to other functions for additional proces
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cminx.parser.aggregator.DocumentationAggregator.process_generic_command">
+<span class="sig-name descname"><span class="pre">process_generic_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">cminx.parser.CMakeParser.CMakeParser.Documented_commandContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.parser.aggregator.DocumentationAggregator.process_generic_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts command invocation and arguments for a documented command that does not
+have a dedicated processor function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command_name</strong> – The documented command’s name, such as add_library.</p></li>
+<li><p><strong>ctx</strong> – Documented command context. Constructed by the Antlr4 parser.</p></li>
+<li><p><strong>docstring</strong> – Cleaned docstring.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cminx.parser.aggregator.DocumentationAggregator.process_macro">
 <span class="sig-name descname"><span class="pre">process_macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">cminx.parser.CMakeParser.CMakeParser.Documented_commandContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.parser.aggregator.DocumentationAggregator.process_macro" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extracts macro name and declared parameters.</p>
@@ -303,6 +319,29 @@ Also determines the type of set command/variable: String, List, or Unset.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="cminx.parser.aggregator.FunctionDocumentation.params">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#cminx.parser.aggregator.FunctionDocumentation.params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.parser.aggregator.GenericCommandDocumentation">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">cminx.parser.aggregator.</span></span><span class="sig-name descname"><span class="pre">GenericCommandDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.parser.aggregator.GenericCommandDocumentation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py property">
+<dt class="sig sig-object py" id="cminx.parser.aggregator.GenericCommandDocumentation.doc">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">doc</span></span><a class="headerlink" href="#cminx.parser.aggregator.GenericCommandDocumentation.doc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cminx.parser.aggregator.GenericCommandDocumentation.name">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#cminx.parser.aggregator.GenericCommandDocumentation.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cminx.parser.aggregator.GenericCommandDocumentation.params">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">params</span></span><a class="headerlink" href="#cminx.parser.aggregator.GenericCommandDocumentation.params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
