@@ -31,8 +31,9 @@ MacroDocumentation = namedtuple("MacroDocumentation", "macro params doc")
 VariableDocumentation = namedtuple('VariableDocumentation', 'varname type value doc')
 TestDocumentation = namedtuple('TestDocumentation', 'name expect_fail doc')
 SectionDocumentation = namedtuple('SectionDocumentation', 'name expect_fail doc')
+GenericCommandDocumentation = namedtuple('GenericCommandDocumentation', 'name params doc')
 
-DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation)
+DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation, GenericCommandDocumentation)
 
 VarType = Enum("VarType", "String List Unset")
 
@@ -152,6 +153,22 @@ class DocumentationAggregator(CMakeListener):
         else: #Unset
              self.documented.append(VariableDocumentation(varname, VarType.Unset, None, docstring))
 
+    def process_generic_command(self, command_name:str, ctx:CMakeParser.Documented_commandContext, docstring: str):
+        """
+        Extracts command invocation and arguments for a documented command that does not
+        have a dedicated processor function.
+
+        :param command_name: The documented command's name, such as add_library.
+
+        :param ctx: Documented command context. Constructed by the Antlr4 parser.
+
+        :param docstring: Cleaned docstring.
+        """
+
+        args = ctx.command_invocation().single_argument() + ctx.command_invocation().compound_argument()
+        args = [val.getText() for val in args]
+        self.documented.append(GenericCommandDocumentation(command_name, args, docstring))
+
     def enterDocumented_command(self, ctx:CMakeParser.Documented_commandContext):
          """
          Main entrypoint into the documentation processor and aggregator. Called by ParseTreeWalker whenever encountering a documented command.
@@ -185,7 +202,5 @@ class DocumentationAggregator(CMakeListener):
          if f"process_{command}" in dir(self):
               getattr(self, f"process_{command}")(ctx, cleaned_doc)
          else:
-              pretty_text = '\n'.join(ctx.Bracket_doccomment().getText().split('\n'))
-              pretty_text += f"\n{ctx.command_invocation().getText()}"
-              raise NotImplementedError(f"Documentation cannot be generated for:\n{pretty_text}")
+              self.process_generic_command(command, ctx, cleaned_doc)
 

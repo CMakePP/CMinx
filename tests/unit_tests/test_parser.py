@@ -23,7 +23,7 @@ from cminx.parser.CMakeListener import CMakeListener
 import unittest
 
 
-class TestListener(CMakeListener):
+class MockListener(CMakeListener):
     def __init__(self):
         self.elements = []
         """List of parsed element contexts. such as commands and documented commands"""
@@ -51,7 +51,7 @@ class TestParser(unittest.TestCase):
         self.tree = self.parser.cmake_file()
 
         #Hard part is done, we now have a fully useable parse tree, now we just need to walk it
-        self.aggregator = TestListener()
+        self.aggregator = MockListener()
         self.walker = ParseTreeWalker()
         self.walker.walk(self.aggregator, self.tree)
 
@@ -70,18 +70,18 @@ function(MyFunction arg1)\n    message("${arg1}")\nendfunction()
             self.assertEqual(type(element), CMakeParser.Command_invocationContext)
         for i in range(0, len(self.aggregator.elements)):
             element = self.aggregator.elements[i]
-            if i is 0:
+            if i == 0:
                 #function() command
                 self.assertEqual(element.Identifier().getText().lower(), "function")
                 self.assertEqual(element.single_argument()[0].Identifier().getText(), "MyFunction")
                 params = [param.Identifier().getText() for param in element.single_argument()[1:]] #Extract declared function parameters
                 self.assertListEqual(params, ["arg1"])
-            elif i is 1:
+            elif i == 1:
                 #message() command
                 self.assertEqual(element.Identifier().getText().lower(), "message")
                 params = [param.Quoted_argument().getText() for param in element.single_argument()] #Extract message() params
                 self.assertListEqual(params, ['"${arg1}"'])
-            elif i is 2:
+            elif i == 2:
                 #endfunction() command
                 self.assertEqual(element.Identifier().getText().lower(), "endfunction")
                 params = element.single_argument()
@@ -98,18 +98,18 @@ function(MyFunction arg1 arg2)\n    message("${arg1}" "${arg2}")\nendfunction()
             self.assertEqual(type(element), CMakeParser.Command_invocationContext)
         for i in range(0, len(self.aggregator.elements)):
             element = self.aggregator.elements[i]
-            if i is 0:
+            if i == 0:
                 #function() command
                 self.assertEqual(element.Identifier().getText().lower(), "function")
                 self.assertEqual(element.single_argument()[0].Identifier().getText(), "MyFunction")
                 params = [param.Identifier().getText() for param in element.single_argument()[1:]] #Extract declared function parameters
                 self.assertListEqual(params, ["arg1", "arg2"])
-            elif i is 1:
+            elif i == 1:
                 #message() command
                 self.assertEqual(element.Identifier().getText().lower(), "message")
                 params = [param.Quoted_argument().getText() for param in element.single_argument()] #Extract message() params
                 self.assertListEqual(params, ['"${arg1}"', '"${arg2}"'])
-            elif i is 2:
+            elif i == 2:
                 #endfunction() command
                 self.assertEqual(element.Identifier().getText().lower(), "endfunction")
                 params = element.single_argument()

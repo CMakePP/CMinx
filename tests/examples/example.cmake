@@ -44,3 +44,10 @@ set(MyList "Value" "Value 2")
 # This variable is a string variable.
 #]]
 set(MyString "String")
+
+#[[[
+# This is a generic command invocation.
+# It will be documented as well, but with an admonition
+# stating it is an invocation and not a definition.
+#]]
+message("hello")

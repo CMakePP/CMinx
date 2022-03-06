@@ -20,7 +20,7 @@ from antlr4 import *
 from cminx.parser.CMakeLexer import CMakeLexer
 from cminx.parser.CMakeParser import CMakeParser
 from cminx.parser.CMakeListener import CMakeListener
-from cminx.parser.aggregator import DocumentationAggregator, DOC_TYPES, FunctionDocumentation, MacroDocumentation, VariableDocumentation, VarType
+from cminx.parser.aggregator import DocumentationAggregator, DOC_TYPES, FunctionDocumentation, MacroDocumentation, VariableDocumentation, VarType, GenericCommandDocumentation
 from cminx.parser import ParserErrorListener, CMakeSyntaxError
 
 
@@ -156,9 +156,19 @@ set({var_name})
 
 
     def test_unknown_documented_command(self):
-        self.input_stream = InputStream('#[[[\nThis is documentation for an unknown command\n#]]\nimport_guard()')
-        with self.assertRaises(NotImplementedError):
-            self.reset()
+        docstring = 'This is documentation for an unknown command'
+        params = ["FATAL_ERROR", "\"This is a test\""]
+        command_name = "message"
+        command = f'{command_name}({" ".join(params)})'
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
+        self.assertEqual(type(self.aggregator.documented[0]), GenericCommandDocumentation, "Unexpected documentation type")
+        self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
+        self.assertEqual(self.aggregator.documented[0].name.strip(), command_name, "Incorrect command name extracted")
+        for i in range(0, len(params)):
+            p = self.aggregator.documented[0].params[i]
+            self.assertEqual(params[i], p, "Incorrect command parameters. Expected {params[i]}, got {p}")
 
 if __name__ == '__main__':
     unittest.main()
