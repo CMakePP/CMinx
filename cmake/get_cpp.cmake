@@ -7,7 +7,7 @@ include_guard()
 # parent project's configure step (namely we do not want to build CMakePP's
 # unit tests).
 #]]
-function(get_cpp)
+macro(get_cpp)
     include(cpp/cpp OPTIONAL RESULT_VARIABLE cpp_found)
     if(NOT cpp_found)
 
@@ -27,7 +27,7 @@ function(get_cpp)
        # Restore the previous value
        set(BUILD_TESTING "${build_testing_old}" CACHE BOOL "" FORCE)
     endif()
-endfunction()
+endmacro()
 
 # Call the function we just wrote to get CMakePP
 get_cpp()
