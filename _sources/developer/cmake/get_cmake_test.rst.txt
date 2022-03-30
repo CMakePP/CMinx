@@ -1,0 +1,7 @@
+
+####################
+get_cmake_test.cmake
+####################
+
+.. module:: get_cmake_test.cmake
+

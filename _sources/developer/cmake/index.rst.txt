@@ -5,6 +5,8 @@
 
 .. toctree:: 
    :maxdepth: 2
+   get_cpp
    cminx
    find_python_module
+   get_cmake_test
 
