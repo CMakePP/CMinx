@@ -14,7 +14,7 @@
 #
 include_guard()
 
-set(CMAKEDOC_SRC "${CMAKE_CURRENT_SOURCE_DIR}" CACHE FILEPATH "Location of CMinx")
+set(CMAKEDOC_SRC "${CMAKE_CURRENT_LIST_DIR}/.." CACHE FILEPATH "Location of CMinx")
 
 
 #[[[
@@ -32,35 +32,31 @@ set(CMAKEDOC_SRC "${CMAKE_CURRENT_SOURCE_DIR}" CACHE FILEPATH "Location of CMinx
 #      titles replaced by the prefix in recursive mode.
 #]]
 function(cminx_gen_rst _cgd_dir _cgd_output)
-        if(${ARGC} GREATER 2)
-            execute_process(
-                COMMAND
-                    "${VENV_PYTHON_EXECUTABLE}"
-                    "${CMAKEDOC_SRC}/main.py"
-                    "${_cgd_dir}"
-                    "-o" "${_cgd_output}"
-                    "-p" "${ARGV2}"
-                WORKING_DIRECTORY "${CMAKEDOC_SRC}"
-                OUTPUT_VARIABLE process_output
-                ERROR_VARIABLE process_err
-                RESULT_VARIABLE process_result)
-        else()
-            execute_process(
-                COMMAND
-                    "${VENV_PYTHON_EXECUTABLE}"
-                    "${CMAKEDOC_SRC}/main.py"
-                    "${_cgd_dir}"
-                    "-o" "${_cgd_output}"
-                WORKING_DIRECTORY "${CMAKEDOC_SRC}"
-                OUTPUT_VARIABLE process_output
-                ERROR_VARIABLE process_err
-                RESULT_VARIABLE process_result
-            )
-
+        set(_cgr_cminx_options "")
+        if(IS_DIRECTORY "${_cgd_dir}")
+            list(APPEND _cgr_cminx_options "-r")
         endif()
+
+        if(${ARGC} GREATER 2)
+            list(APPEND _cgr_cminx_options -p ${ARGV2})
+        endif()
+
+        execute_process(
+            COMMAND
+                "${CMINX_VENV_PYTHON_EXECUTABLE}"
+                "${CMAKEDOC_SRC}/main.py"
+                "${_cgd_dir}"
+                ${_cgr_cminx_options}
+                "-o" "${_cgd_output}"
+            WORKING_DIRECTORY "${CMAKEDOC_SRC}"
+            OUTPUT_VARIABLE process_output
+            ERROR_VARIABLE process_err
+            RESULT_VARIABLE process_result
+        )
+
 	message("${process_output}")
         if(NOT process_result EQUAL 0)
-            message(FATAL_ERROR "Failed to generate RST. Result code was: ${process_result}. Error output was: ${process_err}")
+            message(FATAL_ERROR "Failed to generate RST. Result code was: ${process_result}. Error output was: ${process_err}. Process output was: ${process_output}")
         endif()
 
 endfunction()
@@ -78,6 +74,6 @@ endfunction()
 # :type _cad_sphinx_target: desc
 #]]
 function(cminx_add_docs_target _cad_doc_dir _cad_output_dir _cad_sphinx_target)
-	add_custom_target(docs COMMAND make "${_cad_sphinx_target}" "BUILDDIR=${_cad_output_dir}" "SPHINXBUILD=${VENV_PYTHON_EXECUTABLE} -m sphinx" WORKING_DIRECTORY "${_cad_doc_dir}")
+	add_custom_target(docs COMMAND make "${_cad_sphinx_target}" "BUILDDIR=${_cad_output_dir}" "SPHINXBUILD=${CMINX_VENV_PYTHON_EXECUTABLE} -m sphinx" WORKING_DIRECTORY "${_cad_doc_dir}")
 endfunction()
 
