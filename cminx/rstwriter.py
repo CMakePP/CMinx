@@ -539,6 +539,8 @@ class Directive(RSTWriter):
 		for option in self.options:
 			document_string += f"{option}\n"
 
+		document_string += "\n"
+
 		for element in self.document[1:]:
 			document_string += f"{element}\n"
 		return document_string
