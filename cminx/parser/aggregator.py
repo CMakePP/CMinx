@@ -198,6 +198,8 @@ class DocumentationAggregator(CMakeListener):
               cleaned_lines.append(cleaned_line)
          cleaned_lines[-1] = cleaned_lines[-1].rstrip("#]")
          cleaned_doc = "\n".join(cleaned_lines)
+         if cleaned_doc.startswith("\n"):
+              cleaned_doc = cleaned_doc[1:]
          command = ctx.command_invocation().Identifier().getText().lower()
          if f"process_{command}" in dir(self):
               getattr(self, f"process_{command}")(ctx, cleaned_doc)
