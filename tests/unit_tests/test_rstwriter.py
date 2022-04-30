@@ -102,6 +102,21 @@ class TestRSTWriter(unittest.TestCase):
 		self.assertTrue(text in str(self.writer), f"Subsection text was not included")
 		self.assertTrue(self.validator.validate(), self.validator.failures)
 
+	def test_directive(self):
+		dir_type = "attention"
+		#dir_name = "Attention!"
+		opts = {"name" : "attention"}
+		dir_text = "This is an attention admonition"
+
+		directive = self.writer.directive(dir_type)
+		for opt_type, opt_val in opts.items():
+			directive.option(opt_type, opt_val)
+
+		directive.text(dir_text)
+
+		self.assertTrue(dir_type in str(self.writer), f"Directive {dir_type} was not included")
+		self.assertTrue(self.validator.validate(), self.validator.failures)
+
 	def test_write(self):
 		self.writer.write_to_file(self.file)
 		with open(self.file, "w") as f:
