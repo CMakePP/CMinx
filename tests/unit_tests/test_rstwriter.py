@@ -104,7 +104,7 @@ class TestRSTWriter(unittest.TestCase):
 
 	def test_directive(self):
 		dir_type = "attention"
-		#dir_name = "Attention!"
+
 		opts = {"name" : "attention"}
 		dir_text = "This is an attention admonition"
 
