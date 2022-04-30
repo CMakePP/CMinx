@@ -7,7 +7,7 @@ prefix.example.cmake
 
 
 .. function:: say_hi_to(person me)
-   
+
    This function has very basic documentation.
    
    This function's description stays close to idealized formatting and does not do
@@ -22,9 +22,9 @@ prefix.example.cmake
 
 .. function:: macro_say_hi(person)
 
+
    .. warning:: This is a macro, and so does not introduce a new scope.
 
-   
    This macro says hi.
    This documentation uses a differing format,
    but is still processed correctly.
@@ -35,7 +35,7 @@ prefix.example.cmake
 
 
 .. data:: MyList
-   
+
    This is an example of variable documentation.
    This variable is a list of string values.
    
@@ -46,7 +46,7 @@ prefix.example.cmake
 
 
 .. data:: MyString
-   
+
    This is another example of variable documentation.
    This variable is a string variable.
    
@@ -58,9 +58,9 @@ prefix.example.cmake
 
 .. function:: message("hello")
 
+
    .. warning:: This is a generic command invocation. It is not a function or macro definition.
 
-   
    This is a generic command invocation.
    It will be documented as well, but with an admonition
    stating it is an invocation and not a definition.

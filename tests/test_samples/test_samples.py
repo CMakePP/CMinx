@@ -49,4 +49,4 @@ class TestSamples(unittest.TestCase):
             generated_path = os.path.join(self.output_dir, file_name)
             corr_path = os.path.join(self.corr_dir, file_name)
             diff = helpers.diff_files(generated_path, corr_path)
-            self.assertTrue(diff == "")
+            self.assertEqual(diff, "")

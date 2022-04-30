@@ -7,7 +7,7 @@ advanced_function.cmake
 
 
 .. function:: advanced_say_hi_to(me)
-   
+
    Variation of say_hi_to, which takes lists of people and cats to say hi to.
    
    This function is basically the same as ``say_hi_to``, but accounts for the

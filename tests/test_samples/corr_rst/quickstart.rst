@@ -7,7 +7,7 @@ quickstart.cmake
 
 
 .. function:: quickstart(param0)
-   
+
    A brief description.
    
    A more detailed description, must be separated from the brief by at least
