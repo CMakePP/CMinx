@@ -23,7 +23,8 @@ import cminx
 import helpers
 
 class TestInit(unittest.TestCase):
-    """ Tests the functions found in __init__.py
+    """
+    Tests the functions found in __init__.py
     """
 
     def setUp(self):
@@ -84,7 +85,7 @@ class TestInit(unittest.TestCase):
       self.assertTrue(is_file, "Output file does not exist")
 
       diff = helpers.diff_files(self.output_file, context.corr_example_rst)
-      self.assertTrue(diff == "")
+      self.assertEqual(diff, "")
 
     def test_recursive_prefix(self):
       """Tests the use of CMinx in recursive mode with a prefix"""
@@ -100,8 +101,7 @@ class TestInit(unittest.TestCase):
       self.assertTrue(is_file, "Output file does not exist")
 
       diff = helpers.diff_files(self.output_file, context.corr_example_prefix_rst)
-
-      self.assertTrue(diff == "")
+      self.assertEqual(diff, "")
 
 if __name__ == '__main__':
     unittest.main()
