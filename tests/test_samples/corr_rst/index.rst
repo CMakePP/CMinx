@@ -5,6 +5,7 @@
 
 .. toctree::
    :maxdepth: 2
+
    basic_macro
    basic_function
    quickstart

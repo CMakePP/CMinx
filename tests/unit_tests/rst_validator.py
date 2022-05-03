@@ -216,7 +216,7 @@ class RSTValidator:
 
         if ad[0].astext() != to_validate.document[1].text:
             self.fail(
-                "Parsed admonition text does not match original admonition text"
+                f"Parsed admonition text ({ad[0].astext()}) does not match original admonition text ({to_validate.document[1].text}"
             )
 
     def process_image(self, img: image, to_validate: Directive):

@@ -214,7 +214,7 @@ class Paragraph(object):
 	def build_text_string(self):
 		"""
 		Populates Paragraph.text_string with the
-		RST string cooresponding to this paragraph
+		RST string corresponding to this paragraph
 		"""
 		self.text_string = "\n".join([self.prefix + text for text in self.text.split("\n")])
 
@@ -237,7 +237,7 @@ class Field(object):
 	def build_field_string(self):
 		"""
 		Populates Field.field_string with the
-		RST string cooresponding to this field
+		RST string corresponding to this field
 		"""
 
 		self.field_string = f"\n{self.prefix}:{self.field_name}: {self.field_text}"
@@ -538,6 +538,9 @@ class Directive(RSTWriter):
 
 		for option in self.options:
 			document_string += f"{option}\n"
+
+		if len(self.document) > 1:
+			document_string += "\n"
 
 		for element in self.document[1:]:
 			document_string += f"{element}\n"
