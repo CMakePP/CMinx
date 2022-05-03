@@ -7,7 +7,7 @@ find_python_module.cmake
 
 
 .. function:: find_python_module(module)
-   
+
    Custom function to locate a Python module. Requires the Python interpreter to be located first.
    
    Sets PY_${module_upper} to the module file's location if found.

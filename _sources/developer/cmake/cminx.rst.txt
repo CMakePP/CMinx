@@ -7,7 +7,7 @@ cminx.cmake
 
 
 .. function:: cminx_gen_rst(_cgd_dir _cgd_output)
-   
+
    Generate documentation RST from source CMake files.
    
    :param dir: Directory to search for source files. Can also be a single file.
@@ -24,7 +24,7 @@ cminx.cmake
 
 
 .. function:: cminx_add_docs_target(_cad_doc_dir _cad_output_dir _cad_sphinx_target)
-   
+
    Add a custom target to the makefile called "docs" that calls Sphinx.
    Sphinx is automatically installed in the virtual environment and the target
    automatically uses that installed instance.
