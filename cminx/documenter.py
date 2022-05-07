@@ -32,7 +32,7 @@ from .parser.CMakeParser import CMakeParser
 from .parser.CMakeListener import CMakeListener
 from .rstwriter import RSTWriter
 from .parser.aggregator import DocumentationAggregator
-from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation, GenericCommandDocumentation, ClassDocumentation
+from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation, GenericCommandDocumentation, ClassDocumentation, AttributeDocumentation
 
 
 
@@ -52,6 +52,8 @@ class Documenter(object):
         self.writer = RSTWriter(title)
 
         self.module = self.writer.directive("module", title)
+
+        self.classes = {}
 
         #We need a string stream of some kind, FileStream is easiest
         self.input_stream = FileStream(file)
@@ -105,6 +107,8 @@ class Documenter(object):
                 self.process_section_doc(doc)
             elif isinstance(doc, ClassDocumentation):
                 self.process_class_doc(doc)
+            elif isinstance(doc, AttributeDocumentation):
+                self.process_attr_doc(doc)
             elif isinstance(doc, GenericCommandDocumentation):
                 self.process_generic_command_doc(doc)
 
@@ -180,4 +184,12 @@ class Documenter(object):
 
     def process_class_doc(self, doc):
         d = self.writer.directive("py:class", f"{doc.name}({' '.join(doc.superclasses)})")
+        d.text(doc.doc)
+
+
+    def process_attr_doc(self, doc):
+        d = self.writer.directive("py:attribute", f"{doc.parent_class}.{doc.name}")
+        if doc.default_value is not None:
+            d.option("value", doc.default_value)
+
         d.text(doc.doc)

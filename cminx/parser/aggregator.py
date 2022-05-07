@@ -33,10 +33,11 @@ TestDocumentation = namedtuple('TestDocumentation', 'name expect_fail doc')
 SectionDocumentation = namedtuple('SectionDocumentation', 'name expect_fail doc')
 GenericCommandDocumentation = namedtuple('GenericCommandDocumentation', 'name params doc')
 ClassDocumentation = namedtuple('ClassDocumentation', 'name superclasses doc')
+AttributeDocumentation = namedtuple('ClassDocumentation', 'parent_class name default_value doc')
 
 DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation,
              TestDocumentation, SectionDocumentation, GenericCommandDocumentation,
-             ClassDocumentation)
+             ClassDocumentation, AttributeDocumentation)
 
 VarType = Enum("VarType", "String List Unset")
 
@@ -179,6 +180,29 @@ class DocumentationAggregator(CMakeListener):
 
             print(f"cpp_class() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
             return
+
+    def process_cpp_attr(self, ctx:CMakeParser.Documented_commandContext, docstring: str):
+        """
+        Extracts the name and any default values from the documented cpp_attr
+        command.
+
+        :param ctx: Documented command context. Constructed by the Antlr4 parser.
+
+        :param docstring: Cleaned docstring.
+        """
+        params = [param.getText() for param in ctx.command_invocation().single_argument()]
+        try:
+            parent_class = params[0]
+            name = params[1]
+            default_values = params[2] if len(params) > 2 else None
+            self.documented.append(AttributeDocumentation(parent_class, name, default_values, docstring))
+        except IndexError:
+            pretty_text = '\n'.join(ctx.Bracket_doccomment().getText().split('\n'))
+            pretty_text += f"\n{ctx.command_invocation().getText()}"
+
+            print(f"cpp_attr() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+            return
+
 
 
 
