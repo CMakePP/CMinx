@@ -32,14 +32,18 @@ VariableDocumentation = namedtuple('VariableDocumentation', 'varname type value 
 TestDocumentation = namedtuple('TestDocumentation', 'name expect_fail doc')
 SectionDocumentation = namedtuple('SectionDocumentation', 'name expect_fail doc')
 GenericCommandDocumentation = namedtuple('GenericCommandDocumentation', 'name params doc')
+ClassDocumentation = namedtuple('ClassDocumentation', 'name superclasses doc')
 
-DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation, GenericCommandDocumentation)
+DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation,
+             TestDocumentation, SectionDocumentation, GenericCommandDocumentation,
+             ClassDocumentation)
 
 VarType = Enum("VarType", "String List Unset")
 
 class DocumentationAggregator(CMakeListener):
     """
-    Processes all docstrings and their associated commands, aggregating them in a list.
+    Processes all docstrings and their associated commands, aggregating
+    them in a list.
     """
 
 
@@ -153,6 +157,31 @@ class DocumentationAggregator(CMakeListener):
         else: #Unset
              self.documented.append(VariableDocumentation(varname, VarType.Unset, None, docstring))
 
+
+    def process_cpp_class(self, ctx:CMakeParser.Documented_commandContext, docstring: str):
+        """
+        Extracts the name and the declared superclasses from the documented
+        cpp_class command.
+
+        :param ctx: Documented command context. Constructed by the Antlr4 parser.
+
+        :param docstring: Cleaned docstring.
+        """
+
+        params = [param.Identifier().getText() for param in ctx.command_invocation().single_argument()]
+        try:
+            name = params[0]
+            superclasses = params[1:]
+            self.documented.append(ClassDocumentation(name, superclasses, docstring))
+        except IndexError:
+            pretty_text = '\n'.join(ctx.Bracket_doccomment().getText().split('\n'))
+            pretty_text += f"\n{ctx.command_invocation().getText()}"
+
+            print(f"cpp_class() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+            return
+
+
+
     def process_generic_command(self, command_name:str, ctx:CMakeParser.Documented_commandContext, docstring: str):
         """
         Extracts command invocation and arguments for a documented command that does not
@@ -205,4 +234,5 @@ class DocumentationAggregator(CMakeListener):
               getattr(self, f"process_{command}")(ctx, cleaned_doc)
          else:
               self.process_generic_command(command, ctx, cleaned_doc)
+
 
