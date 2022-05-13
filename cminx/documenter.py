@@ -24,13 +24,14 @@ for CMake files.
 
 
 
+from audioop import add
 import sys
 from antlr4 import *
 from .parser import ParserErrorListener
 from .parser.CMakeLexer import CMakeLexer
 from .parser.CMakeParser import CMakeParser
 from .parser.CMakeListener import CMakeListener
-from .rstwriter import RSTWriter
+from .rstwriter import Directive, RSTWriter
 from .parser.aggregator import DocumentationAggregator
 from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation, GenericCommandDocumentation, ClassDocumentation, AttributeDocumentation
 
@@ -182,13 +183,17 @@ class Documenter(object):
         warning = d.directive("warning", "This is a generic command invocation. It is not a function or macro definition.")
         d.text(doc.doc)
 
-    def process_class_doc(self, doc):
+    def process_class_doc(self, doc: ClassDocumentation):
         d = self.writer.directive("py:class", f"{doc.name}({' '.join(doc.superclasses)})")
         d.text(doc.doc)
 
+        for member in doc.members:
+            if isinstance(member, AttributeDocumentation):
+                self.add_attr_doc(member, d)
 
-    def process_attr_doc(self, doc):
-        d = self.writer.directive("py:attribute", f"{doc.parent_class}.{doc.name}")
+
+    def add_attr_doc(self, doc: AttributeDocumentation, class_directive: Directive):
+        d = class_directive.directive("py:attribute", f"{doc.name}")
         if doc.default_value is not None:
             d.option("value", doc.default_value)
 
