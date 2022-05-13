@@ -69,20 +69,12 @@ set(CMINX_PACKAGE_SEARCH_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 # First line calls PyInstaller to build the single file executable.
 # Second line copies the resultant executable to the binary directory.
 #]]
-#add_custom_command(OUTPUT ${OUTPUT}
-#                   COMMAND ${CMINX_VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py"
-#                   COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${CMAKE_CURRENT_BINARY_DIR}/cminx"
-#                   DEPENDS ${DEPS})
-
 add_custom_target(cminx ALL
                    ${CMINX_VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py"
                    COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${OUTPUT}"
                    DEPENDS ${DEPS}
                    BYPRODUCTS ${OUTPUT})
 
-
-
-#add_custom_target(cminx_bin ALL DEPENDS ${OUTPUT})
 
 install(PROGRAMS ${OUTPUT} DESTINATION bin)
 
