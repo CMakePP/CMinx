@@ -32,7 +32,7 @@ from .parser.CMakeLexer import CMakeLexer
 from .parser.CMakeParser import CMakeParser
 from .parser.CMakeListener import CMakeListener
 from .rstwriter import Directive, RSTWriter
-from .parser.aggregator import DocumentationAggregator
+from .parser.aggregator import DocumentationAggregator, MethodDocumentation
 from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation, GenericCommandDocumentation, ClassDocumentation, AttributeDocumentation
 
 
@@ -112,6 +112,8 @@ class Documenter(object):
                 self.process_attr_doc(doc)
             elif isinstance(doc, GenericCommandDocumentation):
                 self.process_generic_command_doc(doc)
+            else:
+                raise ValueError(f"Unknown documentation type {str(type(doc))}: {str(doc)}")
 
 
     def process_function_doc(self, doc: FunctionDocumentation):
@@ -190,7 +192,14 @@ class Documenter(object):
         for member in doc.members:
             if isinstance(member, AttributeDocumentation):
                 self.add_attr_doc(member, d)
+            elif isinstance(member, MethodDocumentation):
+                self.add_method_doc(member, d)
+            else:
+                raise ValueError(f"Unknown member documentation type {str(type(member))}: {str(member)}")
 
+    def add_method_doc(self, doc: MethodDocumentation, class_directive: Directive):
+        d = class_directive.directive("py:method", f"{doc.name}({' '.join(doc.param_types)})")
+        d.text(doc.doc)
 
     def add_attr_doc(self, doc: AttributeDocumentation, class_directive: Directive):
         d = class_directive.directive("py:attribute", f"{doc.name}")

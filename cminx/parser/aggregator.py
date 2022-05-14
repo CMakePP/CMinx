@@ -38,6 +38,8 @@ ClassDocumentation = namedtuple(
     'ClassDocumentation', 'name superclasses inner_classes members doc')
 AttributeDocumentation = namedtuple(
     'ClassDocumentation', 'parent_class name default_value doc')
+MethodDocumentation = namedtuple(
+    'MethodDocumentation', 'parent_class name param_types doc')
 
 DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation,
              TestDocumentation, SectionDocumentation, GenericCommandDocumentation,
@@ -211,6 +213,44 @@ class DocumentationAggregator(CMakeListener):
                 f"cpp_class() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
             return
 
+    def process_cpp_member(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+        """
+        Extracts the method name and declared parameter types from the documented cpp_member
+        command.
+
+        :param ctx: Documented command context. Constructed by the Antlr4 parser.
+
+        :param docstring: Cleaned docstring.
+        """
+        params = [param.getText()
+                  for param in ctx.command_invocation().single_argument()]
+        if len(self.documented_classes_stack) <= 0:
+            pretty_text = '\n'.join(
+                ctx.Bracket_doccomment().getText().split('\n'))
+            pretty_text += f"\n{ctx.command_invocation().getText()}"
+
+            print(
+                f"cpp_attr() called outside of cpp_class() definition: {params}\n\n{pretty_text}", file=sys.stderr)
+            return
+
+        clazz = self.documented_classes_stack[-1]
+        try:
+            parent_class = params[1]
+            name = params[0]
+            param_types = params[2:] if len(params) > 2 else None
+            clazz.members.append(MethodDocumentation(
+                parent_class, name, param_types, docstring
+            ))
+        except IndexError:
+            pretty_text = '\n'.join(
+                ctx.Bracket_doccomment().getText().split('\n'))
+            pretty_text += f"\n{ctx.command_invocation().getText()}"
+
+            print(
+                f"cpp_attr() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+            return
+        
+
     def process_cpp_attr(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
         """
         Extracts the name and any default values from the documented cpp_attr
@@ -308,6 +348,6 @@ class DocumentationAggregator(CMakeListener):
         else:
             self.process_generic_command(command, ctx, cleaned_doc)
 
-    def enterCommand_invocation(self, ctx:CMakeParser.Command_invocationContext):
+    def enterCommand_invocation(self, ctx: CMakeParser.Command_invocationContext):
         if ctx.Identifier().getText().lower() == "cpp_end_class":
             self.documented_classes_stack.pop()
