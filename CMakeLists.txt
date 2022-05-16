@@ -20,7 +20,7 @@ find_python_module(setuptools REQUIRED)
 find_python_module(venv REQUIRED)
 
 set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/cminx/__init__.py")
-set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
+set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/cminx")
 
 
 #[[[
@@ -65,22 +65,18 @@ configure_file("${CMAKE_CURRENT_LIST_DIR}/templates/CMinxConfigVersion.cmake" "$
 set(CMINX_PACKAGE_SEARCH_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 
 #[[
-# Installation command.
+# Build command.
 # First line calls PyInstaller to build the single file executable.
-# Second line creates the necessary install directories.
-# Third line copies the resultant executable to the installation path.
+# Second line copies the resultant executable to the binary directory.
 #]]
-add_custom_command(OUTPUT ${OUTPUT}
-                   COMMAND ${CMINX_VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py" "--distpath=${CMAKE_CURRENT_BINARY_DIR}/dist" "--runtime-tmpdir=${CMAKE_INSTALL_PREFIX}/bin/.cminx"
-                   COMMAND "sh" "-c" "mkdir -p ${CMAKE_INSTALL_PREFIX}/bin/.cminx" #Creates bin and .cminx if needed
-                   COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${CMAKE_INSTALL_PREFIX}/bin/cminx"
-                   COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
-                   DEPENDS ${DEPS})
+add_custom_target(cminx ALL
+                   ${CMINX_VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py"
+                   COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${OUTPUT}"
+                   DEPENDS ${DEPS}
+                   BYPRODUCTS ${OUTPUT})
 
 
-add_custom_target(target ALL DEPENDS ${OUTPUT})
-
-install(TARGETS RUNTIME)
+install(PROGRAMS ${OUTPUT} DESTINATION bin)
 
 if(BUILD_DOCS)
     include("cminx")
