@@ -38,8 +38,16 @@ ClassDocumentation = namedtuple(
     'ClassDocumentation', 'name superclasses inner_classes members doc')
 AttributeDocumentation = namedtuple(
     'ClassDocumentation', 'parent_class name default_value doc')
-MethodDocumentation = namedtuple(
-    'MethodDocumentation', 'parent_class name param_types doc')
+
+class MethodDocumentation:
+    def __init__(self, parent_class, name, param_types, doc) -> None:
+        self.parent_class = parent_class
+        self.name = name
+        self.param_types = param_types
+        self.params = []
+        self.doc = doc
+# MethodDocumentation = namedtuple(
+#     'MethodDocumentation', 'parent_class name param_types params doc')
 
 DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation,
              TestDocumentation, SectionDocumentation, GenericCommandDocumentation,
@@ -60,6 +68,12 @@ class DocumentationAggregator(CMakeListener):
 
         self.documented_classes_stack = []
         """A stack containing the documented classes and inner classes as they are processed"""
+
+        self.documented_awaiting_function_def = None
+        """
+        A variable containing a documented command such as cpp_member() that is awaiting its function/macro
+        definition
+        """
 
     def process_function(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
         """
@@ -238,9 +252,10 @@ class DocumentationAggregator(CMakeListener):
             parent_class = params[1]
             name = params[0]
             param_types = params[2:] if len(params) > 2 else None
-            clazz.members.append(MethodDocumentation(
-                parent_class, name, param_types, docstring
-            ))
+            method_doc = MethodDocumentation(
+                parent_class, name, param_types, docstring)
+            clazz.members.append(method_doc)
+            self.documented_awaiting_function_def = method_doc
         except IndexError:
             pretty_text = '\n'.join(
                 ctx.Bracket_doccomment().getText().split('\n'))
@@ -351,3 +366,16 @@ class DocumentationAggregator(CMakeListener):
     def enterCommand_invocation(self, ctx: CMakeParser.Command_invocationContext):
         if ctx.Identifier().getText().lower() == "cpp_end_class":
             self.documented_classes_stack.pop()
+        elif ((ctx.Identifier().getText().lower() == "function"
+            or ctx.Identifier().getText().lower() == "macro")
+            and self.documented_awaiting_function_def is not None):
+            #We've found the function/macro def that the previous documented command needed
+            params = [param.getText()
+                  for param in ctx.single_argument()]
+            #Ignore function name and self param
+            if len(params) > 2:
+                param_names = params[2:]
+                self.documented_awaiting_function_def.params = param_names
+
+            #Clear the var since we've processed the function/macro def we need
+            self.documented_awaiting_function_def = None

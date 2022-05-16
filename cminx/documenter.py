@@ -27,6 +27,7 @@ for CMake files.
 from audioop import add
 import sys
 from antlr4 import *
+from pytest import param
 from .parser import ParserErrorListener
 from .parser.CMakeLexer import CMakeLexer
 from .parser.CMakeParser import CMakeParser
@@ -198,8 +199,16 @@ class Documenter(object):
                 raise ValueError(f"Unknown member documentation type {str(type(member))}: {str(member)}")
 
     def add_method_doc(self, doc: MethodDocumentation, class_directive: Directive):
-        d = class_directive.directive("py:method", f"{doc.name}({' '.join(doc.param_types)})")
+        params_pretty = ', '.join(doc.params) + "[, ...]" if "args" in doc.param_types else ""
+        d = class_directive.directive("py:method", f"{doc.name}({params_pretty})")
         d.text(doc.doc)
+        for i in range(len(doc.param_types)):
+            if i >= len(doc.params):
+                break
+            if f":param {doc.params[i]}:" not in doc.doc:
+                d.field(f"param {doc.params[i]}", "")
+            if f":type {doc.params[i]}:" not in doc.doc:
+                d.field(f"type {doc.params[i]}", doc.param_types[i])
 
     def add_attr_doc(self, doc: AttributeDocumentation, class_directive: Directive):
         d = class_directive.directive("py:attribute", f"{doc.name}")
