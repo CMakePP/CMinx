@@ -46,12 +46,12 @@ class MethodDocumentation:
         self.param_types = param_types
         self.params = []
         self.doc = doc
-# MethodDocumentation = namedtuple(
-#     'MethodDocumentation', 'parent_class name param_types params doc')
+        self.is_macro = False
+
 
 DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation,
              TestDocumentation, SectionDocumentation, GenericCommandDocumentation,
-             ClassDocumentation, AttributeDocumentation)
+             ClassDocumentation, AttributeDocumentation, MethodDocumentation)
 
 VarType = Enum("VarType", "String List Unset")
 
@@ -372,6 +372,9 @@ class DocumentationAggregator(CMakeListener):
             #We've found the function/macro def that the previous documented command needed
             params = [param.getText()
                   for param in ctx.single_argument()]
+
+            self.documented_awaiting_function_def.is_macro = ctx.Identifier().getText().lower() == "macro"
+            
             #Ignore function name and self param
             if len(params) > 2:
                 param_names = params[2:]

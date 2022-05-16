@@ -199,6 +199,8 @@ class Documenter(object):
     def add_method_doc(self, doc: MethodDocumentation, class_directive: Directive):
         params_pretty = ', '.join(doc.params) + "[, ...]" if "args" in doc.param_types else ""
         d = class_directive.directive("py:method", f"{doc.name}({params_pretty})")
+        if doc.is_macro:
+            d.directive("note", "This member is a macro and so does not introduce a new scope")
         d.text(doc.doc)
         for i in range(len(doc.param_types)):
             if i >= len(doc.params):
