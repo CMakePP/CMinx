@@ -23,15 +23,10 @@ for CMake files.
 """
 
 
-
-from audioop import add
-import sys
 from antlr4 import *
-from pytest import param
 from .parser import ParserErrorListener
 from .parser.CMakeLexer import CMakeLexer
 from .parser.CMakeParser import CMakeParser
-from .parser.CMakeListener import CMakeListener
 from .rstwriter import Directive, RSTWriter
 from .parser.aggregator import DocumentationAggregator, MethodDocumentation
 from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation, GenericCommandDocumentation, ClassDocumentation, AttributeDocumentation
