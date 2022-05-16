@@ -188,6 +188,9 @@ class Documenter(object):
 
     def process_class_doc(self, doc: ClassDocumentation):
         d = self.writer.directive("py:class", f"{doc.name}({' '.join(doc.superclasses)})")
+        if len(doc.superclasses) > 0:
+            bases = "Bases: " + ", ".join(f":class:`{superclass}`" for superclass in doc.superclasses)
+            d.text(bases + '\n')
         d.text(doc.doc)
 
         for member in doc.members:
