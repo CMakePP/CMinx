@@ -40,20 +40,14 @@ ClassDocumentation = namedtuple(
     'ClassDocumentation', 'name superclasses inner_classes members doc')
 AttributeDocumentation = namedtuple(
     'ClassDocumentation', 'parent_class name default_value doc')
-
-class MethodDocumentation:
-    def __init__(self, parent_class:str, name:str, param_types, doc:str, is_constructor:bool = False) -> None:
-        self.parent_class = parent_class
-        self.name = name
-        self.param_types = param_types
-        self.params = []
-        self.doc = doc
-        self.is_constructor = is_constructor
+MethodDocumentation = namedtuple(
+    'MethodDocumentation', 'parent_class name param_types params is_constructor doc'
+)
 
 
 DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation,
              TestDocumentation, SectionDocumentation, GenericCommandDocumentation,
-             ClassDocumentation, AttributeDocumentation)
+             ClassDocumentation, AttributeDocumentation, MethodDocumentation)
 
 VarType = Enum("VarType", "String List Unset")
 
@@ -258,7 +252,7 @@ class DocumentationAggregator(CMakeListener):
             name = params[0]
             param_types = params[2:] if len(params) > 2 else None
             method_doc = MethodDocumentation(
-                parent_class, name, param_types, docstring, is_constructor=is_constructor)
+                parent_class, name, param_types, [], is_constructor, docstring)
             clazz.members.append(method_doc)
             self.documented_awaiting_function_def = method_doc
         except IndexError:
@@ -383,7 +377,7 @@ class DocumentationAggregator(CMakeListener):
             #Ignore function name and self param
             if len(params) > 2:
                 param_names = params[2:]
-                self.documented_awaiting_function_def.params = param_names
+                self.documented_awaiting_function_def.params.extend(param_names)
 
             #Clear the var since we've processed the function/macro def we need
             self.documented_awaiting_function_def = None
