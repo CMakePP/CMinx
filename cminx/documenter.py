@@ -182,7 +182,7 @@ class Documenter(object):
         d.text(doc.doc)
 
     def process_class_doc(self, doc: ClassDocumentation):
-        d = self.writer.directive("py:class", f"{doc.name}({' '.join(doc.superclasses)})")
+        d = self.writer.directive("py:class", f"{doc.name}")
         if len(doc.superclasses) > 0:
             bases = "Bases: " + ", ".join(f":class:`{superclass}`" for superclass in doc.superclasses)
             d.text(bases + '\n')
@@ -197,8 +197,11 @@ class Documenter(object):
                 raise ValueError(f"Unknown member documentation type {str(type(member))}: {str(member)}")
 
     def add_method_doc(self, doc: MethodDocumentation, class_directive: Directive):
-        params_pretty = ', '.join(doc.params) + "[, ...]" if "args" in doc.param_types else ""
+        params_pretty = ', '.join(doc.params) + ("[, ...]" if "args" in doc.param_types else "")
         d = class_directive.directive("py:method", f"{doc.name}({params_pretty})")
+        if doc.is_constructor:
+            info = d.directive("admonition", "info")
+            info.text("This member is a constructor.")
         d.text(doc.doc)
         for i in range(len(doc.param_types)):
             if i >= len(doc.params):

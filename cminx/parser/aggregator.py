@@ -1,3 +1,5 @@
+from copyreg import constructor
+import functools
 import sys
 
 from antlr4 import *  # FIXME Remove unused imports
@@ -40,14 +42,14 @@ AttributeDocumentation = namedtuple(
     'ClassDocumentation', 'parent_class name default_value doc')
 
 class MethodDocumentation:
-    def __init__(self, parent_class, name, param_types, doc) -> None:
+    def __init__(self, parent_class:str, name:str, param_types, doc:str, is_constructor:bool = False) -> None:
         self.parent_class = parent_class
         self.name = name
         self.param_types = param_types
         self.params = []
         self.doc = doc
-# MethodDocumentation = namedtuple(
-#     'MethodDocumentation', 'parent_class name param_types params doc')
+        self.is_constructor = is_constructor
+
 
 DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation,
              TestDocumentation, SectionDocumentation, GenericCommandDocumentation,
@@ -227,7 +229,9 @@ class DocumentationAggregator(CMakeListener):
                 f"cpp_class() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
             return
 
-    def process_cpp_member(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+    
+
+    def process_cpp_member(self, ctx: CMakeParser.Documented_commandContext, docstring: str, is_constructor:bool = False):
         """
         Extracts the method name and declared parameter types from the documented cpp_member
         command.
@@ -242,9 +246,10 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = '\n'.join(
                 ctx.Bracket_doccomment().getText().split('\n'))
             pretty_text += f"\n{ctx.command_invocation().getText()}"
+            called_type = "cpp_constructor()" if is_constructor else "cpp_member()"
 
             print(
-                f"cpp_attr() called outside of cpp_class() definition: {params}\n\n{pretty_text}", file=sys.stderr)
+                f"{called_type} called outside of cpp_class() definition: {params}\n\n{pretty_text}", file=sys.stderr)
             return
 
         clazz = self.documented_classes_stack[-1]
@@ -253,18 +258,22 @@ class DocumentationAggregator(CMakeListener):
             name = params[0]
             param_types = params[2:] if len(params) > 2 else None
             method_doc = MethodDocumentation(
-                parent_class, name, param_types, docstring)
+                parent_class, name, param_types, docstring, is_constructor=is_constructor)
             clazz.members.append(method_doc)
             self.documented_awaiting_function_def = method_doc
         except IndexError:
             pretty_text = '\n'.join(
                 ctx.Bracket_doccomment().getText().split('\n'))
             pretty_text += f"\n{ctx.command_invocation().getText()}"
+            called_type = "cpp_constructor()" if is_constructor else "cpp_member()"
 
             print(
-                f"cpp_attr() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+                f"{called_type} called with incorrect number of arguments: {params}\n\n{pretty_text}", file=sys.stderr)
             return
         
+
+    def process_cpp_constructor(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+        self.process_cpp_member(ctx, docstring, is_constructor = True)
 
     def process_cpp_attr(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
         """
@@ -314,8 +323,7 @@ class DocumentationAggregator(CMakeListener):
         :param docstring: Cleaned docstring.
         """
 
-        args = ctx.command_invocation().single_argument(
-        ) + ctx.command_invocation().compound_argument()
+        args = ctx.command_invocation().single_argument() + ctx.command_invocation().compound_argument()
         args = [val.getText() for val in args]
         self.documented.append(GenericCommandDocumentation(
             command_name, args, docstring))
