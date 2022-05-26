@@ -66,3 +66,145 @@ example.cmake
    stating it is an invocation and not a definition.
    
 
+
+.. py:class:: MyClass
+
+   This is a class
+   
+
+   .. py:attribute:: myattr
+      :value: "a string"
+
+      :type: str
+      
+      This is an attribute. Use the type option
+      at the top of the doccomment and a blank line
+      after to document the attribute type.
+      
+
+
+   .. py:method:: a_method(param_1, param_2)
+
+      This is a method
+      
+
+      :param param_1: 
+
+      :type param_1: str
+
+      :param param_2: 
+
+      :type param_2: MyClass
+
+
+   .. py:method:: CTOR(a, b)
+
+
+      .. admonition:: info
+
+         This member is a constructor.
+
+      This is a constructor
+      
+
+      :param a: 
+
+      :type a: int
+
+      :param b: 
+
+      :type b: int
+
+
+
+.. py:class:: MyClass2
+
+   This is another class
+   
+
+   .. py:attribute:: myattr
+      :value: "a string"
+
+      This is an attribute
+      
+
+
+   .. py:method:: a_method(param_1, param_2)
+
+      This is a method
+      
+
+      :param param_1: 
+
+      :type param_1: str
+
+      :param param_2: 
+
+      :type param_2: MyClass2
+
+
+   .. py:method:: CTOR(a, b)
+
+
+      .. admonition:: info
+
+         This member is a constructor.
+
+      This is a constructor
+      
+
+      :param a: 
+
+      :type a: int
+
+      :param b: 
+
+      :type b: int
+
+
+
+.. py:class:: MyClass3
+
+   This is a nested class
+   
+
+   .. py:attribute:: myattr
+      :value: "a string"
+
+      This is an attribute
+      
+
+
+   .. py:method:: a_method(param_1, param_2)
+
+      This is a method
+      
+
+      :param param_1: 
+
+      :type param_1: str
+
+      :param param_2: 
+
+      :type param_2: MyClass3
+
+
+   .. py:method:: CTOR(a, b)
+
+
+      .. admonition:: info
+
+         This member is a constructor.
+
+      This is a constructor
+      
+
+      :param a: 
+
+      :type a: int
+
+      :param b: 
+
+      :type b: int
+
+
