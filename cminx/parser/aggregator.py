@@ -233,6 +233,8 @@ class DocumentationAggregator(CMakeListener):
         :param ctx: Documented command context. Constructed by the Antlr4 parser.
 
         :param docstring: Cleaned docstring.
+
+        :param is_constructor: Whether the member is a constructor, this parameter is reflected in the generated MethodDocumentation.
         """
         params = [param.getText()
                   for param in ctx.command_invocation().single_argument()]
@@ -267,6 +269,9 @@ class DocumentationAggregator(CMakeListener):
         
 
     def process_cpp_constructor(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+        """
+        Alias for calling process_cpp_member() with is_constructor=True.
+        """
         self.process_cpp_member(ctx, docstring, is_constructor = True)
 
     def process_cpp_attr(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
@@ -366,6 +371,11 @@ class DocumentationAggregator(CMakeListener):
             self.process_generic_command(command, ctx, cleaned_doc)
 
     def enterCommand_invocation(self, ctx: CMakeParser.Command_invocationContext):
+        """
+        Visitor for all other commands, used for locating position-dependent
+        elements of documented commands, such as cpp_end_class() that pops the class stack,
+        or a function or method definition for cpp_member().
+        """
         if ctx.Identifier().getText().lower() == "cpp_end_class":
             self.documented_classes_stack.pop()
         elif ((ctx.Identifier().getText().lower() == "function"
