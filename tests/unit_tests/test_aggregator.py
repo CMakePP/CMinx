@@ -20,7 +20,7 @@ from antlr4 import *
 from cminx.parser.CMakeLexer import CMakeLexer
 from cminx.parser.CMakeParser import CMakeParser
 from cminx.parser.CMakeListener import CMakeListener
-from cminx.parser.aggregator import DocumentationAggregator, DOC_TYPES, FunctionDocumentation, MacroDocumentation, VariableDocumentation, VarType, GenericCommandDocumentation
+from cminx.parser.aggregator import ClassDocumentation, DocumentationAggregator, DOC_TYPES, FunctionDocumentation, MacroDocumentation, VariableDocumentation, VarType, GenericCommandDocumentation
 from cminx.parser import ParserErrorListener, CMakeSyntaxError
 
 
@@ -153,6 +153,47 @@ set({var_name})
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
         self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect var_name extracted")
         self.assertEqual(self.aggregator.documented[0].type, VarType.Unset)
+
+    def test_cpp_class_no_superclass_no_inner(self):
+        self.test_cpp_class_multi_superclass_no_inner([])
+
+    
+    def test_cpp_class_multi_superclass_multi_members(self,
+    superclasses = ["SuperClassA", "SuperClassB", "SuperClassC"], attributes = ["attr1", "attr2"],
+    methods = ["method1", "method2"], inner_classes = ["Inner1", "Inner2"]):
+        docstring = "This is a class"
+        class_name = "MyClass"
+        method_definitions = '\n'.join([f'cpp_member({method_name} {class_name})\nfunction(' + '${' + method_name + '})\nendfunction()' for method_name in methods])
+        attribute_definitions = '\n'.join([f'cpp_attr({class_name} {attr_name})' for attr_name in attributes])
+        self.input_stream = InputStream(f'''
+#[[[
+# {docstring}
+#]]
+cpp_class({class_name} {' '.join(superclasses)})
+
+    {attribute_definitions}
+
+    {method_definitions}
+
+cpp_end_class()
+        ''')
+        self.reset()
+        self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
+        self.assertEqual(type(self.aggregator.documented[0]), ClassDocumentation, "Unexpected documentation type")
+        self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
+        self.assertEqual(self.aggregator.documented[0].name.strip(), class_name, "Incorrect class name extracted")
+        self.assertEqual(len(self.aggregator.documented[0].superclasses), len(superclasses), "Superclasses incorrectly found")
+        for i in range(len(superclasses)):
+            self.assertEqual(self.aggregator.documented[0].superclasses[i].strip(), superclasses[i].strip(), "Superclass name not preserved")
+        
+        self.assertEqual(len(self.aggregator.documented[0].inner_classes), 0, "Inner classes incorrectly found")
+        self.assertEqual(len(self.aggregator.documented[0].members), 0, "Members incorrectly found")
+
+    def test_cpp_class_multi_superclass_no_inner(self, superclasses = ["SuperClassA", "SuperClassB", "SuperClassC"]):
+        self.test_cpp_class_multi_superclass_multi_members(superclasses=superclasses, attributes=[], methods=[])
+
+    def test_cpp_class_one_superclasses_no_inner(self):
+        self.test_cpp_class_multi_superclass_no_inner(["SuperClass"])
 
 
     def test_unknown_documented_command(self):
