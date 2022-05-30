@@ -57,7 +57,7 @@ execute_process(COMMAND "${CMINX_VENV_PIP}" "install" "pyinstaller") #Install ou
 
 
 #Install program specific dependencies so that pyinstaller can find them.
-execute_process(COMMAND "${CMINX_VENV_PIP}" "install" "-r" "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt")
+execute_process(COMMAND "${CMINX_VENV_PIP}" "install" "-e" "${CMAKE_CURRENT_SOURCE_DIR}")
 
 #Write package config files
 configure_file("${CMAKE_CURRENT_LIST_DIR}/templates/CMinxConfig.cmake" "${CMAKE_CURRENT_BINARY_DIR}" @ONLY)
