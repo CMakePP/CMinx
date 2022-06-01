@@ -97,6 +97,12 @@ prefix.example.cmake
       :type param_2: MyClass
 
 
+   .. py:method:: a_method_no_args()
+
+      This is a method without arguments
+      
+
+
    .. py:method:: CTOR(a, b)
 
 

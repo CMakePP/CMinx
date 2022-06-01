@@ -75,6 +75,14 @@ cpp_class(MyClass)
     endfunction()
 
     #[[[
+    # This is a method without arguments
+    #]]
+    cpp_member(a_method_no_args MyClass)
+    function(${a_method} self)
+        
+    endfunction()
+
+    #[[[
     # This is a constructor
     #]]
     cpp_constructor(CTOR MyClass int int)
