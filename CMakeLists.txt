@@ -6,6 +6,8 @@ file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/version.txt" CMINX_VERSION)
 project(cminx DESCRIPTION "CMake automatic documentation generator" LANGUAGES NONE VERSION ${CMINX_VERSION}) #Not using any compiled languages so don't list, removes check for compilers
 
 option(BUILD_DOCS "Whether documentation targets should be added" OFF)
+option(BUILD_TESTING "Whether tests should be built ad ctest configured" OFF)
+
 
 #Allows us to locate any arbitrary Python3 module.
 include(find_python_module)
@@ -85,7 +87,7 @@ if(BUILD_DOCS)
     cminx_add_docs_target("${CMAKE_CURRENT_SOURCE_DIR}/docs" "${CMAKE_CURRENT_BINARY_DIR}/docs" html)
 endif()
 
-if("${BUILD_TESTING}")
+if(BUILD_TESTING)
     message("Building tests")
     include("${PROJECT_SOURCE_DIR}/cmake/get_cpp.cmake")
     include("${PROJECT_SOURCE_DIR}/cmake/get_cmake_test.cmake")
