@@ -7,7 +7,7 @@
    :maxdepth: 2
 
    find_python_module
-   get_cpp
    cminx
+   get_cpp
    get_cmake_test
 
