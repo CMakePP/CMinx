@@ -252,7 +252,7 @@ class DocumentationAggregator(CMakeListener):
         try:
             parent_class = params[1]
             name = params[0]
-            param_types = params[2:] if len(params) > 2 else None
+            param_types = params[2:] if len(params) > 2 else []
             method_doc = MethodDocumentation(
                 parent_class, name, param_types, [], is_constructor, docstring)
             clazz.members.append(method_doc)
