@@ -161,15 +161,17 @@ set({var_name})
     def test_cpp_class_multi_superclass_multi_members(self,
     superclasses = ["SuperClassA", "SuperClassB", "SuperClassC"], attributes = ["attr1", "attr2"],
     methods = ["method1", "method2"], inner_classes = ["Inner1", "Inner2"]):
-        docstring = "This is a class"
+        class_docstring = "This is a class"
+        inner_class_docstring = "#[[[\n# This is an inner class\n#]]"
         method_docstring = "#[[[\n# This is a method\n#]]"
         attribute_docstring = "#[[[\n# This is an attribute\n#]]"
         class_name = "MyClass"
+        inner_class_definitions = '\n'.join([f'{inner_class_docstring}\ncpp_class({inner_class_name})\ncpp_end_class()' for inner_class_name in inner_classes])
         method_definitions = '\n'.join([f'{method_docstring}\ncpp_member({method_name} {class_name})\nfunction(' + '${' + method_name + '})\nendfunction()' for method_name in methods])
         attribute_definitions = '\n'.join([f'{attribute_docstring}\ncpp_attr({class_name} {attr_name})' for attr_name in attributes])
         self.input_stream = InputStream(f'''
 #[[[
-# {docstring}
+# {class_docstring}
 #]]
 cpp_class({class_name} {' '.join(superclasses)})
 
@@ -177,18 +179,20 @@ cpp_class({class_name} {' '.join(superclasses)})
 
     {method_definitions}
 
+    {inner_class_definitions}
+
 cpp_end_class()
         ''')
         self.reset()
-        self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
+        self.assertEqual(len(self.aggregator.documented), 1 + len(inner_classes), "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), ClassDocumentation, "Unexpected documentation type")
-        self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
+        self.assertEqual(self.aggregator.documented[0].doc.strip(), class_docstring, "Incorrect docstring extracted")
         self.assertEqual(self.aggregator.documented[0].name.strip(), class_name, "Incorrect class name extracted")
         self.assertEqual(len(self.aggregator.documented[0].superclasses), len(superclasses), "Superclasses incorrectly found")
         for i in range(len(superclasses)):
             self.assertEqual(self.aggregator.documented[0].superclasses[i].strip(), superclasses[i].strip(), "Superclass name not preserved")
         
-        self.assertEqual(len(self.aggregator.documented[0].inner_classes), 0, "Inner classes incorrectly found")
+        self.assertEqual(len(self.aggregator.documented[0].inner_classes), len(inner_classes), "Inner classes incorrectly found")
         self.assertEqual(len(self.aggregator.documented[0].members), len(attributes) + len(methods), "Members incorrectly found")
 
     def test_cpp_class_multi_superclass_no_inner(self, superclasses = ["SuperClassA", "SuperClassB", "SuperClassC"]):
