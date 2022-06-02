@@ -18,7 +18,7 @@ import unittest
 import sys
 import docutils
 from cminx.rstwriter import Directive
-from cminx.parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation
+from cminx.parser.aggregator import ClassDocumentation, FunctionDocumentation, GenericCommandDocumentation, MacroDocumentation, VariableDocumentation
 from cminx.documenter import Documenter
 from .rst_validator import RSTValidator
 
@@ -49,6 +49,15 @@ class TestDocumenter(unittest.TestCase):
             elif isinstance(doc, VariableDocumentation):
                 self.assertIsInstance(element, Directive, "Wrong RST element generated for variable")
                 self.assertEqual("data", element.document[0].title, "Wrong directive type for variable")
+            elif isinstance(doc, GenericCommandDocumentation):
+                self.assertIsInstance(element, Directive, "Wrong RST element generated for generic command")
+                self.assertEqual("function", element.document[0].title, "Wrong directive type for generic command")
+                self.assertEqual("warning", element.document[1].document[0].title, "Generic command is missing warning")
+            elif isinstance(doc, ClassDocumentation):
+                self.assertIsInstance(element, Directive, "Wrong RST element generated for class")
+                self.assertEqual("py:class", element.document[0].title, "Wrong directive type for class")
+            else:
+                self.fail(f"Unknown documentation type: {doc}")
 
 
 if __name__ == '__main__':

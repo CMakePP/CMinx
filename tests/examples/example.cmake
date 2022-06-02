@@ -51,3 +51,102 @@ set(MyString "String")
 # stating it is an invocation and not a definition.
 #]]
 message("hello")
+
+#[[[
+# This is a class
+#]]
+cpp_class(MyClass)
+
+    #[[[
+    # :type: str
+    #
+    # This is an attribute. Use the type option
+    # at the top of the doccomment and a blank line
+    # after to document the attribute type.
+    #]]
+    cpp_attr(MyClass myattr "a string")
+
+    #[[[
+    # This is a method
+    #]]
+    cpp_member(a_method MyClass str MyClass)
+    function(${a_method} self param_1 param_2)
+        
+    endfunction()
+
+    #[[[
+    # This is a method without arguments
+    #]]
+    cpp_member(a_method_no_args MyClass)
+    function(${a_method} self)
+        
+    endfunction()
+
+    #[[[
+    # This is a constructor
+    #]]
+    cpp_constructor(CTOR MyClass int int)
+    function("${CTOR}" self a b)
+       # Do set up using arguments passed to constructors
+    endfunction()
+
+
+cpp_end_class()
+
+#[[[
+# This is another class
+#]]
+cpp_class(MyClass2)
+
+    #[[[
+    # This is an attribute
+    #]]
+    cpp_attr(MyClass2 myattr "a string")
+
+    #[[[
+    # This is a method
+    #]]
+    cpp_member(a_method MyClass2 str MyClass2)
+    function(${a_method} self param_1 param_2)
+        
+    endfunction()
+
+    #[[[
+    # This is a constructor
+    #]]
+    cpp_constructor(CTOR MyClass2 int int)
+    function("${CTOR}" self a b)
+       # Do set up using arguments passed to constructors
+    endfunction()
+
+    #[[[
+    # This is a nested class
+    #]]
+    cpp_class(MyClass3)
+
+        #[[[
+        # This is an attribute
+        #]]
+        cpp_attr(MyClass3 myattr "a string")
+
+        #[[[
+        # This is a method
+        #]]
+        cpp_member(a_method MyClass3 str MyClass3)
+        function(${a_method} self param_1 param_2)
+    
+        endfunction()
+
+        #[[[
+        # This is a constructor
+        #]]
+        cpp_constructor(CTOR MyClass3 int int)
+        function("${CTOR}" self a b)
+            # Do set up using arguments passed to constructors
+        endfunction()
+
+
+    cpp_end_class()
+
+
+cpp_end_class()
