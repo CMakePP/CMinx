@@ -81,8 +81,11 @@ class DocumentationAggregator(CMakeListener):
         """
 
         self.consumed = []
+        """
+        A list containing all of the Command_invocationContexts that have already been processed
+        """
 
-    def process_function(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+    def process_function(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Extracts function name and declared parameters.
 
@@ -90,12 +93,15 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
-        params = [param.Identifier().getText() for param in ctx.command_invocation(
-        ).single_argument()[1:]]  # Extract declared function parameters
-        self.documented.append(FunctionDocumentation(ctx.command_invocation().single_argument()[0].Identifier().getText(
+        #If name of function is dynamically assigned, don't bother
+        if(ctx.single_argument()[0].Identifier() is None):
+            return
+
+        params = [param.Identifier().getText() for param in ctx.single_argument()[1:]]  # Extract declared function parameters
+        self.documented.append(FunctionDocumentation(ctx.single_argument()[0].Identifier().getText(
         ), params, docstring))  # Extracts function name and adds the completed function documentation to the 'documented' list
 
-    def process_macro(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+    def process_macro(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Extracts macro name and declared parameters.
 
@@ -103,12 +109,15 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
-        params = [param.Identifier().getText() for param in ctx.command_invocation(
-        ).single_argument()[1:]]  # Extract declared macro parameters
-        self.documented.append(MacroDocumentation(ctx.command_invocation().single_argument()[0].Identifier().getText(
+
+        #If name of macro is dynamically assigned, don't bother
+        if(ctx.single_argument()[0].Identifier() is None):
+            return
+        params = [param.Identifier().getText() for param in ctx.single_argument()[1:]]  # Extract declared macro parameters
+        self.documented.append(MacroDocumentation(ctx.single_argument()[0].Identifier().getText(
         ), params, docstring))  # Extracts macro name and adds the completed macro documentation to the 'documented' list
 
-    def process_ct_add_test(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+    def process_ct_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Extracts test name and declared parameters.
 
@@ -116,8 +125,7 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
-        params = [param.Identifier().getText() for param in ctx.command_invocation(
-        ).single_argument()]  # Extract parameters
+        params = [param.Identifier().getText() for param in ctx.single_argument()]  # Extract parameters
         name = ""
         expect_fail = False
         for i in range(0, len(params)):
@@ -126,9 +134,8 @@ class DocumentationAggregator(CMakeListener):
                 try:
                     name = params[i + 1]
                 except IndexError:
-                    pretty_text = '\n'.join(
-                        ctx.Bracket_doccomment().getText().split('\n'))
-                    pretty_text += f"\n{ctx.command_invocation().getText()}"
+                    pretty_text = docstring
+                    pretty_text += f"\n{ctx.getText()}"
 
                     print(
                         f"ct_add_test() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
@@ -139,7 +146,7 @@ class DocumentationAggregator(CMakeListener):
 
         self.documented.append(TestDocumentation(name, expect_fail, docstring))
 
-    def process_ct_add_section(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+    def process_ct_add_section(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Extracts section name and declared parameters.
 
@@ -147,8 +154,7 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
-        params = [param.Identifier().getText() for param in ctx.command_invocation(
-        ).single_argument()]  # Extract parameters
+        params = [param.Identifier().getText() for param in ctx.single_argument()]  # Extract parameters
         name = ""
         expect_fail = False
         for i in range(0, len(params)):
@@ -157,9 +163,8 @@ class DocumentationAggregator(CMakeListener):
                 try:
                     name = params[i + 1]
                 except IndexError:
-                    pretty_text = '\n'.join(
-                        ctx.Bracket_doccomment().getText().split('\n'))
-                    pretty_text += f"\n{ctx.command_invocation().getText()}"
+                    pretty_text = docstring
+                    pretty_text += f"\n{ctx.getText()}"
 
                     print(
                         f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
@@ -171,7 +176,7 @@ class DocumentationAggregator(CMakeListener):
         self.documented.append(SectionDocumentation(
             name, expect_fail, docstring))
 
-    def process_set(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+    def process_set(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Extracts variable name and values from the documented set command.
         Also determines the type of set command/variable: String, List, or Unset.
@@ -180,18 +185,18 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
-        varname = ctx.command_invocation().single_argument()[
+        varname = ctx.single_argument()[
             0].Identifier().getText()
         # First argument is name of variable so ignore that
-        arg_len = len(ctx.command_invocation().single_argument()) - 1
+        arg_len = len(ctx.single_argument()) - 1
 
         if arg_len > 1:  # List
             values = [val.getText()
-                      for val in ctx.command_invocation().single_argument()[1:]]
+                      for val in ctx.single_argument()[1:]]
             self.documented.append(VariableDocumentation(
                 varname, VarType.List, values, docstring))
         elif arg_len == 1:  # String
-            value = ctx.command_invocation().single_argument()[1].getText()
+            value = ctx.single_argument()[1].getText()
 
             # Includes the quote marks, need to remove them to get just the raw string
             if value[0] == '"':
@@ -203,12 +208,8 @@ class DocumentationAggregator(CMakeListener):
         else:  # Unset
             self.documented.append(VariableDocumentation(
                 varname, VarType.Unset, None, docstring))
-
-    def process_cpp_class(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
-        self.consumed.append(ctx.command_invocation())
-        self.add_cpp_class(ctx.command_invocation(), docstring)
     
-    def add_cpp_class(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_cpp_class(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Extracts the name and the declared superclasses from the documented
         cpp_class command.
@@ -239,7 +240,7 @@ class DocumentationAggregator(CMakeListener):
 
 
 
-    def process_cpp_member(self, ctx: CMakeParser.Documented_commandContext, docstring: str, is_constructor:bool = False):
+    def process_cpp_member(self, ctx: CMakeParser.Command_invocationContext, docstring: str, is_constructor:bool = False):
         """
         Extracts the method name and declared parameter types from the documented cpp_member
         command.
@@ -251,11 +252,10 @@ class DocumentationAggregator(CMakeListener):
         :param is_constructor: Whether the member is a constructor, this parameter is reflected in the generated MethodDocumentation.
         """
         params = [param.getText()
-                  for param in ctx.command_invocation().single_argument()]
+                  for param in ctx.single_argument()]
         if len(self.documented_classes_stack) <= 0:
-            pretty_text = '\n'.join(
-                ctx.Bracket_doccomment().getText().split('\n'))
-            pretty_text += f"\n{ctx.command_invocation().getText()}"
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
             called_type = "cpp_constructor()" if is_constructor else "cpp_member()"
 
             print(
@@ -272,9 +272,8 @@ class DocumentationAggregator(CMakeListener):
             clazz.members.append(method_doc)
             self.documented_awaiting_function_def = method_doc
         except IndexError:
-            pretty_text = '\n'.join(
-                ctx.Bracket_doccomment().getText().split('\n'))
-            pretty_text += f"\n{ctx.command_invocation().getText()}"
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
             called_type = "cpp_constructor()" if is_constructor else "cpp_member()"
 
             print(
@@ -282,13 +281,13 @@ class DocumentationAggregator(CMakeListener):
             return
         
 
-    def process_cpp_constructor(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+    def process_cpp_constructor(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Alias for calling process_cpp_member() with is_constructor=True.
         """
         self.process_cpp_member(ctx, docstring, is_constructor = True)
 
-    def process_cpp_attr(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+    def process_cpp_attr(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Extracts the name and any default values from the documented cpp_attr
         command.
@@ -298,11 +297,10 @@ class DocumentationAggregator(CMakeListener):
         :param docstring: Cleaned docstring.
         """
         params = [param.getText()
-                  for param in ctx.command_invocation().single_argument()]
+                  for param in ctx.single_argument()]
         if len(self.documented_classes_stack) <= 0:
-            pretty_text = '\n'.join(
-                ctx.Bracket_doccomment().getText().split('\n'))
-            pretty_text += f"\n{ctx.command_invocation().getText()}"
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
 
             print(
                 f"cpp_attr() called outside of cpp_class() definition: {params}\n\n{pretty_text}", file=sys.stderr)
@@ -316,15 +314,14 @@ class DocumentationAggregator(CMakeListener):
             clazz.members.append(AttributeDocumentation(
                 parent_class, name, default_values, docstring))
         except IndexError:
-            pretty_text = '\n'.join(
-                ctx.Bracket_doccomment().getText().split('\n'))
-            pretty_text += f"\n{ctx.command_invocation().getText()}"
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
 
             print(
                 f"cpp_attr() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
             return
 
-    def process_generic_command(self, command_name: str, ctx: CMakeParser.Documented_commandContext, docstring: str):
+    def process_generic_command(self, command_name: str, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Extracts command invocation and arguments for a documented command that does not
         have a dedicated processor function.
@@ -336,7 +333,7 @@ class DocumentationAggregator(CMakeListener):
         :param docstring: Cleaned docstring.
         """
 
-        args = ctx.command_invocation().single_argument() + ctx.command_invocation().compound_argument()
+        args = ctx.single_argument() + ctx.compound_argument()
         args = [val.getText() for val in args]
         self.documented.append(GenericCommandDocumentation(
             command_name, args, docstring))
@@ -377,12 +374,11 @@ class DocumentationAggregator(CMakeListener):
         if cleaned_doc.startswith("\n"):
             cleaned_doc = cleaned_doc[1:]
         command = ctx.command_invocation().Identifier().getText().lower()
-        if command == "cpp_end_class":
-            self.documented_classes_stack.pop()
+        self.consumed.append(ctx.command_invocation())
         if f"process_{command}" in dir(self):
-            getattr(self, f"process_{command}")(ctx, cleaned_doc)
+            getattr(self, f"process_{command}")(ctx.command_invocation(), cleaned_doc)
         else:
-            self.process_generic_command(command, ctx, cleaned_doc)
+            self.process_generic_command(command, ctx.command_invocation(), cleaned_doc)
 
     def enterCommand_invocation(self, ctx: CMakeParser.Command_invocationContext):
         """
@@ -391,10 +387,12 @@ class DocumentationAggregator(CMakeListener):
         or a function or method definition for cpp_member().
         """
         
+        command = ctx.Identifier().getText().lower()
         
-        if ctx.Identifier().getText().lower() == "cpp_class" and ctx not in self.consumed:
-            self.add_cpp_class(ctx, "")
-        elif ctx.Identifier().getText().lower() == "cpp_end_class":
+        
+        # elif ctx.Identifier().getText().lower() == "cpp_class" and ctx not in self.consumed:
+        #     self.add_cpp_class(ctx, "")
+        if ctx.Identifier().getText().lower() == "cpp_end_class":
             self.documented_classes_stack.pop()
         elif ((ctx.Identifier().getText().lower() == "function"
             or ctx.Identifier().getText().lower() == "macro")
@@ -412,3 +410,5 @@ class DocumentationAggregator(CMakeListener):
 
             #Clear the var since we've processed the function/macro def we need
             self.documented_awaiting_function_def = None
+        elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed:
+            getattr(self, f"process_{command}")(ctx, "")
