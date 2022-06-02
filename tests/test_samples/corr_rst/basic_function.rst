@@ -1,9 +1,9 @@
 
-####################
-basic_function.cmake
-####################
+##############
+basic_function
+##############
 
-.. module:: basic_function.cmake
+.. module:: basic_function
 
 
 .. function:: say_hi_to(person)

@@ -1,9 +1,9 @@
 
-#################
-basic_macro.cmake
-#################
+###########
+basic_macro
+###########
 
-.. module:: basic_macro.cmake
+.. module:: basic_macro
 
 
 .. function:: macro_say_hi(person)

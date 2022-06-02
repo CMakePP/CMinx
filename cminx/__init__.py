@@ -147,6 +147,9 @@ def document_single_file(file, root, output_path = None, prefix = None):
           header_name = os.path.relpath(file, root) #Path to file relative to input_path
      else:
           header_name = file
+
+     header_name = header_name.replace(".cmake", "")
+     
      if prefix is not None:
           #If current file dir is same as root dir, replace "." with prefix
           if header_name == ".":

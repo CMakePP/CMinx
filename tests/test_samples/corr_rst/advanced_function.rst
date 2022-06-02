@@ -1,9 +1,9 @@
 
-#######################
-advanced_function.cmake
-#######################
+#################
+advanced_function
+#################
 
-.. module:: advanced_function.cmake
+.. module:: advanced_function
 
 
 .. function:: advanced_say_hi_to(me)

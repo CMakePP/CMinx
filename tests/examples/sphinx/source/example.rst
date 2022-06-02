@@ -1,9 +1,9 @@
 
-#############
-example.cmake
-#############
+#######
+example
+#######
 
-.. module:: example.cmake
+.. module:: example
 
 
 .. function:: say_hi_to(person me)

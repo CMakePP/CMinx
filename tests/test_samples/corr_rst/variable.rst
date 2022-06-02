@@ -1,9 +1,9 @@
 
-##############
-variable.cmake
-##############
+########
+variable
+########
 
-.. module:: variable.cmake
+.. module:: variable
 
 
 .. data:: MyList

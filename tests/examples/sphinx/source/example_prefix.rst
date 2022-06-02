@@ -1,9 +1,9 @@
 
-####################
-prefix.example.cmake
-####################
+##############
+prefix.example
+##############
 
-.. module:: prefix.example.cmake
+.. module:: prefix.example
 
 
 .. function:: say_hi_to(person me)

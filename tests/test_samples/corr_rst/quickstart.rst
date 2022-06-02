@@ -1,9 +1,9 @@
 
-################
-quickstart.cmake
-################
+##########
+quickstart
+##########
 
-.. module:: quickstart.cmake
+.. module:: quickstart
 
 
 .. function:: quickstart(param0)
