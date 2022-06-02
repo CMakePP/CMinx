@@ -214,3 +214,19 @@ example
       :type b: int
 
 
+
+.. py:class:: Undocumented
+
+   
+
+   .. py:attribute:: docced_attr
+
+      Documented attribute
+      
+
+
+   .. py:attribute:: undocced_attr
+
+      
+
+

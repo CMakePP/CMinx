@@ -45,6 +45,15 @@ set(MyList "Value" "Value 2")
 #]]
 set(MyString "String")
 
+#[[
+# This is an undocumented variable.
+# Unlike most other elements, it will
+# not be automatically added to the documentation
+# since there is no way to tell a local variable apart
+# from a global property
+#]]
+set(MyUndocumentedVariable "Value")
+
 #[[[
 # This is a generic command invocation.
 # It will be documented as well, but with an admonition
@@ -148,5 +157,18 @@ cpp_class(MyClass2)
 
     cpp_end_class()
 
+
+cpp_end_class()
+
+# Undocumented class
+cpp_class(Undocumented)
+
+    #[[[
+    # Documented attribute
+    #]]
+    cpp_attr(Undocumented docced_attr)
+
+    # Undocumented attribute
+    cpp_attr(Undocumented undocced_attr)
 
 cpp_end_class()
