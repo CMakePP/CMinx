@@ -80,6 +80,8 @@ class DocumentationAggregator(CMakeListener):
         definition
         """
 
+        self.consumed = []
+
     def process_function(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
         """
         Extracts function name and declared parameters.
@@ -203,6 +205,10 @@ class DocumentationAggregator(CMakeListener):
                 varname, VarType.Unset, None, docstring))
 
     def process_cpp_class(self, ctx: CMakeParser.Documented_commandContext, docstring: str):
+        self.consumed.append(ctx.command_invocation())
+        self.add_cpp_class(ctx.command_invocation(), docstring)
+    
+    def add_cpp_class(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Extracts the name and the declared superclasses from the documented
         cpp_class command.
@@ -213,7 +219,7 @@ class DocumentationAggregator(CMakeListener):
         """
 
         params = [param.Identifier().getText()
-                  for param in ctx.command_invocation().single_argument()]
+                  for param in ctx.single_argument()]
         try:
             name = params[0]
             superclasses = params[1:]
@@ -224,9 +230,8 @@ class DocumentationAggregator(CMakeListener):
             self.documented_classes_stack.append(clazz)
 
         except IndexError:
-            pretty_text = '\n'.join(
-                ctx.Bracket_doccomment().getText().split('\n'))
-            pretty_text += f"\n{ctx.command_invocation().getText()}"
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
 
             print(
                 f"cpp_class() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
@@ -385,7 +390,11 @@ class DocumentationAggregator(CMakeListener):
         elements of documented commands, such as cpp_end_class() that pops the class stack,
         or a function or method definition for cpp_member().
         """
-        if ctx.Identifier().getText().lower() == "cpp_end_class":
+        
+        
+        if ctx.Identifier().getText().lower() == "cpp_class" and ctx not in self.consumed:
+            self.add_cpp_class(ctx, "")
+        elif ctx.Identifier().getText().lower() == "cpp_end_class":
             self.documented_classes_stack.pop()
         elif ((ctx.Identifier().getText().lower() == "function"
             or ctx.Identifier().getText().lower() == "macro")
