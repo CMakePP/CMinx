@@ -42,7 +42,7 @@ prefix.example
 
    :Default value: ['"Value"', '"Value 2"']
 
-   :type: VarType.List
+   :type: list
 
 
 .. data:: MyString
@@ -53,7 +53,7 @@ prefix.example
 
    :Default value: String
 
-   :type: VarType.String
+   :type: str
 
 
 .. function:: message("hello")
@@ -71,17 +71,22 @@ prefix.example
 
    This is a class
    
+   **Additional Constructors**
 
-   .. py:attribute:: myattr
-      :value: "a string"
+   .. py:method:: CTOR(a, b)
 
-      :type: str
-      
-      This is an attribute. Use the type option
-      at the top of the doccomment and a blank line
-      after to document the attribute type.
+      This is a constructor
       
 
+      :param a: 
+
+      :type a: int
+
+      :param b: 
+
+      :type b: int
+
+   **Methods**
 
    .. py:method:: a_method(param_1, param_2)
 
@@ -102,13 +107,27 @@ prefix.example
       This is a method without arguments
       
 
+   **Attributes**
+
+   .. py:attribute:: myattr
+      :value: "a string"
+
+      :type: str
+      
+      This is an attribute. Use the type option
+      at the top of the doccomment and a blank line
+      after to document the attribute type.
+      
+
+
+
+.. py:class:: MyClass2
+
+   This is another class
+   
+   **Additional Constructors**
 
    .. py:method:: CTOR(a, b)
-
-
-      .. admonition:: info
-
-         This member is a constructor.
 
       This is a constructor
       
@@ -121,19 +140,7 @@ prefix.example
 
       :type b: int
 
-
-
-.. py:class:: MyClass2
-
-   This is another class
-   
-
-   .. py:attribute:: myattr
-      :value: "a string"
-
-      This is an attribute
-      
-
+   **Methods**
 
    .. py:method:: a_method(param_1, param_2)
 
@@ -148,13 +155,23 @@ prefix.example
 
       :type param_2: MyClass2
 
+   **Attributes**
+
+   .. py:attribute:: myattr
+      :value: "a string"
+
+      This is an attribute
+      
+
+
+
+.. py:class:: MyClass3
+
+   This is a nested class
+   
+   **Additional Constructors**
 
    .. py:method:: CTOR(a, b)
-
-
-      .. admonition:: info
-
-         This member is a constructor.
 
       This is a constructor
       
@@ -167,19 +184,7 @@ prefix.example
 
       :type b: int
 
-
-
-.. py:class:: MyClass3
-
-   This is a nested class
-   
-
-   .. py:attribute:: myattr
-      :value: "a string"
-
-      This is an attribute
-      
-
+   **Methods**
 
    .. py:method:: a_method(param_1, param_2)
 
@@ -194,30 +199,20 @@ prefix.example
 
       :type param_2: MyClass3
 
+   **Attributes**
 
-   .. py:method:: CTOR(a, b)
+   .. py:attribute:: myattr
+      :value: "a string"
 
-
-      .. admonition:: info
-
-         This member is a constructor.
-
-      This is a constructor
+      This is an attribute
       
-
-      :param a: 
-
-      :type a: int
-
-      :param b: 
-
-      :type b: int
 
 
 
 .. py:class:: Undocumented
 
    
+   **Attributes**
 
    .. py:attribute:: docced_attr
 

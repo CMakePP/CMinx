@@ -193,7 +193,8 @@ cpp_end_class()
             self.assertEqual(self.aggregator.documented[0].superclasses[i].strip(), superclasses[i].strip(), "Superclass name not preserved")
         
         self.assertEqual(len(self.aggregator.documented[0].inner_classes), len(inner_classes), "Inner classes incorrectly found")
-        self.assertEqual(len(self.aggregator.documented[0].members), len(attributes) + len(methods), "Members incorrectly found")
+        self.assertEqual(len(self.aggregator.documented[0].members), len(methods), "Members incorrectly found")
+        self.assertEqual(len(self.aggregator.documented[0].attributes), len(attributes), "Attributes incorrectly found")
 
     def test_cpp_class_multi_superclass_no_inner(self, superclasses = ["SuperClassA", "SuperClassB", "SuperClassC"]):
         self.test_cpp_class_multi_superclass_multi_members(superclasses=superclasses, attributes=[], methods=[])

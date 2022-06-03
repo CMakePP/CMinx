@@ -14,5 +14,5 @@ variable
 
    :Default value: ['"Value"', '"Value 2"']
 
-   :type: VarType.List
+   :type: list
 
