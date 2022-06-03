@@ -37,9 +37,9 @@ SectionDocumentation = namedtuple(
 GenericCommandDocumentation = namedtuple(
     'GenericCommandDocumentation', 'name params doc')
 ClassDocumentation = namedtuple(
-    'ClassDocumentation', 'name superclasses inner_classes members doc')
+    'ClassDocumentation', 'name superclasses inner_classes constructors members attributes doc')
 AttributeDocumentation = namedtuple(
-    'ClassDocumentation', 'parent_class name default_value doc')
+    'AttributeDocumentation', 'parent_class name default_value doc')
 #MethodDocumentation = namedtuple(
 #    'MethodDocumentation', 'parent_class name param_types params is_constructor is_macro doc'
 #)
@@ -224,7 +224,7 @@ class DocumentationAggregator(CMakeListener):
         try:
             name = params[0]
             superclasses = params[1:]
-            clazz = ClassDocumentation(name, superclasses, [], [], docstring)
+            clazz = ClassDocumentation(name, superclasses, [], [], [], [], docstring)
             self.documented.append(clazz)
             if len(self.documented_classes_stack) > 0:
                 self.documented_classes_stack[-1].inner_classes.append(clazz)
@@ -269,7 +269,10 @@ class DocumentationAggregator(CMakeListener):
             param_types = params[2:] if len(params) > 2 else []
             method_doc = MethodDocumentation(
                 parent_class, name, param_types, [], is_constructor, docstring)
-            clazz.members.append(method_doc)
+            if is_constructor:
+                clazz.constructors.append(method_doc)
+            else:
+                clazz.members.append(method_doc)
             self.documented_awaiting_function_def = method_doc
         except IndexError:
             pretty_text = docstring
@@ -311,7 +314,7 @@ class DocumentationAggregator(CMakeListener):
             parent_class = params[0]
             name = params[1]
             default_values = params[2] if len(params) > 2 else None
-            clazz.members.append(AttributeDocumentation(
+            clazz.attributes.append(AttributeDocumentation(
                 parent_class, name, default_values, docstring))
         except IndexError:
             pretty_text = docstring

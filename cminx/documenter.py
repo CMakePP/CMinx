@@ -204,14 +204,26 @@ class Documenter(object):
             d.text(bases + '\n')
         d.text(doc.doc)
 
+        if len(doc.members) > 0:
+            d.text("**Additional Constructors**")
+
+        for member in doc.constructors:
+            self.add_method_doc(member, d)
+
+        if len(doc.members) > 0:
+            d.text("**Methods**")
+
         for member in doc.members:
-            if isinstance(member, AttributeDocumentation):
-                self.add_attr_doc(member, d)
-            elif isinstance(member, MethodDocumentation):
-                self.add_method_doc(member, d)
-            else:
-                raise ValueError(
-                    f"Unknown member documentation type {str(type(member))}: {str(member)}")
+            self.add_method_doc(member, d)
+
+        if len(doc.attributes) > 0:
+            d.text("**Attributes**")
+
+        for attribute in doc.attributes:
+            self.add_attr_doc(attribute, d)
+
+
+        
 
     def add_method_doc(self, doc: MethodDocumentation, class_directive: Directive):
         """
@@ -226,9 +238,9 @@ class Documenter(object):
             "py:method", f"{doc.name}({params_pretty})")
         if doc.is_macro:
             d.directive("note", "This member is a macro and so does not introduce a new scope")
-        if doc.is_constructor:
-            info = d.directive("admonition", "info")
-            info.text("This member is a constructor.")
+        # if doc.is_constructor:
+        #     info = d.directive("admonition", "info")
+        #     info.text("This member is a constructor.")
         d.text(doc.doc)
         for i in range(len(doc.param_types)):
             if i >= len(doc.params):
