@@ -28,7 +28,7 @@ from .parser import ParserErrorListener
 from .parser.CMakeLexer import CMakeLexer
 from .parser.CMakeParser import CMakeParser
 from .rstwriter import Directive, RSTWriter
-from .parser.aggregator import DocumentationAggregator, MethodDocumentation
+from .parser.aggregator import DocumentationAggregator, MethodDocumentation, VarType
 from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation, GenericCommandDocumentation, ClassDocumentation, AttributeDocumentation
 
 
@@ -176,7 +176,15 @@ class Documenter(object):
         d = self.writer.directive("data", f"{doc.varname}")
         d.text(doc.doc)
         d.field("Default value", doc.value)
-        d.field("type", doc.type)
+        if doc.type == VarType.String:
+            var_type = "str"
+        elif doc.type == VarType.List:
+            var_type = "list"
+        elif doc.type == VarType.Unset:
+            var_type = "UNSET"
+        else:
+            raise ValueError("Unknown variable type: " + doc.type)
+        d.field("type", var_type)
 
     def process_generic_command_doc(self, doc):
         """
