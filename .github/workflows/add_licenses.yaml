@@ -20,20 +20,8 @@ on:
       - master
 
 jobs:
-  license-eye:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Apply Licenses
-        uses: apache/skywalking-eyes@main
-        with:
-          config: .github/.licenserc.yaml
-          mode: fix
-      - name: Push Licensed Files
-        uses: EndBug/add-and-commit@v4
-        with:
-          author_name: github_actions
-          author_email: robot@example.com
-          message: 'Committing license headers'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  license_files:
+    uses: ./.github/workflows/add_licenses_master.yaml
+    with:
+      config_file: .github/.licenserc.yaml
+      token: ${{ secrets.GITHUB_TOKEN }}
