@@ -24,4 +24,5 @@ jobs:
     uses: ./.github/workflows/add_licenses_master.yaml
     with:
       config_file: .github/.licenserc.yaml
+    secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
