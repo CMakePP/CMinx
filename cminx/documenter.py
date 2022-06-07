@@ -100,8 +100,6 @@ class Documenter(object):
                 self.process_section_doc(doc)
             elif isinstance(doc, ClassDocumentation):
                 self.process_class_doc(doc)
-            elif isinstance(doc, AttributeDocumentation):
-                self.process_attr_doc(doc)
             elif isinstance(doc, GenericCommandDocumentation):
                 self.process_generic_command_doc(doc)
             else:
