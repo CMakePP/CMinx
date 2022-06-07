@@ -47,11 +47,19 @@ example_sphinx = os.path.join(example_dir, "sphinx")
 # A prefix to be used to test CMinx's prefix option.
 prefix = "prefix"
 
+# The directory containing test_samples
+test_samples_dir = os.path.abspath(os.path.join(tests_dir, "test_samples"))
+
 # The correct examples.rst file
 corr_example_rst = os.path.join(example_sphinx, "source", "example.rst")
+
+# The correct index.rst file
+corr_index_rst = os.path.join(test_samples_dir, "index", "index.rst")
 
 # The correct examples.rst file, with context.prefix as a prefix
 corr_example_prefix_rst = os.path.join(example_sphinx, "source", "example_prefix.rst")
 
-# The directory containing test_samples
-test_samples_dir = os.path.abspath(os.path.join(tests_dir, "test_samples"))
+# The correct index.rst file, with context.prefix as a prefix
+corr_index_prefix_rst = os.path.join(test_samples_dir, "index", "index_prefix.rst")
+
+
