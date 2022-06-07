@@ -6,6 +6,8 @@ file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/version.txt" CMINX_VERSION)
 project(cminx DESCRIPTION "CMake automatic documentation generator" LANGUAGES NONE VERSION ${CMINX_VERSION}) #Not using any compiled languages so don't list, removes check for compilers
 
 option(BUILD_DOCS "Whether documentation targets should be added" OFF)
+option(BUILD_TESTING "Whether tests should be built ad ctest configured" OFF)
+
 
 #Allows us to locate any arbitrary Python3 module.
 include(find_python_module)
@@ -20,7 +22,7 @@ find_python_module(setuptools REQUIRED)
 find_python_module(venv REQUIRED)
 
 set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/cminx/__init__.py")
-set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/build/timestamp")
+set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/cminx")
 
 
 #[[[
@@ -57,7 +59,7 @@ execute_process(COMMAND "${CMINX_VENV_PIP}" "install" "pyinstaller") #Install ou
 
 
 #Install program specific dependencies so that pyinstaller can find them.
-execute_process(COMMAND "${CMINX_VENV_PIP}" "install" "-r" "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt")
+execute_process(COMMAND "${CMINX_VENV_PIP}" "install" "-e" "${CMAKE_CURRENT_SOURCE_DIR}")
 
 #Write package config files
 configure_file("${CMAKE_CURRENT_LIST_DIR}/templates/CMinxConfig.cmake" "${CMAKE_CURRENT_BINARY_DIR}" @ONLY)
@@ -65,22 +67,18 @@ configure_file("${CMAKE_CURRENT_LIST_DIR}/templates/CMinxConfigVersion.cmake" "$
 set(CMINX_PACKAGE_SEARCH_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 
 #[[
-# Installation command.
+# Build command.
 # First line calls PyInstaller to build the single file executable.
-# Second line creates the necessary install directories.
-# Third line copies the resultant executable to the installation path.
+# Second line copies the resultant executable to the binary directory.
 #]]
-add_custom_command(OUTPUT ${OUTPUT}
-                   COMMAND ${CMINX_VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py" "--distpath=${CMAKE_CURRENT_BINARY_DIR}/dist" "--runtime-tmpdir=${CMAKE_INSTALL_PREFIX}/bin/.cminx"
-                   COMMAND "sh" "-c" "mkdir -p ${CMAKE_INSTALL_PREFIX}/bin/.cminx" #Creates bin and .cminx if needed
-                   COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${CMAKE_INSTALL_PREFIX}/bin/cminx"
-                   COMMAND ${CMAKE_COMMAND} -E touch ${OUTPUT}
-                   DEPENDS ${DEPS})
+add_custom_target(cminx ALL
+                   ${CMINX_VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py"
+                   COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${OUTPUT}"
+                   DEPENDS ${DEPS}
+                   BYPRODUCTS ${OUTPUT})
 
 
-add_custom_target(target ALL DEPENDS ${OUTPUT})
-
-install(TARGETS RUNTIME)
+install(PROGRAMS ${OUTPUT} DESTINATION bin)
 
 if(BUILD_DOCS)
     include("cminx")
@@ -89,7 +87,7 @@ if(BUILD_DOCS)
     cminx_add_docs_target("${CMAKE_CURRENT_SOURCE_DIR}/docs" "${CMAKE_CURRENT_BINARY_DIR}/docs" html)
 endif()
 
-if("${BUILD_TESTING}")
+if(BUILD_TESTING)
     message("Building tests")
     include("${PROJECT_SOURCE_DIR}/cmake/get_cpp.cmake")
     include("${PROJECT_SOURCE_DIR}/cmake/get_cmake_test.cmake")
