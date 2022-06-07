@@ -93,13 +93,28 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
-        #If name of function is dynamically assigned, don't bother
-        if(ctx.single_argument()[0].Identifier() is None):
+
+        def_params = [param.Identifier() for param in ctx.single_argument()]  # Extract declared function parameters
+
+        if len(def_params) < 1:
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
+
+            print(
+                f"function() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
             return
 
-        params = [param.Identifier().getText() for param in ctx.single_argument()[1:]]  # Extract declared function parameters
-        self.documented.append(FunctionDocumentation(ctx.single_argument()[0].Identifier().getText(
-        ), params, docstring))  # Extracts function name and adds the completed function documentation to the 'documented' list
+        #If name of function is dynamically assigned, don't bother
+        if(def_params[0] is None):
+            return
+
+        params = [p.getText() for p in def_params[1:]]
+        function_name = def_params[0].getText()
+
+        
+
+        
+        self.documented.append(FunctionDocumentation(function_name, params, docstring))  # Extracts function name and adds the completed function documentation to the 'documented' list
 
     def process_macro(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
