@@ -21,7 +21,7 @@ on:
 
 jobs:
   Build-Documentation:
-    uses: CMakePP/.github/.github/workflows/deploy_docs_master.yaml
+    uses: CMakePP/.github/.github/workflows/deploy_docs_master.yaml@main
     with:
       python_version: '3.7'
       docs_dir: 'docs'
