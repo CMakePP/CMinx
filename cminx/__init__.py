@@ -90,6 +90,9 @@ def document(input, output_path = None, recursive = False, prefix = None):
     elif os.path.isdir(input_path):
         #Walk dir and add cmake files to list
         for root, subdirs, filenames in os.walk(input_path):
+             #Sort filenames and subdirs in alphabetical order
+             filenames = sorted(filenames)
+             subdirs = sorted(subdirs)
              if output_path is not None:
                   path = os.path.join(output_path, os.path.relpath(root, input_path))
                   os.makedirs(path, exist_ok=True) #Make sure we have all the directories created
