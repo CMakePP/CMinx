@@ -272,24 +272,24 @@ class DocumentationAggregator(CMakeListener):
         :param docstring: Cleaned docstring.
         """
 
-        params = [param.Identifier().getText()
-                  for param in ctx.single_argument()]
-        try:
-            name = params[0]
-            superclasses = params[1:]
-            clazz = ClassDocumentation(name, superclasses, [], [], [], [], docstring)
-            self.documented.append(clazz)
-            if len(self.documented_classes_stack) > 0:
-                self.documented_classes_stack[-1].inner_classes.append(clazz)
-            self.documented_classes_stack.append(clazz)
-
-        except IndexError:
+        if len(ctx.single_argument()) < 1:
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
             print(
-                f"cpp_class() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+                f"cpp_class() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
             return
+
+        params = [param.Identifier().getText()
+                  for param in ctx.single_argument()]
+
+        name = params[0]
+        superclasses = params[1:]
+        clazz = ClassDocumentation(name, superclasses, [], [], [], [], docstring)
+        self.documented.append(clazz)
+        if len(self.documented_classes_stack) > 0:
+            self.documented_classes_stack[-1].inner_classes.append(clazz)
+        self.documented_classes_stack.append(clazz)
 
 
 
