@@ -21,7 +21,7 @@ on:
 
 jobs:
   license_files:
-    uses: ./.github/workflows/add_licenses_master.yaml
+    uses: CMakePP/.github/.github/workflows/add_licenses_master.yaml
     with:
       config_file: .github/.licenserc.yaml
     secrets:
