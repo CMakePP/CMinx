@@ -21,9 +21,23 @@ on:
 
 jobs:
   Build-Documentation:
-    uses: CMakePP/.github/.github/workflows/deploy_docs_master.yaml@main
-    with:
-      python_version: '3.7'
-      docs_dir: 'docs'
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+      - name: Build Docs
+        run: |
+          python3 -m venv virt_env
+          source virt_env/bin/activate
+          pip3 install wheel
+          pip3 install .
+          cd docs
+          pip3 install -r requirements.txt
+          make html
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/build/html
