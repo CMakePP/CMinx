@@ -125,12 +125,23 @@ class DocumentationAggregator(CMakeListener):
         :param docstring: Cleaned docstring.
         """
 
-        #If name of macro is dynamically assigned, don't bother
-        if(ctx.single_argument()[0].Identifier() is None):
+        def_params = [param.Identifier() for param in ctx.single_argument()]  # Extract declared macro parameters
+
+        if len(def_params) < 1:
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
+
+            print(
+                f"macro() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
             return
-        params = [param.Identifier().getText() for param in ctx.single_argument()[1:]]  # Extract declared macro parameters
-        self.documented.append(MacroDocumentation(ctx.single_argument()[0].Identifier().getText(
-        ), params, docstring))  # Extracts macro name and adds the completed macro documentation to the 'documented' list
+
+        #If name of macro is dynamically assigned, don't bother
+        if(def_params[0] is None):
+            return
+
+        params = [p.getText() for p in def_params[1:]]
+        macro_name = def_params[0].getText()
+        self.documented.append(MacroDocumentation(macro_name, params, docstring))  # Extracts macro name and adds the completed macro documentation to the 'documented' list
 
     def process_ct_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -179,6 +190,15 @@ class DocumentationAggregator(CMakeListener):
         :param docstring: Cleaned docstring.
         """
         params = [param.Identifier().getText() for param in ctx.single_argument()]  # Extract parameters
+
+        if len(params) < 2:
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
+
+            print(
+                f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+            return
+
         name = ""
         expect_fail = False
         for i in range(0, len(params)):
