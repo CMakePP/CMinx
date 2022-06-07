@@ -32,6 +32,25 @@ macro(macro_say_hi person)
 endmacro()
 
 
+set(MyFunctionName "Name_Of_A_Function")
+
+#[[[
+# This is a documented macro, but the name
+# is dynamically assigned so it can't be documented.
+#]]
+macro("${MyFunctionName}")
+endmacro()
+
+
+set(MyMacroName "Name_Of_A_Macro")
+
+#[[[
+# This is a documented macro, but the name
+# is dynamically assigned so it can't be documented.
+#]]
+macro("${MyMacroName}")
+endmacro()
+
 #[[[
 # This is an example of variable documentation.
 # This variable is a list of string values.

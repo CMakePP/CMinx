@@ -218,5 +218,81 @@ cpp_end_class()
             p = self.aggregator.documented[0].params[i]
             self.assertEqual(params[i], p, "Incorrect command parameters. Expected {params[i]}, got {p}")
 
+    def test_incorrect_function_params(self):
+        docstring = "This is documentation for an incorrect function() call"
+        params = []
+        command_name = "function"
+        command = f'{command_name}({" ".join(params)})'
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
+    def test_incorrect_macro_params(self):
+        docstring = "This is documentation for an incorrect macro() call"
+        params = []
+        command_name = "macro"
+        command = f'{command_name}({" ".join(params)})'
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
+    def test_incorrect_ct_add_test_params(self):
+        docstring = "This is documentation for an incorrect ct_add_test() call"
+        # ct_add_test() requires an additional param after NAME
+        params = ["NAME"]
+        command_name = "ct_add_test"
+        command = f'{command_name}({" ".join(params)})'
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
+    def test_invalid_ct_add_test_params(self):
+        docstring = "This is documentation for an incorrect ct_add_section() call"
+        # ct_add_test() requires an additional param after NAME, not before
+        params = ["test_name", "NAME"]
+        command_name = "ct_add_test"
+        command = f'{command_name}({" ".join(params)})'
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
+    def test_incorrect_ct_add_section_params(self):
+        docstring = "This is documentation for an incorrect ct_add_section() call"
+        # ct_add_section() requires an additional param after NAME
+        params = ["NAME"]
+        command_name = "ct_add_section"
+        command = f'{command_name}({" ".join(params)})'
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
+    def test_invalid_ct_add_section_params(self):
+        docstring = "This is documentation for an incorrect ct_add_section() call"
+        # ct_add_section() requires an additional param after NAME, not before
+        params = ["section_name", "NAME"]
+        command_name = "ct_add_section"
+        command = f'{command_name}({" ".join(params)})'
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
+    def test_incorrect_set_params(self):
+        docstring = "This is documentation for an incorrect set() call"
+        params = []
+        command_name = "set"
+        command = f'{command_name}({" ".join(params)})'
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
+    def test_incorrect_cpp_class_params(self):
+        params = []
+        command_name = "cpp_class"
+        command = f'{command_name}({" ".join(params)})'
+        docstring = f"This is documentation for an incorrect {command_name}() call"
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
 if __name__ == '__main__':
     unittest.main()
