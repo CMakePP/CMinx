@@ -1,9 +1,9 @@
 
-##########
-quickstart
-##########
+#######################
+test_samples.quickstart
+#######################
 
-.. module:: quickstart
+.. module:: test_samples.quickstart
 
 
 .. function:: quickstart(param0)

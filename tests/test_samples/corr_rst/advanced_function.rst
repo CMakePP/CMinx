@@ -1,9 +1,9 @@
 
-#################
-advanced_function
-#################
+##############################
+test_samples.advanced_function
+##############################
 
-.. module:: advanced_function
+.. module:: test_samples.advanced_function
 
 
 .. function:: advanced_say_hi_to(me)

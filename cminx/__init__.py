@@ -17,18 +17,18 @@ Generate Sphinx-compatible RST documentation for CMake files.
 Documentation is written in a special form of block comments,
 denoted by the starting characters :code: `#[[[` and ending with the standard :code: `#]]`.
 
-Usage: main.py [-h] [-o OUTPUT] [-r] [-p PREFIX] file [file ...]
+usage: cminx [-h] [-o OUTPUT] [-r] [-p PREFIX] file [file ...]
 
 Automatic documentation generator for CMake files. This program generates Sphinx-compatible RST documents, which are incompatible with standard docutils.
 
 positional arguments:
   file                  CMake file to generate documentation for. If directory, will generate documentation for all *.cmake files (case-insensitive)
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
                         Directory to output generated RST to. If not specified will print to standard output. Output files will have the original filename with the cmake extension replaced by .rst
-  -r, --recursive       If specified, will generate documentation for all subdirectories of specified directory recursively
+  -r, --recursive       If specified, will generate documentation for all subdirectories of specified directory recursively. If the prefix is not specified, it will be set to the last element of the input path.
   -p PREFIX, --prefix PREFIX
                         If specified, all output files will have headers generated as if the prefix was the top level package.
 
@@ -56,7 +56,7 @@ Automatic documentation generator for CMake files. This program generates Sphinx
     """)
     parser.add_argument("file", nargs="+", help="CMake file to generate documentation for. If directory, will generate documentation for all *.cmake files (case-insensitive)")
     parser.add_argument("-o", "--output", help="Directory to output generated RST to. If not specified will print to standard output. Output files will have the original filename with the cmake extension replaced by .rst")
-    parser.add_argument("-r", "--recursive", help="If specified, will generate documentation for all subdirectories of specified directory recursively", action="store_true")
+    parser.add_argument("-r", "--recursive", help="If specified, will generate documentation for all subdirectories of specified directory recursively. If the prefix is not specified, it will be set to the last element of the input path.", action="store_true")
     parser.add_argument("-p", "--prefix", help="If specified, all output files will have headers generated as if the prefix was the top level package.")
 
     args = parser.parse_args(args)
@@ -88,6 +88,8 @@ def document(input, output_path = None, recursive = False, prefix = None):
         print(f"Error: File or directory \"{input_path}\" does not exist", file=sys.stderr)
         exit(-1)
     elif os.path.isdir(input_path):
+        last_dir_element = os.path.basename(os.path.normpath(input))
+        prefix = prefix if prefix is not None else last_dir_element
         #Walk dir and add cmake files to list
         for root, subdirs, filenames in os.walk(input_path):
              #Sort filenames and subdirs in alphabetical order

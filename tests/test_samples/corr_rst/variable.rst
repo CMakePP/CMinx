@@ -1,9 +1,9 @@
 
-########
-variable
-########
+#####################
+test_samples.variable
+#####################
 
-.. module:: variable
+.. module:: test_samples.variable
 
 
 .. data:: MyList

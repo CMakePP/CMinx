@@ -1,9 +1,9 @@
 
-#######
-example
-#######
+################
+examples.example
+################
 
-.. module:: example
+.. module:: examples.example
 
 
 .. function:: say_hi_to(person me)

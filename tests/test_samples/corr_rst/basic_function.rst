@@ -1,9 +1,9 @@
 
-##############
-basic_function
-##############
+###########################
+test_samples.basic_function
+###########################
 
-.. module:: basic_function
+.. module:: test_samples.basic_function
 
 
 .. function:: say_hi_to(person)

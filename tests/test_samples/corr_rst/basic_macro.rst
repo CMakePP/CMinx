@@ -1,9 +1,9 @@
 
-###########
-basic_macro
-###########
+########################
+test_samples.basic_macro
+########################
 
-.. module:: basic_macro
+.. module:: test_samples.basic_macro
 
 
 .. function:: macro_say_hi(person)

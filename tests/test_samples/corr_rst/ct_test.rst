@@ -1,9 +1,9 @@
 
-#######
-ct_test
-#######
+####################
+test_samples.ct_test
+####################
 
-.. module:: ct_test
+.. module:: test_samples.ct_test
 
 
 .. function:: test1(EXPECTFAIL)
