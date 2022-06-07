@@ -103,9 +103,9 @@ cpp_class(MyClass)
 cpp_end_class()
 
 #[[[
-# This is another class
+# This is another class with a superclass
 #]]
-cpp_class(MyClass2)
+cpp_class(MyClass2 MyClass)
 
     #[[[
     # This is an attribute

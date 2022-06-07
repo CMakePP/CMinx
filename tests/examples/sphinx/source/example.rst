@@ -123,7 +123,9 @@ examples.example
 
 .. py:class:: MyClass2
 
-   This is another class
+   Bases: :class:`MyClass`
+   
+   This is another class with a superclass
    
    **Additional Constructors**
 

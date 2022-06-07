@@ -59,6 +59,12 @@ class TestDocumenter(unittest.TestCase):
             else:
                 self.fail(f"Unknown documentation type: {doc}")
 
+    def test_incorrect_documentation_type(self):
+        self.assertRaises(ValueError, self.documenter.process_docs, ["This is not a valid documentation type"])
+
+    def test_incorrect_variable_type(self):
+        self.assertRaises(ValueError, self.documenter.process_variable_doc, VariableDocumentation("name", "Not a valid variable type", "0", "This should fail"))
+
 
 if __name__ == '__main__':
     unittest.main()
