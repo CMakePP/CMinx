@@ -126,6 +126,15 @@ class DocumentationAggregator(CMakeListener):
         :param docstring: Cleaned docstring.
         """
         params = [param.Identifier().getText() for param in ctx.single_argument()]  # Extract parameters
+
+        if len(params) < 2:
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
+
+            print(
+                f"ct_add_test() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+            return
+
         name = ""
         expect_fail = False
         for i in range(0, len(params)):
