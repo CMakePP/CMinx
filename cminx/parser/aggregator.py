@@ -229,6 +229,15 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
+
+        if len(ctx.single_argument()) < 1:
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
+
+            print(
+                f"set() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
+            return
+
         varname = ctx.single_argument()[
             0].Identifier().getText()
         # First argument is name of variable so ignore that
