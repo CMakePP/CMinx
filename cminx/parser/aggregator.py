@@ -304,6 +304,14 @@ class DocumentationAggregator(CMakeListener):
 
         :param is_constructor: Whether the member is a constructor, this parameter is reflected in the generated MethodDocumentation.
         """
+        if len(ctx.single_argument()) < 2:
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
+
+            print(
+                f"cpp_class() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
+            return
+
         params = [param.getText()
                   for param in ctx.single_argument()]
         if len(self.documented_classes_stack) <= 0:
@@ -316,25 +324,16 @@ class DocumentationAggregator(CMakeListener):
             return
 
         clazz = self.documented_classes_stack[-1]
-        try:
-            parent_class = params[1]
-            name = params[0]
-            param_types = params[2:] if len(params) > 2 else []
-            method_doc = MethodDocumentation(
-                parent_class, name, param_types, [], is_constructor, docstring)
-            if is_constructor:
-                clazz.constructors.append(method_doc)
-            else:
-                clazz.members.append(method_doc)
-            self.documented_awaiting_function_def = method_doc
-        except IndexError:
-            pretty_text = docstring
-            pretty_text += f"\n{ctx.getText()}"
-            called_type = "cpp_constructor()" if is_constructor else "cpp_member()"
-
-            print(
-                f"{called_type} called with incorrect number of arguments: {params}\n\n{pretty_text}", file=sys.stderr)
-            return
+        parent_class = params[1]
+        name = params[0]
+        param_types = params[2:] if len(params) > 2 else []
+        method_doc = MethodDocumentation(
+            parent_class, name, param_types, [], is_constructor, docstring)
+        if is_constructor:
+            clazz.constructors.append(method_doc)
+        else:
+            clazz.members.append(method_doc)
+        self.documented_awaiting_function_def = method_doc
         
 
     def process_cpp_constructor(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
@@ -352,6 +351,14 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
+        if len(ctx.single_argument()) < 2:
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
+
+            print(
+                f"cpp_attr() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
+            return
+
         params = [param.getText()
                   for param in ctx.single_argument()]
         if len(self.documented_classes_stack) <= 0:
@@ -363,19 +370,11 @@ class DocumentationAggregator(CMakeListener):
             return
 
         clazz = self.documented_classes_stack[-1]
-        try:
-            parent_class = params[0]
-            name = params[1]
-            default_values = params[2] if len(params) > 2 else None
-            clazz.attributes.append(AttributeDocumentation(
-                parent_class, name, default_values, docstring))
-        except IndexError:
-            pretty_text = docstring
-            pretty_text += f"\n{ctx.getText()}"
-
-            print(
-                f"cpp_attr() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
-            return
+        parent_class = params[0]
+        name = params[1]
+        default_values = params[2] if len(params) > 2 else None
+        clazz.attributes.append(AttributeDocumentation(
+            parent_class, name, default_values, docstring))
 
     def process_generic_command(self, command_name: str, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """

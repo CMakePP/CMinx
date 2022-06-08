@@ -294,5 +294,23 @@ cpp_end_class()
         self.reset()
         self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
 
+    def test_incorrect_cpp_member_params(self):
+        params = []
+        command_name = "cpp_member"
+        command = f'{command_name}({" ".join(params)})'
+        docstring = f"This is documentation for an incorrect {command_name}() call"
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
+    def test_incorrect_cpp_attribute_params(self):
+        params = []
+        command_name = "cpp_attr"
+        command = f'{command_name}({" ".join(params)})'
+        docstring = f"This is documentation for an incorrect {command_name}() call"
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented), f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
 if __name__ == '__main__':
     unittest.main()
