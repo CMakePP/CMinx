@@ -163,11 +163,11 @@ def document_single_file(file, root, output_path = None, prefix = None):
               # Add prefix to beginning of headers
               header_name = prefix + "." + header_name
 
-     documenter = Documenter(file, header_name)
-
      #Only log when not writing to stdout
      if output_path != None:
           print(f"Writing for file {file}")
+
+     documenter = Documenter(file, header_name)
 
      
      output_writer = documenter.process()
