@@ -118,21 +118,41 @@ endmacro()
 set(MyFunctionName &quot;Name_Of_A_Function&quot;)
 
 #[[[
-# This is a documented macro, but the name
-# is dynamically assigned so it can&#39;t be documented.
+# This is a documented function, but the name
+# is dynamically assigned.
 #]]
-macro(&quot;${MyFunctionName}&quot;)
-endmacro()
+function(&quot;${MyFunctionName}&quot;)
+endfunction()
+
+set(MyFunctionParamName &quot;Name_Of_A_Param&quot;)
+
+#[[[
+# This is a documented function, but the first parameter name
+# is dynamically assigned.
+#]]
+function(&quot;function_with_var_param_name&quot; &quot;${MyFunctionParamName}&quot;)
+endfunction()
+
 
 
 set(MyMacroName &quot;Name_Of_A_Macro&quot;)
 
 #[[[
 # This is a documented macro, but the name
-# is dynamically assigned so it can&#39;t be documented.
+# is dynamically assigned.
 #]]
 macro(&quot;${MyMacroName}&quot;)
 endmacro()
+
+set(MyMacroParamName &quot;Name_Of_A_Param&quot;)
+
+#[[[
+# This is a documented macro, but the first parameter name
+# is dynamically assigned.
+#]]
+function(&quot;macro_with_var_param_name&quot; &quot;${MyMacroParamName}&quot;) 
+endfunction()
+
 
 #[[[
 # This is an example of variable documentation.
@@ -319,6 +339,37 @@ examples.example
    
    :param person: The person we want to greet.
    :type person: string
+   
+
+
+.. function:: &quot;${MyFunctionName}&quot;()
+
+   This is a documented function, but the name
+   is dynamically assigned.
+   
+
+
+.. function:: &quot;function_with_var_param_name&quot;(&quot;${MyFunctionParamName}&quot;)
+
+   This is a documented function, but the first parameter name
+   is dynamically assigned.
+   
+
+
+.. function:: &quot;${MyMacroName}&quot;()
+
+
+   .. warning:: This is a macro, and so does not introduce a new scope.
+
+   This is a documented macro, but the name
+   is dynamically assigned.
+   
+
+
+.. function:: &quot;macro_with_var_param_name&quot;(&quot;${MyMacroParamName}&quot;)
+
+   This is a documented macro, but the first parameter name
+   is dynamically assigned.
    
 
 
