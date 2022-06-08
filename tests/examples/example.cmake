@@ -35,21 +35,41 @@ endmacro()
 set(MyFunctionName "Name_Of_A_Function")
 
 #[[[
-# This is a documented macro, but the name
-# is dynamically assigned so it can't be documented.
+# This is a documented function, but the name
+# is dynamically assigned.
 #]]
-macro("${MyFunctionName}")
-endmacro()
+function("${MyFunctionName}")
+endfunction()
+
+set(MyFunctionParamName "Name_Of_A_Param")
+
+#[[[
+# This is a documented function, but the first parameter name
+# is dynamically assigned.
+#]]
+function("function_with_var_param_name" "${MyFunctionParamName}")
+endfunction()
+
 
 
 set(MyMacroName "Name_Of_A_Macro")
 
 #[[[
 # This is a documented macro, but the name
-# is dynamically assigned so it can't be documented.
+# is dynamically assigned.
 #]]
 macro("${MyMacroName}")
 endmacro()
+
+set(MyMacroParamName "Name_Of_A_Param")
+
+#[[[
+# This is a documented macro, but the first parameter name
+# is dynamically assigned.
+#]]
+function("macro_with_var_param_name" "${MyMacroParamName}") 
+endfunction()
+
 
 #[[[
 # This is an example of variable documentation.

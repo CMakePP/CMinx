@@ -31,9 +31,9 @@ FunctionDocumentation = namedtuple(
 MacroDocumentation = namedtuple("MacroDocumentation", "macro params doc")
 VariableDocumentation = namedtuple(
     'VariableDocumentation', 'varname type value doc')
-TestDocumentation = namedtuple('TestDocumentation', 'name expect_fail doc')
-SectionDocumentation = namedtuple(
-    'SectionDocumentation', 'name expect_fail doc')
+#TestDocumentation = namedtuple('TestDocumentation', 'name expect_fail doc')
+# SectionDocumentation = namedtuple(
+#     'SectionDocumentation', 'name expect_fail doc')
 GenericCommandDocumentation = namedtuple(
     'GenericCommandDocumentation', 'name params doc')
 ClassDocumentation = namedtuple(
@@ -43,6 +43,22 @@ AttributeDocumentation = namedtuple(
 #MethodDocumentation = namedtuple(
 #    'MethodDocumentation', 'parent_class name param_types params is_constructor is_macro doc'
 #)
+
+class TestDocumentation:
+    def __init__(self, name: str, expect_fail: bool, doc: str) -> None:
+        self.name = name
+        self.expect_fail = expect_fail
+        self.doc = doc
+        self.params = []
+        self.is_macro = False
+
+class SectionDocumentation:
+    def __init__(self, name: str, expect_fail: bool, doc: str) -> None:
+        self.name = name
+        self.expect_fail = expect_fail
+        self.doc = doc
+        self.params = []
+        self.is_macro = False
 
 class MethodDocumentation:
     def __init__(self, parent_class, name, param_types, params, is_constructor, doc) -> None:
@@ -94,7 +110,7 @@ class DocumentationAggregator(CMakeListener):
         :param docstring: Cleaned docstring.
         """
 
-        def_params = [param.Identifier() for param in ctx.single_argument()]  # Extract declared function parameters
+        def_params = [param for param in ctx.single_argument()]  # Extract declared function parameters
 
         if len(def_params) < 1:
             pretty_text = docstring
@@ -102,10 +118,6 @@ class DocumentationAggregator(CMakeListener):
 
             print(
                 f"function() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
-            return
-
-        #If name of function is dynamically assigned, don't bother
-        if(def_params[0] is None):
             return
 
         params = [p.getText() for p in def_params[1:]]
@@ -125,7 +137,7 @@ class DocumentationAggregator(CMakeListener):
         :param docstring: Cleaned docstring.
         """
 
-        def_params = [param.Identifier() for param in ctx.single_argument()]  # Extract declared macro parameters
+        def_params = [param for param in ctx.single_argument()]  # Extract declared macro parameters
 
         if len(def_params) < 1:
             pretty_text = docstring
@@ -133,10 +145,6 @@ class DocumentationAggregator(CMakeListener):
 
             print(
                 f"macro() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
-            return
-
-        #If name of macro is dynamically assigned, don't bother
-        if(def_params[0] is None):
             return
 
         params = [p.getText() for p in def_params[1:]]
@@ -151,7 +159,7 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
-        params = [param.Identifier().getText() for param in ctx.single_argument()]  # Extract parameters
+        params = [param.getText() for param in ctx.single_argument()]  # Extract parameters
 
         if len(params) < 2:
             pretty_text = docstring
@@ -179,7 +187,9 @@ class DocumentationAggregator(CMakeListener):
             if param.upper() == "EXPECTFAIL":
                 expect_fail = True
 
-        self.documented.append(TestDocumentation(name, expect_fail, docstring))
+        test_doc = TestDocumentation(name, expect_fail, docstring)
+        self.documented.append(test_doc)
+        self.documented_awaiting_function_def = test_doc
 
     def process_ct_add_section(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -189,7 +199,7 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
-        params = [param.Identifier().getText() for param in ctx.single_argument()]  # Extract parameters
+        params = [param.getText() for param in ctx.single_argument()]  # Extract parameters
 
         if len(params) < 2:
             pretty_text = docstring
@@ -217,8 +227,9 @@ class DocumentationAggregator(CMakeListener):
             if param.upper() == "EXPECTFAIL":
                 expect_fail = True
 
-        self.documented.append(SectionDocumentation(
-            name, expect_fail, docstring))
+        section_doc = SectionDocumentation(name, expect_fail, docstring)
+        self.documented.append(section_doc)
+        self.documented_awaiting_function_def = section_doc
 
     def process_set(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -239,7 +250,7 @@ class DocumentationAggregator(CMakeListener):
             return
 
         varname = ctx.single_argument()[
-            0].Identifier().getText()
+            0].getText()
         # First argument is name of variable so ignore that
         arg_len = len(ctx.single_argument()) - 1
 
@@ -280,7 +291,7 @@ class DocumentationAggregator(CMakeListener):
                 f"cpp_class() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
             return
 
-        params = [param.Identifier().getText()
+        params = [param.getText()
                   for param in ctx.single_argument()]
 
         name = params[0]
@@ -461,7 +472,7 @@ class DocumentationAggregator(CMakeListener):
                 params = [param.getText()
                       for param in ctx.single_argument()]
 
-                self.documented_awaiting_function_def.is_macro = ctx.Identifier().getText().lower() == "macro"
+                self.documented_awaiting_function_def.is_macro = command == "macro"
 
                 #Ignore function name and self param
                 if len(params) > 2:
