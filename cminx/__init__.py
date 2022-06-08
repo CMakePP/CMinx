@@ -164,10 +164,15 @@ def document_single_file(file, root, output_path = None, prefix = None):
               header_name = prefix + "." + header_name
 
      documenter = Documenter(file, header_name)
+
+     #Only log when not writing to stdout
+     if output_path != None:
+          print(f"Writing for file {file}")
+
+     
      output_writer = documenter.process()
      if output_path != None: #Determine where to place generated RST file
           os.makedirs(output_path, exist_ok=True)
-          print(f"Writing for file {file}")
           if os.path.isdir(output_path):
                output_filename = os.path.join(output_path, ".".join(os.path.basename(file).split(".")[:-1]) + ".rst")
                if os.path.isdir(root):
