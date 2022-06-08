@@ -1,0 +1,6 @@
+# Ignore Antlr4-generated files
+ignore:
+  - "cminx/parser/CMakeVisitor.py"
+  - "cminx/parser/CMakeParser.py"
+  - "cminx/parser/CMakeListener.py"
+  - "cminx/parser/CMakeLexer.py"

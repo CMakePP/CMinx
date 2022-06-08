@@ -1,9 +1,9 @@
 
-####################
-prefix.example.cmake
-####################
+##############
+prefix.example
+##############
 
-.. module:: prefix.example.cmake
+.. module:: prefix.example
 
 
 .. function:: say_hi_to(person me)
@@ -42,7 +42,7 @@ prefix.example.cmake
 
    :Default value: ['"Value"', '"Value 2"']
 
-   :type: VarType.List
+   :type: list
 
 
 .. data:: MyString
@@ -53,7 +53,7 @@ prefix.example.cmake
 
    :Default value: String
 
-   :type: VarType.String
+   :type: str
 
 
 .. function:: message("hello")
@@ -65,4 +65,165 @@ prefix.example.cmake
    It will be documented as well, but with an admonition
    stating it is an invocation and not a definition.
    
+
+
+.. py:class:: MyClass
+
+   This is a class
+   
+   **Additional Constructors**
+
+   .. py:method:: CTOR(a, b)
+
+      This is a constructor
+      
+
+      :param a: 
+
+      :type a: int
+
+      :param b: 
+
+      :type b: int
+
+   **Methods**
+
+   .. py:method:: a_method(param_1, param_2)
+
+      This is a method
+      
+
+      :param param_1: 
+
+      :type param_1: str
+
+      :param param_2: 
+
+      :type param_2: MyClass
+
+
+   .. py:method:: a_method_no_args()
+
+      This is a method without arguments
+      
+
+   **Attributes**
+
+   .. py:attribute:: myattr
+      :value: "a string"
+
+      :type: str
+      
+      This is an attribute. Use the type option
+      at the top of the doccomment and a blank line
+      after to document the attribute type.
+      
+
+
+
+.. py:class:: MyClass2
+
+   Bases: :class:`MyClass`
+   
+   This is another class with a superclass
+   
+   **Additional Constructors**
+
+   .. py:method:: CTOR(a, b)
+
+      This is a constructor
+      
+
+      :param a: 
+
+      :type a: int
+
+      :param b: 
+
+      :type b: int
+
+   **Methods**
+
+   .. py:method:: a_method(param_1, param_2)
+
+      This is a method
+      
+
+      :param param_1: 
+
+      :type param_1: str
+
+      :param param_2: 
+
+      :type param_2: MyClass2
+
+   **Attributes**
+
+   .. py:attribute:: myattr
+      :value: "a string"
+
+      This is an attribute
+      
+
+
+
+.. py:class:: MyClass3
+
+   This is a nested class
+   
+   **Additional Constructors**
+
+   .. py:method:: CTOR(a, b)
+
+      This is a constructor
+      
+
+      :param a: 
+
+      :type a: int
+
+      :param b: 
+
+      :type b: int
+
+   **Methods**
+
+   .. py:method:: a_method(param_1, param_2)
+
+      This is a method
+      
+
+      :param param_1: 
+
+      :type param_1: str
+
+      :param param_2: 
+
+      :type param_2: MyClass3
+
+   **Attributes**
+
+   .. py:attribute:: myattr
+      :value: "a string"
+
+      This is an attribute
+      
+
+
+
+.. py:class:: Undocumented
+
+   
+   **Attributes**
+
+   .. py:attribute:: docced_attr
+
+      Documented attribute
+      
+
+
+   .. py:attribute:: undocced_attr
+
+      
+
 

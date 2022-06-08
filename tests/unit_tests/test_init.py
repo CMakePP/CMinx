@@ -33,6 +33,7 @@ class TestInit(unittest.TestCase):
         self.output_dir = os.path.join(self.cwd, "output")
         self.input_file = context.example_cmake
         self.output_file = os.path.join(self.output_dir, "example.rst")
+        self.output_index_file = os.path.join(self.output_dir, "index.rst")
 
     def tearDown(self):
         try:
@@ -87,6 +88,9 @@ class TestInit(unittest.TestCase):
       diff = helpers.diff_files(self.output_file, context.corr_example_rst)
       self.assertEqual(diff, "")
 
+      index_diff = helpers.diff_files(self.output_index_file, context.corr_index_rst)
+      self.assertEqual(index_diff, "")
+
     def test_recursive_prefix(self):
       """Tests the use of CMinx in recursive mode with a prefix"""
       args = ["-r", "-p", context.prefix, "-o", self.output_dir, self.input_dir]
@@ -102,6 +106,9 @@ class TestInit(unittest.TestCase):
 
       diff = helpers.diff_files(self.output_file, context.corr_example_prefix_rst)
       self.assertEqual(diff, "")
+
+      index_diff = helpers.diff_files(self.output_index_file, context.corr_index_prefix_rst)
+      self.assertEqual(index_diff, "")
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,9 +1,9 @@
 
-#######################
-advanced_function.cmake
-#######################
+##############################
+test_samples.advanced_function
+##############################
 
-.. module:: advanced_function.cmake
+.. module:: test_samples.advanced_function
 
 
 .. function:: advanced_say_hi_to(me)

@@ -1,9 +1,9 @@
 
-#############
-ct_test.cmake
-#############
+####################
+test_samples.ct_test
+####################
 
-.. module:: ct_test.cmake
+.. module:: test_samples.ct_test
 
 
 .. function:: test1(EXPECTFAIL)

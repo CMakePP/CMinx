@@ -1,9 +1,9 @@
 
-################
-quickstart.cmake
-################
+#######################
+test_samples.quickstart
+#######################
 
-.. module:: quickstart.cmake
+.. module:: test_samples.quickstart
 
 
 .. function:: quickstart(param0)

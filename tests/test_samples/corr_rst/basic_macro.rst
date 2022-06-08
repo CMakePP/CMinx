@@ -1,9 +1,9 @@
 
-#################
-basic_macro.cmake
-#################
+########################
+test_samples.basic_macro
+########################
 
-.. module:: basic_macro.cmake
+.. module:: test_samples.basic_macro
 
 
 .. function:: macro_say_hi(person)
