@@ -1,7 +1,15 @@
 
 ####################
-get_cmake_test.cmake
+cmake.get_cmake_test
 ####################
 
-.. module:: get_cmake_test.cmake
+.. module:: cmake.get_cmake_test
+
+
+.. function:: get_cmake_test()
+
+
+   .. warning:: This is a macro, and so does not introduce a new scope.
+
+   
 

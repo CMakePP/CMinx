@@ -1,9 +1,9 @@
 
 ########################
-find_python_module.cmake
+cmake.find_python_module
 ########################
 
-.. module:: find_python_module.cmake
+.. module:: cmake.find_python_module
 
 
 .. function:: find_python_module(module)

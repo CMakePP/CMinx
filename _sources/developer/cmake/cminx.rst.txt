@@ -1,9 +1,9 @@
 
 ###########
-cminx.cmake
+cmake.cminx
 ###########
 
-.. module:: cminx.cmake
+.. module:: cmake.cminx
 
 
 .. function:: cminx_gen_rst(_cgd_dir _cgd_output)

@@ -109,6 +109,21 @@ for CMake files.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documenter.</span></span><span class="sig-name descname"><span class="pre">Documenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter" title="Permalink to this definition"></a></dt>
 <dd><p>Generates RST documentation from aggregated documentation, combining parser.aggregator and rstwriter.</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="cminx.documenter.Documenter.add_attr_doc">
+<span class="sig-name descname"><span class="pre">add_attr_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.parser.aggregator.html#cminx.parser.aggregator.AttributeDocumentation" title="cminx.parser.aggregator.AttributeDocumentation"><span class="pre">cminx.parser.aggregator.AttributeDocumentation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_directive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.Directive" title="cminx.rstwriter.Directive"><span class="pre">cminx.rstwriter.Directive</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.add_attr_doc" title="Permalink to this definition"></a></dt>
+<dd><p>Creates and adds a py:attribute directive to the supplied class directive.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documenter.Documenter.add_method_doc">
+<span class="sig-name descname"><span class="pre">add_method_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cminx.parser.aggregator.MethodDocumentation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_directive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.Directive" title="cminx.rstwriter.Directive"><span class="pre">cminx.rstwriter.Directive</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.add_method_doc" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a py:method directive to the supplied class directive
+using the supplied MethodDocumentation to determine whether
+the member is a constructor or not, as well as what params and
+types the member has.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.process">
 <span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process" title="Permalink to this definition"></a></dt>
 <dd><p>Process Documenter.aggregator.documented and build RST document from it.</p>
@@ -117,6 +132,13 @@ for CMake files.</p>
 <dd class="field-odd"><p>Completed RSTWriter document, also located in Documenter.writer</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documenter.Documenter.process_class_doc">
+<span class="sig-name descname"><span class="pre">process_class_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.parser.aggregator.html#cminx.parser.aggregator.ClassDocumentation" title="cminx.parser.aggregator.ClassDocumentation"><span class="pre">cminx.parser.aggregator.ClassDocumentation</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_class_doc" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a py:class directive containing information on the CMakePP
+class that was documented, including all attributes, constructors, and members</p>
 </dd></dl>
 
 <dl class="py method">
@@ -139,6 +161,14 @@ for CMake files.</p>
 <dd class="field-odd"><p><strong>doc</strong> (<a class="reference internal" href="cminx.parser.aggregator.html#cminx.parser.aggregator.FunctionDocumentation" title="cminx.parser.aggregator.FunctionDocumentation"><em>FunctionDocumentation</em></a>) – Documentation for the function</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documenter.Documenter.process_generic_command_doc">
+<span class="sig-name descname"><span class="pre">process_generic_command_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_generic_command_doc" title="Permalink to this definition"></a></dt>
+<dd><p>This method processes any documented commands that don’t have any other processors.
+All it does is generate a function directive containing the command’s name and arguments,
+and adds a warning that it’s just an invocation and not a definition.</p>
 </dd></dl>
 
 <dl class="py method">
