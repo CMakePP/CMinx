@@ -428,12 +428,18 @@ class DocumentationAggregator(CMakeListener):
         cleaned_doc = "\n".join(cleaned_lines)
         if cleaned_doc.startswith("\n"):
             cleaned_doc = cleaned_doc[1:]
-        command = ctx.command_invocation().Identifier().getText().lower()
-        self.consumed.append(ctx.command_invocation())
-        if f"process_{command}" in dir(self):
-            getattr(self, f"process_{command}")(ctx.command_invocation(), cleaned_doc)
-        else:
-            self.process_generic_command(command, ctx.command_invocation(), cleaned_doc)
+
+        try:
+            command = ctx.command_invocation().Identifier().getText().lower()
+            self.consumed.append(ctx.command_invocation())
+            if f"process_{command}" in dir(self):
+                getattr(self, f"process_{command}")(ctx.command_invocation(), cleaned_doc)
+            else:
+                self.process_generic_command(command, ctx.command_invocation(), cleaned_doc)
+        except Exception as e:
+            line_num = ctx.command_invocation().start.line
+            print(f"Caught exception while processing documented command beginning at line number {line_num}", file=sys.stderr)
+            raise e
 
     def enterCommand_invocation(self, ctx: CMakeParser.Command_invocationContext):
         """
@@ -443,27 +449,30 @@ class DocumentationAggregator(CMakeListener):
         """
         
         command = ctx.Identifier().getText().lower()
-        
-        
-        # elif ctx.Identifier().getText().lower() == "cpp_class" and ctx not in self.consumed:
-        #     self.add_cpp_class(ctx, "")
-        if ctx.Identifier().getText().lower() == "cpp_end_class":
-            self.documented_classes_stack.pop()
-        elif ((ctx.Identifier().getText().lower() == "function"
-            or ctx.Identifier().getText().lower() == "macro")
-            and self.documented_awaiting_function_def is not None):
-            #We've found the function/macro def that the previous documented command needed
-            params = [param.getText()
-                  for param in ctx.single_argument()]
 
-            self.documented_awaiting_function_def.is_macro = ctx.Identifier().getText().lower() == "macro"
+        try:
 
-            #Ignore function name and self param
-            if len(params) > 2:
-                param_names = params[2:]
-                self.documented_awaiting_function_def.params.extend(param_names)
+            if command == "cpp_end_class":
+                self.documented_classes_stack.pop()
+            elif ((command == "function"
+                or command == "macro")
+                and self.documented_awaiting_function_def is not None):
+                #We've found the function/macro def that the previous documented command needed
+                params = [param.getText()
+                      for param in ctx.single_argument()]
 
-            #Clear the var since we've processed the function/macro def we need
-            self.documented_awaiting_function_def = None
-        elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed:
-            getattr(self, f"process_{command}")(ctx, "")
+                self.documented_awaiting_function_def.is_macro = ctx.Identifier().getText().lower() == "macro"
+
+                #Ignore function name and self param
+                if len(params) > 2:
+                    param_names = params[2:]
+                    self.documented_awaiting_function_def.params.extend(param_names)
+
+                #Clear the var since we've processed the function/macro def we need
+                self.documented_awaiting_function_def = None
+            elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed:
+                getattr(self, f"process_{command}")(ctx, "")
+        except Exception as e:
+            line_num = ctx.start.line
+            print(f"Caught exception while processing command beginning at line number {line_num}", file=sys.stderr)
+            raise e
