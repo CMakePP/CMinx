@@ -34,6 +34,37 @@ prefix.example
    
 
 
+.. function:: "${MyFunctionName}"()
+
+   This is a documented function, but the name
+   is dynamically assigned.
+   
+
+
+.. function:: "function_with_var_param_name"("${MyFunctionParamName}")
+
+   This is a documented function, but the first parameter name
+   is dynamically assigned.
+   
+
+
+.. function:: "${MyMacroName}"()
+
+
+   .. warning:: This is a macro, and so does not introduce a new scope.
+
+   This is a documented macro, but the name
+   is dynamically assigned.
+   
+
+
+.. function:: "macro_with_var_param_name"("${MyMacroParamName}")
+
+   This is a documented macro, but the first parameter name
+   is dynamically assigned.
+   
+
+
 .. data:: MyList
 
    This is an example of variable documentation.
