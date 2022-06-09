@@ -3,7 +3,12 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/version.txt" CMINX_VERSION)
 
-project(cminx DESCRIPTION "CMake automatic documentation generator" LANGUAGES NONE VERSION ${CMINX_VERSION}) #Not using any compiled languages so don't list, removes check for compilers
+#N.B. Not using a compiled language, by not setting we remove compiler checks
+project(cminx
+        DESCRIPTION "CMake automatic documentation generator"
+        LANGUAGES NONE
+        VERSION ${CMINX_VERSION}
+)
 
 option(BUILD_DOCS "Whether documentation targets should be added" OFF)
 option(BUILD_TESTING "Whether tests should be built ad ctest configured" OFF)
