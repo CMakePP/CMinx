@@ -15,10 +15,12 @@
 name: Tag and Release
 
 on:
-  pull_request:
+  push:
     branches:
       - master
 
 jobs:
   release:
     uses: CMakePP/.github/.github/workflows/tag_and_release_master.yaml@main
+  secrets:
+    token: ${{ secrets.GITHUB_TOKEN }}
