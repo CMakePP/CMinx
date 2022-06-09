@@ -21,4 +21,4 @@ on:
 
 jobs:
   release:
-    uses: CMakePP/.github/.github/workflows/tag_and_release_master.yaml
+    uses: CMakePP/.github/.github/workflows/tag_and_release_master.yaml@main
