@@ -22,5 +22,5 @@ on:
 jobs:
   release:
     uses: CMakePP/.github/.github/workflows/tag_and_release_master.yaml@main
-      secrets:
-        token: ${{ secrets.GITHUB_TOKEN }}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
