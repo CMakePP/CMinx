@@ -1,4 +1,4 @@
-# Copyright 2022 CMakePP
+# Copyright 2021 CMakePP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,10 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+name: Tag and Release
 
-# Ignore Antlr4-generated files
-ignore:
-  - "cminx/parser/CMakeVisitor.py"
-  - "cminx/parser/CMakeParser.py"
-  - "cminx/parser/CMakeListener.py"
-  - "cminx/parser/CMakeLexer.py"
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  release:
+    uses: CMakePP/.github/.github/workflows/tag_and_release_master.yaml
