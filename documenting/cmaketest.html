@@ -94,15 +94,15 @@ documentation comment. For example,</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
 <span class="c"># This is how you document a CMakeTest test.</span>
 <span class="c">#]]</span>
-<span class="nb">ct_add_test</span><span class="p">(</span><span class="s">NAME</span> <span class="s">test1</span> <span class="s">EXPECTFAIL</span><span class="p">)</span>
+<span class="nb">ct_add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">test1</span><span class="w"> </span><span class="s">EXPECTFAIL</span><span class="p">)</span>
 <span class="nb">function</span><span class="p">(</span><span class="o">${</span><span class="nv">test1</span><span class="o">}</span><span class="p">)</span>
 
-    <span class="c">#[[[</span>
-    <span class="c"># And this is how you document a CMakeTest section.</span>
-    <span class="c">#]]</span>
-    <span class="nb">ct_add_section</span><span class="p">(</span><span class="s">NAME</span> <span class="s">section1</span> <span class="s">EXPECTFAIL</span><span class="p">)</span>
-    <span class="nb">function</span><span class="p">(</span><span class="o">${</span><span class="nv">section1</span><span class="o">}</span><span class="p">)</span>
-    <span class="nb">endfunction</span><span class="p">()</span>
+<span class="w">    </span><span class="c">#[[[</span>
+<span class="w">    </span><span class="c"># And this is how you document a CMakeTest section.</span>
+<span class="w">    </span><span class="c">#]]</span>
+<span class="w">    </span><span class="nb">ct_add_section</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">section1</span><span class="w"> </span><span class="s">EXPECTFAIL</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">function</span><span class="p">(</span><span class="o">${</span><span class="nv">section1</span><span class="o">}</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">endfunction</span><span class="p">()</span>
 
 <span class="nb">endfunction</span><span class="p">()</span>
 </pre></div>

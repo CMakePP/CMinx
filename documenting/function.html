@@ -154,10 +154,10 @@ be implicitly converted to stings.</p>
 <span class="c"># :keyword CATS: The cat or cats to say hi to.</span>
 <span class="c"># :type CATS: list of strings</span>
 <span class="c">#]]</span>
-<span class="nb">function</span><span class="p">(</span><span class="s">advanced_say_hi_to</span> <span class="s">me</span><span class="p">)</span>
-    <span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="s">PARSE_ARGV</span> <span class="s">1</span> <span class="s">_asht</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;&quot;</span> <span class="s2">&quot;PERSONS;CATS&quot;</span><span class="p">)</span>
-    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;I, ${me}, want to say hi to the following &quot;</span><span class="p">)</span>
-    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;people: ${_asht_PERSONS} and the following cats: ${_asht_CATS}&quot;</span><span class="p">)</span>
+<span class="nb">function</span><span class="p">(</span><span class="s">advanced_say_hi_to</span><span class="w"> </span><span class="s">me</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="s">PARSE_ARGV</span><span class="w"> </span><span class="s">1</span><span class="w"> </span><span class="s">_asht</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="s2">&quot;PERSONS;CATS&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;I, ${me}, want to say hi to the following &quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;people: ${_asht_PERSONS} and the following cats: ${_asht_CATS}&quot;</span><span class="p">)</span>
 <span class="nb">endfunction</span><span class="p">()</span>
 </pre></div>
 </div>
