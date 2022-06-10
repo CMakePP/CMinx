@@ -15,7 +15,7 @@
 #
 import unittest
 
-from .. import context
+import context
 from antlr4 import *
 
 from cminx.parser import ParserErrorListener
