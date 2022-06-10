@@ -13,12 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from cminx.rstwriter import RSTWriter, Heading, Paragraph, List, Field, DocTest, SimpleTable, Directive, DirectiveHeading, Option
-
-from docutils.nodes import *
+import docutils.frontend
 import docutils.parsers.rst
 import docutils.utils
-import docutils.frontend
+from docutils.nodes import paragraph, section, bullet_list, enumerated_list, table, system_message, doctest_block, \
+    Admonition, field_list, image, tbody
+
+from cminx.rstwriter import RSTWriter, Paragraph, List, Field, DocTest, SimpleTable, Directive
 
 
 class ValidationError(RuntimeError):
@@ -114,7 +115,7 @@ class RSTValidator:
         :param text: String containing RST document to be parsed
         """
 
-        components = (docutils.parsers.rst.Parser, )
+        components = (docutils.parsers.rst.Parser,)
         settings = docutils.frontend.OptionParser(
             components=components).get_default_values()
         document = docutils.utils.new_document('<rst-doc>', settings=settings)
@@ -133,7 +134,7 @@ class RSTValidator:
 
         level = msg['level']
         if level >= (2 if self.werror else
-                     3):  # Warn or higher if werror, else only error or higher
+        3):  # Warn or higher if werror, else only error or higher
             self.fail(msg)
         if level >= 3:  # Severe, we need to raise a stink about this
             raise ValidationError(msg)
