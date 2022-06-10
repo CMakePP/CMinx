@@ -46,15 +46,12 @@ from .parser.aggregator import DocumentationAggregator
 from .rstwriter import RSTWriter
 
 
-def main(args=None):
+def main(args: list[str]):
     """
     CMake Documentation Generator program entry point.
 
     :param args: Array of strings containing program arguments, excluding program name. Same format as sys.argv[1:].
     """
-
-    if args is None:
-        args = sys.argv[1:]
     parser = argparse.ArgumentParser(description="Automatic documentation generator for CMake files. This program " +
                                                  "generates Sphinx-compatible RST documents, which are incompatible "
                                                  "with standard docutils.")
