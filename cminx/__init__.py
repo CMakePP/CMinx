@@ -70,7 +70,7 @@ def main(args: list[str] = sys.argv[1:]):
                         help="If specified, all output files will have headers generated as if the prefix was the top "
                              "level package.")
 
-    args = parser.parse_args()
+    args = parser.parse_args(args)
     output_path = None
     if args.output is not None:
         output_path = os.path.abspath(args.output)
