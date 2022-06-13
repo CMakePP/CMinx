@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.12) #Python3 package locator only added in 3.12
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt" CMINX_VERSION)
+STRING(REGEX REPLACE "^v" "" CMINX_VERSION ${CMINX_VERSION})
 
 #N.B. Not using a compiled language, by not setting we remove compiler checks
 project(cminx
