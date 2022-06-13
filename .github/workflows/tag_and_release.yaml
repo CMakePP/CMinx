@@ -23,4 +23,4 @@ jobs:
   release:
     uses: CMakePP/.github/.github/workflows/tag_and_release_master.yaml@main
     secrets:
-      token: ${{ secrets.UPDATED_VERSION_TXT }}
+      token: ${{ secrets.UPDATE_VERSION_TXT }}
