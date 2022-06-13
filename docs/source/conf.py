@@ -33,7 +33,7 @@ version  = ""
 release  = ""
 
 # release includes alpha, beta, rc, etc.; version is pure numeric
-with open(os.path.join(root_dir, "version.txt")) as f:
+with open(os.path.join(root_dir, "VERSION.txt")) as f:
     release = f.read()
     pieces = release.split('.')
     version = pieces[0] + '.' + pieces[1] +'.'

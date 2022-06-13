@@ -13,14 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import context
-import unittest
 import os
 import shutil
 import sys
+import unittest
+
 import context
-import cminx
 import helpers
+
+import cminx
+
 
 class TestInit(unittest.TestCase):
     """
@@ -40,75 +42,74 @@ class TestInit(unittest.TestCase):
             shutil.rmtree(self.output_dir)
             pass
         except FileNotFoundError:
-            pass #Test just didn't write to the directory
-
+            pass  # Test just didn't write to the directory
 
     def test_document(self):
-      """Tests the document command in the CMinx module"""
-      sys.stdout = open(os.devnull, 'w')
-      cminx.document(self.input_file, self.output_dir, True)
-      sys.stdout = sys.__stdout__
+        """Tests the document command in the CMinx module"""
+        sys.stdout = open(os.devnull, 'w')
+        cminx.document(self.input_file, self.output_dir, True)
+        sys.stdout = sys.__stdout__
 
-      # Test that the top-level directory was found
-      is_dir = os.path.isdir(self.output_dir)
-      self.assertTrue(is_dir, "Output directory structure incorrect")
+        # Test that the top-level directory was found
+        is_dir = os.path.isdir(self.output_dir)
+        self.assertTrue(is_dir, "Output directory structure incorrect")
 
-      # Test that the file is in the directory
-      is_file = os.path.isfile(self.output_file)
-      self.assertTrue(is_file, "Output file does not exist")
-
+        # Test that the file is in the directory
+        is_file = os.path.isfile(self.output_file)
+        self.assertTrue(is_file, "Output file does not exist")
 
     def test_document_prefix(self):
-      """Tests the document command in the CMinx module with the prefix option"""
-      sys.stdout = open(os.devnull, 'w')
-      cminx.document(self.input_file, self.output_dir, recursive=True, prefix=context.prefix)
-      sys.stdout = sys.__stdout__
+        """Tests the document command in the CMinx module with the prefix option"""
+        sys.stdout = open(os.devnull, 'w')
+        cminx.document(self.input_file, self.output_dir, recursive=True, prefix=context.prefix)
+        sys.stdout = sys.__stdout__
 
-      # Test that the top-level directory was found
-      is_dir = os.path.isdir(self.output_dir)
-      self.assertTrue(is_dir, "Output directory structure incorrect")
+        # Test that the top-level directory was found
+        is_dir = os.path.isdir(self.output_dir)
+        self.assertTrue(is_dir, "Output directory structure incorrect")
 
-      # Test that the file is in the directory
-      is_file = os.path.isfile(self.output_file)
-      self.assertTrue(is_file, "Output file does not exist")
+        # Test that the file is in the directory
+        is_file = os.path.isfile(self.output_file)
+        self.assertTrue(is_file, "Output file does not exist")
 
     def test_recursive(self):
-      """Tests the use of CMinx in recursive mode"""
-      args = ["-r", "-o", self.output_dir, self.input_dir]
-      helpers.quiet_cminx(args)
+        """Tests the use of CMinx in recursive mode"""
+        args = ["-r", "-o", self.output_dir, self.input_dir]
+        helpers.quiet_cminx(args)
 
-      # Test that the top-level directory was found
-      is_dir = os.path.isdir(self.output_dir)
-      self.assertTrue(is_dir, "Output directory structure incorrect")
+        # Test that the top-level directory was found
+        is_dir = os.path.isdir(self.output_dir)
+        self.assertTrue(is_dir, "Output directory structure incorrect")
 
-      # Test that reST file is in top-level directory
-      is_file = os.path.isfile(self.output_file)
-      self.assertTrue(is_file, "Output file does not exist")
+        # Test that reST file is in top-level directory
+        is_file = os.path.isfile(self.output_file)
+        self.assertTrue(is_file, "Output file does not exist")
 
-      diff = helpers.diff_files(self.output_file, context.corr_example_rst)
-      self.assertEqual(diff, "")
+        diff = helpers.diff_files(self.output_file, context.corr_example_rst)
+        self.assertEqual(diff, "")
 
-      index_diff = helpers.diff_files(self.output_index_file, context.corr_index_rst)
-      self.assertEqual(index_diff, "")
+        index_diff = helpers.diff_files(self.output_index_file, context.corr_index_rst)
+        self.assertEqual(index_diff, "")
 
     def test_recursive_prefix(self):
-      """Tests the use of CMinx in recursive mode with a prefix"""
-      args = ["-r", "-p", context.prefix, "-o", self.output_dir, self.input_dir]
-      helpers.quiet_cminx(args)
+        """Tests the use of CMinx in recursive mode with a prefix"""
+        args = ["-r", "-p", context.prefix, "-o", self.output_dir, self.input_dir]
+        helpers.quiet_cminx(args)
 
-      # Test that the top-level directory was found
-      is_dir = os.path.isdir(self.output_dir)
-      self.assertTrue(is_dir, "Output directory structure incorrect")
+        # Test that the top-level directory was found
+        is_dir = os.path.isdir(self.output_dir)
+        self.assertTrue(is_dir, "Output directory structure incorrect")
 
-      # Test that reST file is in top-level directory
-      is_file = os.path.isfile(self.output_file)
-      self.assertTrue(is_file, "Output file does not exist")
+        # Test that reST file is in top-level directory
+        is_file = os.path.isfile(self.output_file)
+        self.assertTrue(is_file, "Output file does not exist")
 
-      diff = helpers.diff_files(self.output_file, context.corr_example_prefix_rst)
-      self.assertEqual(diff, "")
+        diff = helpers.diff_files(self.output_file, context.corr_example_prefix_rst)
+        self.assertEqual(diff, "")
 
-      index_diff = helpers.diff_files(self.output_index_file, context.corr_index_prefix_rst)
-      self.assertEqual(index_diff, "")
+        index_diff = helpers.diff_files(self.output_index_file, context.corr_index_prefix_rst)
+        self.assertEqual(index_diff, "")
+
 
 if __name__ == '__main__':
     unittest.main()

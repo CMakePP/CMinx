@@ -22,14 +22,15 @@ for CMake files.
 
 """
 
-
 from antlr4 import *
+
 from .parser import ParserErrorListener
 from .parser.CMakeLexer import CMakeLexer
 from .parser.CMakeParser import CMakeParser
-from .rstwriter import Directive, RSTWriter
 from .parser.aggregator import DocumentationAggregator, MethodDocumentation, VarType
-from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation, GenericCommandDocumentation, ClassDocumentation, AttributeDocumentation
+from .parser.aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, \
+    SectionDocumentation, GenericCommandDocumentation, ClassDocumentation, AttributeDocumentation
+from .rstwriter import Directive, RSTWriter
 
 
 class Documenter(object):
@@ -205,8 +206,8 @@ class Documenter(object):
         d = self.writer.directive("py:class", f"{doc.name}")
         if len(doc.superclasses) > 0:
             bases = "Bases: " + \
-                ", ".join(
-                    f":class:`{superclass}`" for superclass in doc.superclasses)
+                    ", ".join(
+                        f":class:`{superclass}`" for superclass in doc.superclasses)
             d.text(bases + '\n')
         d.text(doc.doc)
 
@@ -227,9 +228,6 @@ class Documenter(object):
 
         for attribute in doc.attributes:
             self.add_attr_doc(attribute, d)
-
-
-        
 
     def add_method_doc(self, doc: MethodDocumentation, class_directive: Directive):
         """

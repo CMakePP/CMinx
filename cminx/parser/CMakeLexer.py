@@ -1,8 +1,9 @@
 # Generated from CMake.g4 by ANTLR 4.7.2
-from antlr4 import *
-from io import StringIO
-from typing.io import TextIO
 import sys
+from io import StringIO
+
+from antlr4 import *
+from typing.io import TextIO
 
 
 def serializedATN():
@@ -93,10 +94,9 @@ def serializedATN():
 
 
 class CMakeLexer(Lexer):
-
     atn = ATNDeserializer().deserialize(serializedATN())
 
-    decisionsToDFA = [ DFA(ds, i) for i, ds in enumerate(atn.decisionToState) ]
+    decisionsToDFA = [DFA(ds, i) for i, ds in enumerate(atn.decisionToState)]
 
     T__0 = 1
     T__1 = 2
@@ -111,31 +111,29 @@ class CMakeLexer(Lexer):
     Newline = 11
     Space = 12
 
-    channelNames = [ u"DEFAULT_TOKEN_CHANNEL", u"HIDDEN" ]
+    channelNames = [u"DEFAULT_TOKEN_CHANNEL", u"HIDDEN"]
 
-    modeNames = [ "DEFAULT_MODE" ]
+    modeNames = ["DEFAULT_MODE"]
 
-    literalNames = [ "<INVALID>",
-            "'('", "')'" ]
+    literalNames = ["<INVALID>",
+                    "'('", "')'"]
 
-    symbolicNames = [ "<INVALID>",
-            "Identifier", "Unquoted_argument", "Escape_sequence", "Quoted_argument", 
-            "Bracket_argument", "Bracket_doccomment", "Bracket_comment", 
-            "Line_comment", "Newline", "Space" ]
+    symbolicNames = ["<INVALID>",
+                     "Identifier", "Unquoted_argument", "Escape_sequence", "Quoted_argument",
+                     "Bracket_argument", "Bracket_doccomment", "Bracket_comment",
+                     "Line_comment", "Newline", "Space"]
 
-    ruleNames = [ "T__0", "T__1", "Identifier", "Unquoted_argument", "Escape_sequence", 
-                  "Escape_identity", "Escape_encoded", "Escape_semicolon", 
-                  "Quoted_argument", "Quoted_cont", "Bracket_argument", 
-                  "Bracket_arg_nested", "Bracket_doccomment", "Bracket_comment", 
-                  "Line_comment", "Newline", "Space" ]
+    ruleNames = ["T__0", "T__1", "Identifier", "Unquoted_argument", "Escape_sequence",
+                 "Escape_identity", "Escape_encoded", "Escape_semicolon",
+                 "Quoted_argument", "Quoted_cont", "Bracket_argument",
+                 "Bracket_arg_nested", "Bracket_doccomment", "Bracket_comment",
+                 "Line_comment", "Newline", "Space"]
 
     grammarFileName = "CMake.g4"
 
-    def __init__(self, input=None, output:TextIO = sys.stdout):
+    def __init__(self, input=None, output: TextIO = sys.stdout):
         super().__init__(input, output)
         self.checkVersion("4.7.2")
         self._interp = LexerATNSimulator(self, self.atn, self.decisionsToDFA, PredictionContextCache())
         self._actions = None
         self._predicates = None
-
-

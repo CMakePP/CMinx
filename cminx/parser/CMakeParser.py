@@ -1,9 +1,11 @@
 # Generated from CMake.g4 by ANTLR 4.7.2
 # encoding: utf-8
-from antlr4 import *
-from io import StringIO
-from typing.io import TextIO
 import sys
+from io import StringIO
+
+from antlr4 import *
+from typing.io import TextIO
+
 
 def serializedATN():
     with StringIO() as buf:
@@ -27,22 +29,21 @@ def serializedATN():
         return buf.getvalue()
 
 
-class CMakeParser ( Parser ):
-
+class CMakeParser(Parser):
     grammarFileName = "CMake.g4"
 
     atn = ATNDeserializer().deserialize(serializedATN())
 
-    decisionsToDFA = [ DFA(ds, i) for i, ds in enumerate(atn.decisionToState) ]
+    decisionsToDFA = [DFA(ds, i) for i, ds in enumerate(atn.decisionToState)]
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'('", "')'" ]
+    literalNames = ["<INVALID>", "'('", "')'"]
 
-    symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "Identifier", 
-                      "Unquoted_argument", "Escape_sequence", "Quoted_argument", 
-                      "Bracket_argument", "Bracket_doccomment", "Bracket_comment", 
-                      "Line_comment", "Newline", "Space" ]
+    symbolicNames = ["<INVALID>", "<INVALID>", "<INVALID>", "Identifier",
+                     "Unquoted_argument", "Escape_sequence", "Quoted_argument",
+                     "Bracket_argument", "Bracket_doccomment", "Bracket_comment",
+                     "Line_comment", "Newline", "Space"]
 
     RULE_cmake_file = 0
     RULE_command_invocation = 1
@@ -50,85 +51,78 @@ class CMakeParser ( Parser ):
     RULE_single_argument = 3
     RULE_compound_argument = 4
 
-    ruleNames =  [ "cmake_file", "command_invocation", "documented_command", 
-                   "single_argument", "compound_argument" ]
+    ruleNames = ["cmake_file", "command_invocation", "documented_command",
+                 "single_argument", "compound_argument"]
 
     EOF = Token.EOF
-    T__0=1
-    T__1=2
-    Identifier=3
-    Unquoted_argument=4
-    Escape_sequence=5
-    Quoted_argument=6
-    Bracket_argument=7
-    Bracket_doccomment=8
-    Bracket_comment=9
-    Line_comment=10
-    Newline=11
-    Space=12
+    T__0 = 1
+    T__1 = 2
+    Identifier = 3
+    Unquoted_argument = 4
+    Escape_sequence = 5
+    Quoted_argument = 6
+    Bracket_argument = 7
+    Bracket_doccomment = 8
+    Bracket_comment = 9
+    Line_comment = 10
+    Newline = 11
+    Space = 12
 
-    def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
+    def __init__(self, input: TokenStream, output: TextIO = sys.stdout):
         super().__init__(input, output)
         self.checkVersion("4.7.2")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
-
-
     class Cmake_fileContext(ParserRuleContext):
 
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
         def EOF(self):
             return self.getToken(CMakeParser.EOF, 0)
 
-        def documented_command(self, i:int=None):
+        def documented_command(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(CMakeParser.Documented_commandContext)
             else:
-                return self.getTypedRuleContext(CMakeParser.Documented_commandContext,i)
+                return self.getTypedRuleContext(CMakeParser.Documented_commandContext, i)
 
-
-        def command_invocation(self, i:int=None):
+        def command_invocation(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(CMakeParser.Command_invocationContext)
             else:
-                return self.getTypedRuleContext(CMakeParser.Command_invocationContext,i)
-
+                return self.getTypedRuleContext(CMakeParser.Command_invocationContext, i)
 
         def getRuleIndex(self):
             return CMakeParser.RULE_cmake_file
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCmake_file" ):
+        def enterRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "enterCmake_file"):
                 listener.enterCmake_file(self)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCmake_file" ):
+        def exitRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "exitCmake_file"):
                 listener.exitCmake_file(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitCmake_file" ):
+        def accept(self, visitor: ParseTreeVisitor):
+            if hasattr(visitor, "visitCmake_file"):
                 return visitor.visitCmake_file(self)
             else:
                 return visitor.visitChildren(self)
-
-
-
 
     def cmake_file(self):
 
         localctx = CMakeParser.Cmake_fileContext(self, self._ctx, self.state)
         self.enterRule(localctx, 0, self.RULE_cmake_file)
-        self._la = 0 # Token type
+        self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 14
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==CMakeParser.Identifier or _la==CMakeParser.Bracket_doccomment:
+            while _la == CMakeParser.Identifier or _la == CMakeParser.Bracket_doccomment:
                 self.state = 12
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
@@ -159,52 +153,47 @@ class CMakeParser ( Parser ):
 
     class Command_invocationContext(ParserRuleContext):
 
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
         def Identifier(self):
             return self.getToken(CMakeParser.Identifier, 0)
 
-        def single_argument(self, i:int=None):
+        def single_argument(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(CMakeParser.Single_argumentContext)
             else:
-                return self.getTypedRuleContext(CMakeParser.Single_argumentContext,i)
+                return self.getTypedRuleContext(CMakeParser.Single_argumentContext, i)
 
-
-        def compound_argument(self, i:int=None):
+        def compound_argument(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(CMakeParser.Compound_argumentContext)
             else:
-                return self.getTypedRuleContext(CMakeParser.Compound_argumentContext,i)
-
+                return self.getTypedRuleContext(CMakeParser.Compound_argumentContext, i)
 
         def getRuleIndex(self):
             return CMakeParser.RULE_command_invocation
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCommand_invocation" ):
+        def enterRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "enterCommand_invocation"):
                 listener.enterCommand_invocation(self)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCommand_invocation" ):
+        def exitRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "exitCommand_invocation"):
                 listener.exitCommand_invocation(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitCommand_invocation" ):
+        def accept(self, visitor: ParseTreeVisitor):
+            if hasattr(visitor, "visitCommand_invocation"):
                 return visitor.visitCommand_invocation(self)
             else:
                 return visitor.visitChildren(self)
-
-
-
 
     def command_invocation(self):
 
         localctx = CMakeParser.Command_invocationContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_command_invocation)
-        self._la = 0 # Token type
+        self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 19
@@ -214,11 +203,14 @@ class CMakeParser ( Parser ):
             self.state = 25
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << CMakeParser.T__0) | (1 << CMakeParser.Identifier) | (1 << CMakeParser.Unquoted_argument) | (1 << CMakeParser.Quoted_argument) | (1 << CMakeParser.Bracket_argument))) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & (
+                    (1 << CMakeParser.T__0) | (1 << CMakeParser.Identifier) | (1 << CMakeParser.Unquoted_argument) | (
+                    1 << CMakeParser.Quoted_argument) | (1 << CMakeParser.Bracket_argument))) != 0):
                 self.state = 23
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
-                if token in [CMakeParser.Identifier, CMakeParser.Unquoted_argument, CMakeParser.Quoted_argument, CMakeParser.Bracket_argument]:
+                if token in [CMakeParser.Identifier, CMakeParser.Unquoted_argument, CMakeParser.Quoted_argument,
+                             CMakeParser.Bracket_argument]:
                     self.state = 21
                     self.single_argument()
                     pass
@@ -245,7 +237,7 @@ class CMakeParser ( Parser ):
 
     class Documented_commandContext(ParserRuleContext):
 
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -253,28 +245,24 @@ class CMakeParser ( Parser ):
             return self.getToken(CMakeParser.Bracket_doccomment, 0)
 
         def command_invocation(self):
-            return self.getTypedRuleContext(CMakeParser.Command_invocationContext,0)
-
+            return self.getTypedRuleContext(CMakeParser.Command_invocationContext, 0)
 
         def getRuleIndex(self):
             return CMakeParser.RULE_documented_command
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterDocumented_command" ):
+        def enterRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "enterDocumented_command"):
                 listener.enterDocumented_command(self)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitDocumented_command" ):
+        def exitRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "exitDocumented_command"):
                 listener.exitDocumented_command(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitDocumented_command" ):
+        def accept(self, visitor: ParseTreeVisitor):
+            if hasattr(visitor, "visitDocumented_command"):
                 return visitor.visitDocumented_command(self)
             else:
                 return visitor.visitChildren(self)
-
-
-
 
     def documented_command(self):
 
@@ -296,7 +284,7 @@ class CMakeParser ( Parser ):
 
     class Single_argumentContext(ParserRuleContext):
 
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
@@ -315,33 +303,32 @@ class CMakeParser ( Parser ):
         def getRuleIndex(self):
             return CMakeParser.RULE_single_argument
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterSingle_argument" ):
+        def enterRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "enterSingle_argument"):
                 listener.enterSingle_argument(self)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitSingle_argument" ):
+        def exitRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "exitSingle_argument"):
                 listener.exitSingle_argument(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitSingle_argument" ):
+        def accept(self, visitor: ParseTreeVisitor):
+            if hasattr(visitor, "visitSingle_argument"):
                 return visitor.visitSingle_argument(self)
             else:
                 return visitor.visitChildren(self)
-
-
-
 
     def single_argument(self):
 
         localctx = CMakeParser.Single_argumentContext(self, self._ctx, self.state)
         self.enterRule(localctx, 6, self.RULE_single_argument)
-        self._la = 0 # Token type
+        self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 33
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << CMakeParser.Identifier) | (1 << CMakeParser.Unquoted_argument) | (1 << CMakeParser.Quoted_argument) | (1 << CMakeParser.Bracket_argument))) != 0)):
+            if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & (
+                    (1 << CMakeParser.Identifier) | (1 << CMakeParser.Unquoted_argument) | (
+                    1 << CMakeParser.Quoted_argument) | (1 << CMakeParser.Bracket_argument))) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -356,49 +343,44 @@ class CMakeParser ( Parser ):
 
     class Compound_argumentContext(ParserRuleContext):
 
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+        def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def single_argument(self, i:int=None):
+        def single_argument(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(CMakeParser.Single_argumentContext)
             else:
-                return self.getTypedRuleContext(CMakeParser.Single_argumentContext,i)
+                return self.getTypedRuleContext(CMakeParser.Single_argumentContext, i)
 
-
-        def compound_argument(self, i:int=None):
+        def compound_argument(self, i: int = None):
             if i is None:
                 return self.getTypedRuleContexts(CMakeParser.Compound_argumentContext)
             else:
-                return self.getTypedRuleContext(CMakeParser.Compound_argumentContext,i)
-
+                return self.getTypedRuleContext(CMakeParser.Compound_argumentContext, i)
 
         def getRuleIndex(self):
             return CMakeParser.RULE_compound_argument
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCompound_argument" ):
+        def enterRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "enterCompound_argument"):
                 listener.enterCompound_argument(self)
 
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCompound_argument" ):
+        def exitRule(self, listener: ParseTreeListener):
+            if hasattr(listener, "exitCompound_argument"):
                 listener.exitCompound_argument(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitCompound_argument" ):
+        def accept(self, visitor: ParseTreeVisitor):
+            if hasattr(visitor, "visitCompound_argument"):
                 return visitor.visitCompound_argument(self)
             else:
                 return visitor.visitChildren(self)
-
-
-
 
     def compound_argument(self):
 
         localctx = CMakeParser.Compound_argumentContext(self, self._ctx, self.state)
         self.enterRule(localctx, 8, self.RULE_compound_argument)
-        self._la = 0 # Token type
+        self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 35
@@ -406,11 +388,14 @@ class CMakeParser ( Parser ):
             self.state = 40
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << CMakeParser.T__0) | (1 << CMakeParser.Identifier) | (1 << CMakeParser.Unquoted_argument) | (1 << CMakeParser.Quoted_argument) | (1 << CMakeParser.Bracket_argument))) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & (
+                    (1 << CMakeParser.T__0) | (1 << CMakeParser.Identifier) | (1 << CMakeParser.Unquoted_argument) | (
+                    1 << CMakeParser.Quoted_argument) | (1 << CMakeParser.Bracket_argument))) != 0):
                 self.state = 38
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
-                if token in [CMakeParser.Identifier, CMakeParser.Unquoted_argument, CMakeParser.Quoted_argument, CMakeParser.Bracket_argument]:
+                if token in [CMakeParser.Identifier, CMakeParser.Unquoted_argument, CMakeParser.Quoted_argument,
+                             CMakeParser.Bracket_argument]:
                     self.state = 36
                     self.single_argument()
                     pass
@@ -434,8 +419,3 @@ class CMakeParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
-
-
-
-

@@ -1,13 +1,15 @@
 from antlr4.error.ErrorListener import ErrorListener
 
+
 class CMakeSyntaxError(SyntaxError):
     pass
 
 
-class ParserErrorListener( ErrorListener ):
+class ParserErrorListener(ErrorListener):
     """
     Listens for parser errors and raises exceptions when they occur.
     """
+
     def __init__(self):
         super(ParserErrorListener, self).__init__()
 

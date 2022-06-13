@@ -1,4 +1,10 @@
-find_package(CMinx 1.0.0 PATHS "${CMINX_PACKAGE_SEARCH_PATH}" NO_DEFAULT_PATH REQUIRED CONFIG)
+find_package(CMinx
+             ${PROJECT_VERSION}
+             PATHS "${CMINX_PACKAGE_SEARCH_PATH}"
+             NO_DEFAULT_PATH
+             REQUIRED
+             CONFIG
+)
 include(cminx)
 
 set(cwd "${CMAKE_CURRENT_LIST_DIR}")

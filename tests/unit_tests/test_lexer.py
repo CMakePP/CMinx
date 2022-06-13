@@ -12,21 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import context  # Sets up PYTHON_PATH for this test
-from cminx.parser.CMakeLexer import CMakeLexer
-from antlr4 import InputStream
 import unittest
 
-#TODO Adapt old tests to new framework
+from antlr4 import InputStream
+
+from cminx.parser.CMakeLexer import CMakeLexer
+
+
+# TODO Adapt old tests to new framework
 
 class TestLexer(unittest.TestCase):
     def setUp(self):
         self.stream = InputStream("")
         self.reset()
+
     def reset(self):
         self.lexer = CMakeLexer(self.stream)
         self.tokens = self.lexer.getAllTokens()
-
 
     def test_empty_lines(self):
         self.assertListEqual([], self.tokens)
