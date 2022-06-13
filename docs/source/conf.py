@@ -36,7 +36,7 @@ project = 'CMinx'
 author = 'CMakePP Team'
 
 # Get the version from the git tag
-git_cmd = ['git', 'describe', '--tags']
+git_cmd = ['git', 'describe', '--tags', '--abbrev=0']
 
 # N.B. release includes alpha, beta, rc, etc.; version is pure numeric
 release = subprocess.check_output(git_cmd).strip().decode()

@@ -29,7 +29,7 @@ function(get_version_from_git gvfg_result gvfg_git_root)
     find_package(Git QUIET REQUIRED)
 
     # Invoke git command to get the tag
-    execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags
+    execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=0
                     WORKING_DIRECTORY ${gvfg_git_root}
                     OUTPUT_VARIABLE gvfg_version
                     OUTPUT_STRIP_TRAILING_WHITESPACE
