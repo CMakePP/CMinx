@@ -46,7 +46,7 @@ from .parser.aggregator import DocumentationAggregator
 from .rstwriter import RSTWriter
 
 
-def main(args: list[str] = sys.argv[1:]):
+def main():
     """
     CMake Documentation Generator program entry point.
 
@@ -70,7 +70,7 @@ def main(args: list[str] = sys.argv[1:]):
                         help="If specified, all output files will have headers generated as if the prefix was the top "
                              "level package.")
 
-    args = parser.parse_args(args)
+    args = parser.parse_args()
     output_path = None
     if args.output is not None:
         output_path = os.path.abspath(args.output)
