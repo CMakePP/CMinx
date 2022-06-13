@@ -46,7 +46,7 @@ from .parser.aggregator import DocumentationAggregator
 from .rstwriter import RSTWriter
 
 
-def main(args: list[str]):
+def main(args: list[str] = sys.argv[1:]):
     """
     CMake Documentation Generator program entry point.
 
