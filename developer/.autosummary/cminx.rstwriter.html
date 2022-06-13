@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cminx.rstwriter &mdash; CMinx 1.0.0
+  <title>cminx.rstwriter &mdash; CMinx v0.0.1
  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
@@ -32,7 +32,7 @@
             <a href="../../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.0
+                v0.0.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -216,7 +216,7 @@ Does not verify that the directive or its arguments are valid.</p>
 <dt class="sig sig-object py" id="cminx.rstwriter.DocTest.build_doctest_string">
 <span class="sig-name descname"><span class="pre">build_doctest_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cminx.rstwriter.DocTest.build_doctest_string" title="Permalink to this definition"></a></dt>
 <dd><p>Populates DocTest.doctest_string with the
-RST string cooresponding to this DocTest</p>
+RST string corresponding to this DocTest</p>
 </dd></dl>
 
 </dd></dl>
@@ -242,7 +242,7 @@ RST string corresponding to this field</p>
 <dt class="sig sig-object py" id="cminx.rstwriter.Heading.build_heading_string">
 <span class="sig-name descname"><span class="pre">build_heading_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cminx.rstwriter.Heading.build_heading_string" title="Permalink to this definition"></a></dt>
 <dd><p>Populates Heading.heading_string with the
-RST string cooresponding to this heading</p>
+RST string corresponding to this heading</p>
 </dd></dl>
 
 </dd></dl>
@@ -367,7 +367,7 @@ and execute the test_line to ensure the output is the same.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fieldname</strong> – Name of the field being added, such as Author.</p></li>
+<li><p><strong>field_name</strong> – Name of the field being added, such as Author.</p></li>
 <li><p><strong>field_text</strong> – Value of the field, such as the author’s name.</p></li>
 </ul>
 </dd>
@@ -394,20 +394,28 @@ and execute the test_line to ensure the output is the same.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.rstwriter.RSTWriter.simple_table">
 <span class="sig-name descname"><span class="pre">simple_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tab</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_headings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.rstwriter.RSTWriter.simple_table" title="Permalink to this definition"></a></dt>
-<dd><p>Add a simple table to the document tree. tab is a 2-dimensional list containing the table data.
-The first index is the row, the second is column. The first column may not contain multiple lines, all other columns may.
-column_headings is a list where each element is treated as a heading for that specific column, i.e. index 0 will be the heading for the leftmost column.</p>
+<dd><p>Add a simple table to the document tree. tab is a 2-dimensional list containing the table data. The first
+index is the row, the second is column. The first column may not contain multiple lines, all other columns
+may. column_headings is a list where each element is treated as a heading for that specific column,
+i.e. index 0 will be the heading for the leftmost column.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tab</strong> – A two-dimensional list representing table data. First index is row, second is column. Each row must have the same number of columns.</p></li>
-<li><p><strong>column_headings</strong> – A single-dimensional list containing column headings, if required. Index zero is the heading for the left-most column. List must be same length as number of columns.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If tab has inconsistent numbers of columns or column_headings length (if nonzero) does not match number of columns in tab.</p>
+<dd class="field-odd"><p><strong>tab</strong> – A two-dimensional list representing table data. First index is row, second is column. Each row</p>
 </dd>
 </dl>
+<p>must have the same number of columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>column_headings</strong> – A single-dimensional list containing column headings, if required. Index zero is the</p>
+</dd>
+</dl>
+<p>heading for the left-most column. List must be same length as number of columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If tab has inconsistent numbers of columns or column_headings length (if nonzero) does not</p>
+</dd>
+</dl>
+<p>match number of columns in tab.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -435,13 +443,17 @@ column_headings is a list where each element is treated as a heading for that sp
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.rstwriter.RSTWriter.write_to_file">
 <span class="sig-name descname"><span class="pre">write_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.rstwriter.RSTWriter.write_to_file" title="Permalink to this definition"></a></dt>
-<dd><p>Write text representation of this document to file. File may be a string (path will be opened in write mode) or a file-like object.</p>
+<dd><p>Write text representation of this document to file. File may be a string (path will be opened in write mode)
+or a file-like object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>file</strong> – File to write to. May be a string representing a real filepath on the local filesystem (will be overwritten), or a file-like object.</p>
+<dd class="field-odd"><p><strong>file</strong> – File to write to. May be a string representing a real filepath on the local filesystem (will be</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
+</dl>
+<p>overwritten), or a file-like object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
 <li><p><strong>ValueError</strong> – If file is nothing or empty string.</p></li>
 <li><p><strong>TypeError</strong> – If file is not str or object with ‘write()’ method</p></li>
 </ul>

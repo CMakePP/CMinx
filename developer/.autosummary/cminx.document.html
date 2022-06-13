@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cminx.document &mdash; CMinx 1.0.0
+  <title>cminx.document &mdash; CMinx v0.0.1
  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
@@ -32,7 +32,7 @@
             <a href="../../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.0
+                v0.0.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -95,14 +95,14 @@
 <h1>cminx.document<a class="headerlink" href="#cminx-document" title="Permalink to this headline"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="cminx.document">
-<span class="sig-prename descclassname"><span class="pre">cminx.</span></span><span class="sig-name descname"><span class="pre">document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.document" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">cminx.</span></span><span class="sig-name descname"><span class="pre">document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.document" title="Permalink to this definition"></a></dt>
 <dd><p>Handler for documenting CMake files or all files in a directory. Performs
 preprocessing before handing off to document_single_file over all detected
 files. Also generates index.rst files for all directories.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input</strong> – String locating a file or directory to document.</p></li>
+<li><p><strong>input_file</strong> – String locating a file or directory to document.</p></li>
 <li><p><strong>output_path</strong> – String pointing to the directory to place generated files,
 will output to stdout if None</p></li>
 <li><p><strong>recursive</strong> – Whether to generate documentation for subdirectories or not.</p></li>
