@@ -15,14 +15,14 @@
 #
 
 import os
+import subprocess
 
 from setuptools import setup
 
-version_file = "version.txt"
-version = "1.0.0" #Default to 1.0.0 if no version file found
-if os.path.isfile(version_file):
-    with open(version_file, "r") as f:
-        version = f.read().strip()
+# Get the version from the git tag
+git_cmd = ['git', 'describe', '--tags', '--abbrev=0']
+version = subprocess.check_output(git_cmd).strip().decode()
+
 
 #This will fail if requirements.txt not found, as it should
 with open("requirements.txt", "r") as f:
