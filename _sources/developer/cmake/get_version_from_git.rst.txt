@@ -1,0 +1,21 @@
+
+##########################
+cmake.get_version_from_git
+##########################
+
+.. module:: cmake.get_version_from_git
+
+
+.. function:: get_version_from_git(gvfg_result gvfg_git_root)
+
+   Uses Git to determine the version of a git repo.
+   
+   :param gvfg_result: The variable name to assign the result to.
+   :param gvfg_git_root: The directory containing the .git/ directory.
+   
+   Example:
+   
+   get_version_from_git(MY_PROJECT_VERSION ${CMAKE_CURRENT_SOURCE_DIR})
+   message("My project's version is: ${MY_PROJECT_VERSION}")
+   
+
