@@ -25,6 +25,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+        fetch-depth: 0
       - uses: actions/setup-python@v1
         with:
           python-version: '3.9'
