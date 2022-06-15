@@ -16,33 +16,35 @@
 import cminx
 import datetime
 import os
+import subprocess
 import sys
 
-#####
-#  Gather some metadata about the project
-#####
+######################################
+#  Work out paths this script needs  #
+######################################
 
 now = datetime.datetime.now()
 src_dir  = os.path.abspath(os.path.dirname(__file__))
 docs_dir = os.path.abspath(os.path.join(src_dir, ".."))
 root_dir = os.path.join(docs_dir, "..")
 
+############################################
+#  Gather some metadata about the project  #
+############################################
+
 project = 'CMinx'
 author = 'CMakePP Team'
-version  = ""
-release  = ""
 
-# release includes alpha, beta, rc, etc.; version is pure numeric
-with open(os.path.join(root_dir, "VERSION.txt")) as f:
-    release = f.read()
-    pieces = release.split('.')
-    version = pieces[0] + '.' + pieces[1] +'.'
-    version += ''.join(filter(str.isdigit, pieces[2]))
+# Get the version from the git tag
+git_cmd = ['git', 'describe', '--tags', '--abbrev=0']
 
-################################################################################
-# Run CMinx on itself
-################################################################################
+# N.B. release includes alpha, beta, rc, etc.; version is pure numeric
+release = subprocess.check_output(git_cmd).strip().decode()
+version = release[1:]
 
+#########################
+#  Run CMinx on itself  #
+#########################
 
 cminx_out_dir = os.path.join(src_dir, "developer", "cmake")
 cminx_in_dir = os.path.join(root_dir, "cmake")
@@ -54,13 +56,6 @@ cminx.main(args)
 ################################################################################
 
 copyright = '{}, {}'.format(now.year, author)
-
-# -- Assemble some paths -------------------------------------------------------
-source_path = os.path.dirname(os.path.realpath(__file__))
-doc_path = os.path.dirname(source_path)
-root_path = os.path.dirname(doc_path)
-build_path = os.path.join(doc_path, 'build')
-sys.path.insert(0, root_path)
 
 # -- General configuration -----------------------------------------------------
 templates_path = ['.templates']
