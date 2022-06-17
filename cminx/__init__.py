@@ -39,11 +39,20 @@ options:
 import argparse
 import os
 import sys
+from configparser import ConfigParser
 
 from cminx.documenter import Documenter
 from .documenter import Documenter
 from .parser.aggregator import DocumentationAggregator
 from .rstwriter import RSTWriter
+
+
+from pkg_resources import get_distribution, DistributionNotFound
+try:
+    __version__ = get_distribution(__name__).version
+except DistributionNotFound:
+    # package is not installed
+    __version__ = "UNKNOWN"
 
 
 def main(args: list[str] = sys.argv[1:]):
@@ -52,6 +61,7 @@ def main(args: list[str] = sys.argv[1:]):
 
     :param args: Array of strings containing program arguments, excluding program name. Same format as sys.argv[1:].
     """
+
     parser = argparse.ArgumentParser(description="Automatic documentation generator for CMake files. This program " +
                                                  "generates Sphinx-compatible RST documents, which are incompatible "
                                                  "with standard docutils.")
@@ -69,8 +79,22 @@ def main(args: list[str] = sys.argv[1:]):
     parser.add_argument("-p", "--prefix",
                         help="If specified, all output files will have headers generated as if the prefix was the top "
                              "level package.")
+    parser.add_argument("-s", "--settings", help="Load settings from the specified INI file. Parameters specified by "
+                                                 "this file will override defaults, and command-line arguments will "
+                                                 "override both.")
+    parser.add_argument("-d", "--default-settings", help="Load default settings from the specified INI file. This "
+                                                         "file must contain values for each config option, "
+                                                         "or an error may occur. If you wish to override settings, "
+                                                         "use the --settings option or specify them on the command "
+                                                         "line instead.",
+                        default="defaults.ini")
+    parser.add_argument("--version", action='version', version='%(prog)s version ' + __version__)
 
     args = parser.parse_args(args)
+    config = ConfigParser()
+    config.read(args.default_settings)
+    if args.settings is not None:
+        config.read(args.settings)
     output_path = None
     if args.output is not None:
         output_path = os.path.abspath(args.output)
