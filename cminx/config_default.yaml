@@ -1,0 +1,55 @@
+input:
+  # Whether undocumented functions should have documentation
+  # auto-generated.
+  include_undocumented_functions: true
+
+  # Whether undocumented macros should have documentation
+  # auto-generated.
+  include_undocumented_macros: true
+
+  # Whether undocumented classes should have documentation
+  # auto-generated.
+  include_undocumented_classes: true
+
+  # Whether undocumented attributes within CMakePP classes should have documentation
+  # auto-generated.
+  include_undocumented_attributes: true
+
+  # Whether undocumented members within CMakePP classes should have documentation
+  # auto-generated.
+  include_undocumented_members: true
+
+  # Whether directories should be documented recursively
+  recursive: false
+
+output:
+  # Whether the title of the RST file should contain the CMake file's
+  # extension.
+  file_extensions_in_titles: false
+
+  # Whether the module directive should contain the CMake file's
+  # extension.
+  file_extensions_in_modules: false
+
+  # Character to use as a separator between CMake directories and modules
+  module_path_separator: '.'
+
+  # The directory to write generated RST files to. If not set,
+  # will output to STDOUT instead.
+  # directory: docs/
+
+logging:
+  # The log level to use. Can be one of:
+  # INFO, WARNING, DEBUG, ERROR, CRITICAL
+  level: INFO
+
+rst:
+  # A list of characters to be used for RST headers.
+  # The character is selected by using the section depth to index
+  # into this list. It is recommended to have at least 4 characters
+  # in the list, to support at least 4 sections of nesting.
+  headers: ['#', '*', '=', '-', '_', '~', '!', '&', '@', '^']
+
+  # A prefix to use for RST headers and modules
+  # If not set, the path to the file relative to the input path will be used instead
+  # prefix: Prefix
