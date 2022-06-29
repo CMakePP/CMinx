@@ -40,7 +40,7 @@ setup(
         ],
     },
     package_data={
-        "": ["*.g4", "*.interp", "*.tokens", "*.ini"]
+        "": ["*.g4", "*.interp", "*.tokens", "*.yaml"]
     },
     install_requires=dependencies
 )
