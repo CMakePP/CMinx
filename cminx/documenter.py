@@ -38,11 +38,14 @@ class Documenter(object):
     Generates RST documentation from aggregated documentation, combining parser.aggregator and rstwriter.
     """
 
-    def __init__(self, file: str, title: str = None):
+    def __init__(self, file: str, title: str = None, settings={}):
         """
         :param file: CMake file to read documentation from.
         :param title: RST header title to use in the generated document.
+        :param settings: Dictionary containing application settings for documentation
         """
+
+        self.settings = settings
 
         title = file if title is None else title
 

@@ -39,15 +39,14 @@ options:
 import argparse
 import os
 import sys
-from configparser import ConfigParser
 
-from cminx.documenter import Documenter
+from confuse import Configuration
+from pkg_resources import get_distribution, DistributionNotFound
+
+from .config import config_template
 from .documenter import Documenter
-from .parser.aggregator import DocumentationAggregator
 from .rstwriter import RSTWriter
 
-
-from pkg_resources import get_distribution, DistributionNotFound
 try:
     __version__ = get_distribution(__name__).version
 except DistributionNotFound:
@@ -65,20 +64,21 @@ def main(args: list[str] = sys.argv[1:]):
     parser = argparse.ArgumentParser(description="Automatic documentation generator for CMake files. This program " +
                                                  "generates Sphinx-compatible RST documents, which are incompatible "
                                                  "with standard docutils.")
-    parser.add_argument("file", nargs="+",
+    parser.add_argument("files", nargs="+",
                         help="CMake file to generate documentation for. If directory, will generate documentation for "
                              "all *.cmake files (case-insensitive)")
     parser.add_argument("-o", "--output",
                         help="Directory to output generated RST to. If not specified will print to standard output. "
-                             "Output files will have the original filename with the cmake extension replaced by .rst")
+                             "Output files will have the original filename with the cmake extension replaced by .rst",
+                        dest="output.directory")
     parser.add_argument("-r", "--recursive",
                         help="If specified, will generate documentation for all subdirectories of specified directory "
                              "recursively. If the prefix is not specified, it will be set to the last element of the "
                              "input path.",
-                        action="store_true")
+                        action="store_true", dest="input.recursive")
     parser.add_argument("-p", "--prefix",
                         help="If specified, all output files will have headers generated as if the prefix was the top "
-                             "level package.")
+                             "level package.", dest="rst.prefix")
     parser.add_argument("-s", "--settings", help="Load settings from the specified INI file. Parameters specified by "
                                                  "this file will override defaults, and command-line arguments will "
                                                  "override both.")
@@ -91,32 +91,85 @@ def main(args: list[str] = sys.argv[1:]):
     parser.add_argument("--version", action='version', version='%(prog)s version ' + __version__)
 
     args = parser.parse_args(args)
-    config = ConfigParser()
-    config.read(args.default_settings)
+    settings = Configuration("cminx", __name__)
     if args.settings is not None:
-        config.read(args.settings)
+        settings.set_file(args.settings)
+
+    settings.set_args(args, dots=True)
+
+    settings = settings.get(config_template)
+
     output_path = None
-    if args.output is not None:
-        output_path = os.path.abspath(args.output)
+    if settings["output"]["directory"] is not None:
+        output_path = os.path.abspath(settings["output"]["directory"])
         print(f"Writing RST files to {output_path}")
 
-    for input_file in args.file:
+    for input_file in args.files:
         # Process all files specified on command line
-        document(input_file, output_path, args.recursive, args.prefix)
+        document(input_file, output_path, settings["input"]["recursive"], settings["rst"]["prefix"], settings)
 
 
-def document(input_file, output_path=None, recursive=False, prefix=None):
+def document_single_file(file, root, output_path=None, prefix=None, settings={}):
+    """
+    Documents a single file, generates the RST, and places the file in the respective directory if output_dir
+    specified.
+
+    :param file: Path to the CMake file to be documented
+    :param root: Directory considered to be the root of the source tree. The RST header and output tree will be generated from the relative path between file and root
+    :param output_path: Directory to serve as the root of the output tree. Subdirectories will be created as needed to place generated RST files in.
+    :param prefix: Prefix to be prepended to all RST titles. If title was originally ``.``, replace with prefix.
+    :param settings: Dictionary containing application settings
+    """
+
+    if os.path.isdir(root):
+        header_name = os.path.relpath(file, root)  # Path to file relative to input_path
+    else:
+        header_name = file
+
+    header_name = header_name.replace(".cmake", "")
+
+    if prefix is not None:
+        # If current file dir is same as root dir, replace "." with prefix
+        if header_name == ".":
+            header_name = prefix
+        else:
+            # Add prefix to beginning of headers
+            header_name = prefix + "." + header_name
+
+    # Only log when not writing to stdout
+    if output_path is not None:
+        print(f"Writing for file {file}")
+
+    auto_documenter = Documenter(file, header_name, settings)
+
+    output_writer = auto_documenter.process()
+    if output_path is not None:  # Determine where to place generated RST file
+        os.makedirs(output_path, exist_ok=True)
+        if os.path.isdir(output_path):
+            output_filename = os.path.join(output_path, ".".join(os.path.basename(file).split(".")[:-1]) + ".rst")
+            if os.path.isdir(root):
+                subpath = os.path.relpath(file, root)  # Path to file relative to input_path
+                output_filename = os.path.join(output_path, os.path.join(os.path.dirname(subpath), ".".join(
+                    os.path.basename(file).split(".")[:-1]) + ".rst"))
+            print(f"Writing RST file {output_filename}")
+            output_writer.write_to_file(output_filename)
+    else:  # Output was not specified so print to screen
+        print(output_writer)
+        print()
+
+
+def document(input_file: str, output_path: str = None, recursive=False, prefix=None, settings={}):
     """
     Handler for documenting CMake files or all files in a directory. Performs
     preprocessing before handing off to document_single_file over all detected
     files. Also generates index.rst files for all directories.
 
     :param input_file: String locating a file or directory to document.
-    :param output_path: String pointing to the directory to place generated files,
-     will output to stdout if None
+    :param output_path: String pointing to the directory to place generated files, will output to stdout if None
     :param recursive: Whether to generate documentation for subdirectories or not.
     :param prefix: Prefix to be prepended to all RST titles. In recursive mode,
-     root files will have their titles replaced by the prefix.
+    root files will have their titles replaced by the prefix.
+    :param settings: Dictionary containing application settings
     """
     input_path = os.path.abspath(input_file)
     if not os.path.exists(input_path):
@@ -156,62 +209,14 @@ def document(input_file, output_path=None, recursive=False, prefix=None):
 
             for file in filenames:
                 if "cmake" == file.split(".")[-1].lower():
-                    document_single_file(os.path.join(root, file), input_path, output_path, prefix)
+                    document_single_file(os.path.join(root, file), input_path, output_path, prefix, settings)
 
             if not recursive:
                 break
     elif os.path.isfile(input_path):
         if output_path is not None:
             os.makedirs(output_path, exist_ok=True)
-        document_single_file(input_path, input_path, output_path, prefix)
+        document_single_file(input_path, input_path, output_path, prefix, settings)
     else:
         print("File is a special file (socket, FIFO, device file) and is unsupported", file=sys.stderr)
         exit(1)
-
-
-def document_single_file(file, root, output_path=None, prefix=None):
-    """
-    Documents a single file, generates the RST, and places the file in the respective directory if output_dir
-    specified.
-
-    :param file: Path to the CMake file to be documented
-    :param root: Directory considered to be the root of the source tree. The RST header and output tree will be generated from the relative path between file and root
-    :param output_path: Directory to serve as the root of the output tree. Subdirectories will be created as needed to place generated RST files in.
-    :param prefix: Prefix to be prepended to all RST titles. If title was originally ``.``, replace with prefix.
-    """
-
-    if os.path.isdir(root):
-        header_name = os.path.relpath(file, root)  # Path to file relative to input_path
-    else:
-        header_name = file
-
-    header_name = header_name.replace(".cmake", "")
-
-    if prefix is not None:
-        # If current file dir is same as root dir, replace "." with prefix
-        if header_name == ".":
-            header_name = prefix
-        else:
-            # Add prefix to beginning of headers
-            header_name = prefix + "." + header_name
-
-    # Only log when not writing to stdout
-    if output_path is not None:
-        print(f"Writing for file {file}")
-
-    auto_documenter = Documenter(file, header_name)
-
-    output_writer = auto_documenter.process()
-    if output_path is not None:  # Determine where to place generated RST file
-        os.makedirs(output_path, exist_ok=True)
-        if os.path.isdir(output_path):
-            output_filename = os.path.join(output_path, ".".join(os.path.basename(file).split(".")[:-1]) + ".rst")
-            if os.path.isdir(root):
-                subpath = os.path.relpath(file, root)  # Path to file relative to input_path
-                output_filename = os.path.join(output_path, os.path.join(os.path.dirname(subpath), ".".join(
-                    os.path.basename(file).split(".")[:-1]) + ".rst"))
-            print(f"Writing RST file {output_filename}")
-            output_writer.write_to_file(output_filename)
-    else:  # Output was not specified so print to screen
-        print(output_writer)
-        print()
