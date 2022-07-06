@@ -43,7 +43,8 @@ import sys
 from confuse import Configuration
 from pkg_resources import get_distribution, DistributionNotFound
 
-from .config import config_template
+from .config import config_template, dict_to_settings, InputSettings, OutputSettings, LoggingSettings, RSTSettings, \
+    Settings
 from .documenter import Documenter
 from .rstwriter import RSTWriter
 
@@ -82,44 +83,42 @@ def main(args: list[str] = sys.argv[1:]):
     parser.add_argument("-s", "--settings", help="Load settings from the specified INI file. Parameters specified by "
                                                  "this file will override defaults, and command-line arguments will "
                                                  "override both.")
-    parser.add_argument("-d", "--default-settings", help="Load default settings from the specified INI file. This "
-                                                         "file must contain values for each config option, "
-                                                         "or an error may occur. If you wish to override settings, "
-                                                         "use the --settings option or specify them on the command "
-                                                         "line instead.",
-                        default="defaults.ini")
     parser.add_argument("--version", action='version', version='%(prog)s version ' + __version__)
 
     args = parser.parse_args(args)
     settings = Configuration("cminx", __name__)
     if args.settings is not None:
-        settings.set_file(args.settings)
+        settings.set_file(os.path.abspath(args.settings))
 
     settings.set_args(args, dots=True)
 
     settings = settings.get(config_template)
 
-    output_path = None
+    settings_obj = dict_to_settings(settings)
+
     if settings["output"]["directory"] is not None:
         output_path = os.path.abspath(settings["output"]["directory"])
         print(f"Writing RST files to {output_path}")
 
     for input_file in args.files:
         # Process all files specified on command line
-        document(input_file, output_path, settings["input"]["recursive"], settings["rst"]["prefix"], settings)
+        document(input_file, settings_obj)
 
 
-def document_single_file(file, root, output_path=None, prefix=None, settings={}):
+def document_single_file(file, root, settings: Settings):
     """
     Documents a single file, generates the RST, and places the file in the respective directory if output_dir
     specified.
 
     :param file: Path to the CMake file to be documented
-    :param root: Directory considered to be the root of the source tree. The RST header and output tree will be generated from the relative path between file and root
-    :param output_path: Directory to serve as the root of the output tree. Subdirectories will be created as needed to place generated RST files in.
-    :param prefix: Prefix to be prepended to all RST titles. If title was originally ``.``, replace with prefix.
-    :param settings: Dictionary containing application settings
+    :param root: Directory considered to be the root of the source tree. The RST header and output tree will be
+    generated from the relative path between file and root
+    :param settings: Object containing all necessary settings that will be passed down to the
+    documenter, aggregator, and RST writer.
     """
+
+    output_path: str = settings.output.directory
+    prefix = settings.rst.prefix
 
     if os.path.isdir(root):
         header_name = os.path.relpath(file, root)  # Path to file relative to input_path
@@ -158,19 +157,20 @@ def document_single_file(file, root, output_path=None, prefix=None, settings={})
         print()
 
 
-def document(input_file: str, output_path: str = None, recursive=False, prefix=None, settings={}):
+def document(input_file: str, settings: Settings):
     """
     Handler for documenting CMake files or all files in a directory. Performs
     preprocessing before handing off to document_single_file over all detected
     files. Also generates index.rst files for all directories.
 
     :param input_file: String locating a file or directory to document.
-    :param output_path: String pointing to the directory to place generated files, will output to stdout if None
-    :param recursive: Whether to generate documentation for subdirectories or not.
-    :param prefix: Prefix to be prepended to all RST titles. In recursive mode,
-    root files will have their titles replaced by the prefix.
-    :param settings: Dictionary containing application settings
+    :param settings: Object containing all necessary settings that will be passed down to the
+    documenter, aggregator, and RST writer.
     """
+    output_path: str = settings.output.directory
+    recursive = settings.input.recursive
+    prefix = settings.rst.prefix
+
     input_path = os.path.abspath(input_file)
     if not os.path.exists(input_path):
         print(f"Error: File or directory \"{input_path}\" does not exist", file=sys.stderr)
