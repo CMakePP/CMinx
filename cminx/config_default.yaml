@@ -23,6 +23,16 @@ input:
   recursive: false
 
 output:
+  # The directory to write generated RST files to. If not set,
+  # will output to STDOUT instead.
+  # directory: docs/
+
+logging:
+  # The log level to use. Can be one of:
+  # INFO, WARNING, DEBUG, ERROR, CRITICAL
+  level: INFO
+
+rst:
   # Whether the title of the RST file should contain the CMake file's
   # extension.
   file_extensions_in_titles: false
@@ -34,16 +44,6 @@ output:
   # Character to use as a separator between CMake directories and modules
   module_path_separator: '.'
 
-  # The directory to write generated RST files to. If not set,
-  # will output to STDOUT instead.
-  # directory: docs/
-
-logging:
-  # The log level to use. Can be one of:
-  # INFO, WARNING, DEBUG, ERROR, CRITICAL
-  level: INFO
-
-rst:
   # A list of characters to be used for RST headers.
   # The character is selected by using the section depth to index
   # into this list. It is recommended to have at least 4 characters

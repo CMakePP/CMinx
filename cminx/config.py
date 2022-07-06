@@ -10,15 +10,15 @@ config_template = {
         "recursive": False
     },
     "output": {
-        "file_extensions_in_titles": False,
-        "file_extensions_in_modules": False,
-        "module_path_separator": ".",
-        "directory": confuse.Optional(confuse.Filename())
+        "directory": confuse.Optional(confuse.Filename(in_source_dir=True))
     },
     "logging": {
         "level": confuse.OneOf(["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"])
     },
     "rst": {
+        "file_extensions_in_titles": False,
+        "file_extensions_in_modules": False,
+        "module_path_separator": ".",
         "headers": confuse.StrSeq(),
         "prefix": confuse.Optional(confuse.String())
     }
