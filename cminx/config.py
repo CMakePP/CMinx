@@ -4,11 +4,11 @@ from dataclasses import dataclass
 
 config_template = {
     "input": {
-        "include_undocumented_functions": True,
-        "include_undocumented_macros": True,
-        "include_undocumented_classes": True,
-        "include_undocumented_attributes": True,
-        "include_undocumented_members": True,
+        "include_undocumented_function": True,
+        "include_undocumented_macro": True,
+        "include_undocumented_cpp_class": True,
+        "include_undocumented_cpp_attr": True,
+        "include_undocumented_cpp_member": True,
         "recursive": False
     },
     "output": confuse.Optional({
@@ -30,11 +30,11 @@ config_template = {
 
 @dataclass
 class InputSettings:
-    include_undocumented_functions: bool = True
-    include_undocumented_macros: bool = True
-    include_undocumented_classes: bool = True
-    include_undocumented_attributes: bool = True
-    include_undocumented_members: bool = True
+    include_undocumented_function: bool = True
+    include_undocumented_macro: bool = True
+    include_undocumented_cpp_class: bool = True
+    include_undocumented_cpp_attr: bool = True
+    include_undocumented_cpp_member: bool = True
     recursive: bool = False
 
 

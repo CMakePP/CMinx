@@ -1,23 +1,23 @@
 input:
   # Whether undocumented functions should have documentation
   # auto-generated.
-  include_undocumented_functions: true
+  include_undocumented_function: true
 
   # Whether undocumented macros should have documentation
   # auto-generated.
-  include_undocumented_macros: true
+  include_undocumented_macro: true
 
   # Whether undocumented classes should have documentation
   # auto-generated.
-  include_undocumented_classes: true
+  include_undocumented_cpp_class: true
 
   # Whether undocumented attributes within CMakePP classes should have documentation
   # auto-generated.
-  include_undocumented_attributes: true
+  include_undocumented_cpp_attr: true
 
   # Whether undocumented members within CMakePP classes should have documentation
   # auto-generated.
-  include_undocumented_members: true
+  include_undocumented_cpp_member: true
 
   # Whether directories should be documented recursively
   recursive: false

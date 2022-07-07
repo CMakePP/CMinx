@@ -492,7 +492,8 @@ class DocumentationAggregator(CMakeListener):
 
                 # Clear the var since we've processed the function/macro def we need
                 self.documented_awaiting_function_def = None
-            elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed:
+            elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed\
+                    and self.settings.input.__dict__[f"include_undocumented_{command}"]:
                 getattr(self, f"process_{command}")(ctx, "")
         except Exception as e:
             line_num = ctx.start.line
