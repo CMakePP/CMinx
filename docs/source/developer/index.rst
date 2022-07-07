@@ -26,6 +26,7 @@ Table of Contents
 .. toctree::
    :maxdepth: 2
 
+   repo_structure
    overview
    api
    documentation

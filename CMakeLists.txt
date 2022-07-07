@@ -5,13 +5,13 @@ include(get_version_from_git)
 get_version_from_git(CMINX_VERSION ${CMAKE_CURRENT_SOURCE_DIR})
 
 #N.B. Not using a compiled language, by not setting we remove compiler checks
-project(cminx
-        DESCRIPTION "CMake automatic documentation generator"
-        LANGUAGES NONE
-        VERSION ${CMINX_VERSION}
+project(
+    cminx
+    DESCRIPTION "CMake automatic documentation generator"
+    LANGUAGES NONE
+    VERSION ${CMINX_VERSION}
 )
 
-option(BUILD_DOCS "Whether documentation targets should be added" OFF)
 option(BUILD_TESTING "Whether tests should be built ad ctest configured" OFF)
 
 #Allows us to locate any arbitrary Python3 module.
@@ -65,8 +65,8 @@ execute_process(COMMAND "${CMINX_VENV_PIP}" "install" "pyinstaller") #Install ou
 execute_process(COMMAND "${CMINX_VENV_PIP}" "install" "-e" "${CMAKE_CURRENT_SOURCE_DIR}")
 
 #Write package config files
-configure_file("${CMAKE_CURRENT_LIST_DIR}/templates/CMinxConfig.cmake" "${CMAKE_CURRENT_BINARY_DIR}" @ONLY)
-configure_file("${CMAKE_CURRENT_LIST_DIR}/templates/CMinxConfigVersion.cmake" "${CMAKE_CURRENT_BINARY_DIR}" @ONLY)
+configure_file("${CMAKE_CURRENT_LIST_DIR}/cmake/templates/CMinxConfig.cmake" "${CMAKE_CURRENT_BINARY_DIR}" @ONLY)
+configure_file("${CMAKE_CURRENT_LIST_DIR}/cmake/templates/CMinxConfigVersion.cmake" "${CMAKE_CURRENT_BINARY_DIR}" @ONLY)
 set(CMINX_PACKAGE_SEARCH_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 
 #[[
@@ -82,13 +82,6 @@ add_custom_target(cminx ALL
 
 
 install(PROGRAMS ${OUTPUT} DESTINATION bin)
-
-if(BUILD_DOCS)
-    include("cminx")
-    cminx_gen_rst("${CMAKE_CURRENT_SOURCE_DIR}/cmake/" "${CMAKE_CURRENT_SOURCE_DIR}/docs/source/developer/cmake" "cmake")
-
-    cminx_add_docs_target("${CMAKE_CURRENT_SOURCE_DIR}/docs" "${CMAKE_CURRENT_BINARY_DIR}/docs" html)
-endif()
 
 if(BUILD_TESTING)
     message("Building tests")
