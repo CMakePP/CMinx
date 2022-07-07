@@ -59,10 +59,10 @@ class RSTSettings:
 
 @dataclass
 class Settings:
-    input: InputSettings
-    output: OutputSettings
-    logging: LoggingSettings
-    rst: RSTSettings
+    input: InputSettings = InputSettings()
+    output: OutputSettings = OutputSettings()
+    logging: LoggingSettings = LoggingSettings()
+    rst: RSTSettings = RSTSettings()
 
 
 def dict_to_settings(input_dict: dict):

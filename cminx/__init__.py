@@ -119,6 +119,7 @@ def document_single_file(file, root, settings: Settings):
 
     output_path: str = settings.output.directory
     prefix = settings.rst.prefix
+    module_path_separator = settings.rst.module_path_separator
 
     if os.path.isdir(root):
         header_name = os.path.relpath(file, root)  # Path to file relative to input_path
@@ -129,11 +130,11 @@ def document_single_file(file, root, settings: Settings):
 
     if prefix is not None:
         # If current file dir is same as root dir, replace "." with prefix
-        if header_name == ".":
+        if header_name == module_path_separator:
             header_name = prefix
         else:
             # Add prefix to beginning of headers
-            header_name = prefix + "." + header_name
+            header_name = prefix + module_path_separator + header_name
 
     # Only log when not writing to stdout
     if output_path is not None:
