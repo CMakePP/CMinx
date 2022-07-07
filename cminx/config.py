@@ -11,9 +11,9 @@ config_template = {
         "include_undocumented_members": True,
         "recursive": False
     },
-    "output": {
+    "output": confuse.Optional({
         "directory": confuse.Optional(confuse.Filename(in_source_dir=True))
-    },
+    }, default={"directory": None}),
     "logging": {
         "level": confuse.OneOf(["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"])
     },
