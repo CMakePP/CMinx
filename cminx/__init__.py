@@ -37,6 +37,7 @@ options:
 """
 
 import argparse
+import copy
 import os
 import sys
 
@@ -102,7 +103,7 @@ def main(args: list[str] = sys.argv[1:]):
 
     for input_file in args.files:
         # Process all files specified on command line
-        document(input_file, settings_obj)
+        document(input_file, copy.deepcopy(settings_obj))
 
 
 def document_single_file(file, root, settings: Settings):
@@ -171,6 +172,7 @@ def document(input_file: str, settings: Settings):
     output_path: str = settings.output.directory
     recursive = settings.input.recursive
     prefix = settings.rst.prefix
+    new_settings = copy.deepcopy(settings)
 
     input_path = os.path.abspath(input_file)
     if not os.path.exists(input_path):
@@ -179,6 +181,7 @@ def document(input_file: str, settings: Settings):
     elif os.path.isdir(input_path):
         last_dir_element = os.path.basename(os.path.normpath(input_file))
         prefix = prefix if prefix is not None else last_dir_element
+        new_settings.rst.prefix = prefix
         # Walk dir and add cmake files to list
         for root, subdirs, filenames in os.walk(input_path):
             # Sort filenames and subdirs in alphabetical order
@@ -210,14 +213,14 @@ def document(input_file: str, settings: Settings):
 
             for file in filenames:
                 if "cmake" == file.split(".")[-1].lower():
-                    document_single_file(os.path.join(root, file), input_path, settings)
+                    document_single_file(os.path.join(root, file), input_path, new_settings)
 
             if not recursive:
                 break
     elif os.path.isfile(input_path):
         if output_path is not None:
             os.makedirs(output_path, exist_ok=True)
-        document_single_file(input_path, input_path, settings)
+        document_single_file(input_path, input_path, new_settings)
     else:
         print("File is a special file (socket, FIFO, device file) and is unsupported", file=sys.stderr)
         exit(1)
