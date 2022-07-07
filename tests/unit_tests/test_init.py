@@ -22,6 +22,7 @@ import context
 import helpers
 
 import cminx
+from cminx import Settings, InputSettings, OutputSettings, RSTSettings
 
 
 class TestInit(unittest.TestCase):
@@ -47,7 +48,8 @@ class TestInit(unittest.TestCase):
     def test_document(self):
         """Tests the document command in the CMinx module"""
         sys.stdout = open(os.devnull, 'w')
-        cminx.document(self.input_file, self.output_dir, True)
+        cminx.document(self.input_file,
+                       Settings(InputSettings(recursive=True), OutputSettings(directory=self.output_dir)))
         sys.stdout = sys.__stdout__
 
         # Test that the top-level directory was found
@@ -61,7 +63,9 @@ class TestInit(unittest.TestCase):
     def test_document_prefix(self):
         """Tests the document command in the CMinx module with the prefix option"""
         sys.stdout = open(os.devnull, 'w')
-        cminx.document(self.input_file, self.output_dir, recursive=True, prefix=context.prefix)
+        cminx.document(self.input_file,
+                       Settings(input=InputSettings(recursive=True), output=OutputSettings(directory=self.output_dir),
+                                rst=RSTSettings(prefix=context.prefix)))
         sys.stdout = sys.__stdout__
 
         # Test that the top-level directory was found
