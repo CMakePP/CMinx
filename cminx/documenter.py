@@ -67,7 +67,7 @@ class Documenter(object):
         self.tree = self.parser.cmake_file()
 
         # Hard part is done, we now have a fully usable parse tree, now we just need to walk it
-        self.aggregator = DocumentationAggregator()
+        self.aggregator = DocumentationAggregator(settings)
         self.walker = ParseTreeWalker()
         self.walker.walk(self.aggregator, self.tree)
 

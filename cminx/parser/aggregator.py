@@ -6,6 +6,7 @@ from .CMakeListener import CMakeListener
 # Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention
 # inconsistencies here
 from .CMakeParser import CMakeParser
+from .. import Settings
 
 """
 This module interfaces with the generated CMake parser.
@@ -83,7 +84,10 @@ class DocumentationAggregator(CMakeListener):
     them in a list.
     """
 
-    def __init__(self):
+    def __init__(self, settings: Settings = Settings()):
+        self.settings = settings
+        """Application settings used to determine what commands to document"""
+
         self.documented = []
         """All current documented commands"""
 
