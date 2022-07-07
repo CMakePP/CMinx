@@ -103,7 +103,7 @@ def main(args: list[str] = sys.argv[1:]):
 
     for input_file in args.files:
         # Process all files specified on command line
-        document(input_file, copy.deepcopy(settings_obj))
+        document(input_file, settings_obj)
 
 
 def document_single_file(file, root, settings: Settings):
