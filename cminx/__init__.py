@@ -210,14 +210,14 @@ def document(input_file: str, settings: Settings):
 
             for file in filenames:
                 if "cmake" == file.split(".")[-1].lower():
-                    document_single_file(os.path.join(root, file), input_path, output_path, prefix, settings)
+                    document_single_file(os.path.join(root, file), input_path, settings)
 
             if not recursive:
                 break
     elif os.path.isfile(input_path):
         if output_path is not None:
             os.makedirs(output_path, exist_ok=True)
-        document_single_file(input_path, input_path, output_path, prefix, settings)
+        document_single_file(input_path, input_path, settings)
     else:
         print("File is a special file (socket, FIFO, device file) and is unsupported", file=sys.stderr)
         exit(1)
