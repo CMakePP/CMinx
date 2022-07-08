@@ -38,9 +38,11 @@ options:
 
 import argparse
 import copy
+import logging
 import os
 import re
 import sys
+import logging.config
 
 from confuse import Configuration
 from pkg_resources import get_distribution, DistributionNotFound
@@ -55,6 +57,8 @@ except DistributionNotFound:
     # package is not installed
     __version__ = "UNKNOWN"
 
+logger: logging.Logger
+
 
 def main(args: list[str] = sys.argv[1:]):
     """
@@ -62,6 +66,8 @@ def main(args: list[str] = sys.argv[1:]):
 
     :param args: Array of strings containing program arguments, excluding program name. Same format as sys.argv[1:].
     """
+
+    global logger
 
     parser = argparse.ArgumentParser(description="Automatic documentation generator for CMake files. This program " +
                                                  "generates Sphinx-compatible RST documents, which are incompatible "
@@ -102,9 +108,13 @@ def main(args: list[str] = sys.argv[1:]):
 
     settings_obj = dict_to_settings(settings)
 
+    logging.config.dictConfig(settings_obj.logging.logger_config)
+    logger = logging.getLogger(__name__)
+    logger.debug("Test")
+
     if settings["output"]["directory"] is not None:
         output_path = os.path.abspath(settings["output"]["directory"])
-        print(f"Writing RST files to {output_path}")
+        logger.info(f"Writing RST files to {output_path}")
 
     for input_file in args.files:
         # Process all files specified on command line
@@ -150,7 +160,7 @@ def document_single_file(file, root, settings: Settings):
 
     # Only log when not writing to stdout
     if output_path is not None:
-        print(f"Writing for file {file}")
+        logger.info(f"Writing for file {file}")
 
     auto_documenter = Documenter(file, header_name, module_name, settings)
 
@@ -163,11 +173,11 @@ def document_single_file(file, root, settings: Settings):
                 subpath = os.path.relpath(file, root)  # Path to file relative to input_path
                 output_filename = os.path.join(output_path, os.path.join(os.path.dirname(subpath), ".".join(
                     os.path.basename(file).split(".")[:-1]) + ".rst"))
-            print(f"Writing RST file {output_filename}")
+            logger.info(f"Writing RST file {output_filename}")
             output_writer.write_to_file(output_filename)
     else:  # Output was not specified so print to screen
-        print(output_writer)
-        print()
+        # Use print() for raw output instead of logger
+        print(str(output_writer) + "\n")
 
 
 def document(input_file: str, settings: Settings):
@@ -187,7 +197,7 @@ def document(input_file: str, settings: Settings):
 
     input_path = os.path.abspath(input_file)
     if not os.path.exists(input_path):
-        print(f"Error: File or directory \"{input_path}\" does not exist", file=sys.stderr)
+        logger.error(f"File or directory \"{input_path}\" does not exist")
         exit(-1)
     elif os.path.isdir(input_path):
         last_dir_element = os.path.basename(os.path.normpath(input_file))
@@ -233,5 +243,4 @@ def document(input_file: str, settings: Settings):
             os.makedirs(output_path, exist_ok=True)
         document_single_file(input_path, input_path, new_settings)
     else:
-        print("File is a special file (socket, FIFO, device file) and is unsupported", file=sys.stderr)
-        exit(1)
+        logger.error("File is a special file (socket, FIFO, device file) and is unsupported")

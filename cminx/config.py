@@ -1,7 +1,7 @@
 import confuse
 import os
 from typing import List
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 def config_template(output_dir_relative_to_config=False):
@@ -28,9 +28,7 @@ def config_template(output_dir_relative_to_config=False):
                 else confuse.Filename(in_source_dir=True)),
             "relative_to_config": bool
         },
-        "logging": {
-            "level": confuse.OneOf(["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"])
-        },
+        "logging": confuse.TypeTemplate(dict),
         "rst": {
             "file_extensions_in_titles": bool,
             "file_extensions_in_modules": bool,
@@ -62,7 +60,7 @@ class OutputSettings:
 
 @dataclass
 class LoggingSettings:
-    level: str = "INFO"
+    logger_config: dict = field(default_factory=lambda: ({}))
 
 
 @dataclass
@@ -85,6 +83,6 @@ class Settings:
 def dict_to_settings(input_dict: dict):
     input_settings = InputSettings(**input_dict["input"])
     output_settings = OutputSettings(**input_dict["output"])
-    logging_settings = LoggingSettings(**input_dict["logging"])
+    logging_settings = LoggingSettings(input_dict["logging"])
     rst_settings = RSTSettings(**input_dict["rst"])
     return Settings(input_settings, output_settings, logging_settings, rst_settings)

@@ -34,7 +34,7 @@ output:
   # The directory to write generated RST files to. If not set,
   # will output to STDOUT instead.
   # Relative paths will be resolved with regard to the relative_to_config setting
-  # directory: build/
+  directory: build/
 
   # If false, relative output paths are resolved with regard to the current working directory.
   # If true, they are instead resolved with regard to the directory where the highest priority
@@ -43,9 +43,41 @@ output:
   relative_to_config: false
 
 logging:
-  # The log level to use. Can be one of:
-  # INFO, WARNING, DEBUG, ERROR, CRITICAL
-  level: INFO
+  # Supports all Python logging dict config options
+  # See https://docs.python.org/3/howto/logging.html#configuring-logging
+  version: 1
+  formatters:
+    simple:
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  handlers:
+    console:
+      class: logging.StreamHandler
+      # Changing this level changes what's viewable on stdout
+      level: INFO
+      formatter: simple
+      stream: ext://sys.stdout
+    logfile:
+      class: logging.FileHandler
+      # Changing this level changes what's viewable in the log file
+      level: DEBUG
+      formatter: simple
+      # File to output the log to, relative paths are resolved with regard
+      # to current working directory upon execution
+      filename: log.txt
+      # Mode used to write the log file. 'a' appends and 'w' writes, erasing original content
+      mode: 'w'
+  loggers:
+    cminx:
+      # Changing this overrides log levels in handlers
+      level: DEBUG
+      handlers:
+        - console
+        #- logfile # Uncomment to add logging to a file called log.txt
+      propagate: no
+  root:
+    level: DEBUG
+    handlers:
+      - console
 
 rst:
   # Whether the title of the RST file should contain the CMake file's
