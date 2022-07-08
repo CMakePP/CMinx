@@ -19,6 +19,14 @@ input:
   # auto-generated.
   include_undocumented_cpp_member: true
 
+  # Whether undocumented tests should have documentation
+  # auto-generated.
+  include_undocumented_ct_add_test: true
+
+  # Whether undocumented test sections should have documentation
+  # auto-generated.
+  include_undocumented_ct_add_section: true
+
   # Whether directories should be documented recursively
   recursive: false
 
