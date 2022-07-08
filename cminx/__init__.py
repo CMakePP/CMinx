@@ -39,6 +39,7 @@ options:
 import argparse
 import copy
 import os
+import re
 import sys
 
 from confuse import Configuration
@@ -131,7 +132,13 @@ def document_single_file(file, root, settings: Settings):
     else:
         header_name = file
 
-    header_name = header_name.replace(".cmake", "")
+    module_name = header_name
+
+    if not settings.rst.file_extensions_in_titles:
+        header_name = re.sub(r"\.cmake$", "", header_name)
+
+    if not settings.rst.file_extensions_in_modules:
+        module_name = re.sub(r"\.cmake$", "", module_name)
 
     if prefix is not None:
         # If current file dir is same as root dir, replace "." with prefix
@@ -145,7 +152,7 @@ def document_single_file(file, root, settings: Settings):
     if output_path is not None:
         print(f"Writing for file {file}")
 
-    auto_documenter = Documenter(file, header_name, settings)
+    auto_documenter = Documenter(file, header_name, module_name, settings)
 
     output_writer = auto_documenter.process()
     if output_path is not None:  # Determine where to place generated RST file

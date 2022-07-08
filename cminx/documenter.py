@@ -39,7 +39,7 @@ class Documenter(object):
     Generates RST documentation from aggregated documentation, combining parser.aggregator and rstwriter.
     """
 
-    def __init__(self, file: str, title: str = None, settings: Settings = Settings()):
+    def __init__(self, file: str, title: str = None, module_name: str = None, settings: Settings = Settings()):
         """
         :param file: CMake file to read documentation from.
         :param title: RST header title to use in the generated document.
@@ -50,9 +50,12 @@ class Documenter(object):
 
         title = file if title is None else title
 
+        if module_name is None:
+            module_name = title
+
         self.writer = RSTWriter(title)
 
-        self.module = self.writer.directive("module", title)
+        self.module = self.writer.directive("module", module_name)
 
         # We need a string stream of some kind, FileStream is easiest
         self.input_stream = FileStream(file)
