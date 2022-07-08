@@ -13,25 +13,25 @@ def config_template(output_dir_relative_to_config=False):
     """
     return {
         "input": {
-            "include_undocumented_function": True,
-            "include_undocumented_macro": True,
-            "include_undocumented_cpp_class": True,
-            "include_undocumented_cpp_attr": True,
-            "include_undocumented_cpp_member": True,
-            "recursive": False
+            "include_undocumented_function": bool,
+            "include_undocumented_macro": bool,
+            "include_undocumented_cpp_class": bool,
+            "include_undocumented_cpp_attr": bool,
+            "include_undocumented_cpp_member": bool,
+            "recursive": bool
         },
         "output": {
             "directory": confuse.Optional(
                 confuse.Filename(cwd=os.getcwd()) if not output_dir_relative_to_config
                 else confuse.Filename(in_source_dir=True)),
-            "relative_to_config": False
+            "relative_to_config": bool
         },
         "logging": {
             "level": confuse.OneOf(["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"])
         },
         "rst": {
-            "file_extensions_in_titles": False,
-            "file_extensions_in_modules": False,
+            "file_extensions_in_titles": bool,
+            "file_extensions_in_modules": bool,
             "module_path_separator": ".",
             "headers": confuse.StrSeq(),
             "prefix": confuse.Optional(confuse.String())
