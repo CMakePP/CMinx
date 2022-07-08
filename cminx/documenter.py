@@ -53,7 +53,7 @@ class Documenter(object):
         if module_name is None:
             module_name = title
 
-        self.writer = RSTWriter(title)
+        self.writer = RSTWriter(title, settings=settings)
 
         self.module = self.writer.directive("module", module_name)
 

@@ -26,6 +26,8 @@ not generate invalid RST structures.
 """
 from typing import Any
 
+from cminx import Settings
+
 
 class RSTWriter(object):
     """
@@ -35,10 +37,14 @@ class RSTWriter(object):
     heading_level_chars = ['#', '*', '=', '-', '_', '~', '!', '&', '@', '^']
     """Characters to use as heading overline/underline, indexed by section_level"""
 
-    def __init__(self, title: str, header_char: str = "#", section_level: int = 0):
+    def __init__(self, title: str, section_level: int = 0, settings=Settings()):
         self.__title: str = title
-        self.header_char: str = header_char
         self.section_level: int = section_level
+        self.settings = settings
+        if settings.rst.headers is not None:
+            self.heading_level_chars = settings.rst.headers
+
+        self.header_char: str = self.heading_level_chars[section_level]
         self.document: list[Any] = [self.build_heading()]  # Heading must be first in the document tree
 
     def clear(self):
@@ -109,8 +115,8 @@ class RSTWriter(object):
 
         :param title: The heading title to be used for the new subsection.
         """
-        sect = RSTWriter(title, header_char=self.heading_level_chars[self.section_level + 1],
-                         section_level=self.section_level + 1)
+        sect = RSTWriter(title,
+                         section_level=self.section_level + 1, settings=self.settings)
         self.document.append(sect)
         return sect
 
@@ -130,7 +136,7 @@ class RSTWriter(object):
 
         :param arguments: Varargs to be used as the directive arguments, such as a topic title.
         """
-        w = Directive(name, 0, *arguments)
+        w = Directive(name, 0, *arguments, settings=self.settings)
         self.document.append(w)
         return w
 
@@ -473,7 +479,7 @@ class Directive(RSTWriter):
     Does not verify that the directive or its arguments are valid.
     """
 
-    def __init__(self, name, indent=0, *arguments):
+    def __init__(self, name, indent=0, *arguments, settings=Settings()):
         """
         :param name: Name of the directive being constructed, eg. toctree or admonition.
 
@@ -485,7 +491,7 @@ class Directive(RSTWriter):
         self.indent: int = indent
         self.arguments = arguments
         self.options = []
-        super().__init__(name)
+        super().__init__(name, settings=settings)
 
     def directive(self, title, *arguments):
         """
@@ -495,7 +501,7 @@ class Directive(RSTWriter):
 
         :param arguments: Varargs used as the directive arguments, such as a topic's title.
         """
-        d = Directive(title, self.indent + 1, *arguments)
+        d = Directive(title, self.indent + 1, *arguments, settings=self.settings)
         self.document.append(d)
         return d
 

@@ -203,7 +203,7 @@ def document(input_file: str, settings: Settings):
                 os.makedirs(path, exist_ok=True)  # Make sure we have all the directories created
 
                 rel_path = os.path.relpath(root, input_path)
-                index = RSTWriter(rel_path)
+                index = RSTWriter(rel_path, settings=settings)
 
                 if prefix is not None:
                     # If current file dir is same as root dir, replace "." with prefix
