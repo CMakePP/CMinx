@@ -28,6 +28,6 @@ ct_add_dir(
 
 add_test(
     NAME "CMinx_Unit_Tests"
-    COMMAND "${CMINX_VENV_PYTHON_EXECUTABLE}" "test_all.py"
+    COMMAND "${CMINX_VENV_PYTHON_EXECUTABLE}" "-B" "test_all.py"
     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
 )
