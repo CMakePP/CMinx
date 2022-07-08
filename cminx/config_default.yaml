@@ -25,7 +25,14 @@ input:
 output:
   # The directory to write generated RST files to. If not set,
   # will output to STDOUT instead.
-  # directory: docs/
+  # Relative paths will be resolved with regard to the relative_to_config setting
+  directory: build/
+
+  # If false, relative output paths are resolved with regard to the current working directory.
+  # If true, they are instead resolved with regard to the directory where the highest priority
+  # output.directory property is specified. If the highest priority config source does not have
+  # a file, the current working directory is instead used.
+  relative_to_config: false
 
 logging:
   # The log level to use. Can be one of:
