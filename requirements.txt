@@ -1,2 +1,1 @@
 antlr4-python3-runtime==4.7.2
-docutils==0.16

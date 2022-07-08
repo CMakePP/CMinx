@@ -27,6 +27,7 @@ Table of Contents
    :maxdepth: 2
 
    repo_structure
+   dependencies
    overview
    api
    documentation

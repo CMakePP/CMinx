@@ -106,7 +106,10 @@ set(CMINX_PACKAGE_SEARCH_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 #]]
 add_custom_target(
     cminx ALL
-    ${CMINX_VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py"
+    ${CMINX_VENV_PYTHON_EXECUTABLE} "-m"
+                                    "PyInstaller"
+                                    "--onefile"
+                                    "${CMAKE_CURRENT_SOURCE_DIR}/main.py"
     COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${OUTPUT}"
     DEPENDS ${DEPS}
     BYPRODUCTS ${OUTPUT}
@@ -119,6 +122,13 @@ if(BUILD_TESTING)
     message("Building tests")
     include("${PROJECT_SOURCE_DIR}/cmake/get_cpp.cmake")
     include("${PROJECT_SOURCE_DIR}/cmake/get_cmake_test.cmake")
+
+    execute_process(
+        COMMAND "${CMINX_VENV_PIP}"
+                "install"
+                "-r"
+                "${CMAKE_CURRENT_SOURCE_DIR}/tests/requirements.txt"
+    )
 
     include(cmake_test/cmake_test)
     include(CTest)
