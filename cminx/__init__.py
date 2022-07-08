@@ -132,14 +132,6 @@ def document_single_file(file, root, settings: Settings):
     else:
         header_name = file
 
-    module_name = header_name
-
-    if not settings.rst.file_extensions_in_titles:
-        header_name = re.sub(r"\.cmake$", "", header_name)
-
-    if not settings.rst.file_extensions_in_modules:
-        module_name = re.sub(r"\.cmake$", "", module_name)
-
     if prefix is not None:
         # If current file dir is same as root dir, replace "." with prefix
         if header_name == module_path_separator:
@@ -147,6 +139,14 @@ def document_single_file(file, root, settings: Settings):
         else:
             # Add prefix to beginning of headers
             header_name = prefix + module_path_separator + header_name
+
+    module_name = header_name
+
+    if not settings.rst.file_extensions_in_titles:
+        header_name = re.sub(r"\.cmake$", "", header_name)
+
+    if not settings.rst.file_extensions_in_modules:
+        module_name = re.sub(r"\.cmake$", "", module_name)
 
     # Only log when not writing to stdout
     if output_path is not None:
