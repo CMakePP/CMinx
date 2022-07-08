@@ -28,30 +28,30 @@ out what files may need to change for future updates.
    the order they are likely to be displayed to the user. For the most part that
    is case-insensitive alphabetical order with directories listed before files.
 
----------
+*********
 Top Level
----------
+*********
 
 The top-level of the CMinx repo is the directory you get when you clone CMinx.
 The top-level directory contains the following files:
 
-- `.gitignore` Used by git to determine which files/folders should be version
+- ``.gitignore`` Used by git to determine which files/folders should be version
   controlled
-- `CMakeLists.txt` Entry point for building CMinx with CMake.
-- `codecov.yml` Settings for `Codecov <https://about.codecov.io/>`__
-- `LICENSE` Obligatory software license.
-- `main.py`
-- `README.md` Text users are treated to when the visit the GitHub repo.
-- `requirements.txt` Used by `pip` to install the correct dependencies.
-- `setup.py` Entry point for
+- ``CMakeLists.txt`` Entry point for building CMinx with CMake.
+- ``codecov.yml`` Settings for `Codecov <https://about.codecov.io/>`__
+- ``LICENSE`` Obligatory software license.
+- ``main.py``
+- ``README.md`` Text users are treated to when the visit the GitHub repo.
+- ``requirements.txt`` Used by `pip` to install the correct dependencies.
+- ``setup.py`` Entry point for
   `setuptools <https://setuptools.pypa.io/en/latest/>`, which is in turn used to
   build and install CMinx
 
 and the following directories:
 
-- `.github` Contains GitHub workflows, and settings, which constitute the CI
+- ``.github`` Contains GitHub workflows, and settings, which constitute the CI
   testing of CMinx
-- `cmake` assets needed to support the building CMinx with CMake
-- `cminx` contains the source code for the CMinx executable
-- `docs` contains the source code for CMinx's documentation
-- `tests` contains source code for testing CMinx
+- ``cmake`` assets needed to support the building CMinx with CMake
+- ``cminx`` contains the source code for the CMinx executable
+- ``docs`` contains the source code for CMinx's documentation
+- ``tests`` contains source code for testing CMinx
