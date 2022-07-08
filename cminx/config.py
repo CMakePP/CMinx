@@ -3,10 +3,14 @@ import os
 from typing import List
 from dataclasses import dataclass
 
-output_dir_relative_to_config = False
 
+def config_template(output_dir_relative_to_config=False):
+    """
+    Generates the config template.
 
-def config_template():
+    :param output_dir_relative_to_config: Selects whether output.dir should be resolved relative to the config source,
+    if not then it is resolved relative to the current working directory.
+    """
     return {
         "input": {
             "include_undocumented_function": True,

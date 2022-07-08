@@ -40,7 +40,6 @@ import argparse
 import copy
 import os
 import sys
-import config
 
 from confuse import Configuration
 from pkg_resources import get_distribution, DistributionNotFound
@@ -93,10 +92,12 @@ def main(args: list[str] = sys.argv[1:]):
 
     settings.set_args(args, dots=True)
 
-    if settings["output"]["relative_to_config"].get():
-        config.output_dir_relative_to_config = True
+    output_dir_relative_to_config = False
 
-    settings = settings.get(config_template())
+    if settings["output"]["relative_to_config"].get():
+        output_dir_relative_to_config = True
+
+    settings = settings.get(config_template(output_dir_relative_to_config))
 
     settings_obj = dict_to_settings(settings)
 
