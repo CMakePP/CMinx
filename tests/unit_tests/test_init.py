@@ -22,7 +22,7 @@ import context
 import helpers
 
 import cminx
-from cminx import Settings, InputSettings, OutputSettings, RSTSettings
+from cminx.config import Settings, InputSettings, OutputSettings, RSTSettings
 
 
 class TestInit(unittest.TestCase):
