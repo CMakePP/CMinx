@@ -1,3 +1,4 @@
+import logging
 import sys
 from collections import namedtuple
 from enum import Enum
@@ -104,6 +105,8 @@ class DocumentationAggregator(CMakeListener):
         """
         A list containing all of the Command_invocationContexts that have already been processed
         """
+        
+        self.logger = logging.getLogger(__name__)
 
     def process_function(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -120,9 +123,7 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            print(
-                f"function() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}",
-                file=sys.stderr)
+            self.logger.error(f"function() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
             return
 
         params = [p.getText() for p in def_params[1:]]
@@ -147,8 +148,8 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            print(
-                f"macro() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
+            self.logger.error(
+                f"macro() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
             return
 
         params = [p.getText() for p in def_params[1:]]
@@ -172,8 +173,8 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            print(
-                f"ct_add_test() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+            self.logger.error(
+                f"ct_add_test() called with incorrect parameters: {params}\n\n{pretty_text}")
             return
 
         name = ""
@@ -187,8 +188,8 @@ class DocumentationAggregator(CMakeListener):
                     pretty_text = docstring
                     pretty_text += f"\n{ctx.getText()}"
 
-                    print(
-                        f"ct_add_test() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+                    self.logger.error(
+                        f"ct_add_test() called with incorrect parameters: {params}\n\n{pretty_text}")
                     return
 
             if param.upper() == "EXPECTFAIL":
@@ -212,8 +213,8 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            print(
-                f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}", file=sys.stderr)
+            self.logger.error(
+                f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}")
             return
 
         name = ""
@@ -227,9 +228,7 @@ class DocumentationAggregator(CMakeListener):
                     pretty_text = docstring
                     pretty_text += f"\n{ctx.getText()}"
 
-                    print(
-                        f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}",
-                        file=sys.stderr)
+                    self.logger.error(f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}")
                     return
 
             if param.upper() == "EXPECTFAIL":
@@ -253,8 +252,8 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            print(
-                f"set() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}", file=sys.stderr)
+            self.logger.error(
+                f"set() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
             return
 
         varname = ctx.single_argument()[
@@ -295,9 +294,7 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            print(
-                f"cpp_class() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}",
-                file=sys.stderr)
+            self.logger.error(f"cpp_class() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
             return
 
         params = [param.getText()
@@ -327,9 +324,8 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            print(
-                f"cpp_class() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}",
-                file=sys.stderr)
+            self.logger.error(
+                f"cpp_class() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
             return
 
         params = [param.getText()
@@ -339,8 +335,8 @@ class DocumentationAggregator(CMakeListener):
             pretty_text += f"\n{ctx.getText()}"
             called_type = "cpp_constructor()" if is_constructor else "cpp_member()"
 
-            print(
-                f"{called_type} called outside of cpp_class() definition: {params}\n\n{pretty_text}", file=sys.stderr)
+            self.logger.error(
+                f"{called_type} called outside of cpp_class() definition: {params}\n\n{pretty_text}")
             return
 
         clazz = self.documented_classes_stack[-1]
@@ -374,9 +370,8 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            print(
-                f"cpp_attr() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}",
-                file=sys.stderr)
+            self.logger.error(
+                f"cpp_attr() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
             return
 
         params = [param.getText()
@@ -385,8 +380,8 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            print(
-                f"cpp_attr() called outside of cpp_class() definition: {params}\n\n{pretty_text}", file=sys.stderr)
+            self.logger.error(
+                f"cpp_attr() called outside of cpp_class() definition: {params}\n\n{pretty_text}")
             return
 
         clazz = self.documented_classes_stack[-1]
@@ -459,8 +454,8 @@ class DocumentationAggregator(CMakeListener):
                 self.process_generic_command(command, ctx.command_invocation(), cleaned_doc)
         except Exception as e:
             line_num = ctx.command_invocation().start.line
-            print(f"Caught exception while processing documented command beginning at line number {line_num}",
-                  file=sys.stderr)
+            self.logger.error(
+                f"Caught exception while processing documented command beginning at line number {line_num}")
             raise e
 
     def enterCommand_invocation(self, ctx: CMakeParser.Command_invocationContext):
@@ -497,5 +492,5 @@ class DocumentationAggregator(CMakeListener):
                 getattr(self, f"process_{command}")(ctx, "")
         except Exception as e:
             line_num = ctx.start.line
-            print(f"Caught exception while processing command beginning at line number {line_num}", file=sys.stderr)
+            self.logger.error(f"Caught exception while processing command beginning at line number {line_num}")
             raise e
