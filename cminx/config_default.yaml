@@ -34,7 +34,7 @@ output:
   # The directory to write generated RST files to. If not set,
   # will output to STDOUT instead.
   # Relative paths will be resolved with regard to the relative_to_config setting
-  directory: build/
+  # directory: build/
 
   # If false, relative output paths are resolved with regard to the current working directory.
   # If true, they are instead resolved with regard to the directory where the highest priority
