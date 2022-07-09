@@ -56,16 +56,17 @@ logging:
       level: INFO
       formatter: simple
       stream: ext://sys.stdout
-    logfile:
-      class: logging.FileHandler
-      # Changing this level changes what's viewable in the log file
-      level: DEBUG
-      formatter: simple
-      # File to output the log to, relative paths are resolved with regard
-      # to current working directory upon execution
-      filename: log.txt
-      # Mode used to write the log file. 'a' appends and 'w' writes, erasing original content
-      mode: 'w'
+      #Uncomment to add logfile handler
+#    logfile:
+#      class: logging.FileHandler
+#      # Changing this level changes what's viewable in the log file
+#      level: DEBUG
+#      formatter: simple
+#      # File to output the log to, relative paths are resolved with regard
+#      # to current working directory upon execution
+#      filename: log.txt
+#      # Mode used to write the log file. 'a' appends and 'w' writes, erasing original content
+#      mode: 'w'
   loggers:
     cminx:
       # Changing this overrides log levels in handlers
