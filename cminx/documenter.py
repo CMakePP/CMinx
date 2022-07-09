@@ -24,6 +24,7 @@ for CMake files.
 
 from antlr4 import *
 
+from cminx import Settings
 from .parser import ParserErrorListener
 from .parser.CMakeLexer import CMakeLexer
 from .parser.CMakeParser import CMakeParser
@@ -38,17 +39,23 @@ class Documenter(object):
     Generates RST documentation from aggregated documentation, combining parser.aggregator and rstwriter.
     """
 
-    def __init__(self, file: str, title: str = None):
+    def __init__(self, file: str, title: str = None, module_name: str = None, settings: Settings = Settings()):
         """
         :param file: CMake file to read documentation from.
         :param title: RST header title to use in the generated document.
+        :param settings: Dictionary containing application settings for documentation
         """
+
+        self.settings = settings
 
         title = file if title is None else title
 
-        self.writer = RSTWriter(title)
+        if module_name is None:
+            module_name = title
 
-        self.module = self.writer.directive("module", title)
+        self.writer = RSTWriter(title, settings=settings)
+
+        self.module = self.writer.directive("module", module_name)
 
         # We need a string stream of some kind, FileStream is easiest
         self.input_stream = FileStream(file)
@@ -62,8 +69,8 @@ class Documenter(object):
         self.parser.addErrorListener(ParserErrorListener())
         self.tree = self.parser.cmake_file()
 
-        # Hard part is done, we now have a fully useable parse tree, now we just need to walk it
-        self.aggregator = DocumentationAggregator()
+        # Hard part is done, we now have a fully usable parse tree, now we just need to walk it
+        self.aggregator = DocumentationAggregator(settings)
         self.walker = ParseTreeWalker()
         self.walker.walk(self.aggregator, self.tree)
 

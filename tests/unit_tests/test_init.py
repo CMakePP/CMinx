@@ -22,6 +22,7 @@ import context
 import helpers
 
 import cminx
+from cminx.config import Settings, InputSettings, OutputSettings, RSTSettings, LoggingSettings
 
 
 class TestInit(unittest.TestCase):
@@ -47,7 +48,8 @@ class TestInit(unittest.TestCase):
     def test_document(self):
         """Tests the document command in the CMinx module"""
         sys.stdout = open(os.devnull, 'w')
-        cminx.document(self.input_file, self.output_dir, True)
+        cminx.document(self.input_file,
+                       Settings(InputSettings(recursive=True), OutputSettings(directory=self.output_dir)))
         sys.stdout = sys.__stdout__
 
         # Test that the top-level directory was found
@@ -61,7 +63,9 @@ class TestInit(unittest.TestCase):
     def test_document_prefix(self):
         """Tests the document command in the CMinx module with the prefix option"""
         sys.stdout = open(os.devnull, 'w')
-        cminx.document(self.input_file, self.output_dir, recursive=True, prefix=context.prefix)
+        cminx.document(self.input_file,
+                       Settings(input=InputSettings(recursive=True), output=OutputSettings(directory=self.output_dir),
+                                rst=RSTSettings(prefix=context.prefix)))
         sys.stdout = sys.__stdout__
 
         # Test that the top-level directory was found
@@ -71,6 +75,19 @@ class TestInit(unittest.TestCase):
         # Test that the file is in the directory
         is_file = os.path.isfile(self.output_file)
         self.assertTrue(is_file, "Output file does not exist")
+
+    def test_header_extensions_no_undocumented_diff_header(self):
+        input_settings = InputSettings(include_undocumented_ct_add_test=False, include_undocumented_cpp_attr=False,
+                                       include_undocumented_function=False, include_undocumented_cpp_class=False,
+                                       include_undocumented_macro=False, include_undocumented_cpp_member=False,
+                                       include_undocumented_ct_add_section=False, recursive=True)
+        output_settings = OutputSettings(directory=self.output_dir)
+        rst_settings = RSTSettings(file_extensions_in_modules=True, file_extensions_in_titles=True,
+                                   headers=['^', '*', '=', '-', '_', '~', '!', '&', '@'])
+        settings = Settings(input_settings, output_settings, LoggingSettings(), rst_settings)
+        cminx.document(self.input_dir, settings)
+        diff = helpers.diff_files(self.output_file, context.corr_example_no_undocumented)
+        self.assertEqual(diff, "")
 
     def test_recursive(self):
         """Tests the use of CMinx in recursive mode"""

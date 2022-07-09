@@ -336,6 +336,18 @@ cpp_end_class()
         self.assertEqual(0, len(self.aggregator.documented),
                          f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
 
+    def test_cpp_attr_outside_class(self):
+        self.input_stream = InputStream("#[[[\n# cpp_attr() outside class\n#]]\ncpp_attr()")
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented),
+                         f"cpp_attr() call outside class was still added to documented list: {self.aggregator.documented}")
+
+    def test_cpp_member_outside_class(self):
+        self.input_stream = InputStream("#[[[\n# cpp_member() outside class\n#]]\ncpp_member()")
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented),
+                         f"cpp_member() call outside class was still added to documented list: {self.aggregator.documented}")
+
 
 if __name__ == '__main__':
     unittest.main()
