@@ -304,7 +304,7 @@ class DocumentationAggregator(CMakeListener):
         superclasses = params[1:]
         clazz = ClassDocumentation(name, superclasses, [], [], [], [], docstring)
         self.documented.append(clazz)
-        if len(self.documented_classes_stack) > 0:
+        if len(self.documented_classes_stack) > 0 and self.documented_classes_stack[-1] is not None:
             self.documented_classes_stack[-1].inner_classes.append(clazz)
         self.documented_classes_stack.append(clazz)
 
@@ -340,6 +340,10 @@ class DocumentationAggregator(CMakeListener):
             return
 
         clazz = self.documented_classes_stack[-1]
+        # Shouldn't document because class isn't supposed to be documented
+        if clazz is None:
+            return
+
         parent_class = params[1]
         name = params[0]
         param_types = params[2:] if len(params) > 2 else []
@@ -385,6 +389,9 @@ class DocumentationAggregator(CMakeListener):
             return
 
         clazz = self.documented_classes_stack[-1]
+        # Shouldn't document because class isn't supposed to be documented
+        if clazz is None:
+            return
         parent_class = params[0]
         name = params[1]
         default_values = params[2] if len(params) > 2 else None
@@ -468,8 +475,10 @@ class DocumentationAggregator(CMakeListener):
         command = ctx.Identifier().getText().lower()
 
         try:
-
-            if command == "cpp_end_class":
+            if command == "cpp_class" and not self.settings.input.include_undocumented_cpp_class:
+                # This ensures the stack doesn't fall into an inconsistent state
+                self.documented_classes_stack.append(None)
+            elif command == "cpp_end_class":
                 self.documented_classes_stack.pop()
             elif ((command == "function"
                    or command == "macro")
