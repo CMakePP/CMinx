@@ -62,4 +62,4 @@ corr_example_prefix_rst = os.path.join(example_sphinx, "source", "example_prefix
 # The correct index.rst file, with context.prefix as a prefix
 corr_index_prefix_rst = os.path.join(test_samples_dir, "corr_rst", "index", "index_prefix.rst")
 
-
+corr_example_no_undocumented = os.path.join(example_sphinx, "source", "example_no_undocumented_diff_header.rst")
