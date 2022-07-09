@@ -71,7 +71,10 @@ def main(args: list[str] = sys.argv[1:]):
 
     parser = argparse.ArgumentParser(description="Automatic documentation generator for CMake files. This program " +
                                                  "generates Sphinx-compatible RST documents, which are incompatible "
-                                                 "with standard docutils.")
+                                                 "with standard docutils. Config files are searched for according to "
+                                                 "operating-system-dependent directories, such as "
+                                                 "$XDG_CONFIG_HOME/cminx on Linux. Additional config files can be "
+                                                 "specified with the -s option.")
     parser.add_argument("files", nargs="+",
                         help="CMake file to generate documentation for. If directory, will generate documentation for "
                              "all *.cmake files (case-insensitive)")
@@ -87,7 +90,7 @@ def main(args: list[str] = sys.argv[1:]):
     parser.add_argument("-p", "--prefix",
                         help="If specified, all output files will have headers generated as if the prefix was the top "
                              "level package.", dest="rst.prefix")
-    parser.add_argument("-s", "--settings", help="Load settings from the specified INI file. Parameters specified by "
+    parser.add_argument("-s", "--settings", help="Load settings from the specified YAML file. Parameters specified by "
                                                  "this file will override defaults, and command-line arguments will "
                                                  "override both.")
     parser.add_argument("--version", action='version', version='%(prog)s version ' + __version__)
