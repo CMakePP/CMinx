@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cminx.parser.aggregator &mdash; CMinx v0.0.5 documentation</title>
+  <title>cminx.parser.aggregator &mdash; CMinx v0.0.6 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -31,7 +31,7 @@
             <a href="../../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -170,7 +170,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="cminx.parser.aggregator.DocumentationAggregator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.parser.aggregator.</span></span><span class="sig-name descname"><span class="pre">DocumentationAggregator</span></span><a class="headerlink" href="#cminx.parser.aggregator.DocumentationAggregator" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.parser.aggregator.</span></span><span class="sig-name descname"><span class="pre">DocumentationAggregator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cminx.config.Settings</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Settings(input=InputSettings(include_undocumented_function=True,</span> <span class="pre">include_undocumented_macro=True,</span> <span class="pre">include_undocumented_cpp_class=True,</span> <span class="pre">include_undocumented_cpp_attr=True,</span> <span class="pre">include_undocumented_cpp_member=True,</span> <span class="pre">include_undocumented_ct_add_test=True,</span> <span class="pre">include_undocumented_ct_add_section=True,</span> <span class="pre">recursive=False),</span> <span class="pre">output=OutputSettings(directory=None,</span> <span class="pre">relative_to_config=False),</span> <span class="pre">logging=LoggingSettings(logger_config={}),</span> <span class="pre">rst=RSTSettings(file_extensions_in_titles=False,</span> <span class="pre">file_extensions_in_modules=False,</span> <span class="pre">prefix=None,</span> <span class="pre">module_path_separator='.',</span> <span class="pre">headers=('#',</span> <span class="pre">'*',</span> <span class="pre">'=',</span> <span class="pre">'-',</span> <span class="pre">'_',</span> <span class="pre">'~',</span> <span class="pre">'!',</span> <span class="pre">'&amp;',</span> <span class="pre">'&#64;',</span> <span class="pre">'^')))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.parser.aggregator.DocumentationAggregator" title="Permalink to this definition"></a></dt>
 <dd><p>Processes all docstrings and their associated commands, aggregating
 them in a list.</p>
 <dl class="py attribute">
@@ -359,6 +359,12 @@ Also determines the type of set command/variable: String, List, or Unset.</p>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.parser.aggregator.DocumentationAggregator.settings">
+<span class="sig-name descname"><span class="pre">settings</span></span><a class="headerlink" href="#cminx.parser.aggregator.DocumentationAggregator.settings" title="Permalink to this definition"></a></dt>
+<dd><p>Application settings used to determine what commands to document</p>
 </dd></dl>
 
 </dd></dl>
