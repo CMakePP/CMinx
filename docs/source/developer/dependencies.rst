@@ -27,6 +27,8 @@ The dependency on CMake has been thrust upon us by the problem scope. Namely, in
 order to extract documentation from CMake scripts, and to integrate well with
 existing CMake workflows, CMinx needs to know about CMake.
 
+The minimum version of CMake required by CMinx is 3.14.
+
 ******
 Python
 ******
@@ -71,6 +73,12 @@ To facilitate testing of CMinx we use a couple of additional packages beyond
 those needed to simply build CMinx; they are described in this section.
 
 ********
+coverage
+********
+
+Coverage.py is used to measure the code coverage of our Python test suite.
+
+********
 docutils
 ********
 
@@ -81,6 +89,19 @@ After some manual testing it appears that any version of ``docutils`` newer than
 with Python 3. The version of ``docutils`` used by CMinx is really only relevant
 for CI, and if developers want to locally test CMinx. As such our CI coverage
 does not exhaustively consider multiple versions of ``docutils``.
+
+******
+pytest
+******
+
+Used to run the Python test suite.
+
+**********
+pytest-cov
+**********
+
+A plugin for `pytest` which aids in generating coverage reports for the Python
+test suite.
 
 ################################
 CMinx Documentation Dependencies

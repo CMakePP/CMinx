@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12) #Python3 package locator only added in 3.12
+cmake_minimum_required(VERSION 3.14) #For fetchcontent_makeavailable
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(get_version_from_git)
@@ -104,11 +104,15 @@ set(CMINX_PACKAGE_SEARCH_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 # First line calls PyInstaller to build the single file executable.
 # Second line copies the resultant executable to the binary directory.
 #]]
-add_custom_target(cminx ALL
-                   ${CMINX_VENV_PYTHON_EXECUTABLE} "-m" "PyInstaller" "--collect-data" "cminx" "--onefile" "${CMAKE_CURRENT_SOURCE_DIR}/main.py"
-                   COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${OUTPUT}"
-                   DEPENDS ${DEPS}
-                   BYPRODUCTS ${OUTPUT})
+add_custom_target(
+    cminx ALL
+    ${CMINX_VENV_PYTHON_EXECUTABLE}
+      "-m" "PyInstaller" "--collect-data" "cminx" "--onefile"
+      "${CMAKE_CURRENT_SOURCE_DIR}/main.py"
+    COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${OUTPUT}"
+    DEPENDS ${DEPS}
+    BYPRODUCTS ${OUTPUT}
+)
 
 
 install(PROGRAMS ${OUTPUT} DESTINATION bin)

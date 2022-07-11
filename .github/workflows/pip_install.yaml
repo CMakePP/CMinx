@@ -37,15 +37,13 @@ jobs:
         run: |
           python3 -m venv virt_env
           source virt_env/bin/activate
-          pip install coverage
-          pip install codecov
-          pip install pytest pytest-cov
           pip3 install wheel
           pip3 install .
+          cd tests
+          pip3 install -r requirements.txt
       - name: Test
         run: |
           source virt_env/bin/activate
-          cd tests
           pytest --cov=../cminx/ --cov-report=xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
