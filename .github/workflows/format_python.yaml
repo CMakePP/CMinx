@@ -34,7 +34,7 @@ jobs:
                 --aggressive
                 --aggressive
                 --exclude cminx/parser
-                cminx/ tests/
+                cminx/
 
       - name: Push formated source
         uses: EndBug/add-and-commit@v4
