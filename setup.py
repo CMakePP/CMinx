@@ -30,7 +30,7 @@ setup(
     name='CMinx',
     version=version,
     description='Documentation Generator for the CMake language',
-    author='Branden Butler',
+    author='CMakePP',
     author_email='bwtbutler@hotmail.com',
     url='https =//github.com/CMakePP/CMinx',
     packages=['cminx', 'cminx.parser'],
