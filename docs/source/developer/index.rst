@@ -17,7 +17,8 @@ Developer Documentation
 #######################
 
 The following documentation topics are meant primarily for developers working on
-CMinx.
+CMinx. It is our hope that these topics will make it easier to dive into the
+CMinx project and to recall why we made the design decisions we did.
 
 -----------------
 Table of Contents

@@ -27,7 +27,8 @@ The dependency on CMake has been thrust upon us by the problem scope. Namely, in
 order to extract documentation from CMake scripts, and to integrate well with
 existing CMake workflows, CMinx needs to know about CMake.
 
-The minimum version of CMake required by CMinx is 3.14.
+The minimum version of CMake required by CMinx is 3.14 on account of needing the
+``FetchContent_MakeAvailable`` command.
 
 ******
 Python
