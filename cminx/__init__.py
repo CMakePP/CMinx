@@ -207,7 +207,7 @@ def document(input_file: str, settings: Settings):
         prefix = prefix if prefix is not None else last_dir_element
         new_settings.rst.prefix = prefix
         # Walk dir and add cmake files to list
-        for root, subdirs, filenames in os.walk(input_path):
+        for root, subdirs, filenames in os.walk(input_path, topdown=True, followlinks=settings.input.follow_symlinks):
             # Sort filenames and subdirs in alphabetical order
             filenames = sorted(filenames)
             subdirs = sorted(subdirs)

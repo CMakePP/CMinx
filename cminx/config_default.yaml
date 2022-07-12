@@ -30,6 +30,15 @@ input:
   # Whether directories should be documented recursively
   recursive: false
 
+  # Whether CMinx should follow symlinks that resolve to directories
+  # when using recursive mode.
+  # This can cause infinite recursion if the symlink resolves
+  # to a parent directory of itself
+  follow_symlinks: false
+
+  # Optional list of exclude filters
+  # exclude_filters: []
+
 output:
   # The directory to write generated RST files to. If not set,
   # will output to STDOUT instead.
