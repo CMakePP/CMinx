@@ -60,7 +60,7 @@ except DistributionNotFound:
 logger: logging.Logger
 
 
-def main(args: list[str] = sys.argv[1:]):
+def main(args: list[str] = tuple(sys.argv[1:])):
     """
     CMake Documentation Generator program entry point.
 
