@@ -134,7 +134,7 @@ class RSTValidator:
 
         level = msg['level']
         if level >= (2 if self.werror else
-                     3):  # Warn or higher if werror, else only error or higher
+        3):  # Warn or higher if werror, else only error or higher
             self.fail(msg)
         if level >= 3:  # Severe, we need to raise a stink about this
             raise ValidationError(msg)
@@ -297,9 +297,9 @@ class RSTValidator:
                 f"Parsed section title '{sect_title.astext()}' does not match original section title '{to_validate.document[0].title}'"
             )
 
-        # Remove all messages and process them before processing rest of the
-        # document
-        section_cleaned = list(filter(self.is_not_message, sect))
+        section_cleaned = list(
+            filter(self.is_not_message, sect)
+        )  # Remove all messages and process them before processing rest of the document
         if len(section_cleaned) != len(
                 to_validate.document
         ):  # Our two documents are different lengths

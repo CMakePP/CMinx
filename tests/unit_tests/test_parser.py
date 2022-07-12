@@ -28,12 +28,10 @@ class MockListener(CMakeListener):
         self.elements = []
         """List of parsed element contexts. such as commands and documented commands"""
 
-    def enterDocumented_command(
-            self, ctx: CMakeParser.Documented_commandContext):
+    def enterDocumented_command(self, ctx: CMakeParser.Documented_commandContext):
         self.elements.append(ctx)
 
-    def enterCommand_invocation(
-            self, ctx: CMakeParser.Command_invocationContext):
+    def enterCommand_invocation(self, ctx: CMakeParser.Command_invocationContext):
         self.elements.append(ctx)
 
 
@@ -47,15 +45,13 @@ class TestParser(unittest.TestCase):
         self.lexer = CMakeLexer(self.input_stream)
         self.stream = CommonTokenStream(self.lexer)
 
-        # We now have a stream of CommonToken instead of strings, parsers
-        # require this type of stream
+        # We now have a stream of CommonToken instead of strings, parsers require this type of stream
         self.parser = CMakeParser(self.stream)
         self.parser.removeErrorListeners()
         self.parser.addErrorListener(ParserErrorListener())
         self.tree = self.parser.cmake_file()
 
-        # Hard part is done, we now have a fully useable parse tree, now we
-        # just need to walk it
+        # Hard part is done, we now have a fully useable parse tree, now we just need to walk it
         self.aggregator = MockListener()
         self.walker = ParseTreeWalker()
         self.walker.walk(self.aggregator, self.tree)
@@ -69,35 +65,27 @@ class TestParser(unittest.TestCase):
 function(MyFunction arg1)\n    message("${arg1}")\nendfunction()
         ''')
         self.reset()
-        self.assertEqual(len(self.aggregator.elements), 3,
-                         "Different number of extracted elements")
+        self.assertEqual(len(self.aggregator.elements), 3, "Different number of extracted elements")
         for element in self.aggregator.elements:
-            self.assertEqual(type(element),
-                             CMakeParser.Command_invocationContext)
+            self.assertEqual(type(element), CMakeParser.Command_invocationContext)
         for i in range(0, len(self.aggregator.elements)):
             element = self.aggregator.elements[i]
             if i == 0:
                 # function() command
-                self.assertEqual(
-                    element.Identifier().getText().lower(), "function")
-                self.assertEqual(
-                    element.single_argument()[0].Identifier().getText(),
-                    "MyFunction")
-                params = [param.Identifier().getText() for param in element.single_argument()[
-                    1:]]  # Extract declared function parameters
+                self.assertEqual(element.Identifier().getText().lower(), "function")
+                self.assertEqual(element.single_argument()[0].Identifier().getText(), "MyFunction")
+                params = [param.Identifier().getText() for param in
+                          element.single_argument()[1:]]  # Extract declared function parameters
                 self.assertListEqual(params, ["arg1"])
             elif i == 1:
                 # message() command
-                self.assertEqual(
-                    element.Identifier().getText().lower(), "message")
+                self.assertEqual(element.Identifier().getText().lower(), "message")
                 params = [param.Quoted_argument().getText() for param in
                           element.single_argument()]  # Extract message() params
                 self.assertListEqual(params, ['"${arg1}"'])
             elif i == 2:
                 # endfunction() command
-                self.assertEqual(
-                    element.Identifier().getText().lower(),
-                    "endfunction")
+                self.assertEqual(element.Identifier().getText().lower(), "endfunction")
                 params = element.single_argument()
                 self.assertEqual(params, [])
 
@@ -106,35 +94,27 @@ function(MyFunction arg1)\n    message("${arg1}")\nendfunction()
 function(MyFunction arg1 arg2)\n    message("${arg1}" "${arg2}")\nendfunction()
         ''')
         self.reset()
-        self.assertEqual(len(self.aggregator.elements), 3,
-                         "Different number of extracted elements")
+        self.assertEqual(len(self.aggregator.elements), 3, "Different number of extracted elements")
         for element in self.aggregator.elements:
-            self.assertEqual(type(element),
-                             CMakeParser.Command_invocationContext)
+            self.assertEqual(type(element), CMakeParser.Command_invocationContext)
         for i in range(0, len(self.aggregator.elements)):
             element = self.aggregator.elements[i]
             if i == 0:
                 # function() command
-                self.assertEqual(
-                    element.Identifier().getText().lower(), "function")
-                self.assertEqual(
-                    element.single_argument()[0].Identifier().getText(),
-                    "MyFunction")
-                params = [param.Identifier().getText() for param in element.single_argument()[
-                    1:]]  # Extract declared function parameters
+                self.assertEqual(element.Identifier().getText().lower(), "function")
+                self.assertEqual(element.single_argument()[0].Identifier().getText(), "MyFunction")
+                params = [param.Identifier().getText() for param in
+                          element.single_argument()[1:]]  # Extract declared function parameters
                 self.assertListEqual(params, ["arg1", "arg2"])
             elif i == 1:
                 # message() command
-                self.assertEqual(
-                    element.Identifier().getText().lower(), "message")
+                self.assertEqual(element.Identifier().getText().lower(), "message")
                 params = [param.Quoted_argument().getText() for param in
                           element.single_argument()]  # Extract message() params
                 self.assertListEqual(params, ['"${arg1}"', '"${arg2}"'])
             elif i == 2:
                 # endfunction() command
-                self.assertEqual(
-                    element.Identifier().getText().lower(),
-                    "endfunction")
+                self.assertEqual(element.Identifier().getText().lower(), "endfunction")
                 params = element.single_argument()
                 self.assertEqual(params, [])
 

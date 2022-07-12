@@ -47,24 +47,21 @@ class TestLexer(unittest.TestCase):
         doc = '#[[[\nThis is a doccomment\n#]]'
         self.stream = InputStream(doc)
         self.reset()
-        self.assertListEqual([token.type for token in self.tokens], [
-                             CMakeLexer.Bracket_doccomment])
+        self.assertListEqual([token.type for token in self.tokens], [CMakeLexer.Bracket_doccomment])
         self.assertEqual(self.tokens[0].text, doc)
 
     def test_identifier(self):
         doc = 'function'
         self.stream = InputStream(doc)
         self.reset()
-        self.assertListEqual([token.type for token in self.tokens], [
-                             CMakeLexer.Identifier])
+        self.assertListEqual([token.type for token in self.tokens], [CMakeLexer.Identifier])
         self.assertEqual(self.tokens[0].text, doc)
 
     def test_quoted_argument(self):
         doc = '"This is a quoted argument"'
         self.stream = InputStream(doc)
         self.reset()
-        self.assertListEqual([token.type for token in self.tokens], [
-                             CMakeLexer.Quoted_argument])
+        self.assertListEqual([token.type for token in self.tokens], [CMakeLexer.Quoted_argument])
         self.assertEqual(self.tokens[0].text, doc)
 
 

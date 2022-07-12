@@ -12,16 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-##########################################################################
+################################################################################
 #
 # file: context.py
 #
 # This file contains paths and other helpful information used throughout the
 # test suites of CMinx
 #
-##########################################################################
+################################################################################
 
-import cminx
 import os
 import sys
 
@@ -29,9 +28,10 @@ import sys
 tests_dir = os.path.dirname(__file__)
 
 # The root directory of the project
-root_dir = os.path.join(tests_dir, "..")
+root_dir  = os.path.join(tests_dir, "..")
 sys.path.insert(0, os.path.abspath(root_dir))
 
+import cminx
 
 # Here we work out some paths for use throughout the test suite
 
@@ -54,22 +54,12 @@ test_samples_dir = os.path.abspath(os.path.join(tests_dir, "test_samples"))
 corr_example_rst = os.path.join(example_sphinx, "source", "example.rst")
 
 # The correct index.rst file
-corr_index_rst = os.path.join(
-    test_samples_dir,
-    "corr_rst",
-    "index",
-    "index.rst")
+corr_index_rst = os.path.join(test_samples_dir, "corr_rst", "index", "index.rst")
 
 # The correct examples.rst file, with context.prefix as a prefix
-corr_example_prefix_rst = os.path.join(
-    example_sphinx, "source", "example_prefix.rst")
+corr_example_prefix_rst = os.path.join(example_sphinx, "source", "example_prefix.rst")
 
 # The correct index.rst file, with context.prefix as a prefix
-corr_index_prefix_rst = os.path.join(
-    test_samples_dir,
-    "corr_rst",
-    "index",
-    "index_prefix.rst")
+corr_index_prefix_rst = os.path.join(test_samples_dir, "corr_rst", "index", "index_prefix.rst")
 
-corr_example_no_undocumented = os.path.join(
-    example_sphinx, "source", "example_no_undocumented_diff_header.rst")
+corr_example_no_undocumented = os.path.join(example_sphinx, "source", "example_no_undocumented_diff_header.rst")
