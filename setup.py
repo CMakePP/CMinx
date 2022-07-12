@@ -18,20 +18,33 @@ import os
 import subprocess
 from setuptools import setup
 
+# Get the absolute path to the directory
+script_path = os.path.realpath(__file__)
+script_dir = os.path.dirname(script_path)
+
 # Get the version from the git tag
 git_cmd = ['git', 'describe', '--tags', '--abbrev=0']
-version = subprocess.check_output(git_cmd).strip().decode()[1:]
+#git_out = subprocess.check_output(git_cmd, cwd=script_dir)
+cminx_version = 0.1 # git_out.strip().decode()[1:]
 
 # This will fail if requirements.txt not found, as it should
-with open("requirements.txt", "r") as f:
+requirements_path = os.path.join(script_dir, "requirements.txt")
+with open(requirements_path, "r") as f:
     dependencies = f.read().split()
+
+# Get the long description from the README
+readme_path = os.path.join(script_dir, "README.md")
+with open(readme_path, "r") as f:
+    long_desc = f.read()
 
 setup(
     name='CMinx',
-    version=version,
+    version=cminx_version,
     description='Documentation Generator for the CMake language',
+    long_description=long_desc,
+    long_description_content_type="text/markdown",
     author='CMakePP',
-    author_email='bwtbutler@hotmail.com',
+    author_email='cmakepp@gmail.com',
     url='https =//github.com/CMakePP/CMinx',
     packages=['cminx', 'cminx.parser'],
     entry_points={
@@ -42,5 +55,8 @@ setup(
     package_data={
         "": ["*.g4", "*.interp", "*.tokens", "*.yaml"]
     },
-    install_requires=dependencies
+    install_requires=dependencies,
+    classifiers=[
+        "Programming Language :: Python :: 3"
+    ]
 )
