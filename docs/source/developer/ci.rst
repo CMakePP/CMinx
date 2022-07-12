@@ -12,21 +12,18 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 ..
-#######################
-Developer Documentation
-#######################
+##########
+CMinx's CI
+##########
 
-The following documentation topics are meant primarily for developers working on
-CMinx.
+This page is meant to be a place for developer's to put notes etc. pertaining to
+maintaining CMinx's CI.
 
------------------
-Table of Contents
------------------
+*******
+Linting
+*******
 
-.. toctree::
-   :maxdepth: 2
-
-   overview
-   api
-   documentation
-   ci
+The workflow ``.github/workflows/format_python.yaml`` manages the linting of
+Python source code. It covers linting CMinx proper as well as linting the test
+suite. By design the workflow runs on each PR, and pushes the changes back to
+the PR. This ensures that the master branch is always properly formatted.
