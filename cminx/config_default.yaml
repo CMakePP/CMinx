@@ -41,6 +41,10 @@ input:
   # auto-generated.
   include_undocumented_ct_add_section: true
 
+  # Whether directories not containing .cmake
+  # files should be excluded from recursive mode searching.
+  auto_exclude_directories_without_cmake: true
+
   # Whether directories should be documented recursively
   recursive: false
 
