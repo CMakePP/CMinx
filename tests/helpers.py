@@ -12,17 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-################################################################################
+##########################################################################
 #
 # File: helpers.py
 #
 # This file contains functions that are useful throughout the CMinx test suite.
 #
-################################################################################
+##########################################################################
 import difflib
 import sys
 import os
 import cminx
+
 
 def quiet_cminx(args):
     """

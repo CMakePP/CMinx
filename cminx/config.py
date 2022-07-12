@@ -85,4 +85,8 @@ def dict_to_settings(input_dict: dict):
     output_settings = OutputSettings(**input_dict["output"])
     logging_settings = LoggingSettings(input_dict["logging"])
     rst_settings = RSTSettings(**input_dict["rst"])
-    return Settings(input_settings, output_settings, logging_settings, rst_settings)
+    return Settings(
+        input_settings,
+        output_settings,
+        logging_settings,
+        rst_settings)

@@ -24,7 +24,8 @@ from .rst_validator import RSTValidator
 class TestRSTWriter(unittest.TestCase):
     def setUp(self):
         self.writer = RSTWriter("Testing RSTWriter")
-        self.validator = RSTValidator(self.writer, werror=True)  # Treat all warnings as validation failure
+        # Treat all warnings as validation failure
+        self.validator = RSTValidator(self.writer, werror=True)
         self.file = "writer_test.rst"
 
     def tearDown(self):
@@ -43,7 +44,9 @@ class TestRSTWriter(unittest.TestCase):
         text = "This is a paragraph"
         self.writer.text(text)
         self.assertTrue(self.validator.validate(), self.validator.failures)
-        self.assertTrue(text in self.writer.to_text(), "Paragraph was not included")
+        self.assertTrue(
+            text in self.writer.to_text(),
+            "Paragraph was not included")
 
     def test_admonition(self):
         admonition_type = "DANGER"
@@ -63,8 +66,12 @@ class TestRSTWriter(unittest.TestCase):
         test_line = 'print("test")'
         expected_output = 'test'
         self.writer.doctest(test_line, expected_output)
-        self.assertTrue(test_line in self.writer.to_text(), "DocTest test line was not included")
-        self.assertTrue(expected_output in self.writer.to_text(), "DocTest expected output was not included")
+        self.assertTrue(
+            test_line in self.writer.to_text(),
+            "DocTest test line was not included")
+        self.assertTrue(
+            expected_output in self.writer.to_text(),
+            "DocTest expected output was not included")
         self.assertTrue(self.validator.validate(), self.validator.failures)
 
     def test_lists(self):
@@ -80,8 +87,12 @@ class TestRSTWriter(unittest.TestCase):
         text = "This is a field"
         self.writer.field(name, text)
         self.assertTrue(self.validator.validate(), self.validator.failures)
-        self.assertTrue(name in self.writer.to_text(), "Field name was not included")
-        self.assertTrue(text in self.writer.to_text(), "Field text was not included")
+        self.assertTrue(
+            name in self.writer.to_text(),
+            "Field name was not included")
+        self.assertTrue(
+            text in self.writer.to_text(),
+            "Field text was not included")
 
     def test_table(self):
         tab = [
@@ -97,7 +108,10 @@ class TestRSTWriter(unittest.TestCase):
         text = "This is inside a section"
         sect = self.writer.section("Section")
         sect.text(text)
-        self.assertTrue(text in str(self.writer), f"Subsection text was not included")
+        self.assertTrue(
+            text in str(
+                self.writer),
+            f"Subsection text was not included")
         self.assertTrue(self.validator.validate(), self.validator.failures)
 
     def test_directive(self):
@@ -112,7 +126,10 @@ class TestRSTWriter(unittest.TestCase):
 
         directive.text(dir_text)
 
-        self.assertTrue(dir_type in str(self.writer), f"Directive {dir_type} was not included")
+        self.assertTrue(
+            dir_type in str(
+                self.writer),
+            f"Directive {dir_type} was not included")
         self.assertTrue(self.validator.validate(), self.validator.failures)
 
     def test_write(self):

@@ -48,8 +48,11 @@ class TestInit(unittest.TestCase):
     def test_document(self):
         """Tests the document command in the CMinx module"""
         sys.stdout = open(os.devnull, 'w')
-        cminx.document(self.input_file,
-                       Settings(InputSettings(recursive=True), OutputSettings(directory=self.output_dir)))
+        cminx.document(
+            self.input_file, Settings(
+                InputSettings(
+                    recursive=True), OutputSettings(
+                    directory=self.output_dir)))
         sys.stdout = sys.__stdout__
 
         # Test that the top-level directory was found
@@ -63,9 +66,12 @@ class TestInit(unittest.TestCase):
     def test_document_prefix(self):
         """Tests the document command in the CMinx module with the prefix option"""
         sys.stdout = open(os.devnull, 'w')
-        cminx.document(self.input_file,
-                       Settings(input=InputSettings(recursive=True), output=OutputSettings(directory=self.output_dir),
-                                rst=RSTSettings(prefix=context.prefix)))
+        cminx.document(
+            self.input_file, Settings(
+                input=InputSettings(
+                    recursive=True), output=OutputSettings(
+                    directory=self.output_dir), rst=RSTSettings(
+                    prefix=context.prefix)))
         sys.stdout = sys.__stdout__
 
         # Test that the top-level directory was found
@@ -77,16 +83,38 @@ class TestInit(unittest.TestCase):
         self.assertTrue(is_file, "Output file does not exist")
 
     def test_header_extensions_no_undocumented_diff_header(self):
-        input_settings = InputSettings(include_undocumented_ct_add_test=False, include_undocumented_cpp_attr=False,
-                                       include_undocumented_function=False, include_undocumented_cpp_class=False,
-                                       include_undocumented_macro=False, include_undocumented_cpp_member=False,
-                                       include_undocumented_ct_add_section=False, recursive=True)
+        input_settings = InputSettings(
+            include_undocumented_ct_add_test=False,
+            include_undocumented_cpp_attr=False,
+            include_undocumented_function=False,
+            include_undocumented_cpp_class=False,
+            include_undocumented_macro=False,
+            include_undocumented_cpp_member=False,
+            include_undocumented_ct_add_section=False,
+            recursive=True)
         output_settings = OutputSettings(directory=self.output_dir)
-        rst_settings = RSTSettings(file_extensions_in_modules=True, file_extensions_in_titles=True,
-                                   headers=['^', '*', '=', '-', '_', '~', '!', '&', '@'])
-        settings = Settings(input_settings, output_settings, LoggingSettings(), rst_settings)
+        rst_settings = RSTSettings(
+            file_extensions_in_modules=True,
+            file_extensions_in_titles=True,
+            headers=[
+                '^',
+                '*',
+                '=',
+                '-',
+                '_',
+                '~',
+                '!',
+                '&',
+                '@'])
+        settings = Settings(
+            input_settings,
+            output_settings,
+            LoggingSettings(),
+            rst_settings)
         cminx.document(self.input_dir, settings)
-        diff = helpers.diff_files(self.output_file, context.corr_example_no_undocumented)
+        diff = helpers.diff_files(
+            self.output_file,
+            context.corr_example_no_undocumented)
         self.assertEqual(diff, "")
 
     def test_recursive(self):
@@ -105,12 +133,19 @@ class TestInit(unittest.TestCase):
         diff = helpers.diff_files(self.output_file, context.corr_example_rst)
         self.assertEqual(diff, "")
 
-        index_diff = helpers.diff_files(self.output_index_file, context.corr_index_rst)
+        index_diff = helpers.diff_files(
+            self.output_index_file, context.corr_index_rst)
         self.assertEqual(index_diff, "")
 
     def test_recursive_prefix(self):
         """Tests the use of CMinx in recursive mode with a prefix"""
-        args = ["-r", "-p", context.prefix, "-o", self.output_dir, self.input_dir]
+        args = [
+            "-r",
+            "-p",
+            context.prefix,
+            "-o",
+            self.output_dir,
+            self.input_dir]
         helpers.quiet_cminx(args)
 
         # Test that the top-level directory was found
@@ -121,10 +156,14 @@ class TestInit(unittest.TestCase):
         is_file = os.path.isfile(self.output_file)
         self.assertTrue(is_file, "Output file does not exist")
 
-        diff = helpers.diff_files(self.output_file, context.corr_example_prefix_rst)
+        diff = helpers.diff_files(
+            self.output_file,
+            context.corr_example_prefix_rst)
         self.assertEqual(diff, "")
 
-        index_diff = helpers.diff_files(self.output_index_file, context.corr_index_prefix_rst)
+        index_diff = helpers.diff_files(
+            self.output_index_file,
+            context.corr_index_prefix_rst)
         self.assertEqual(index_diff, "")
 
 

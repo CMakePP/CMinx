@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-################################################################################
+##########################################################################
 #
 # File: unit_tests/__init__.py
 #
 # Needed by ``unittest.discover`` to establish that  the ``unit_tests``
 # directory contains a test suite.
 #
-################################################################################
+##########################################################################
