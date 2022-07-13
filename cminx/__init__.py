@@ -232,8 +232,28 @@ def document(input_file: str, settings: Settings):
         last_dir_element = os.path.basename(os.path.normpath(input_file))
         prefix = prefix if prefix is not None else last_dir_element
         new_settings.rst.prefix = prefix
+
         # Walk dir and add cmake files to list
         for root, subdirs, filenames in os.walk(input_path, topdown=True, followlinks=settings.input.follow_symlinks):
+
+            logger.debug(f"Subdirs: {subdirs}")
+
+            if settings.input.auto_exclude_directories_without_cmake:
+                # Make a copy because modifying while iterating results in skipping some entries
+                for subdir in copy.copy(subdirs):
+                    logger.debug(f"Checking filenames in subdir {subdir}")
+                    for filename in os.scandir(os.path.join(root, subdir)):
+                        if filename.is_file() and filename.path.endswith(".cmake"):
+                            break
+                    # If we exited loop normally, i.e. a .cmake file was not found
+                    else:
+                        subdirs.remove(subdir)
+                for filename in filenames:
+                    if filename.endswith(".cmake"):
+                        break
+                else:
+                    continue
+
             # Sort filenames and subdirs in alphabetical order
             filenames = sorted(filenames)
             subdirs = sorted(subdirs)
