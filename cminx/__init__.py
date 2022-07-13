@@ -38,6 +38,7 @@ options:
 
 import argparse
 import copy
+import glob
 import logging
 import os
 import re
@@ -131,7 +132,6 @@ def main(args: list[str] = tuple(sys.argv[1:])):
 
     logging.config.dictConfig(settings_obj.logging.logger_config)
     logger = logging.getLogger(__name__)
-    logger.debug("Test")
 
     if settings["output"]["directory"] is not None:
         output_path = os.path.abspath(settings["output"]["directory"])
@@ -233,10 +233,28 @@ def document(input_file: str, settings: Settings):
         prefix = prefix if prefix is not None else last_dir_element
         new_settings.rst.prefix = prefix
 
+        # glob.glob() returns a list of matching files.
+        # So for a list of globs, we would get a list of lists of resolved globs.
+        # flattened_globs uses a list comprehension to resolve each glob into a list of files,
+        # then flattens them into a single list containing all the resolved globs
+        flattened_globs = [resolved_glob for x in settings.input.exclude_filters for resolved_glob in glob.glob(x)]
+
+        # This list comprehension converts each resolved glob to an absolute path
+        # for comparison
+        exclude_globs = [os.path.abspath(resolved_glob) for resolved_glob in flattened_globs]
+        logger.debug(f"Exclude globs: {exclude_globs}")
+
         # Walk dir and add cmake files to list
         for root, subdirs, filenames in os.walk(input_path, topdown=True, followlinks=settings.input.follow_symlinks):
 
             logger.debug(f"Subdirs: {subdirs}")
+
+            for subdir in subdirs:
+                if os.path.join(root, subdir) in exclude_globs:
+                    subdirs.remove(subdir)
+            for filename in filenames:
+                if os.path.join(root, filename) in exclude_globs:
+                    filenames.remove(filename)
 
             if settings.input.auto_exclude_directories_without_cmake:
                 # Make a copy because modifying while iterating results in skipping some entries
