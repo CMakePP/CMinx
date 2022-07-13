@@ -7,5 +7,4 @@ prefix
    :maxdepth: 2
 
    example
-   sphinx/index.rst
 
