@@ -239,8 +239,10 @@ def document(input_file: str, settings: Settings):
     prefix = settings.rst.prefix
     new_settings = copy.deepcopy(settings)
 
-    # os.path.join() adds a trailing slash to directories if absent
-    input_path = os.path.join(os.path.abspath(input_file), '')
+    input_path = os.path.abspath(input_file)
+    if os.path.isdir(input_path):
+        # os.path.join() adds a trailing slash to directories if absent
+        input_path = os.path.join(input_path, '')
 
     spec = pathspec.PathSpec.from_lines(pathspec.patterns.GitWildMatchPattern, settings.input.exclude_filters)
 
