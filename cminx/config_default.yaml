@@ -55,7 +55,8 @@ input:
   follow_symlinks: false
 
   # Optional list of exclude filters
-  # exclude_filters: []
+  #exclude_filters:
+  #  - __pycache__
 
 output:
   # The directory to write generated RST files to. If not set,

@@ -35,7 +35,7 @@ def config_template(output_dir_relative_to_config=False):
             "include_undocumented_ct_add_test": bool,
             "include_undocumented_ct_add_section": bool,
             "auto_exclude_directories_without_cmake": bool,
-            "exclude_filters": confuse.Optional(confuse.StrSeq(), default=()),
+            "exclude_filters": confuse.Optional(list, default=()),
             "recursive": bool,
             "follow_symlinks": bool
         },

@@ -44,6 +44,8 @@ import os
 import re
 import sys
 import logging.config
+import pathspec
+from fnmatch import fnmatch
 
 from confuse import Configuration
 from pkg_resources import get_distribution, DistributionNotFound
@@ -72,47 +74,55 @@ def main(args: list[str] = tuple(sys.argv[1:])):
 
     parser = argparse.ArgumentParser(
         description="Automatic documentation generator for CMake files. This program " +
-        "generates Sphinx-compatible RST documents, which are incompatible "
-        "with standard docutils. Config files are searched for according to "
-        "operating-system-dependent directories, such as "
-        "$XDG_CONFIG_HOME/cminx on Linux. Additional config files can be "
-        "specified with the -s option.")
+                    "generates Sphinx-compatible RST documents, which are incompatible "
+                    "with standard docutils. Config files are searched for according to "
+                    "operating-system-dependent directories, such as "
+                    "$XDG_CONFIG_HOME/cminx on Linux. Additional config files can be "
+                    "specified with the -s option.")
     parser.add_argument(
         "files",
         nargs="+",
         help="CMake file to generate documentation for. If directory, will generate documentation for "
-        "all *.cmake files (case-insensitive)")
+             "all *.cmake files (case-insensitive)")
     parser.add_argument(
         "-o",
         "--output",
         help="Directory to output generated RST to. If not specified will print to standard output. "
-        "Output files will have the original filename with the cmake extension replaced by .rst",
+             "Output files will have the original filename with the cmake extension replaced by .rst",
         dest="output.directory")
     parser.add_argument(
         "-r",
         "--recursive",
         help="If specified, will generate documentation for all subdirectories of specified directory "
-        "recursively. If the prefix is not specified, it will be set to the last element of the "
-        "input path.",
+             "recursively. If the prefix is not specified, it will be set to the last element of the "
+             "input path.",
         action="store_true",
         dest="input.recursive")
     parser.add_argument(
         "-p",
         "--prefix",
         help="If specified, all output files will have headers generated as if the prefix was the top "
-        "level package.",
+             "level package.",
         dest="rst.prefix")
     parser.add_argument(
         "-s",
         "--settings",
         help="Load settings from the specified YAML file. Parameters specified by "
-        "this file will override defaults, and command-line arguments will "
-        "override both.")
+             "this file will override defaults, and command-line arguments will "
+             "override both.")
+    parser.add_argument(
+        "-e",
+        "--exclude",
+        help="Exclude some files from documentation. Supports shell-style glob syntax, relative paths "
+             "are resolved with respect to the current working directory.",
+        dest="input.exclude_filters",
+        action="append"
+    )
     parser.add_argument(
         "--version",
         action='version',
         version='%(prog)s version ' +
-        __version__)
+                __version__)
 
     args = parser.parse_args(args)
     settings = Configuration("cminx", __name__)
@@ -126,15 +136,20 @@ def main(args: list[str] = tuple(sys.argv[1:])):
     if settings["output"]["relative_to_config"].get():
         output_dir_relative_to_config = True
 
-    settings = settings.get(config_template(output_dir_relative_to_config))
+    settings_dict = settings.get(config_template(output_dir_relative_to_config))
 
-    settings_obj = dict_to_settings(settings)
+    settings_obj = dict_to_settings(settings_dict)
+
+    # Concatenate all exclude filters rather than overriding the entire list
+    settings_obj.input.exclude_filters = list(settings["input"]["exclude_filters"].all_contents())
 
     logging.config.dictConfig(settings_obj.logging.logger_config)
     logger = logging.getLogger(__name__)
 
-    if settings["output"]["directory"] is not None:
-        output_path = os.path.abspath(settings["output"]["directory"])
+    logger.debug(f"Exclude filters: {settings_obj.input.exclude_filters}")
+
+    if settings_dict["output"]["directory"] is not None:
+        output_path = os.path.abspath(settings_dict["output"]["directory"])
         logger.info(f"Writing RST files to {output_path}")
 
     for input_file in args.files:
@@ -193,7 +208,7 @@ def document_single_file(file, root, settings: Settings):
             output_filename = os.path.join(
                 output_path, ".".join(
                     os.path.basename(file).split(".")[
-                        :-1]) + ".rst")
+                    :-1]) + ".rst")
             if os.path.isdir(root):
                 # Path to file relative to input_path
                 subpath = os.path.relpath(file, root)
@@ -201,7 +216,7 @@ def document_single_file(file, root, settings: Settings):
                     output_path, os.path.join(
                         os.path.dirname(subpath), ".".join(
                             os.path.basename(file).split(".")[
-                                :-1]) + ".rst"))
+                            :-1]) + ".rst"))
             logger.info(f"Writing RST file {output_filename}")
             output_writer.write_to_file(output_filename)
     else:  # Output was not specified so print to screen
@@ -224,7 +239,16 @@ def document(input_file: str, settings: Settings):
     prefix = settings.rst.prefix
     new_settings = copy.deepcopy(settings)
 
-    input_path = os.path.abspath(input_file)
+    # os.path.join() adds a trailing slash to directories if absent
+    input_path = os.path.join(os.path.abspath(input_file), '')
+
+    spec = pathspec.PathSpec.from_lines(pathspec.patterns.GitWildMatchPattern, settings.input.exclude_filters)
+
+    logger.debug(f"Input path: {input_path}")
+
+    if spec.match_file(input_path):
+        return
+
     if not os.path.exists(input_path):
         logger.error(f"File or directory \"{input_path}\" does not exist")
         exit(-1)
@@ -233,28 +257,25 @@ def document(input_file: str, settings: Settings):
         prefix = prefix if prefix is not None else last_dir_element
         new_settings.rst.prefix = prefix
 
-        # glob.glob() returns a list of matching files.
-        # So for a list of globs, we would get a list of lists of resolved globs.
-        # flattened_globs uses a list comprehension to resolve each glob into a list of files,
-        # then flattens them into a single list containing all the resolved globs
-        flattened_globs = [resolved_glob for x in settings.input.exclude_filters for resolved_glob in glob.glob(x)]
-
-        # This list comprehension converts each resolved glob to an absolute path
-        # for comparison
-        exclude_globs = [os.path.abspath(resolved_glob) for resolved_glob in flattened_globs]
-        logger.debug(f"Exclude globs: {exclude_globs}")
-
         # Walk dir and add cmake files to list
         for root, subdirs, filenames in os.walk(input_path, topdown=True, followlinks=settings.input.follow_symlinks):
 
             logger.debug(f"Subdirs: {subdirs}")
 
             for subdir in subdirs:
-                if os.path.join(root, subdir) in exclude_globs:
+                if spec.match_file(os.path.join(root, subdir)):
                     subdirs.remove(subdir)
-            for filename in filenames:
-                if os.path.join(root, filename) in exclude_globs:
-                    filenames.remove(filename)
+
+            for file in filenames:
+                if spec.match_file(os.path.join(root, file)):
+                    filenames.remove(file)
+
+            # for subdir in subdirs:
+            #     if os.path.join(root, subdir) in exclude_globs:
+            #         subdirs.remove(subdir)
+            # for filename in filenames:
+            #     if os.path.join(root, filename) in exclude_globs:
+            #         filenames.remove(filename)
 
             if settings.input.auto_exclude_directories_without_cmake:
                 # Make a copy because modifying while iterating results in skipping some entries
@@ -297,7 +318,7 @@ def document(input_file: str, settings: Settings):
                 toctree = index.directive("toctree")
                 toctree.option("maxdepth", 2)
                 for file in [
-                        f for f in filenames if f.lower().endswith(".cmake")]:
+                    f for f in filenames if f.lower().endswith(".cmake")]:
                     toctree.text('.'.join(file.split('.')[:-1]))
                 if recursive:
                     for directory in subdirs:
