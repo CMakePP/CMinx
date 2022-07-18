@@ -311,11 +311,11 @@ def document(input_file: str, settings: Settings):
                 if prefix is not None:
                     # If current file dir is same as root dir, replace "." with
                     # prefix
-                    if index.title == ".":
+                    if index.title == settings.rst.module_path_separator:
                         index.title = prefix
                     else:
                         # Add prefix to beginning of header
-                        index.title = prefix + "." + index.title
+                        index.title = prefix + settings.rst.module_path_separator + index.title
 
                 toctree = index.directive("toctree")
                 toctree.option("maxdepth", 2)
