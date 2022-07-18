@@ -55,6 +55,8 @@ input:
   follow_symlinks: false
 
   # Optional list of exclude filters
+  # The full list of filters is combined from all sources,
+  # and not overridden.
   #exclude_filters:
   #  - __pycache__
 
