@@ -87,7 +87,7 @@ class TestInit(unittest.TestCase):
                                    headers=['^', '*', '=', '-', '_', '~', '!', '&', '@'])
         settings = Settings(input_settings, output_settings, LoggingSettings(), rst_settings)
         cminx.document(self.input_dir, settings)
-        diff = helpers.diff_files(self.output_file, context.corr_example_no_undocumented)
+        diff = helpers.diff_files(self.output_file, context.corr_example_no_undocumented_diff_header)
         self.assertEqual(diff, "")
 
     def test_recursive(self):
