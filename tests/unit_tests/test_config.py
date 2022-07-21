@@ -34,7 +34,6 @@ class TestConfig(unittest.TestCase):
         self.output_file = os.path.join(self.output_dir, "example.rst")
         self.output_index_file = os.path.join(self.output_dir, "index.rst")
         self.config_dir = context.config_dir
-        self.no_include_undocumented_config = context.no_include_undocumented_config
 
     def tearDown(self):
         try:
@@ -45,7 +44,7 @@ class TestConfig(unittest.TestCase):
 
     def test_no_undocumented(self):
         """Tests include_undocumented_* settings as False"""
-        args = ["-r", "-o", self.output_dir, "-s", self.no_include_undocumented_config, self.input_dir]
+        args = ["-r", "-o", self.output_dir, "-s", context.no_include_undocumented_config, self.input_dir]
         helpers.quiet_cminx(args)
 
         # Test that the top-level directory was found
@@ -60,6 +59,25 @@ class TestConfig(unittest.TestCase):
             self.assertEqual(corr_file.read(), generated_file.read())
 
         with open(context.corr_index_rst, 'r') as corr_file, open(self.output_index_file, 'r') as generated_file:
+            self.assertEqual(corr_file.read(), generated_file.read())
+
+    def test_no_auto_exclude(self):
+        """Tests auto_exclude_directories_as_cmake setting as False"""
+        args = ["-r", "-o", self.output_dir, "-s", context.no_auto_exclude_config, self.input_dir]
+        helpers.quiet_cminx(args)
+
+        # Test that the top-level directory was found
+        is_dir = os.path.isdir(self.output_dir)
+        self.assertTrue(is_dir, "Output directory structure incorrect")
+
+        # Test that reST file is in top-level directory
+        is_file = os.path.isfile(self.output_file)
+        self.assertTrue(is_file, "Output file does not exist")
+
+        with open(context.corr_example_rst, 'r') as corr_file, open(self.output_file, 'r') as generated_file:
+            self.assertEqual(corr_file.read(), generated_file.read())
+
+        with open(context.corr_index_no_auto_exclude, 'r') as corr_file, open(self.output_index_file, 'r') as generated_file:
             self.assertEqual(corr_file.read(), generated_file.read())
 
 

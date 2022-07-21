@@ -67,8 +67,13 @@ corr_example_no_undocumented_diff_header = os.path.join(example_sphinx, "source"
 
 corr_example_no_undocumented = os.path.join(example_sphinx, "source", "example_no_undocumented.rst")
 
+corr_index_no_auto_exclude = os.path.join(example_sphinx, "source", "index_no_auto_exclude.rst")
+
 # Where the example configs are located
 config_dir = os.path.join(example_dir, "configs")
 
 # The config that sets all the input.include_undocumented_* settings to False
 no_include_undocumented_config = os.path.join(config_dir, "no_include_undocumented_config.yaml")
+
+# The config that sets auto_exclude_directories_without_cmake to False
+no_auto_exclude_config = os.path.join(config_dir, "no_auto_exclude_config.yaml")
