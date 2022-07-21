@@ -60,7 +60,7 @@ except DistributionNotFound:
     # package is not installed
     __version__ = "UNKNOWN"
 
-logger: logging.Logger
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 def main(args: list[str] = tuple(sys.argv[1:])):
