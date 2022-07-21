@@ -28,7 +28,7 @@ import sys
 tests_dir = os.path.dirname(__file__)
 
 # The root directory of the project
-root_dir  = os.path.join(tests_dir, "..")
+root_dir = os.path.join(tests_dir, "..")
 sys.path.insert(0, os.path.abspath(root_dir))
 
 import cminx
