@@ -37,6 +37,7 @@ class TestInit(unittest.TestCase):
         self.input_file = context.example_cmake
         self.output_file = os.path.join(self.output_dir, "example.rst")
         self.output_index_file = os.path.join(self.output_dir, "index.rst")
+        self.maxDiff = None
 
     def tearDown(self):
         try:
@@ -102,11 +103,11 @@ class TestInit(unittest.TestCase):
         is_file = os.path.isfile(self.output_file)
         self.assertTrue(is_file, "Output file does not exist")
 
-        diff = helpers.diff_files(self.output_file, context.corr_example_rst)
-        self.assertEqual(diff, "")
+        with open(context.corr_example_rst, 'r') as corr_file, open(self.output_file, 'r') as generated_file:
+            self.assertEqual(corr_file.read(), generated_file.read())
 
-        index_diff = helpers.diff_files(self.output_index_file, context.corr_index_rst)
-        self.assertEqual(index_diff, "")
+        with open(context.corr_index_rst, 'r') as corr_file, open(self.output_index_file, 'r') as generated_file:
+            self.assertEqual(corr_file.read(), generated_file.read())
 
     def test_recursive_prefix(self):
         """Tests the use of CMinx in recursive mode with a prefix"""
@@ -121,11 +122,11 @@ class TestInit(unittest.TestCase):
         is_file = os.path.isfile(self.output_file)
         self.assertTrue(is_file, "Output file does not exist")
 
-        diff = helpers.diff_files(self.output_file, context.corr_example_prefix_rst)
-        self.assertEqual(diff, "")
+        with open(context.corr_example_prefix_rst, 'r') as corr_file, open(self.output_file, 'r') as generated_file:
+            self.assertEqual(corr_file.read(), generated_file.read())
 
-        index_diff = helpers.diff_files(self.output_index_file, context.corr_index_prefix_rst)
-        self.assertEqual(index_diff, "")
+        with open(context.corr_index_prefix_rst, 'r') as corr_file, open(self.output_index_file, 'r') as generated_file:
+            self.assertEqual(corr_file.read(), generated_file.read())
 
 
 if __name__ == '__main__':
