@@ -16,6 +16,7 @@ input:
   # Optional list of exclude filters
   exclude_filters:
     - more_cmake_files/
+    - example_2.cmake
 
 logging:
   # Supports all Python logging dict config options
