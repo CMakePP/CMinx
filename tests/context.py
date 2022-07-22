@@ -69,6 +69,8 @@ corr_example_no_undocumented = os.path.join(example_sphinx, "source", "example_n
 
 corr_index_no_auto_exclude = os.path.join(example_sphinx, "source", "index_no_auto_exclude.rst")
 
+corr_index_exclusion_filters = os.path.join(example_sphinx, "source", "index_exclusion_filters.rst")
+
 # Where the example configs are located
 config_dir = os.path.join(example_dir, "configs")
 
@@ -77,3 +79,6 @@ no_include_undocumented_config = os.path.join(config_dir, "no_include_undocument
 
 # The config that sets auto_exclude_directories_without_cmake to False
 no_auto_exclude_config = os.path.join(config_dir, "no_auto_exclude_config.yaml")
+
+# The config that sets the exclusion filters to ignore more_cmake_files/
+exclusion_filters_config = os.path.join(config_dir, "exclude_filters_config.yaml")

@@ -80,6 +80,26 @@ class TestConfig(unittest.TestCase):
         with open(context.corr_index_no_auto_exclude, 'r') as corr_file, open(self.output_index_file, 'r') as generated_file:
             self.assertEqual(corr_file.read(), generated_file.read())
 
+    def test_exclude_filters(self):
+        """Tests the gitignore-like exclusion filters"""
+        args = ["-r", "-o", self.output_dir, "-s", context.exclusion_filters_config, self.input_dir]
+        helpers.quiet_cminx(args)
+
+        # Test that the top-level directory was found
+        is_dir = os.path.isdir(self.output_dir)
+        self.assertTrue(is_dir, "Output directory structure incorrect")
+
+        # Test that reST file is in top-level directory
+        is_file = os.path.isfile(self.output_file)
+        self.assertTrue(is_file, "Output file does not exist")
+
+        with open(context.corr_example_rst, 'r') as corr_file, open(self.output_file, 'r') as generated_file:
+            self.assertEqual(corr_file.read(), generated_file.read())
+
+        with open(context.corr_index_exclusion_filters, 'r') as corr_file, open(self.output_index_file,
+                                                                              'r') as generated_file:
+            self.assertEqual(corr_file.read(), generated_file.read())
+
 
 if __name__ == '__main__':
     unittest.main()
