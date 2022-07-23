@@ -60,7 +60,7 @@ except DistributionNotFound:
     # package is not installed
     __version__ = "UNKNOWN"
 
-logger: logging.Logger
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 def main(args: list[str] = tuple(sys.argv[1:])):
@@ -263,9 +263,11 @@ def document(input_file: str, settings: Settings):
         for root, subdirs, filenames in os.walk(input_path, topdown=True, followlinks=settings.input.follow_symlinks):
 
             logger.debug(f"Subdirs: {subdirs}")
+            logger.debug(f"Root: {root}")
 
             for subdir in subdirs:
-                if spec.match_file(os.path.join(root, subdir)):
+                # The extra os.path.join() with an empty string ensures the directory has a trailing slash
+                if spec.match_file(os.path.join(root, os.path.join(subdir, ""))):
                     subdirs.remove(subdir)
 
             for file in filenames:

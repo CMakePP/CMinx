@@ -28,7 +28,7 @@ import sys
 tests_dir = os.path.dirname(__file__)
 
 # The root directory of the project
-root_dir  = os.path.join(tests_dir, "..")
+root_dir = os.path.join(tests_dir, "..")
 sys.path.insert(0, os.path.abspath(root_dir))
 
 import cminx
@@ -62,4 +62,23 @@ corr_example_prefix_rst = os.path.join(example_sphinx, "source", "example_prefix
 # The correct index.rst file, with context.prefix as a prefix
 corr_index_prefix_rst = os.path.join(test_samples_dir, "corr_rst", "index", "index_prefix.rst")
 
-corr_example_no_undocumented = os.path.join(example_sphinx, "source", "example_no_undocumented_diff_header.rst")
+corr_example_no_undocumented_diff_header = os.path.join(example_sphinx, "source",
+                                                        "example_no_undocumented_diff_header.rst")
+
+corr_example_no_undocumented = os.path.join(example_sphinx, "source", "example_no_undocumented.rst")
+
+corr_index_no_auto_exclude = os.path.join(example_sphinx, "source", "index_no_auto_exclude.rst")
+
+corr_index_exclusion_filters = os.path.join(example_sphinx, "source", "index_exclusion_filters.rst")
+
+# Where the example configs are located
+config_dir = os.path.join(example_dir, "configs")
+
+# The config that sets all the input.include_undocumented_* settings to False
+no_include_undocumented_config = os.path.join(config_dir, "no_include_undocumented_config.yaml")
+
+# The config that sets auto_exclude_directories_without_cmake to False
+no_auto_exclude_config = os.path.join(config_dir, "no_auto_exclude_config.yaml")
+
+# The config that sets the exclusion filters to ignore more_cmake_files/
+exclusion_filters_config = os.path.join(config_dir, "exclude_filters_config.yaml")

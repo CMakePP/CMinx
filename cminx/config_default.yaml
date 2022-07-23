@@ -33,6 +33,10 @@ input:
   # auto-generated.
   include_undocumented_cpp_member: true
 
+  # Whether undocumented constructors within CMakePP classes should have documentation
+  # auto-generated.
+  include_undocumented_cpp_constructor: true
+
   # Whether undocumented tests should have documentation
   # auto-generated.
   include_undocumented_ct_add_test: true
