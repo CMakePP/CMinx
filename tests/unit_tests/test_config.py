@@ -37,7 +37,7 @@ class TestConfig(unittest.TestCase):
 
     def tearDown(self):
         try:
-            #shutil.rmtree(self.output_dir)
+            shutil.rmtree(self.output_dir)
             pass
         except FileNotFoundError:
             pass  # Test just didn't write to the directory
@@ -99,6 +99,16 @@ class TestConfig(unittest.TestCase):
         with open(context.corr_index_exclusion_filters, 'r') as corr_file, open(self.output_index_file,
                                                                               'r') as generated_file:
             self.assertEqual(corr_file.read(), generated_file.read())
+
+    def test_exclude_input(self):
+        """Tests the gitignore-like exclusion filters"""
+        args = ["-o", self.output_dir, "-s", context.exclude_input_file_config, self.input_file]
+        helpers.quiet_cminx(args)
+
+        # Test that the top-level directory was not found, since we don't do anything
+        is_dir = os.path.exists(self.output_dir)
+        self.assertFalse(is_dir, "Output directory structure created when input should've been ignored")
+
 
 
 if __name__ == '__main__':
