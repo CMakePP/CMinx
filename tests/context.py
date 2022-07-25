@@ -82,3 +82,6 @@ no_auto_exclude_config = os.path.join(config_dir, "no_auto_exclude_config.yaml")
 
 # The config that sets the exclusion filters to ignore more_cmake_files/
 exclusion_filters_config = os.path.join(config_dir, "exclude_filters_config.yaml")
+
+# The config that excludes example.cmake
+exclude_input_file_config = os.path.join(config_dir, "exclude_input_file_config.yaml")
