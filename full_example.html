@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Workflow &mdash; CMinx v0.0.6 documentation</title>
+  <title>Example Workflow &mdash; CMinx v0.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
@@ -31,7 +32,7 @@
             <a href="index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                0.0.6
+                0.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -76,7 +77,7 @@
            <div itemprop="articleBody">
              
   <section id="example-workflow">
-<h1>Example Workflow<a class="headerlink" href="#example-workflow" title="Permalink to this headline"></a></h1>
+<h1>Example Workflow<a class="headerlink" href="#example-workflow" title="Permalink to this heading"></a></h1>
 <p>Here we show a start to finish example of using CMinx. We assume you have a
 CMake file, called <code class="code docutils literal notranslate"><span class="pre">example.cmake</span></code>, in your current directory. The
 contents of <code class="code docutils literal notranslate"><span class="pre">example.cmake</span></code> are:</p>
@@ -281,18 +282,58 @@ cpp_class(MyClass2 MyClass)
 
 cpp_end_class()
 
-# Undocumented class
-cpp_class(Undocumented)
+#[[
+# This is an undocumented function
+#]]
+function(undocumented_function)
+endfunction()
 
-    #[[[
-    # Documented attribute
-    #]]
-    cpp_attr(Undocumented docced_attr)
+#[[
+# This is an undocumented macro
+#]]
+macro(undocumented_macro)
+endmacro()
 
-    # Undocumented attribute
-    cpp_attr(Undocumented undocced_attr)
+#[[
+# This is an undocumented class
+#]]
+cpp_class(MyClass)
+
+    # This is an undocumented function constructor
+    cpp_constructor(CTOR MyClass)
+    function(&quot;${CTOR}&quot; self)
+    endfunction()
+
+    # This is an undocumented macro constructor
+    cpp_constructor(CTOR2 MyClass)
+    macro(&quot;${CTOR2}&quot; self)
+    endmacro()
+
+    # This is an undocumented attribute
+    cpp_attr(MyClass undocumented_attribute)
+
+    # This is an undocumented function member
+    cpp_member(undocced_function_member MyClass)
+    function(&quot;${undocced_function_member}&quot; self)
+    endfunction()
+
+    # This is an undocumented macro member
+    cpp_member(undocced_macro_member MyClass)
+    macro(&quot;${undocced_macro_member}&quot; self)
+    endmacro()
 
 cpp_end_class()
+
+# This is an undocumented test
+ct_add_test(NAME undocumented_test)
+function(&quot;${undocumented_test}&quot;)
+
+    # This is an undocumented section
+    ct_add_section(NAME undocumented_section)
+    function(&quot;${undocumented_section}&quot;)
+    endfunction()
+
+endfunction()
 </pre></div>
 </div>
 <p>To generate the documentation, we enter our system shell (example assumes
@@ -549,21 +590,72 @@ examples.example
 
 
 
-.. py:class:: Undocumented
+.. function:: undocumented_function()
 
    
+
+
+.. function:: undocumented_macro()
+
+
+   .. warning:: This is a macro, and so does not introduce a new scope.
+
+   
+
+
+.. py:class:: MyClass
+
+   
+   **Additional Constructors**
+
+   .. py:method:: CTOR()
+
+      
+
+
+   .. py:method:: CTOR2()
+
+
+      .. note:: This member is a macro and so does not introduce a new scope
+
+      
+
+   **Methods**
+
+   .. py:method:: undocced_function_member()
+
+      
+
+
+   .. py:method:: undocced_macro_member()
+
+
+      .. note:: This member is a macro and so does not introduce a new scope
+
+      
+
    **Attributes**
 
-   .. py:attribute:: docced_attr
-
-      Documented attribute
-      
-
-
-   .. py:attribute:: undocced_attr
+   .. py:attribute:: undocumented_attribute
 
       
 
+
+
+.. function:: undocumented_test()
+
+
+   .. warning:: This is a CMakeTest test definition, do not call this manually.
+
+   
+
+
+.. function:: undocumented_section()
+
+
+   .. warning:: This is a CMakeTest section definition, do not call this manually.
+
+   
 
 </pre></div>
 </div>

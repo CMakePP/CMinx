@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Developer Documentation &mdash; CMinx v0.0.6 documentation</title>
+  <title>Developer Documentation &mdash; CMinx v0.1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -14,12 +14,13 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Overview of How CMinx Works" href="overview.html" />
+    <link rel="next" title="CMinx Repo Structure" href="repo_structure.html" />
     <link rel="prev" title="CMinx Background" href="../about.html" /> 
 </head>
 
@@ -31,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                0.0.6
+                0.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -50,9 +51,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../about.html">CMinx Background</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#table-of-contents">Table of Contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="repo_structure.html">CMinx Repo Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dependencies.html">CMinx Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dependencies.html#cminx-testing-dependencies">CMinx Testing Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dependencies.html#cminx-documentation-dependencies">CMinx Documentation Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="overview.html">Overview of How CMinx Works</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html">CMinx API</a></li>
 <li class="toctree-l3"><a class="reference internal" href="documentation.html">Documenting CMinx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci.html">CMinx’s CI</a></li>
 </ul>
 </li>
 </ul>
@@ -84,13 +90,38 @@
            <div itemprop="articleBody">
              
   <section id="developer-documentation">
-<h1>Developer Documentation<a class="headerlink" href="#developer-documentation" title="Permalink to this headline"></a></h1>
+<h1>Developer Documentation<a class="headerlink" href="#developer-documentation" title="Permalink to this heading"></a></h1>
 <p>The following documentation topics are meant primarily for developers working on
-CMinx.</p>
+CMinx. It is our hope that these topics will make it easier to dive into the
+CMinx project and to recall why we made the design decisions we did.</p>
 <section id="table-of-contents">
-<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline"></a></h2>
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="repo_structure.html">CMinx Repo Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="repo_structure.html#top-level">Top Level</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dependencies.html">CMinx Dependencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#cmake">CMake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#antlr4">Antlr4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#confuse">Confuse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#pathspec">PathSpec</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dependencies.html#cminx-testing-dependencies">CMinx Testing Dependencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#coverage">coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#docutils">docutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#pytest">pytest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#pytest-cov">pytest-cov</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dependencies.html#cminx-documentation-dependencies">CMinx Documentation Dependencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#sphinx">sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependencies.html#sphinx-rtd-theme">sphinx_rtd_theme</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview of How CMinx Works</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#parsing">Parsing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#aggregation">Aggregation</a></li>
@@ -106,6 +137,10 @@ CMinx.</p>
 <li class="toctree-l2"><a class="reference internal" href="documentation.html#adding-a-feature">Adding a Feature</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="ci.html">CMinx’s CI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ci.html#linting">Linting</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -116,7 +151,7 @@ CMinx.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../about.html" class="btn btn-neutral float-left" title="CMinx Background" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="overview.html" class="btn btn-neutral float-right" title="Overview of How CMinx Works" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="repo_structure.html" class="btn btn-neutral float-right" title="CMinx Repo Structure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

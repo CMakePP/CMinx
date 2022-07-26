@@ -1,0 +1,11 @@
+
+###############
+cmake.templates
+###############
+
+.. toctree:: 
+   :maxdepth: 2
+
+   CMinxConfig
+   CMinxConfigVersion
+

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cmake.cminx &mdash; CMinx v0.0.6 documentation</title>
+  <title>cmake.cminx &mdash; CMinx v0.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -14,6 +14,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
@@ -31,7 +32,7 @@
             <a href="../../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                0.0.6
+                0.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -50,6 +51,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../about.html">CMinx Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#table-of-contents">Table of Contents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../repo_structure.html">CMinx Repo Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dependencies.html">CMinx Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dependencies.html#cminx-testing-dependencies">CMinx Testing Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dependencies.html#cminx-documentation-dependencies">CMinx Documentation Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../overview.html">Overview of How CMinx Works</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../api.html">CMinx API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../api.html#python-modules">Python Modules</a></li>
@@ -58,6 +63,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../documentation.html">Documenting CMinx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci.html">CMinx’s CI</a></li>
 </ul>
 </li>
 </ul>
@@ -92,7 +98,7 @@
            <div itemprop="articleBody">
              
   <section id="module-cmake.cminx">
-<span id="cmake-cminx"></span><h1>cmake.cminx<a class="headerlink" href="#module-cmake.cminx" title="Permalink to this headline"></a></h1>
+<span id="cmake-cminx"></span><h1>cmake.cminx<a class="headerlink" href="#module-cmake.cminx" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="cmake.cminx.cminx_gen_rst">
 <span class="sig-prename descclassname"><span class="pre">cmake.cminx.</span></span><span class="sig-name descname"><span class="pre">cminx_gen_rst</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_cgd_dir</span> <span class="pre">_cgd_output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmake.cminx.cminx_gen_rst" title="Permalink to this definition"></a></dt>
@@ -110,23 +116,6 @@
 <li><p><em>Prefix</em> (<code class="docutils literal notranslate"><span class="pre">string</span></code>) – A prefix to be passed to CMinx. All files will have
 the prefix prepended to their RST titles, and root-level files will have their
 titles replaced by the prefix in recursive mode.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cmake.cminx.cminx_add_docs_target">
-<span class="sig-prename descclassname"><span class="pre">cmake.cminx.</span></span><span class="sig-name descname"><span class="pre">cminx_add_docs_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_cad_doc_dir</span> <span class="pre">_cad_output_dir</span> <span class="pre">_cad_sphinx_target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmake.cminx.cminx_add_docs_target" title="Permalink to this definition"></a></dt>
-<dd><p>Add a custom target to the makefile called “docs” that calls Sphinx.
-Sphinx is automatically installed in the virtual environment and the target
-automatically uses that installed instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>_cad_doc_dir</strong> (<em>dir</em>) – Root directory of the sphinx docs where the makefile is located.</p></li>
-<li><p><strong>_cad_output_dir</strong> (<em>dir</em>) – Directory where built docs will be placed</p></li>
-<li><p><strong>_cad_sphinx_target</strong> (<em>desc</em>) – Requested build target for Sphinx docs. Most common is “html”.</p></li>
 </ul>
 </dd>
 </dl>

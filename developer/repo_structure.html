@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview of How CMinx Works &mdash; CMinx v0.1.0 documentation</title>
+  <title>CMinx Repo Structure &mdash; CMinx v0.1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,8 +20,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="CMinx API" href="api.html" />
-    <link rel="prev" title="CMinx Dependencies" href="dependencies.html" /> 
+    <link rel="next" title="CMinx Dependencies" href="dependencies.html" />
+    <link rel="prev" title="Developer Documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,15 +51,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../about.html">CMinx Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#table-of-contents">Table of Contents</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="repo_structure.html">CMinx Repo Structure</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CMinx Repo Structure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#top-level">Top Level</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="dependencies.html">CMinx Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dependencies.html#cminx-testing-dependencies">CMinx Testing Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dependencies.html#cminx-documentation-dependencies">CMinx Documentation Dependencies</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Overview of How CMinx Works</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#parsing">Parsing</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#aggregation">Aggregation</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Overview of How CMinx Works</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api.html">CMinx API</a></li>
 <li class="toctree-l3"><a class="reference internal" href="documentation.html">Documenting CMinx</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ci.html">CMinx’s CI</a></li>
@@ -84,9 +83,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">Developer Documentation</a> &raquo;</li>
-      <li>Overview of How CMinx Works</li>
+      <li>CMinx Repo Structure</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/developer/overview.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/developer/repo_structure.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -94,56 +93,45 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="overview-of-how-cminx-works">
-<h1>Overview of How CMinx Works<a class="headerlink" href="#overview-of-how-cminx-works" title="Permalink to this heading"></a></h1>
-<aside class="sidebar">
-<p class="sidebar-title">Source File Parsing</p>
-<figure class="align-default" id="id1">
-<span id="parsing-flowchart"></span><img alt="../_images/parsing.png" src="../_images/parsing.png" />
-<figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">How CMinx parses a CMake source file.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
-</figcaption>
-</figure>
-<figure class="align-default" id="id2">
-<span id="aggregation-flowchart"></span><img alt="../_images/aggregation.png" src="../_images/aggregation.png" />
-<figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">How CMinx aggregates documentation from the parse tree.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
-</figcaption>
-</figure>
-</aside>
-<section id="parsing">
-<h2>Parsing<a class="headerlink" href="#parsing" title="Permalink to this heading"></a></h2>
-<p>In CMinx parsing of a source file is the role of the Antlr4 parsing runtime, generated from
-the modified CMake.g4 grammar file.</p>
-<ol class="arabic simple">
-<li><p>As per the standard usage, the file contents are read into an
-Antlr4 FileStream, which is then passed to the generated CMake lexer.</p></li>
-<li><p>The lexer generates a token stream, which is then fed into the CMakeParser.</p></li>
-<li><p>The parser generates a tree of parse elements, called contexts,
-which are then walked over by the ParseTreeWalker.</p></li>
-</ol>
-<p>This process is diagrammatically summarized in <a class="reference internal" href="#parsing-flowchart"><span class="std std-numref">Fig. 1</span></a>.</p>
-</section>
-<section id="aggregation">
-<h2>Aggregation<a class="headerlink" href="#aggregation" title="Permalink to this heading"></a></h2>
-<p>After the parser generates the parse tree, CMinx walks the tree and aggregates the various documentation.</p>
-<ol class="arabic simple">
-<li><p>The walker calls the aggregator methods upon entering or exiting
-parse rules, such as entering a <code class="code docutils literal notranslate"><span class="pre">documented_command</span></code> parse rule.</p></li>
-<li><p>The parse rule enterDocumented_command cleans the doccomment and
-extracts the documented command. For example, if a function definition
-is documented, enterDocumented_command will extract the <code class="code docutils literal notranslate"><span class="pre">function</span></code> command.</p></li>
-<li><p>The aggregator then locates the subprocessor that corresponds to the extracted command,
-for example if the extracted command is <code class="code docutils literal notranslate"><span class="pre">function</span></code> then the subprocessor would be
-<code class="code docutils literal notranslate"><span class="pre">process_function()</span></code>. This subhandler is then executed with the parse context and
-cleaned docstring.</p></li>
-<li><p>The documentation aggregator subhandler generates NamedTuples representing the type
-of documentation generated, such as FunctionDocumentation, complete
-with all relevant information, and adds them to a <em>documented</em> list.</p></li>
-<li><p>From there, Documenter loops over the documentation list,
-generating equivalent RST via RSTWriter for each type of documentation.</p></li>
-</ol>
-<p>This process is diagrammatically summarized in <a class="reference internal" href="#aggregation-flowchart"><span class="std std-numref">Fig. 2</span></a>.</p>
+  <section id="cminx-repo-structure">
+<h1>CMinx Repo Structure<a class="headerlink" href="#cminx-repo-structure" title="Permalink to this heading"></a></h1>
+<p>The purpose of this page is to briefly explain what the various directories and
+files are for. We are primarily interested in infrastructure and not the actual
+source code of CMinx. It is our hope that the contents of this page make it
+easier for future developers to figure out where to put files and/or to figure
+out what files may need to change for future updates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are adding to this document please keep files and/or directories in
+the order they are likely to be displayed to the user. For the most part that
+is case-insensitive alphabetical order with directories listed before files.</p>
+</div>
+<section id="top-level">
+<h2>Top Level<a class="headerlink" href="#top-level" title="Permalink to this heading"></a></h2>
+<p>The top-level of the CMinx repo is the directory you get when you clone CMinx.
+The top-level directory contains the following files:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> Used by git to determine which files/folders should be version
+controlled</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> Entry point for building CMinx with CMake.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">codecov.yml</span></code> Settings for <a class="reference external" href="https://about.codecov.io/">Codecov</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LICENSE</span></code> Obligatory software license.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">README.md</span></code> Text users are treated to when the visit the GitHub repo.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> Used by <cite>pip</cite> to install the correct dependencies.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup.py</span></code> Entry point for
+<cite>setuptools &lt;https://setuptools.pypa.io/en/latest/&gt;</cite>, which is in turn used to
+build and install CMinx</p></li>
+</ul>
+<p>and the following directories:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.github</span></code> Contains GitHub workflows, and settings, which constitute the CI
+testing of CMinx</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake</span></code> assets needed to support the building CMinx with CMake</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cminx</span></code> contains the source code for the CMinx executable</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs</span></code> contains the source code for CMinx’s documentation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests</span></code> contains source code for testing CMinx</p></li>
+</ul>
 </section>
 </section>
 
@@ -151,8 +139,8 @@ generating equivalent RST via RSTWriter for each type of documentation.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="dependencies.html" class="btn btn-neutral float-left" title="CMinx Dependencies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api.html" class="btn btn-neutral float-right" title="CMinx API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Developer Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dependencies.html" class="btn btn-neutral float-right" title="CMinx Dependencies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

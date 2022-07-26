@@ -1,0 +1,7 @@
+
+##################################
+cmake.templates/CMinxConfigVersion
+##################################
+
+.. module:: cmake.templates/CMinxConfigVersion
+

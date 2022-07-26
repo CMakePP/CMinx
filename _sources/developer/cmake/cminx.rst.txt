@@ -22,18 +22,3 @@ cmake.cminx
         titles replaced by the prefix in recursive mode.
    
 
-
-.. function:: cminx_add_docs_target(_cad_doc_dir _cad_output_dir _cad_sphinx_target)
-
-   Add a custom target to the makefile called "docs" that calls Sphinx.
-   Sphinx is automatically installed in the virtual environment and the target
-   automatically uses that installed instance.
-   
-   :param _cad_doc_dir: Root directory of the sphinx docs where the makefile is located.
-   :type _cad_doc_dir: dir
-   :param _cad_output_dir: Directory where built docs will be placed
-   :type _cad_output_dir: dir
-   :param _cad_sphinx_target: Requested build target for Sphinx docs. Most common is "html".
-   :type _cad_sphinx_target: desc
-   
-

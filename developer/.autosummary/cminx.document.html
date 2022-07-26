@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cminx.document &mdash; CMinx v0.0.6 documentation</title>
+  <title>cminx.document &mdash; CMinx v0.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -14,6 +14,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
@@ -31,7 +32,7 @@
             <a href="../../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                0.0.6
+                0.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -50,6 +51,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../about.html">CMinx Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#table-of-contents">Table of Contents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../repo_structure.html">CMinx Repo Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dependencies.html">CMinx Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dependencies.html#cminx-testing-dependencies">CMinx Testing Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dependencies.html#cminx-documentation-dependencies">CMinx Documentation Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../overview.html">Overview of How CMinx Works</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../api.html">CMinx API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../api.html#python-modules">Python Modules</a></li>
@@ -58,6 +63,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../documentation.html">Documenting CMinx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci.html">CMinx’s CI</a></li>
 </ul>
 </li>
 </ul>
@@ -91,10 +97,10 @@
            <div itemprop="articleBody">
              
   <section id="cminx-document">
-<h1>cminx.document<a class="headerlink" href="#cminx-document" title="Permalink to this headline"></a></h1>
+<h1>cminx.document<a class="headerlink" href="#cminx-document" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="cminx.document">
-<span class="sig-prename descclassname"><span class="pre">cminx.</span></span><span class="sig-name descname"><span class="pre">document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cminx.config.Settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.document" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">cminx.</span></span><span class="sig-name descname"><span class="pre">document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.document" title="Permalink to this definition"></a></dt>
 <dd><p>Handler for documenting CMake files or all files in a directory. Performs
 preprocessing before handing off to document_single_file over all detected
 files. Also generates index.rst files for all directories.</p>

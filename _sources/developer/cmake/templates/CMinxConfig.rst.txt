@@ -1,0 +1,7 @@
+
+###########################
+cmake.templates/CMinxConfig
+###########################
+
+.. module:: cmake.templates/CMinxConfig
+

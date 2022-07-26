@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CMinx API &mdash; CMinx v0.0.6 documentation</title>
+  <title>CMinx API &mdash; CMinx v0.1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -14,6 +14,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
@@ -31,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                0.0.6
+                0.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -50,6 +51,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../about.html">CMinx Background</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#table-of-contents">Table of Contents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="repo_structure.html">CMinx Repo Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dependencies.html">CMinx Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dependencies.html#cminx-testing-dependencies">CMinx Testing Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dependencies.html#cminx-documentation-dependencies">CMinx Documentation Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="overview.html">Overview of How CMinx Works</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">CMinx API</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#python-modules">Python Modules</a></li>
@@ -58,6 +63,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="documentation.html">Documenting CMinx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ci.html">CMinx’s CI</a></li>
 </ul>
 </li>
 </ul>
@@ -90,11 +96,11 @@
            <div itemprop="articleBody">
              
   <section id="cminx-api">
-<h1>CMinx API<a class="headerlink" href="#cminx-api" title="Permalink to this headline"></a></h1>
+<h1>CMinx API<a class="headerlink" href="#cminx-api" title="Permalink to this heading"></a></h1>
 <p>This is a list of all functions within the CMinx project. These functions are
 meant for use by developers. Users should run the <code class="code docutils literal notranslate"><span class="pre">cminx</span></code> command.</p>
 <section id="python-modules">
-<h2>Python Modules<a class="headerlink" href="#python-modules" title="Permalink to this headline"></a></h2>
+<h2>Python Modules<a class="headerlink" href="#python-modules" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -126,7 +132,7 @@ meant for use by developers. Users should run the <code class="code docutils lit
 </table>
 </section>
 <section id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h2>
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -146,7 +152,7 @@ meant for use by developers. Users should run the <code class="code docutils lit
 </table>
 </section>
 <section id="cmake-modules">
-<h2>CMake Modules<a class="headerlink" href="#cmake-modules" title="Permalink to this headline"></a></h2>
+<h2>CMake Modules<a class="headerlink" href="#cmake-modules" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cmake/index.html">cmake</a><ul>
@@ -155,6 +161,7 @@ meant for use by developers. Users should run the <code class="code docutils lit
 <li class="toctree-l2"><a class="reference internal" href="cmake/get_cmake_test.html">cmake.get_cmake_test</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cmake/get_cpp.html">cmake.get_cpp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cmake/get_version_from_git.html">cmake.get_version_from_git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmake/templates/index.html">cmake.templates</a></li>
 </ul>
 </li>
 </ul>
