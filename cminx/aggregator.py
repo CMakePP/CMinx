@@ -3,11 +3,11 @@ import sys
 from collections import namedtuple
 from enum import Enum
 
-from .CMakeListener import CMakeListener
+from parser.CMakeListener import CMakeListener
 # Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention
 # inconsistencies here
-from .CMakeParser import CMakeParser
-from .. import Settings
+from parser.CMakeParser import CMakeParser
+from cminx import Settings
 
 """
 This module interfaces with the generated CMake parser.
@@ -38,10 +38,6 @@ ClassDocumentation = namedtuple(
 AttributeDocumentation = namedtuple(
     'AttributeDocumentation', 'parent_class name default_value doc')
 
-
-# MethodDocumentation = namedtuple(
-#    'MethodDocumentation', 'parent_class name param_types params is_constructor is_macro doc'
-# )
 
 class TestDocumentation:
     def __init__(self, name: str, expect_fail: bool, doc: str) -> None:
