@@ -21,8 +21,9 @@ from antlr4 import *
 from cminx.parser import ParserErrorListener
 from cminx.parser.CMakeLexer import CMakeLexer
 from cminx.parser.CMakeParser import CMakeParser
-from aggregator import ClassDocumentation, DocumentationAggregator, DOC_TYPES, FunctionDocumentation, \
-    MacroDocumentation, VariableDocumentation, VarType, GenericCommandDocumentation
+from aggregator import DocumentationAggregator
+from documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
+    GenericCommandDocumentation, ClassDocumentation, DOC_TYPES, VarType
 
 
 class TestAggregator(unittest.TestCase):

@@ -18,8 +18,8 @@ import unittest
 import context
 
 from cminx.documenter import Documenter
-from aggregator import ClassDocumentation, FunctionDocumentation, GenericCommandDocumentation, \
-    MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation
+from documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
+    GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation
 from cminx.rstwriter import Directive
 
 

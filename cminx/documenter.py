@@ -28,9 +28,10 @@ from cminx import Settings
 from .parser import ParserErrorListener
 from .parser.CMakeLexer import CMakeLexer
 from .parser.CMakeParser import CMakeParser
-from aggregator import DocumentationAggregator, MethodDocumentation, VarType
-from aggregator import FunctionDocumentation, MacroDocumentation, VariableDocumentation, TestDocumentation, \
-    SectionDocumentation, GenericCommandDocumentation, ClassDocumentation, AttributeDocumentation
+from aggregator import DocumentationAggregator
+from documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
+    VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
+    MethodDocumentation, VarType
 from .rstwriter import Directive, RSTWriter
 
 
