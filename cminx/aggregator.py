@@ -210,7 +210,7 @@ class DocumentationAggregator(CMakeListener):
             values = [val.getText()
                       for val in ctx.single_argument()[1:]]
             self.documented.append(VariableDocumentation(
-                varname, VarType.List, values, docstring))
+                varname, VarType.LIST, values, docstring))
         elif arg_len == 1:  # String
             value = ctx.single_argument()[1].getText()
 
@@ -220,10 +220,10 @@ class DocumentationAggregator(CMakeListener):
             if value[-1] == '"':
                 value = value[:-1]
             self.documented.append(VariableDocumentation(
-                varname, VarType.String, value, docstring))
+                varname, VarType.STRING, value, docstring))
         else:  # Unset
             self.documented.append(VariableDocumentation(
-                varname, VarType.Unset, None, docstring))
+                varname, VarType.UNSET, None, docstring))
 
     def process_cpp_class(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """

@@ -118,7 +118,7 @@ set({var_name} "{val}")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
         self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect function_name extracted")
-        self.assertEqual(self.aggregator.documented[0].type, VarType.String)
+        self.assertEqual(self.aggregator.documented[0].type, VarType.STRING)
         self.assertEqual(self.aggregator.documented[0].value.strip(), val.strip(), "Incorrect value extracted")
 
     def test_doccomment_listvar_leading_space(self):
@@ -137,7 +137,7 @@ set({var_name} {params[0]} {params[1]})
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
         self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect var_name extracted")
-        self.assertEqual(self.aggregator.documented[0].type, VarType.List)
+        self.assertEqual(self.aggregator.documented[0].type, VarType.LIST)
 
         self.assertListEqual([param.strip() for param in self.aggregator.documented[0].value], params,
                              "Incorrect list elements extracted")
@@ -157,7 +157,7 @@ set({var_name})
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
         self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect var_name extracted")
-        self.assertEqual(self.aggregator.documented[0].type, VarType.Unset)
+        self.assertEqual(self.aggregator.documented[0].type, VarType.UNSET)
 
     def test_cpp_class_no_superclass_no_inner(self):
         self.test_cpp_class_multi_superclass_no_inner([])

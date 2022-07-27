@@ -196,11 +196,11 @@ class Documenter(object):
         d = self.writer.directive("data", f"{doc.varname}")
         d.text(doc.doc)
         d.field("Default value", doc.value)
-        if doc.type == VarType.String:
+        if doc.type == VarType.STRING:
             var_type = "str"
-        elif doc.type == VarType.List:
+        elif doc.type == VarType.LIST:
             var_type = "list"
-        elif doc.type == VarType.Unset:
+        elif doc.type == VarType.UNSET:
             var_type = "UNSET"
         else:
             raise ValueError("Unknown variable type: " + doc.type)

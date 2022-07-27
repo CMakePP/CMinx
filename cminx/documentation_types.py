@@ -4,7 +4,11 @@ from enum import Enum
 
 from rstwriter import RSTWriter
 
-VarType = Enum("VarType", "String List Unset")
+
+class VarType(Enum):
+    STRING = 1
+    LIST = 2
+    UNSET = 3
 
 
 class Documentation(ABC):
