@@ -100,7 +100,7 @@ class MethodDocumentation(Documentation):
 
 @dataclass
 class AttributeDocumentation(Documentation):
-    parent_class: object
+    parent_class: str
     name: str
     default_value: str
     doc: str
@@ -123,7 +123,4 @@ class ClassDocumentation(Documentation):
         pass
 
 
-DOC_TYPES = (FunctionDocumentation, MacroDocumentation, VariableDocumentation,
-             TestDocumentation, SectionDocumentation, GenericCommandDocumentation,
-             ClassDocumentation, AttributeDocumentation, MethodDocumentation)
 

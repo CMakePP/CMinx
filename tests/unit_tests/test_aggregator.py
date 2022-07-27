@@ -23,7 +23,7 @@ from cminx.parser.CMakeLexer import CMakeLexer
 from cminx.parser.CMakeParser import CMakeParser
 from aggregator import DocumentationAggregator
 from documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
-    GenericCommandDocumentation, ClassDocumentation, DOC_TYPES, VarType
+    GenericCommandDocumentation, ClassDocumentation, VarType, Documentation
 
 
 class TestAggregator(unittest.TestCase):
@@ -56,7 +56,7 @@ class TestAggregator(unittest.TestCase):
         # So far we can document functions, macros, and variables (only strings and lists built using set)
         for doced_command in self.aggregator.documented:
             self.assertNotEqual(doced_command, None)
-            self.assertIn(type(doced_command), DOC_TYPES, "Unknown documentation type")
+            self.assertIsInstance(doced_command, Documentation, "Unknown documentation type")
 
     def test_doccomment_function_leading_space(self):
         docstring = "This is a function"
