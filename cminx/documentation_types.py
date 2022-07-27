@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 
 from rstwriter import RSTWriter
@@ -60,39 +60,34 @@ class GenericCommandDocumentation(Documentation):
         pass
 
 
+@dataclass
 class TestDocumentation(Documentation):
-    def __init__(self, name: str, expect_fail: bool, doc: str) -> None:
-        self.name = name
-        self.expect_fail = expect_fail
-        self.doc = doc
-        self.params = []
-        self.is_macro = False
+    name: str
+    expect_fail: bool
+    doc: str
+    params: list[str] = field(default_factory=lambda: [])
+    is_macro: bool = False
 
     def process(self, writer: RSTWriter):
         pass
 
 
-class SectionDocumentation(Documentation):
-    def __init__(self, name: str, expect_fail: bool, doc: str) -> None:
-        self.name = name
-        self.expect_fail = expect_fail
-        self.doc = doc
-        self.params = []
-        self.is_macro = False
+@dataclass
+class SectionDocumentation(TestDocumentation):
 
     def process(self, writer: RSTWriter):
         pass
 
 
+@dataclass
 class MethodDocumentation(Documentation):
-    def __init__(self, parent_class, name, param_types, params, is_constructor, doc) -> None:
-        self.parent_class = parent_class
-        self.name = name
-        self.param_types = param_types
-        self.params = params
-        self.is_constructor = is_constructor
-        self.doc = doc
-        self.is_macro = False
+    parent_class: str
+    name: str
+    param_types: list[str]
+    params: list[str]
+    is_constructor: bool
+    doc: str
+    is_macro: bool = False
 
     def process(self, writer: RSTWriter):
         pass
@@ -121,6 +116,3 @@ class ClassDocumentation(Documentation):
 
     def process(self, writer: RSTWriter):
         pass
-
-
-

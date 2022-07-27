@@ -111,10 +111,10 @@ class Documenter(object):
                 self.process_macro_doc(doc)
             elif isinstance(doc, VariableDocumentation):
                 self.process_variable_doc(doc)
-            elif isinstance(doc, TestDocumentation):
-                self.process_test_doc(doc)
             elif isinstance(doc, SectionDocumentation):
                 self.process_section_doc(doc)
+            elif isinstance(doc, TestDocumentation):
+                self.process_test_doc(doc)
             elif isinstance(doc, ClassDocumentation):
                 self.process_class_doc(doc)
             elif isinstance(doc, GenericCommandDocumentation):
