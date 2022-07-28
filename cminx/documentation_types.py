@@ -129,7 +129,25 @@ class MethodDocumentation(Documentation):
     is_macro: bool = False
 
     def process(self, writer: RSTWriter):
-        pass
+        params_pretty = ', '.join(
+            self.params) + ("[, ...]" if "args" in self.param_types else "")
+        d = writer.directive(
+            "py:method", f"{self.name}({params_pretty})")
+        if self.is_macro:
+            d.directive(
+                "note",
+                "This member is a macro and so does not introduce a new scope")
+        # if doc.is_constructor:
+        #     info = d.directive("admonition", "info")
+        #     info.text("This member is a constructor.")
+        d.text(self.doc)
+        for i in range(len(self.param_types)):
+            if i >= len(self.params):
+                break
+            if f":param {self.params[i]}:" not in self.doc:
+                d.field(f"param {self.params[i]}", "")
+            if f":type {self.params[i]}:" not in self.doc:
+                d.field(f"type {self.params[i]}", self.param_types[i])
 
 
 @dataclass
@@ -140,7 +158,11 @@ class AttributeDocumentation(Documentation):
     doc: str
 
     def process(self, writer: RSTWriter):
-        pass
+        d = writer.directive("py:attribute", f"{self.name}")
+        if self.default_value is not None:
+            d.option("value", self.default_value)
+
+        d.text(self.doc)
 
 
 @dataclass
@@ -154,4 +176,28 @@ class ClassDocumentation(Documentation):
     doc: str
 
     def process(self, writer: RSTWriter):
-        pass
+        d = writer.directive("py:class", f"{self.name}")
+        if len(self.superclasses) > 0:
+            bases = "Bases: " + \
+                    ", ".join(
+                        f":class:`{superclass}`" for superclass in self.superclasses)
+            d.text(bases + '\n')
+        d.text(self.doc)
+
+        if len(self.constructors) > 0:
+            d.text("**Additional Constructors**")
+
+        for member in self.constructors:
+            member.process(d)
+
+        if len(self.members) > 0:
+            d.text("**Methods**")
+
+        for member in self.members:
+            member.process(d)
+
+        if len(self.attributes) > 0:
+            d.text("**Attributes**")
+
+        for attribute in self.attributes:
+            attribute.process(d)

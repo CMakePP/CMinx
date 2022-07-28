@@ -220,67 +220,67 @@ class Documenter(object):
     #         "This is a generic command invocation. It is not a function or macro definition.")
     #     d.text(doc.doc)
 
-    def process_class_doc(self, doc: ClassDocumentation):
-        """
-        Adds a py:class directive containing information on the CMakePP
-        class that was documented, including all attributes, constructors, and members
-        """
+    # def process_class_doc(self, doc: ClassDocumentation):
+    #     """
+    #     Adds a py:class directive containing information on the CMakePP
+    #     class that was documented, including all attributes, constructors, and members
+    #     """
+    #
+    #     d = self.writer.directive("py:class", f"{doc.name}")
+    #     if len(doc.superclasses) > 0:
+    #         bases = "Bases: " + \
+    #                 ", ".join(
+    #                     f":class:`{superclass}`" for superclass in doc.superclasses)
+    #         d.text(bases + '\n')
+    #     d.text(doc.doc)
+    #
+    #     if len(doc.members) > 0:
+    #         d.text("**Additional Constructors**")
+    #
+    #     for member in doc.constructors:
+    #         self.add_method_doc(member, d)
+    #
+    #     if len(doc.members) > 0:
+    #         d.text("**Methods**")
+    #
+    #     for member in doc.members:
+    #         self.add_method_doc(member, d)
+    #
+    #     if len(doc.attributes) > 0:
+    #         d.text("**Attributes**")
+    #
+    #     for attribute in doc.attributes:
+    #         self.add_attr_doc(attribute, d)
 
-        d = self.writer.directive("py:class", f"{doc.name}")
-        if len(doc.superclasses) > 0:
-            bases = "Bases: " + \
-                    ", ".join(
-                        f":class:`{superclass}`" for superclass in doc.superclasses)
-            d.text(bases + '\n')
-        d.text(doc.doc)
-
-        if len(doc.members) > 0:
-            d.text("**Additional Constructors**")
-
-        for member in doc.constructors:
-            self.add_method_doc(member, d)
-
-        if len(doc.members) > 0:
-            d.text("**Methods**")
-
-        for member in doc.members:
-            self.add_method_doc(member, d)
-
-        if len(doc.attributes) > 0:
-            d.text("**Attributes**")
-
-        for attribute in doc.attributes:
-            self.add_attr_doc(attribute, d)
-
-    def add_method_doc(
-            self,
-            doc: MethodDocumentation,
-            class_directive: Directive):
-        """
-        Adds a py:method directive to the supplied class directive
-        using the supplied MethodDocumentation to determine whether
-        the member is a constructor or not, as well as what params and
-        types the member has.
-        """
-        params_pretty = ', '.join(
-            doc.params) + ("[, ...]" if "args" in doc.param_types else "")
-        d = class_directive.directive(
-            "py:method", f"{doc.name}({params_pretty})")
-        if doc.is_macro:
-            d.directive(
-                "note",
-                "This member is a macro and so does not introduce a new scope")
-        # if doc.is_constructor:
-        #     info = d.directive("admonition", "info")
-        #     info.text("This member is a constructor.")
-        d.text(doc.doc)
-        for i in range(len(doc.param_types)):
-            if i >= len(doc.params):
-                break
-            if f":param {doc.params[i]}:" not in doc.doc:
-                d.field(f"param {doc.params[i]}", "")
-            if f":type {doc.params[i]}:" not in doc.doc:
-                d.field(f"type {doc.params[i]}", doc.param_types[i])
+    # def add_method_doc(
+    #         self,
+    #         doc: MethodDocumentation,
+    #         class_directive: Directive):
+    #     """
+    #     Adds a py:method directive to the supplied class directive
+    #     using the supplied MethodDocumentation to determine whether
+    #     the member is a constructor or not, as well as what params and
+    #     types the member has.
+    #     """
+    #     params_pretty = ', '.join(
+    #         doc.params) + ("[, ...]" if "args" in doc.param_types else "")
+    #     d = class_directive.directive(
+    #         "py:method", f"{doc.name}({params_pretty})")
+    #     if doc.is_macro:
+    #         d.directive(
+    #             "note",
+    #             "This member is a macro and so does not introduce a new scope")
+    #     # if doc.is_constructor:
+    #     #     info = d.directive("admonition", "info")
+    #     #     info.text("This member is a constructor.")
+    #     d.text(doc.doc)
+    #     for i in range(len(doc.param_types)):
+    #         if i >= len(doc.params):
+    #             break
+    #         if f":param {doc.params[i]}:" not in doc.doc:
+    #             d.field(f"param {doc.params[i]}", "")
+    #         if f":type {doc.params[i]}:" not in doc.doc:
+    #             d.field(f"type {doc.params[i]}", doc.param_types[i])
 
     def add_attr_doc(
             self,
