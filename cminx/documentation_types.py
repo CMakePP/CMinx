@@ -30,7 +30,9 @@ class FunctionDocumentation(Documentation):
     doc: str
 
     def process(self, writer: RSTWriter):
-        pass
+        d = writer.directive(
+            "function", f"{self.function}({' '.join(self.params)})")
+        d.text(self.doc)
 
 
 @dataclass
@@ -40,7 +42,12 @@ class MacroDocumentation(Documentation):
     doc: str
 
     def process(self, writer: RSTWriter):
-        pass
+        d = writer.directive(
+            "function", f"{self.macro}({' '.join(self.params)})")
+        d.directive(
+            "warning",
+            "This is a macro, and so does not introduce a new scope.")
+        d.text(self.doc)
 
 
 @dataclass
@@ -51,7 +58,18 @@ class VariableDocumentation(Documentation):
     doc: str
 
     def process(self, writer: RSTWriter):
-        pass
+        d = writer.directive("data", f"{self.varname}")
+        d.text(self.doc)
+        d.field("Default value", self.value)
+        if self.type == VarType.STRING:
+            var_type = "str"
+        elif self.type == VarType.LIST:
+            var_type = "list"
+        elif self.type == VarType.UNSET:
+            var_type = "UNSET"
+        else:
+            raise ValueError(f"Unknown variable type: {self.type}")
+        d.field("type", var_type)
 
 
 @dataclass
@@ -61,7 +79,12 @@ class GenericCommandDocumentation(Documentation):
     doc: str
 
     def process(self, writer: RSTWriter):
-        pass
+        d = writer.directive(
+            "function", f"{self.name}({' '.join(self.params)})")
+        d.directive(
+            "warning",
+            "This is a generic command invocation. It is not a function or macro definition.")
+        d.text(self.doc)
 
 
 @dataclass
@@ -73,14 +96,26 @@ class TestDocumentation(Documentation):
     is_macro: bool = False
 
     def process(self, writer: RSTWriter):
-        pass
+        d = writer.directive(
+            "function",
+            f"{self.name}({'EXPECTFAIL' if self.expect_fail else ''})")
+        d.directive(
+            "warning",
+            "This is a CMakeTest test definition, do not call this manually.")
+        d.text(self.doc)
 
 
 @dataclass
 class SectionDocumentation(TestDocumentation):
 
     def process(self, writer: RSTWriter):
-        pass
+        d = writer.directive(
+            "function",
+            f"{self.name}({'EXPECTFAIL' if self.expect_fail else ''})")
+        d.directive(
+            "warning",
+            "This is a CMakeTest section definition, do not call this manually.")
+        d.text(self.doc)
 
 
 @dataclass

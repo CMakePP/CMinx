@@ -31,7 +31,7 @@ from .parser.CMakeParser import CMakeParser
 from aggregator import DocumentationAggregator
 from documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
-    MethodDocumentation, VarType
+    MethodDocumentation, VarType, Documentation
 from .rstwriter import Directive, RSTWriter
 
 
@@ -96,7 +96,7 @@ class Documenter(object):
         self.process_docs(self.aggregator.documented)
         return self.writer
 
-    def process_docs(self, docs):
+    def process_docs(self, docs: list[Documentation]):
         """
         Loops over document and dispatches each documentation to the respective processor.
 
@@ -104,120 +104,121 @@ class Documenter(object):
         """
 
         for doc in docs:
-            # Dispatch doc to correct processor
-            if isinstance(doc, FunctionDocumentation):
-                self.process_function_doc(doc)
-            elif isinstance(doc, MacroDocumentation):
-                self.process_macro_doc(doc)
-            elif isinstance(doc, VariableDocumentation):
-                self.process_variable_doc(doc)
-            elif isinstance(doc, SectionDocumentation):
-                self.process_section_doc(doc)
-            elif isinstance(doc, TestDocumentation):
-                self.process_test_doc(doc)
-            elif isinstance(doc, ClassDocumentation):
-                self.process_class_doc(doc)
-            elif isinstance(doc, GenericCommandDocumentation):
-                self.process_generic_command_doc(doc)
-            else:
-                raise ValueError(
-                    f"Unknown documentation type {str(type(doc))}: {str(doc)}")
+            doc.process(self.writer)
+            # # Dispatch doc to correct processor
+            # if isinstance(doc, FunctionDocumentation):
+            #     self.process_function_doc(doc)
+            # elif isinstance(doc, MacroDocumentation):
+            #     self.process_macro_doc(doc)
+            # elif isinstance(doc, VariableDocumentation):
+            #     self.process_variable_doc(doc)
+            # elif isinstance(doc, SectionDocumentation):
+            #     self.process_section_doc(doc)
+            # elif isinstance(doc, TestDocumentation):
+            #     self.process_test_doc(doc)
+            # elif isinstance(doc, ClassDocumentation):
+            #     self.process_class_doc(doc)
+            # elif isinstance(doc, GenericCommandDocumentation):
+            #     self.process_generic_command_doc(doc)
+            # else:
+            #     raise ValueError(
+            #         f"Unknown documentation type {str(type(doc))}: {str(doc)}")
 
-    def process_function_doc(self, doc: FunctionDocumentation):
-        """
-        FunctionDocumentation processor. Generates the RST "function" directive.
+    # def process_function_doc(self, doc: FunctionDocumentation):
+    #     """
+    #     FunctionDocumentation processor. Generates the RST "function" directive.
+    #
+    #     :param doc: Documentation for the function
+    #     :type doc: FunctionDocumentation
+    #     """
+    #
+    #     d = self.writer.directive(
+    #         "function", f"{doc.function}({' '.join(doc.params)})")
+    #     d.text(doc.doc)
 
-        :param doc: Documentation for the function
-        :type doc: FunctionDocumentation
-        """
+    # def process_macro_doc(self, doc):
+    #     """
+    #     MacroDocumentation processor. Generates the RST "function" directive containing
+    #     a "warning" directive explaining that it is a macro.
+    #
+    #     :param doc: Documentation for the macro
+    #     :type doc: MacroDocumentation
+    #     """
+    #
+    #     d = self.writer.directive(
+    #         "function", f"{doc.macro}({' '.join(doc.params)})")
+    #     warning = d.directive(
+    #         "warning",
+    #         "This is a macro, and so does not introduce a new scope.")
+    #     d.text(doc.doc)
 
-        d = self.writer.directive(
-            "function", f"{doc.function}({' '.join(doc.params)})")
-        d.text(doc.doc)
+    # def process_test_doc(self, doc):
+    #     """
+    #     TestDocumentation processor. Generates the RST "function" directive containing
+    #     a "warning" directive explaining that it is a test.
+    #
+    #     :param doc: Documentation for the test
+    #     :type doc: TestDocumentation
+    #     """
+    #
+    #     d = self.writer.directive(
+    #         "function",
+    #         f"{doc.name}({'EXPECTFAIL' if doc.expect_fail else ''})")
+    #     warning = d.directive(
+    #         "warning",
+    #         "This is a CMakeTest test definition, do not call this manually.")
+    #     d.text(doc.doc)
 
-    def process_macro_doc(self, doc):
-        """
-        MacroDocumentation processor. Generates the RST "function" directive containing
-        a "warning" directive explaining that it is a macro.
+    # def process_section_doc(self, doc):
+    #     """
+    #     SectionDocumentation processor. Generates the RST "function" directive containing
+    #     a "warning" directive explaining that it is a test.
+    #
+    #     :param doc: Documentation for the test
+    #     :type doc: SectionDocumentation
+    #     """
+    #
+    #     d = self.writer.directive(
+    #         "function",
+    #         f"{doc.name}({'EXPECTFAIL' if doc.expect_fail else ''})")
+    #     warning = d.directive(
+    #         "warning",
+    #         "This is a CMakeTest section definition, do not call this manually.")
+    #     d.text(doc.doc)
 
-        :param doc: Documentation for the macro
-        :type doc: MacroDocumentation
-        """
+    # def process_variable_doc(self, doc):
+    #     """
+    #     VariableDocumentation processor. Generates the RST "data" directive.
+    #
+    #     :param doc: Documentation for the variable.
+    #     :type doc: VariableDocumentation
+    #     """
+    #
+    #     d = self.writer.directive("data", f"{doc.varname}")
+    #     d.text(doc.doc)
+    #     d.field("Default value", doc.value)
+    #     if doc.type == VarType.STRING:
+    #         var_type = "str"
+    #     elif doc.type == VarType.LIST:
+    #         var_type = "list"
+    #     elif doc.type == VarType.UNSET:
+    #         var_type = "UNSET"
+    #     else:
+    #         raise ValueError("Unknown variable type: " + doc.type)
+    #     d.field("type", var_type)
 
-        d = self.writer.directive(
-            "function", f"{doc.macro}({' '.join(doc.params)})")
-        warning = d.directive(
-            "warning",
-            "This is a macro, and so does not introduce a new scope.")
-        d.text(doc.doc)
-
-    def process_test_doc(self, doc):
-        """
-        TestDocumentation processor. Generates the RST "function" directive containing
-        a "warning" directive explaining that it is a test.
-
-        :param doc: Documentation for the test
-        :type doc: TestDocumentation
-        """
-
-        d = self.writer.directive(
-            "function",
-            f"{doc.name}({'EXPECTFAIL' if doc.expect_fail else ''})")
-        warning = d.directive(
-            "warning",
-            "This is a CMakeTest test definition, do not call this manually.")
-        d.text(doc.doc)
-
-    def process_section_doc(self, doc):
-        """
-        SectionDocumentation processor. Generates the RST "function" directive containing
-        a "warning" directive explaining that it is a test.
-
-        :param doc: Documentation for the test
-        :type doc: SectionDocumentation
-        """
-
-        d = self.writer.directive(
-            "function",
-            f"{doc.name}({'EXPECTFAIL' if doc.expect_fail else ''})")
-        warning = d.directive(
-            "warning",
-            "This is a CMakeTest section definition, do not call this manually.")
-        d.text(doc.doc)
-
-    def process_variable_doc(self, doc):
-        """
-        VariableDocumentation processor. Generates the RST "data" directive.
-
-        :param doc: Documentation for the variable.
-        :type doc: VariableDocumentation
-        """
-
-        d = self.writer.directive("data", f"{doc.varname}")
-        d.text(doc.doc)
-        d.field("Default value", doc.value)
-        if doc.type == VarType.STRING:
-            var_type = "str"
-        elif doc.type == VarType.LIST:
-            var_type = "list"
-        elif doc.type == VarType.UNSET:
-            var_type = "UNSET"
-        else:
-            raise ValueError("Unknown variable type: " + doc.type)
-        d.field("type", var_type)
-
-    def process_generic_command_doc(self, doc):
-        """
-        This method processes any documented commands that don't have any other processors.
-        All it does is generate a function directive containing the command's name and arguments,
-        and adds a warning that it's just an invocation and not a definition.
-        """
-        d = self.writer.directive(
-            "function", f"{doc.name}({' '.join(doc.params)})")
-        warning = d.directive(
-            "warning",
-            "This is a generic command invocation. It is not a function or macro definition.")
-        d.text(doc.doc)
+    # def process_generic_command_doc(self, doc):
+    #     """
+    #     This method processes any documented commands that don't have any other processors.
+    #     All it does is generate a function directive containing the command's name and arguments,
+    #     and adds a warning that it's just an invocation and not a definition.
+    #     """
+    #     d = self.writer.directive(
+    #         "function", f"{doc.name}({' '.join(doc.params)})")
+    #     warning = d.directive(
+    #         "warning",
+    #         "This is a generic command invocation. It is not a function or macro definition.")
+    #     d.text(doc.doc)
 
     def process_class_doc(self, doc: ClassDocumentation):
         """
