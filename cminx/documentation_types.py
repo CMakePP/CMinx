@@ -11,7 +11,7 @@ class VarType(Enum):
     UNSET = 3
 
 
-class Documentation(ABC):
+class DocumentationType(ABC):
     """
     This is the base class for all documentation types. It defines a single
     abstract process() method that is used to write the documentation RST
@@ -24,7 +24,7 @@ class Documentation(ABC):
 
 
 @dataclass
-class FunctionDocumentation(Documentation):
+class FunctionDocumentation(DocumentationType):
     function: str
     params: list[str]
     doc: str
@@ -36,7 +36,7 @@ class FunctionDocumentation(Documentation):
 
 
 @dataclass
-class MacroDocumentation(Documentation):
+class MacroDocumentation(DocumentationType):
     macro: str
     params: list[str]
     doc: str
@@ -51,7 +51,7 @@ class MacroDocumentation(Documentation):
 
 
 @dataclass
-class VariableDocumentation(Documentation):
+class VariableDocumentation(DocumentationType):
     varname: str
     type: VarType
     value: str
@@ -73,7 +73,7 @@ class VariableDocumentation(Documentation):
 
 
 @dataclass
-class GenericCommandDocumentation(Documentation):
+class GenericCommandDocumentation(DocumentationType):
     name: str
     params: list[str]
     doc: str
@@ -88,7 +88,7 @@ class GenericCommandDocumentation(Documentation):
 
 
 @dataclass
-class TestDocumentation(Documentation):
+class TestDocumentation(DocumentationType):
     name: str
     expect_fail: bool
     doc: str
@@ -119,7 +119,7 @@ class SectionDocumentation(TestDocumentation):
 
 
 @dataclass
-class MethodDocumentation(Documentation):
+class MethodDocumentation(DocumentationType):
     parent_class: str
     name: str
     param_types: list[str]
@@ -151,7 +151,7 @@ class MethodDocumentation(Documentation):
 
 
 @dataclass
-class AttributeDocumentation(Documentation):
+class AttributeDocumentation(DocumentationType):
     parent_class: str
     name: str
     default_value: str
@@ -166,7 +166,7 @@ class AttributeDocumentation(Documentation):
 
 
 @dataclass
-class ClassDocumentation(Documentation):
+class ClassDocumentation(DocumentationType):
     name: str
     superclasses: list[str]
     inner_classes: list
