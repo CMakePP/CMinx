@@ -1,12 +1,12 @@
 import logging
 
-from documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
+from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
     MethodDocumentation, VarType
-from parser.CMakeListener import CMakeListener
+from .parser.CMakeListener import CMakeListener
 # Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention
 # inconsistencies here
-from parser.CMakeParser import CMakeParser
+from .parser.CMakeParser import CMakeParser
 from cminx import Settings
 
 """

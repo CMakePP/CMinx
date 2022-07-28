@@ -24,9 +24,9 @@ for CMake files.
 
 from antlr4 import *
 
-from aggregator import DocumentationAggregator
+from .aggregator import DocumentationAggregator
 from cminx import Settings
-from documentation_types import DocumentationType
+from .documentation_types import DocumentationType
 from .parser import ParserErrorListener
 from .parser.CMakeLexer import CMakeLexer
 from .parser.CMakeParser import CMakeParser
