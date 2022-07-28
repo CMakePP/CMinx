@@ -196,6 +196,10 @@ prefix.example
       This is an attribute
       
 
+   **Inner classes**
+
+   * :class:`MyClass3`
+
 
 
 .. py:class:: MyClass3

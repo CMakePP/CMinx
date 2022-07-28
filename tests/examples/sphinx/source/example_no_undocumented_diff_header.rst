@@ -102,6 +102,10 @@ examples.example.cmake
 
    This is a class
    
+   **Inner classes**
+
+   * :class:`MyClass2`
+
 
 
 .. py:class:: MyClass2

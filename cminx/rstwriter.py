@@ -100,7 +100,7 @@ class RSTWriter(object):
         :param items: varargs containing the desired list items.
         """
 
-        self.document.append(List(items, List.BULLETED))
+        self.document.append(List(items, ListType.BULLETED))
 
     def enumerated_list(self, *items):
         """
@@ -110,7 +110,7 @@ class RSTWriter(object):
 
         :param items: varargs containing the desired list items.
         """
-        self.document.append(List(items, List.ENUMERATED))
+        self.document.append(List(items, ListType.ENUMERATED))
 
     def field(self, field_name: str, field_text: str):
         """
