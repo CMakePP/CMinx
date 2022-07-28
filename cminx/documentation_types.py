@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 
-from .rstwriter import RSTWriter, Directive
+from .rstwriter import RSTWriter, Directive, interpreted_text
 
 
 class VarType(Enum):
@@ -255,7 +255,9 @@ class ClassDocumentation(DocumentationType):
     """
     name: str
     superclasses: list[str]
-    inner_classes: list
+    # Type hint needs string because ClassDocumentation
+    # not fully processed yet
+    inner_classes: list['ClassDocumentation']
     constructors: list[MethodDocumentation]
     members: list[MethodDocumentation]
     attributes: list[AttributeDocumentation]
@@ -287,3 +289,7 @@ class ClassDocumentation(DocumentationType):
 
         for attribute in self.attributes:
             attribute.process(d)
+
+        if len(self.inner_classes) > 0:
+            d.text("**Inner classes**")
+            d.bulleted_list(*[interpreted_text("class", clazz.name) for clazz in self.inner_classes])
