@@ -24,9 +24,30 @@ not generate invalid RST structures.
 :Author: Branden Butler
 :License: Apache 2.0
 """
+from enum import Enum
 from typing import Any
 
 from cminx import Settings
+
+
+class ListType(Enum):
+    ENUMERATED = 0
+    BULLETED = 1
+
+
+def interpreted_text(role: str, text: str) -> str:
+    """
+    This function generates an interpreted text RST element
+    from the specified text and using the specified role.
+    Interpreted text may appear almost anywhere regular text can
+    so making it a method of :class:`RSTWriter` would limit its functionality.
+
+
+    :param role: The role of the interpreted text
+    :param text: The literal text of the interpreted text
+    :return: The interpreted text element as a string
+    """
+    return f":{role}:`{text}`"
 
 
 class RSTWriter(object):
@@ -301,28 +322,27 @@ class List(object):
     Represents one of the two types of RST lists:
     Enumerated or Bulleted
     """
-    ENUMERATED = 0
-    BULLETED = 1
 
-    def __init__(self, items, list_type: int):
+    def __init__(self, items, list_type: ListType, indent=""):
         self.items = items
         self.list_type = list_type
         self.list_string = ""
+        self.indent = indent
         self.build_list_string()
 
     def build_list_string(self):
         """
         Populates List.list_string with the
-        RST string cooresponding to this list
+        RST string corresponding to this list
         """
 
         self.list_string = "\n"
-        if self.list_type == self.ENUMERATED:
+        if self.list_type == ListType.ENUMERATED:
             for i in range(0, len(self.items)):
-                self.list_string += f"{i + 1}. {self.items[i]}\n"
-        elif self.list_type == self.BULLETED:
+                self.list_string += f"{self.indent}{i + 1}. {self.items[i]}\n"
+        elif self.list_type == ListType.BULLETED:
             for item in self.items:
-                self.list_string += f"* {item}\n"
+                self.list_string += f"{self.indent}* {item}\n"
         else:
             raise ValueError("Unknown list type")
 
@@ -491,6 +511,20 @@ class Option(object):
         return self.option_string
 
 
+def get_indents(num):
+    """
+    Get the string containing the necessary indent.
+
+    :return: A string containing the correct number of whitespace characters, derived from the indent level.
+    """
+    indents = ""
+    for i in range(0, num):
+        # Directives require the first non-whitespace character of every line to line up with the first letter of
+        # the directive name
+        indents += '   '
+    return indents
+
+
 class Directive(RSTWriter):
     """
     Use :func:`cminx.RSTWriter.directive` to construct.
@@ -535,7 +569,7 @@ class Directive(RSTWriter):
         :return: Correctly formatted directive heading string.
         """
         return DirectiveHeading(
-            self.title, self.get_indents(
+            self.title, get_indents(
                 self.indent), self.format_arguments())
 
     def format_arguments(self):
@@ -554,22 +588,9 @@ class Directive(RSTWriter):
             Option(
                 name,
                 value,
-                self.get_indents(
+                get_indents(
                     self.indent +
                     1)))
-
-    def get_indents(self, num):
-        """
-        Get the string containing the necessary indent.
-
-        :return: A string containing the correct number of whitespace characters, derived from the indent level.
-        """
-        indents = ""
-        for i in range(0, num):
-            # Directives require the first non-whitespace character of every line to line up with the first letter of
-            # the directive name
-            indents += '   '
-        return indents
 
     def text(self, txt):
         """
@@ -581,7 +602,7 @@ class Directive(RSTWriter):
             Paragraph(
                 txt,
                 '' +
-                self.get_indents(
+                get_indents(
                     self.indent +
                     1)))
 
@@ -597,7 +618,7 @@ class Directive(RSTWriter):
             Field(
                 name,
                 txt,
-                self.get_indents(
+                get_indents(
                     self.indent +
                     1)))
 
@@ -618,3 +639,9 @@ class Directive(RSTWriter):
         for element in self.document[1:]:
             document_string += f"{element}\n"
         return document_string
+
+    def enumerated_list(self, *items):
+        self.document.append(List(items, list_type=ListType.ENUMERATED, indent=get_indents(self.indent+1)))
+
+    def bulleted_list(self, *items):
+        self.document.append(List(items, list_type=ListType.BULLETED, indent=get_indents(self.indent + 1)))
