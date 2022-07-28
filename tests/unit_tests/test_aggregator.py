@@ -21,8 +21,8 @@ from antlr4 import *
 from cminx.parser import ParserErrorListener
 from cminx.parser.CMakeLexer import CMakeLexer
 from cminx.parser.CMakeParser import CMakeParser
-from aggregator import DocumentationAggregator
-from documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
+from cminx.aggregator import DocumentationAggregator
+from cminx.documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
     GenericCommandDocumentation, ClassDocumentation, VarType, DocumentationType
 
 
