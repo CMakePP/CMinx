@@ -26,6 +26,14 @@ purely personal preference.
 Pythonically
 ************
 
+Unless you are developing CMinx we recommend you install CMinx from PyPI, i.e.:
+
+.. code:: console
+
+   foo@bar:~$ pip install cminx
+
+If you are developing CMinx then
+
 When installing CMinx Pythonically, we strongly recommend you use a virtual
 environment. To obtain the CMinx source code and setup the virtual environment
 run the following commands, one at a time, in a terminal:

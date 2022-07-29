@@ -24,7 +24,7 @@ find_package(Python3 COMPONENTS Interpreter REQUIRED)
 find_python_module(setuptools REQUIRED)
 find_python_module(venv REQUIRED)
 
-set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/cminx/__init__.py")
+set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/src/cminx/__init__.py")
 set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/cminx")
 
 
