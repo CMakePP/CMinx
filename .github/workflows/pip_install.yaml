@@ -37,8 +37,7 @@ jobs:
         run: |
           python3 -m venv virt_env
           source virt_env/bin/activate
-          pip3 install wheel
-          pip3 install .
+          pip3 install -e .
           pip3 install -r tests/requirements.txt
       - name: Test
         run: |

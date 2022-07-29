@@ -25,6 +25,8 @@ header:
     - docs/Makefile
     - tests/
     - LICENSE
+    - MANIFEST.in
+    - setup.cfg
 
 
   comment: never
