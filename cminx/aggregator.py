@@ -75,8 +75,7 @@ class DocumentationAggregator(CMakeListener):
         function_name = def_params[0].getText()
 
         # Extracts function name and adds the completed function documentation to the 'documented' list
-        self.documented.append(FunctionDocumentation(function_name, params,
-                                                     docstring))
+        self.documented.append(FunctionDocumentation(function_name, docstring, params))
 
     def process_macro(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -101,8 +100,7 @@ class DocumentationAggregator(CMakeListener):
         macro_name = def_params[0].getText()
 
         # Extracts macro name and adds the completed macro documentation to the 'documented' list
-        self.documented.append(MacroDocumentation(macro_name, params,
-                                                  docstring))
+        self.documented.append(MacroDocumentation(macro_name, docstring, params))
 
     def process_ct_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -140,7 +138,7 @@ class DocumentationAggregator(CMakeListener):
             if param.upper() == "EXPECTFAIL":
                 expect_fail = True
 
-        test_doc = TestDocumentation(name, expect_fail, docstring)
+        test_doc = TestDocumentation(name, docstring, expect_fail)
         self.documented.append(test_doc)
         self.documented_awaiting_function_def = test_doc
 
@@ -179,7 +177,7 @@ class DocumentationAggregator(CMakeListener):
             if param.upper() == "EXPECTFAIL":
                 expect_fail = True
 
-        section_doc = SectionDocumentation(name, expect_fail, docstring)
+        section_doc = SectionDocumentation(name, docstring, expect_fail)
         self.documented.append(section_doc)
         self.documented_awaiting_function_def = section_doc
 
@@ -210,7 +208,7 @@ class DocumentationAggregator(CMakeListener):
             values = [val.getText()
                       for val in ctx.single_argument()[1:]]
             self.documented.append(VariableDocumentation(
-                varname, VarType.LIST, values, docstring))
+                varname, docstring, VarType.LIST, " ".join(values)))
         elif arg_len == 1:  # String
             value = ctx.single_argument()[1].getText()
 
@@ -220,10 +218,10 @@ class DocumentationAggregator(CMakeListener):
             if value[-1] == '"':
                 value = value[:-1]
             self.documented.append(VariableDocumentation(
-                varname, VarType.STRING, value, docstring))
+                varname, docstring, VarType.STRING, value))
         else:  # Unset
             self.documented.append(VariableDocumentation(
-                varname, VarType.UNSET, None, docstring))
+                varname, docstring, VarType.UNSET, None))
 
     def process_cpp_class(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -247,7 +245,7 @@ class DocumentationAggregator(CMakeListener):
 
         name = params[0]
         superclasses = params[1:]
-        clazz = ClassDocumentation(name, superclasses, [], [], [], [], docstring)
+        clazz = ClassDocumentation(name, docstring, superclasses, [], [], [], [])
         self.documented.append(clazz)
         if len(self.documented_classes_stack) > 0 and self.documented_classes_stack[-1] is not None:
             self.documented_classes_stack[-1].inner_classes.append(clazz)
@@ -293,7 +291,7 @@ class DocumentationAggregator(CMakeListener):
         name = params[0]
         param_types = params[2:] if len(params) > 2 else []
         method_doc = MethodDocumentation(
-            name, parent_class, param_types, [], is_constructor, docstring)
+            name, docstring, parent_class, param_types, [], is_constructor)
         if is_constructor:
             clazz.constructors.append(method_doc)
         else:
@@ -341,7 +339,7 @@ class DocumentationAggregator(CMakeListener):
         name = params[1]
         default_values = params[2] if len(params) > 2 else None
         clazz.attributes.append(AttributeDocumentation(
-            name, parent_class, default_values, docstring))
+            name, docstring, parent_class, default_values))
 
     def process_generic_command(self, command_name: str, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -358,7 +356,7 @@ class DocumentationAggregator(CMakeListener):
         args = ctx.single_argument() + ctx.compound_argument()
         args = [val.getText() for val in args]
         self.documented.append(GenericCommandDocumentation(
-            command_name, args, docstring))
+            command_name, docstring, args))
 
     def enterDocumented_command(self, ctx: CMakeParser.Documented_commandContext):
         """

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Union
 
 from .rstwriter import RSTWriter, Directive, interpreted_text
 
@@ -19,6 +20,11 @@ class DocumentationType(ABC):
     to a given :class:`RSTWriter`.
     """
     name: str
+    """The name of the documentation type. For functions this is the function
+    name, for variables this is the variable name, etc."""
+
+    doc: str
+    """The full doc comment, cleaned of # characters."""
 
     @abstractmethod
     def process(self, writer: RSTWriter):
@@ -41,7 +47,7 @@ class FunctionDocumentation(DocumentationType):
     """
 
     params: list[str]
-    doc: str
+    """The list of parameters a function definition takes"""
 
     def process(self, writer: RSTWriter):
         d = writer.directive(
@@ -58,7 +64,6 @@ class MacroDocumentation(DocumentationType):
     :code:`warning` directive specifying that it is a macro.
     """
     params: list[str]
-    doc: str
 
     def process(self, writer: RSTWriter):
         d = writer.directive(
@@ -83,8 +88,7 @@ class VariableDocumentation(DocumentationType):
     """
 
     type: VarType
-    value: str
-    doc: str
+    value: Union[str, None]
 
     def process(self, writer: RSTWriter):
         d = writer.directive("data", f"{self.name}")
@@ -114,7 +118,6 @@ class GenericCommandDocumentation(DocumentationType):
     """
 
     params: list[str]
-    doc: str
 
     def process(self, writer: RSTWriter):
         d = writer.directive(
@@ -137,7 +140,6 @@ class TestDocumentation(DocumentationType):
     """
 
     expect_fail: bool
-    doc: str
     params: list[str] = field(default_factory=lambda: [])
     is_macro: bool = False
 
@@ -188,7 +190,6 @@ class MethodDocumentation(DocumentationType):
     param_types: list[str]
     params: list[str]
     is_constructor: bool
-    doc: str
     is_macro: bool = False
 
     def process(self, writer: Directive):
@@ -226,7 +227,6 @@ class AttributeDocumentation(DocumentationType):
     """
     parent_class: str
     default_value: str
-    doc: str
 
     def process(self, writer: Directive):
         d = writer.directive("py:attribute", f"{self.name}")
@@ -250,6 +250,7 @@ class ClassDocumentation(DocumentationType):
     methods, and attributes and calls their :method:`process` method
     to add their information to the class directive.
     """
+
     superclasses: list[str]
     # Type hint needs string because ClassDocumentation
     # not fully processed yet
