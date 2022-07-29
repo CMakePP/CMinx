@@ -7,6 +7,8 @@ from .rstwriter import RSTWriter, Directive, interpreted_text
 
 
 class VarType(Enum):
+    """The types of variables accepted by the CMake :code:`set()` command"""
+    
     STRING = 1
     LIST = 2
     UNSET = 3
