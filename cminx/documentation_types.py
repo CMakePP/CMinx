@@ -301,21 +301,18 @@ class ClassDocumentation(DocumentationType):
 
         if len(self.constructors) > 0:
             d.text("**Additional Constructors**")
-
-        for member in self.constructors:
-            member.process(d)
+            for member in self.constructors:
+                member.process(d)
 
         if len(self.members) > 0:
             d.text("**Methods**")
-
-        for member in self.members:
-            member.process(d)
+            for member in self.members:
+                member.process(d)
 
         if len(self.attributes) > 0:
             d.text("**Attributes**")
-
-        for attribute in self.attributes:
-            attribute.process(d)
+            for attribute in self.attributes:
+                attribute.process(d)
 
         if len(self.inner_classes) > 0:
             d.text("**Inner classes**")
