@@ -139,8 +139,8 @@ set({var_name} {params[0]} {params[1]})
         self.assertEqual(self.aggregator.documented[0].name.strip(), var_name, "Incorrect var_name extracted")
         self.assertEqual(self.aggregator.documented[0].type, VarType.LIST)
 
-        self.assertListEqual([param.strip() for param in self.aggregator.documented[0].value], params,
-                             "Incorrect list elements extracted")
+        self.assertEqual(self.aggregator.documented[0].value, " ".join(params),
+                         "Incorrect list elements extracted")
 
     def test_unset(self):
         docstring = "Unsetting a variable"
@@ -176,8 +176,8 @@ set({var_name})
             [f'{inner_class_docstring}\ncpp_class({inner_class_name})\ncpp_end_class()' for inner_class_name in
              inner_classes])
         method_definitions = '\n'.join([
-                                           f'{method_docstring}\ncpp_member({method_name} {class_name})\nfunction(' + '${' + method_name + '})\nendfunction()'
-                                           for method_name in methods])
+            f'{method_docstring}\ncpp_member({method_name} {class_name})\nfunction(' + '${' + method_name + '})\nendfunction()'
+            for method_name in methods])
         attribute_definitions = '\n'.join(
             [f'{attribute_docstring}\ncpp_attr({class_name} {attr_name})' for attr_name in attributes])
         self.input_stream = InputStream(f'''
