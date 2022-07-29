@@ -31,10 +31,14 @@ def config_template(output_dir_relative_to_config=False):
             "include_undocumented_macro": bool,
             "include_undocumented_cpp_class": bool,
             "include_undocumented_cpp_attr": bool,
+            "include_undocumented_cpp_constructor": bool,
             "include_undocumented_cpp_member": bool,
             "include_undocumented_ct_add_test": bool,
             "include_undocumented_ct_add_section": bool,
-            "recursive": bool
+            "auto_exclude_directories_without_cmake": bool,
+            "exclude_filters": confuse.Optional(list, default=()),
+            "recursive": bool,
+            "follow_symlinks": bool
         },
         "output": {
             "directory": confuse.Optional(
@@ -60,10 +64,14 @@ class InputSettings:
     include_undocumented_macro: bool = True
     include_undocumented_cpp_class: bool = True
     include_undocumented_cpp_attr: bool = True
+    include_undocumented_cpp_constructor: bool = True
     include_undocumented_cpp_member: bool = True
     include_undocumented_ct_add_test: bool = True
     include_undocumented_ct_add_section: bool = True
+    auto_exclude_directories_without_cmake: bool = True
+    exclude_filters: list[str] = ()
     recursive: bool = False
+    follow_symlinks: bool = False
 
 
 @dataclass
@@ -99,4 +107,8 @@ def dict_to_settings(input_dict: dict):
     output_settings = OutputSettings(**input_dict["output"])
     logging_settings = LoggingSettings(input_dict["logging"])
     rst_settings = RSTSettings(**input_dict["rst"])
-    return Settings(input_settings, output_settings, logging_settings, rst_settings)
+    return Settings(
+        input_settings,
+        output_settings,
+        logging_settings,
+        rst_settings)

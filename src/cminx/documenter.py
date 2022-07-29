@@ -39,7 +39,12 @@ class Documenter(object):
     Generates RST documentation from aggregated documentation, combining parser.aggregator and rstwriter.
     """
 
-    def __init__(self, file: str, title: str = None, module_name: str = None, settings: Settings = Settings()):
+    def __init__(
+            self,
+            file: str,
+            title: str = None,
+            module_name: str = None,
+            settings: Settings = Settings()):
         """
         :param file: CMake file to read documentation from.
         :param title: RST header title to use in the generated document.
@@ -64,12 +69,14 @@ class Documenter(object):
         self.lexer = CMakeLexer(self.input_stream)
         self.stream = CommonTokenStream(self.lexer)
 
-        # We now have a stream of CommonToken instead of strings, parsers require this type of stream
+        # We now have a stream of CommonToken instead of strings, parsers
+        # require this type of stream
         self.parser = CMakeParser(self.stream)
         self.parser.addErrorListener(ParserErrorListener())
         self.tree = self.parser.cmake_file()
 
-        # Hard part is done, we now have a fully usable parse tree, now we just need to walk it
+        # Hard part is done, we now have a fully usable parse tree, now we just
+        # need to walk it
         self.aggregator = DocumentationAggregator(settings)
         self.walker = ParseTreeWalker()
         self.walker.walk(self.aggregator, self.tree)
@@ -83,7 +90,8 @@ class Documenter(object):
 
         # All of the documented commands are now stored in aggregator.documented,
         # each element is a namedtuple repesenting the type of documentation it is.
-        # So far we can document functions, macros, and variables (only strings and lists built using set)
+        # So far we can document functions, macros, and variables (only strings
+        # and lists built using set)
         self.process_docs(self.aggregator.documented)
         return self.writer
 
@@ -138,7 +146,8 @@ class Documenter(object):
         d = self.writer.directive(
             "function", f"{doc.macro}({' '.join(doc.params)})")
         warning = d.directive(
-            "warning", "This is a macro, and so does not introduce a new scope.")
+            "warning",
+            "This is a macro, and so does not introduce a new scope.")
         d.text(doc.doc)
 
     def process_test_doc(self, doc):
@@ -151,9 +160,11 @@ class Documenter(object):
         """
 
         d = self.writer.directive(
-            "function", f"{doc.name}({'EXPECTFAIL' if doc.expect_fail else ''})")
+            "function",
+            f"{doc.name}({'EXPECTFAIL' if doc.expect_fail else ''})")
         warning = d.directive(
-            "warning", "This is a CMakeTest test definition, do not call this manually.")
+            "warning",
+            "This is a CMakeTest test definition, do not call this manually.")
         d.text(doc.doc)
 
     def process_section_doc(self, doc):
@@ -166,9 +177,11 @@ class Documenter(object):
         """
 
         d = self.writer.directive(
-            "function", f"{doc.name}({'EXPECTFAIL' if doc.expect_fail else ''})")
+            "function",
+            f"{doc.name}({'EXPECTFAIL' if doc.expect_fail else ''})")
         warning = d.directive(
-            "warning", "This is a CMakeTest section definition, do not call this manually.")
+            "warning",
+            "This is a CMakeTest section definition, do not call this manually.")
         d.text(doc.doc)
 
     def process_variable_doc(self, doc):
@@ -201,7 +214,8 @@ class Documenter(object):
         d = self.writer.directive(
             "function", f"{doc.name}({' '.join(doc.params)})")
         warning = d.directive(
-            "warning", "This is a generic command invocation. It is not a function or macro definition.")
+            "warning",
+            "This is a generic command invocation. It is not a function or macro definition.")
         d.text(doc.doc)
 
     def process_class_doc(self, doc: ClassDocumentation):
@@ -236,7 +250,10 @@ class Documenter(object):
         for attribute in doc.attributes:
             self.add_attr_doc(attribute, d)
 
-    def add_method_doc(self, doc: MethodDocumentation, class_directive: Directive):
+    def add_method_doc(
+            self,
+            doc: MethodDocumentation,
+            class_directive: Directive):
         """
         Adds a py:method directive to the supplied class directive
         using the supplied MethodDocumentation to determine whether
@@ -248,7 +265,9 @@ class Documenter(object):
         d = class_directive.directive(
             "py:method", f"{doc.name}({params_pretty})")
         if doc.is_macro:
-            d.directive("note", "This member is a macro and so does not introduce a new scope")
+            d.directive(
+                "note",
+                "This member is a macro and so does not introduce a new scope")
         # if doc.is_constructor:
         #     info = d.directive("admonition", "info")
         #     info.text("This member is a constructor.")
@@ -261,7 +280,10 @@ class Documenter(object):
             if f":type {doc.params[i]}:" not in doc.doc:
                 d.field(f"type {doc.params[i]}", doc.param_types[i])
 
-    def add_attr_doc(self, doc: AttributeDocumentation, class_directive: Directive):
+    def add_attr_doc(
+            self,
+            doc: AttributeDocumentation,
+            class_directive: Directive):
         """
         Creates and adds a py:attribute directive to the supplied class directive.
         """

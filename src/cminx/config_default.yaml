@@ -33,6 +33,10 @@ input:
   # auto-generated.
   include_undocumented_cpp_member: true
 
+  # Whether undocumented constructors within CMakePP classes should have documentation
+  # auto-generated.
+  include_undocumented_cpp_constructor: true
+
   # Whether undocumented tests should have documentation
   # auto-generated.
   include_undocumented_ct_add_test: true
@@ -41,8 +45,24 @@ input:
   # auto-generated.
   include_undocumented_ct_add_section: true
 
+  # Whether directories not containing .cmake
+  # files should be excluded from recursive mode searching.
+  auto_exclude_directories_without_cmake: true
+
   # Whether directories should be documented recursively
   recursive: false
+
+  # Whether CMinx should follow symlinks that resolve to directories
+  # when using recursive mode.
+  # This can cause infinite recursion if the symlink resolves
+  # to a parent directory of itself
+  follow_symlinks: false
+
+  # Optional list of exclude filters
+  # The full list of filters is combined from all sources,
+  # and not overridden.
+  #exclude_filters:
+  #  - __pycache__
 
 output:
   # The directory to write generated RST files to. If not set,
