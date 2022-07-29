@@ -11,12 +11,14 @@ class VarType(Enum):
     UNSET = 3
 
 
+@dataclass
 class DocumentationType(ABC):
     """
     This is the base class for all documentation types. It defines a single
     abstract process() method that is used to write the documentation RST
     to a given :class:`RSTWriter`.
     """
+    name: str
 
     @abstractmethod
     def process(self, writer: RSTWriter):
@@ -38,13 +40,12 @@ class FunctionDocumentation(DocumentationType):
     directly to a Sphinx :code:`function` directive.
     """
 
-    function: str
     params: list[str]
     doc: str
 
     def process(self, writer: RSTWriter):
         d = writer.directive(
-            "function", f"{self.function}({' '.join(self.params)})")
+            "function", f"{self.name}({' '.join(self.params)})")
         d.text(self.doc)
 
 
@@ -56,13 +57,12 @@ class MacroDocumentation(DocumentationType):
     directly to a Sphinx :code:`function` directive and adds a
     :code:`warning` directive specifying that it is a macro.
     """
-    macro: str
     params: list[str]
     doc: str
 
     def process(self, writer: RSTWriter):
         d = writer.directive(
-            "function", f"{self.macro}({' '.join(self.params)})")
+            "function", f"{self.name}({' '.join(self.params)})")
         d.directive(
             "warning",
             "This is a macro, and so does not introduce a new scope.")
@@ -82,13 +82,12 @@ class VariableDocumentation(DocumentationType):
     and a :code:`type` field.
     """
 
-    varname: str
     type: VarType
     value: str
     doc: str
 
     def process(self, writer: RSTWriter):
-        d = writer.directive("data", f"{self.varname}")
+        d = writer.directive("data", f"{self.name}")
         d.text(self.doc)
         d.field("Default value", self.value)
         if self.type == VarType.STRING:
@@ -113,7 +112,7 @@ class GenericCommandDocumentation(DocumentationType):
     a warning that it is a command invocation and not
     a definition.
     """
-    name: str
+
     params: list[str]
     doc: str
 
@@ -136,7 +135,7 @@ class TestDocumentation(DocumentationType):
     and a warning stating that it is a test and should not
     be called manually.
     """
-    name: str
+
     expect_fail: bool
     doc: str
     params: list[str] = field(default_factory=lambda: [])
@@ -186,7 +185,6 @@ class MethodDocumentation(DocumentationType):
     if it is a macro.
     """
     parent_class: str
-    name: str
     param_types: list[str]
     params: list[str]
     is_constructor: bool
@@ -227,7 +225,6 @@ class AttributeDocumentation(DocumentationType):
     it has a default value.
     """
     parent_class: str
-    name: str
     default_value: str
     doc: str
 
@@ -253,7 +250,6 @@ class ClassDocumentation(DocumentationType):
     methods, and attributes and calls their :method:`process` method
     to add their information to the class directive.
     """
-    name: str
     superclasses: list[str]
     # Type hint needs string because ClassDocumentation
     # not fully processed yet

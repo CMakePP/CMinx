@@ -75,7 +75,7 @@ endfunction()
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), FunctionDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
-        self.assertEqual(self.aggregator.documented[0].function.strip(), function_name,
+        self.assertEqual(self.aggregator.documented[0].name.strip(), function_name,
                          "Incorrect function_name extracted")
         self.assertListEqual([param.strip() for param in self.aggregator.documented[0].params], params,
                              "Incorrect params extracted")
@@ -97,7 +97,7 @@ endmacro()
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), MacroDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
-        self.assertEqual(self.aggregator.documented[0].macro.strip(), macro_name, "Incorrect macro_name extracted")
+        self.assertEqual(self.aggregator.documented[0].name.strip(), macro_name, "Incorrect macro_name extracted")
         self.assertListEqual([param.strip() for param in self.aggregator.documented[0].params], params,
                              "Incorrect params extracted")
 
@@ -117,7 +117,7 @@ set({var_name} "{val}")
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
-        self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect function_name extracted")
+        self.assertEqual(self.aggregator.documented[0].name.strip(), var_name, "Incorrect function_name extracted")
         self.assertEqual(self.aggregator.documented[0].type, VarType.STRING)
         self.assertEqual(self.aggregator.documented[0].value.strip(), val.strip(), "Incorrect value extracted")
 
@@ -136,7 +136,7 @@ set({var_name} {params[0]} {params[1]})
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
-        self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect var_name extracted")
+        self.assertEqual(self.aggregator.documented[0].name.strip(), var_name, "Incorrect var_name extracted")
         self.assertEqual(self.aggregator.documented[0].type, VarType.LIST)
 
         self.assertListEqual([param.strip() for param in self.aggregator.documented[0].value], params,
@@ -156,7 +156,7 @@ set({var_name})
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
-        self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect var_name extracted")
+        self.assertEqual(self.aggregator.documented[0].name.strip(), var_name, "Incorrect var_name extracted")
         self.assertEqual(self.aggregator.documented[0].type, VarType.UNSET)
 
     def test_cpp_class_no_superclass_no_inner(self):

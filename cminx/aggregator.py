@@ -293,7 +293,7 @@ class DocumentationAggregator(CMakeListener):
         name = params[0]
         param_types = params[2:] if len(params) > 2 else []
         method_doc = MethodDocumentation(
-            parent_class, name, param_types, [], is_constructor, docstring)
+            name, parent_class, param_types, [], is_constructor, docstring)
         if is_constructor:
             clazz.constructors.append(method_doc)
         else:
@@ -341,7 +341,7 @@ class DocumentationAggregator(CMakeListener):
         name = params[1]
         default_values = params[2] if len(params) > 2 else None
         clazz.attributes.append(AttributeDocumentation(
-            parent_class, name, default_values, docstring))
+            name, parent_class, default_values, docstring))
 
     def process_generic_command(self, command_name: str, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
