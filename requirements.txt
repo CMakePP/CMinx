@@ -1,2 +1,4 @@
-antlr4-python3-runtime==4.7.2
-confuse>=1.7
+coverage
+docutils>=0.10
+pytest
+pytest-cov
