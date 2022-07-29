@@ -64,6 +64,7 @@ class MacroDocumentation(DocumentationType):
     :code:`warning` directive specifying that it is a macro.
     """
     params: list[str]
+    """The list of parameters a macro definition takes"""
 
     def process(self, writer: RSTWriter):
         d = writer.directive(
@@ -88,7 +89,10 @@ class VariableDocumentation(DocumentationType):
     """
 
     type: VarType
+    """The type that the variable is."""
+
     value: Union[str, None]
+    """A default value that the variable has"""
 
     def process(self, writer: RSTWriter):
         d = writer.directive("data", f"{self.name}")
@@ -118,6 +122,7 @@ class GenericCommandDocumentation(DocumentationType):
     """
 
     params: list[str]
+    """Any parameters passed to the command, unfiltered since this documentation type has no knowledge of the command"""
 
     def process(self, writer: RSTWriter):
         d = writer.directive(
@@ -140,8 +145,13 @@ class TestDocumentation(DocumentationType):
     """
 
     expect_fail: bool
+    """Whether this test expects to fail."""
+
     params: list[str] = field(default_factory=lambda: [])
+    """Any parameters defined by the linked function."""
+
     is_macro: bool = False
+    """Whether the linked command is a macro or a function. If true, a warning stating so is generated."""
 
     def process(self, writer: RSTWriter):
         d = writer.directive(
@@ -187,10 +197,19 @@ class MethodDocumentation(DocumentationType):
     if it is a macro.
     """
     parent_class: str
+    """The class that this method is defined as a part of."""
+
     param_types: list[str]
+    """The types of the parameters to the method"""
+
     params: list[str]
+    """The parameter names."""
+
     is_constructor: bool
+    """Whether this method is a constructor."""
+
     is_macro: bool = False
+    """Whether the linked command is a macro or a function. If true, a note saying so is generated."""
 
     def process(self, writer: Directive):
         params_pretty = ', '.join(
@@ -226,7 +245,10 @@ class AttributeDocumentation(DocumentationType):
     it has a default value.
     """
     parent_class: str
+    """The class that defines this attribute."""
+
     default_value: str
+    """The default value of this attribute, if it has one."""
 
     def process(self, writer: Directive):
         d = writer.directive("py:attribute", f"{self.name}")
@@ -252,13 +274,21 @@ class ClassDocumentation(DocumentationType):
     """
 
     superclasses: list[str]
+    """A list of any superclasses this class has, empty if none"""
+
     # Type hint needs string because ClassDocumentation
     # not fully processed yet
     inner_classes: list['ClassDocumentation']
+    """Any classes defined within this class."""
+
     constructors: list[MethodDocumentation]
+    """A list of method documentation objects describing the constructors this class has."""
+
     members: list[MethodDocumentation]
+    """A list of method documentation objects describing the class's methods."""
+
     attributes: list[AttributeDocumentation]
-    doc: str
+    """A list of attribute documentation objects describing the class's attributes."""
 
     def process(self, writer: RSTWriter):
         d = writer.directive("py:class", f"{self.name}")
