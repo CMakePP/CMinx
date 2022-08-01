@@ -14,128 +14,108 @@ project(
 
 option(BUILD_TESTING "Whether tests should be built ad ctest configured" OFF)
 
-#Allows us to locate any arbitrary Python3 module.
-include(find_python_module)
+################################################################################
+# Work out install paths
+################################################################################
+include(GNUInstallDirs)
+
+# Path, relative to install root, where binaries go
+set(CMINX_BIN_DIR "${CMAKE_INSTALL_BINDIR}")
+
+# Path, relative to install root, where libraries go
+set(CMINX_LIB_DIR "${CMAKE_INSTALL_LIBDIR}/cminx")
+
+# Path, relative to install root, where CMake modules and config files go
+set(CMINX_CMAKE_DIR "${CMINX_LIB_DIR}/cmake")
+
+# During the configuration, building, and testing phases we use a staging
+# directory as the install root. The install phase simply copies the staging
+# directory to the install location. This is the absolute path of the staging
+# directory.
+set(CMINX_STAGE_DIR "${CMAKE_CURRENT_BINARY_DIR}/stage")
+
+################################################################################
+# Install Dependencies
+################################################################################
 
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
+include(python_virt_env)
 
-
-#We have Python, now let's check to see if we have setuptools and venv
-find_python_module(setuptools REQUIRED)
-find_python_module(venv REQUIRED)
-
-set(DEPS        "${CMAKE_CURRENT_SOURCE_DIR}/src/cminx/__init__.py")
-set(OUTPUT      "${CMAKE_CURRENT_BINARY_DIR}/cminx")
-
-
-#[[[
 # Points to the location of the build virtual environment.
-#]]
 set(
     CMINX_VENV "${CMAKE_CURRENT_BINARY_DIR}/virtual-env"
     CACHE FILEPATH "Directory of the virtual environment"
 )
 
-#Create virtual environment in the build directory
-message(STATUS "Creating virtual environment for build directory...")
+make_python_venv("${Python3_EXECUTABLE}" "${CMINX_VENV}")
+python_venv_pip_install("${CMINX_VENV}" "pyinstaller")
+python_venv_pip_install("${CMINX_VENV}" "-e ${CMAKE_CURRENT_SOURCE_DIR}")
 
-execute_process(COMMAND "${Python3_EXECUTABLE}" "-m"
-                        "venv" "${CMINX_VENV}"
-                        RESULT_VARIABLE _venv_status
-                        ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+################################################################################
+# Build CMinx
+################################################################################
 
-if (NOT _venv_status EQUAL "0")
-	message(
-        FATAL_ERROR
-        "Virtual environment could not be created, venv "
-        "returned ${_venv_status}"
-    )
-endif()
-
-#[[[
-# Location of the virtual environment python 3 executable.
-#]]
-set(
-    CMINX_VENV_PYTHON_EXECUTABLE "${CMINX_VENV}/bin/python3"
-    CACHE
-    FILEPATH
-    "The location of the virtual environment Python3 executable."
-)
-
-#[[[
-# Location of the virtual environment pip.
-#]]
-set(
-    CMINX_VENV_PIP "${CMINX_VENV}/bin/pip3"
-    CACHE
-    FILEPATH
-    "The location of the Pip3 to be used for the virtual environment"
-)
-
-#Install needed dependencies
-message(STATUS "Installing build dependencies in virtual environment...")
-
-#Install our build tool to our build environment
+# N.B. this runs during configure so CMinx can be used downstream
+# via fetch content
 execute_process(
-    COMMAND "${CMINX_VENV_PIP}" "install" "pyinstaller"
+    COMMAND ${CMINX_VENV}/bin/python3 "-m" "PyInstaller"
+                                      "--collect-data" "src/cminx"
+                                      "--name" "cminx"
+                                      "--onefile"
+                                      "${CMAKE_CURRENT_SOURCE_DIR}/src/main.py"
 )
 
-
-#Install program specific dependencies so that pyinstaller can find them.
-execute_process(
-    COMMAND "${CMINX_VENV_PIP}" "install" "-e" "${CMAKE_CURRENT_SOURCE_DIR}"
+# Move CMinx (and the CMinx CMake module) to the stage directory
+file(
+    COPY ${CMAKE_CURRENT_BINARY_DIR}/dist/cminx
+    DESTINATION ${CMAKE_STAGE_DIR}/${CMINX_BIN_DIR}
+)
+file(
+    COPY ${CMAKE_CURRENT_LIST_DIR}/cmake/cminx.cmake
+    DESTINATION ${CMAKE_STAGE_DIR}/${CMINX_CMAKE_DIR}
 )
 
-#Write package config files
-configure_file(
-    "${CMAKE_CURRENT_LIST_DIR}/cmake/templates/CMinxConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}"
-    @ONLY
-)
-configure_file(
-    "${CMAKE_CURRENT_LIST_DIR}/cmake/templates/CMinxConfigVersion.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}"
-    @ONLY
-)
-set(CMINX_PACKAGE_SEARCH_PATH "${CMAKE_CURRENT_BINARY_DIR}")
+################################################################################
+# Write package config files
+################################################################################
 
-#[[
-# Build command.
-# First line calls PyInstaller to build the single file executable.
-# Second line copies the resultant executable to the binary directory.
-#]]
-add_custom_target(
-    cminx ALL
-    ${CMINX_VENV_PYTHON_EXECUTABLE}
-      "-m" "PyInstaller" "--collect-data" "cminx" "--onefile"
-      "${CMAKE_CURRENT_SOURCE_DIR}/main.py"
-    COMMAND "sh" "-c" "cp ${CMAKE_CURRENT_BINARY_DIR}/dist/main ${OUTPUT}"
-    DEPENDS ${DEPS}
-    BYPRODUCTS ${OUTPUT}
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    "${CMAKE_CURRENT_LIST_DIR}/cmake/templates/CMinxConfig.cmake.in"
+    "${CMINX_STAGE_DIR}/${CMINX_CMAKE_DIR}"
+    INSTALL_DESTINATION "${CMINX_CMAKE_DIR}"
 )
 
+write_basic_package_version_file(
+    "${CMINX_STAGE_DIR}/${CMINX_CMAKE_DIR}"
+    COMPATIBILITY AnyNewerVersion
+)
 
-install(PROGRAMS ${OUTPUT} DESTINATION bin)
+################################################################################
+# Testing
+################################################################################
 
 if(BUILD_TESTING)
     message("Building tests")
     include("${PROJECT_SOURCE_DIR}/cmake/get_cpp.cmake")
     include("${PROJECT_SOURCE_DIR}/cmake/get_cmake_test.cmake")
 
-    execute_process(
-        COMMAND "${CMINX_VENV_PIP}"
-                "install"
-                "-r"
-                "${CMAKE_CURRENT_SOURCE_DIR}/tests/requirements.txt"
+    python_venv_pip_install(
+        ${CMINX_VENV} "-r ${CMAKE_CURRENT_SOURCE_DIR}/tests/requirements.txt"
     )
 
     include(cmake_test/cmake_test)
     include(CTest)
 
-
     add_subdirectory("tests")
 
 endif()
 
-#Define functions and set source directory
+################################################################################
+# Installation
+################################################################################
+
+install(DIRECTORY ${CMINX_STAGE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+# For fetch content purposes we make cminx_gen_rst available to the caller
 include("cminx")

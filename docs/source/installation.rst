@@ -27,7 +27,7 @@ Pythonically
 ************
 
 Unless you are developing CMinx we recommend you install CMinx from PyPI.
-From a terminal this is just:
+From a terminal this is simply:
 
 .. code:: console
 

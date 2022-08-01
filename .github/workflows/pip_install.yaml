@@ -43,7 +43,7 @@ jobs:
         run: |
           source virt_env/bin/activate
           cd tests
-          pytest --cov=../cminx/ --cov-report=xml
+          pytest --cov=../src/cminx/ --cov-report=xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:

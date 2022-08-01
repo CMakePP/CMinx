@@ -12,33 +12,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: CMinx Installed via CMake
+# name: CMinx Installed via CMake
 
-on:
-  pull_request:
-    branches:
-      - master
+# on:
+#   pull_request:
+#     branches:
+#       - master
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v1
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-python@v1
-        with:
-          python-version: '3.9'
-      - uses: lukka/get-cmake@v3.20.1
-      - name: Build
-        run: |
-          cmake -S . -B build -DCMAKE_INSTALL_PREFIX=`pwd`/install -DBUILD_TESTING=ON
-          cmake --build build
-          cmake --install build
-          if ! command -v install/bin/cminx &> /dev/null
-          then
-              exit 1
-          fi
-          cd build
-          ctest --output-on-failure
+#     steps:
+#       - uses: actions/checkout@v1
+#         with:
+#           fetch-depth: 0
+#       - uses: actions/setup-python@v1
+#         with:
+#           python-version: '3.9'
+#       - uses: lukka/get-cmake@v3.20.1
+#       - name: Build
+#         run: |
+#           cmake -S . -B build -DCMAKE_INSTALL_PREFIX=`pwd`/install -DBUILD_TESTING=ON
+#           cmake --build build
+#           cmake --install build
+#           if ! command -v install/bin/cminx &> /dev/null
+#           then
+#               exit 1
+#           fi
+#           cd build
+#           ctest --output-on-failure

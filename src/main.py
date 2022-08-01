@@ -1,4 +1,5 @@
-# Copyright 2022 CMakePP
+
+# Copyright 2021 CMakePP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,10 +12,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-include(cminx)
+"""
+If CMinx is built with CMake, we use PyInstaller to create an executable.
+PyInstaller requires us to import CMinx so it can discover the contents of
+CMinx. This file imports CMinx and calls its entry point so PyInstaller can
+do its thing.
 
-set(CMINX_VENV "@CMINX_VENV@")
-set(CMINX_VENV_PYTHON_EXECUTABLE "@CMINX_VENV_PYTHON_EXECUTABLE@")
-set(CMINX_VENV_PIP "@CMINX_VENV_PIP@")
-set(CMINX_SRC "@CMINX_SRC@")
+:Author: CMakePP
+:License: Apache 2.0
+"""
+
+from cminx import *
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
