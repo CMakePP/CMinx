@@ -18,7 +18,7 @@ ct_set_print_length("${CT_DEFAULT_PRINT_LENGTH}")
 
 ct_add_dir(
     "cmake"
-    CMAKE_OPTIONS "-DCMINX_PACKAGE_SEARCH_PATH=${CMINX_PACKAGE_SEARCH_PATH}"
+    CMAKE_OPTIONS "-DCMINX_STAGE_DIR=${CMINX_STAGE_DIR}"
                   "-DPROJECT_VERSION=${PROJECT_VERSION}"
 )
 
@@ -28,6 +28,6 @@ ct_add_dir(
 
 add_test(
     NAME "CMinx_Unit_Tests"
-    COMMAND "${CMINX_VENV_PYTHON_EXECUTABLE}" "-B" "test_all.py"
+    COMMAND "${CMINX_VENV}/bin/python3" "-B" "test_all.py"
     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
 )

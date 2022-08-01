@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.14) #For fetchcontent_makeavailable
+cmake_minimum_required(VERSION 3.19) #For Python3 recognizing version
+find_package(Python3 VERSION 3.8 COMPONENTS Interpreter REQUIRED)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(get_version_from_git)
@@ -38,18 +39,16 @@ set(CMINX_STAGE_DIR "${CMAKE_CURRENT_BINARY_DIR}/stage")
 # Install Dependencies
 ################################################################################
 
-find_package(Python3 COMPONENTS Interpreter REQUIRED)
+
 include(python_virt_env)
 
 # Points to the location of the build virtual environment.
-set(
-    CMINX_VENV "${CMAKE_CURRENT_BINARY_DIR}/virtual-env"
-    CACHE FILEPATH "Directory of the virtual environment"
-)
+set(CMINX_VENV "${CMAKE_CURRENT_BINARY_DIR}/virtual-env")
 
 make_python_venv("${Python3_EXECUTABLE}" "${CMINX_VENV}")
 python_venv_pip_install("${CMINX_VENV}" "pyinstaller")
-python_venv_pip_install("${CMINX_VENV}" "-e ${CMAKE_CURRENT_SOURCE_DIR}")
+python_venv_pip_install("${CMINX_VENV}" "wheel")
+python_venv_pip_install("${CMINX_VENV}" "-e" "${CMAKE_CURRENT_SOURCE_DIR}")
 
 ################################################################################
 # Build CMinx
@@ -63,16 +62,17 @@ execute_process(
                                       "--name" "cminx"
                                       "--onefile"
                                       "${CMAKE_CURRENT_SOURCE_DIR}/src/main.py"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 # Move CMinx (and the CMinx CMake module) to the stage directory
 file(
     COPY ${CMAKE_CURRENT_BINARY_DIR}/dist/cminx
-    DESTINATION ${CMAKE_STAGE_DIR}/${CMINX_BIN_DIR}
+    DESTINATION ${CMINX_STAGE_DIR}/${CMINX_BIN_DIR}
 )
 file(
     COPY ${CMAKE_CURRENT_LIST_DIR}/cmake/cminx.cmake
-    DESTINATION ${CMAKE_STAGE_DIR}/${CMINX_CMAKE_DIR}
+    DESTINATION ${CMINX_STAGE_DIR}/${CMINX_CMAKE_DIR}
 )
 
 ################################################################################
@@ -81,13 +81,14 @@ file(
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-    "${CMAKE_CURRENT_LIST_DIR}/cmake/templates/CMinxConfig.cmake.in"
-    "${CMINX_STAGE_DIR}/${CMINX_CMAKE_DIR}"
+    "${CMAKE_CURRENT_LIST_DIR}/cmake/templates/cminx-config.cmake.in"
+    "${CMINX_STAGE_DIR}/${CMINX_CMAKE_DIR}/cminx-config.cmake"
     INSTALL_DESTINATION "${CMINX_CMAKE_DIR}"
+    PATH_VARS CMINX_BIN_DIR CMINX_CMAKE_DIR
 )
 
 write_basic_package_version_file(
-    "${CMINX_STAGE_DIR}/${CMINX_CMAKE_DIR}"
+    "${CMINX_STAGE_DIR}/${CMINX_CMAKE_DIR}/cminx-config-version.cmake"
     COMPATIBILITY AnyNewerVersion
 )
 
@@ -101,7 +102,7 @@ if(BUILD_TESTING)
     include("${PROJECT_SOURCE_DIR}/cmake/get_cmake_test.cmake")
 
     python_venv_pip_install(
-        ${CMINX_VENV} "-r ${CMAKE_CURRENT_SOURCE_DIR}/tests/requirements.txt"
+        ${CMINX_VENV} "-r" "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
     )
 
     include(cmake_test/cmake_test)
@@ -118,4 +119,4 @@ endif()
 install(DIRECTORY ${CMINX_STAGE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 # For fetch content purposes we make cminx_gen_rst available to the caller
-include("cminx")
+find_package(cminx REQUIRED CONFIG HINTS ${CMINX_STAGE_DIR})

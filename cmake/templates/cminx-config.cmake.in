@@ -15,9 +15,14 @@
 @PACKAGE_INIT@
 
 # Find the CMinx binary
+set_and_check(CMINX_BIN_DIR "@PACKAGE_CMINX_BIN_DIR@")
+find_program(CMINX_EXECUTABLE_FOUND cminx "${CMINX_BIN_DIR}" REQUIRED)
+set(CMINX_EXECUTABLE ${CMINX_BIN_DIR}/cminx)
 
 # Find the CMinx CMake module
-set_and_check()
-
+set_and_check(CMINX_CMAKE_DIR "@PACKAGE_CMINX_CMAKE_DIR@")
+find_file(CMINX_CMAKE_MODULE_FOUND cminx.cmake "${CMINX_CMAKE_DIR}" REQUIRED)
 
 check_required_components(cminx)
+
+include("${CMINX_CMAKE_DIR}/cminx.cmake")

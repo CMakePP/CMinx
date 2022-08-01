@@ -32,10 +32,9 @@ endfunction()
 # :param pvpi_module: The name of the pip package we are installing.
 #
 #]]
-function(python_venv_pip_install pvpi_venv pvpi_module)
-    message(STATUS "Installing ${pvpi_module} in ${pvpi_venv}")
+function(python_venv_pip_install pvpi_venv)
     set(_pvpi_pip ${pvpi_venv}/bin/pip3)
     execute_process(
-        COMMAND "${_pvpi_pip}" "install" "${pvpi_module}"
+        COMMAND "${_pvpi_pip}" "install" ${ARGN}
     )
 endfunction()
