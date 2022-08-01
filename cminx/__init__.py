@@ -43,10 +43,10 @@ import logging
 import os
 import re
 import sys
-from typing import List
 import logging.config
 import pathspec
 from fnmatch import fnmatch
+from typing import List
 
 from confuse import Configuration
 from pkg_resources import get_distribution, DistributionNotFound
