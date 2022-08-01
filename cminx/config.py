@@ -18,7 +18,7 @@ from typing import List
 from dataclasses import dataclass, field
 
 
-def config_template(output_dir_relative_to_config=False):
+def config_template(output_dir_relative_to_config: bool = False) -> dict:
     """
     Generates the config template.
 
@@ -102,7 +102,7 @@ class Settings:
     rst: RSTSettings = RSTSettings()
 
 
-def dict_to_settings(input_dict: dict):
+def dict_to_settings(input_dict: dict) -> Settings:
     input_settings = InputSettings(**input_dict["input"])
     output_settings = OutputSettings(**input_dict["output"])
     logging_settings = LoggingSettings(input_dict["logging"])
