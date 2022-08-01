@@ -43,6 +43,7 @@ import logging
 import os
 import re
 import sys
+from typing import List
 import logging.config
 import pathspec
 from fnmatch import fnmatch
@@ -63,7 +64,7 @@ except DistributionNotFound:
 logger: logging.Logger = logging.getLogger(__name__)
 
 
-def main(args: list[str] = tuple(sys.argv[1:])):
+def main(args: List[str] = tuple(sys.argv[1:])):
     """
     CMake Documentation Generator program entry point.
 

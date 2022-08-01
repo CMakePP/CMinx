@@ -69,7 +69,7 @@ class InputSettings:
     include_undocumented_ct_add_test: bool = True
     include_undocumented_ct_add_section: bool = True
     auto_exclude_directories_without_cmake: bool = True
-    exclude_filters: list[str] = ()
+    exclude_filters: List[str] = ()
     recursive: bool = False
     follow_symlinks: bool = False
 
