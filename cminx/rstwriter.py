@@ -62,13 +62,14 @@ class RSTWriter(object):
             self,
             title: str,
             section_level: int = 0,
-            settings=Settings()):
+            settings=Settings(), indent=0):
         self.__title: str = title
         self.section_level: int = section_level
         self.settings = settings
         if settings.rst.headers is not None:
             self.heading_level_chars = settings.rst.headers
 
+        self.indent = indent
         self.header_char: str = self.heading_level_chars[section_level]
         # Heading must be first in the document tree
         self.document: list[Any] = [self.build_heading()]
@@ -100,7 +101,7 @@ class RSTWriter(object):
         :param items: varargs containing the desired list items.
         """
 
-        self.document.append(List(items, ListType.BULLETED))
+        self.document.append(List(items, ListType.BULLETED, indent=get_indents(self.indent)))
 
     def enumerated_list(self, *items):
         """
@@ -110,7 +111,7 @@ class RSTWriter(object):
 
         :param items: varargs containing the desired list items.
         """
-        self.document.append(List(items, ListType.ENUMERATED))
+        self.document.append(List(items, ListType.ENUMERATED, indent=get_indents(self.indent)))
 
     def field(self, field_name: str, field_text: str):
         """
@@ -120,7 +121,7 @@ class RSTWriter(object):
 
         :param field_text: Value of the field, such as the author's name.
         """
-        self.document.append(Field(field_name, field_text))
+        self.document.append(Field(field_name, field_text, get_indents(self.indent)))
 
     def doctest(self, test_line: str, expected_output: str):
         """
@@ -133,7 +134,7 @@ class RSTWriter(object):
 
         :param expected_output: The exact string that is expected to be returned when test_line is evaluated.
         """
-        self.document.append(DocTest(test_line, expected_output))
+        self.document.append(DocTest(test_line, expected_output, indent=get_indents(self.indent)))
 
     def section(self, title: str):
         """
@@ -154,7 +155,7 @@ class RSTWriter(object):
 
         :param txt: The content of the new paragraph.
         """
-        self.document.append(Paragraph(txt))
+        self.document.append(Paragraph(txt, indent=get_indents(self.indent)))
 
     def directive(self, name, *arguments):
         """
@@ -164,7 +165,7 @@ class RSTWriter(object):
 
         :param arguments: Varargs to be used as the directive arguments, such as a topic title.
         """
-        w = Directive(name, 0, *arguments, settings=self.settings)
+        w = Directive(name, self.indent, *arguments, settings=self.settings)
         self.document.append(w)
         return w
 
@@ -176,7 +177,7 @@ class RSTWriter(object):
         """
         return Heading(self.__title, self.header_char)
 
-    def simple_table(self, tab, column_headings=[]):
+    def simple_table(self, tab, column_headings=()):
         """
         Add a simple table to the document tree. tab is a 2-dimensional list containing the table data. The first
         index is the row, the second is column. The first column may not contain multiple lines, all other columns
@@ -253,9 +254,9 @@ class Paragraph(object):
     Represents an RST paragraph
     """
 
-    def __init__(self, text, prefix=""):
+    def __init__(self, text, indent=""):
         self.text = text
-        self.prefix = prefix
+        self.prefix = indent
         self.text_string = ""
         self.build_text_string()
 
@@ -276,11 +277,11 @@ class Field(object):
     Represents an RST field, such as Author
     """
 
-    def __init__(self, field_name, field_text, prefix=""):
+    def __init__(self, field_name, field_text, indent=""):
         self.field_name = field_name
         self.field_text = field_text
         self.field_string = ""
-        self.prefix = prefix
+        self.indent = indent
         self.build_field_string()
 
     def build_field_string(self):
@@ -289,7 +290,7 @@ class Field(object):
         RST string corresponding to this field
         """
 
-        self.field_string = f"\n{self.prefix}:{self.field_name}: {self.field_text}"
+        self.field_string = f"\n{self.indent}:{self.field_name}: {self.field_text}"
 
     def __str__(self):
         return self.field_string
@@ -300,10 +301,11 @@ class DocTest(object):
     Represents an RST DocTest
     """
 
-    def __init__(self, test_line, expected_output):
+    def __init__(self, test_line, expected_output, indent=""):
         self.test_line = test_line
         self.expected_output = expected_output
         self.doctest_string = ""
+        self.indent = indent
         self.build_doctest_string()
 
     def build_doctest_string(self):
@@ -311,7 +313,7 @@ class DocTest(object):
         Populates DocTest.doctest_string with the
         RST string corresponding to this DocTest
         """
-        self.doctest_string = f"\n>>> {self.test_line}\n{self.expected_output}\n"
+        self.doctest_string = f"\n{self.indent}>>> {self.test_line}\n{self.expected_output}\n"
 
     def __str__(self):
         return self.doctest_string
@@ -541,26 +543,9 @@ class Directive(RSTWriter):
         :param arguments: Varargs to be used as the directive arguments, eg. a topic's title.
         """
 
-        self.indent: int = indent
         self.arguments = arguments
         self.options = []
-        super().__init__(name, settings=settings)
-
-    def directive(self, title, *arguments):
-        """
-        Add a sub-directive.
-
-        :param title: Name of the new subdirective, eg. toctree or admonition.
-
-        :param arguments: Varargs used as the directive arguments, such as a topic's title.
-        """
-        d = Directive(
-            title,
-            self.indent + 1,
-            *arguments,
-            settings=self.settings)
-        self.document.append(d)
-        return d
+        super().__init__(name, settings=settings, indent=indent + 1)
 
     def build_heading(self):
         """
@@ -570,7 +555,7 @@ class Directive(RSTWriter):
         """
         return DirectiveHeading(
             self.title, get_indents(
-                self.indent), self.format_arguments())
+                self.indent - 1), self.format_arguments())
 
     def format_arguments(self):
         """
@@ -589,38 +574,7 @@ class Directive(RSTWriter):
                 name,
                 value,
                 get_indents(
-                    self.indent +
-                    1)))
-
-    def text(self, txt):
-        """
-        Add paragraph to document tree, adds proper indenting for directives as well.
-
-        :param txt: Content of the new paragraph.
-        """
-        self.document.append(
-            Paragraph(
-                txt,
-                '' +
-                get_indents(
-                    self.indent +
-                    1)))
-
-    def field(self, name: str, txt: str):
-        """
-        Add a field to document tree, adds proper indenting for directives.
-
-        :param name: Name of the field
-        :param txt: Text of the field
-        """
-
-        self.document.append(
-            Field(
-                name,
-                txt,
-                get_indents(
-                    self.indent +
-                    1)))
+                    self.indent)))
 
     def to_text(self):
         """
@@ -639,9 +593,3 @@ class Directive(RSTWriter):
         for element in self.document[1:]:
             document_string += f"{element}\n"
         return document_string
-
-    def enumerated_list(self, *items):
-        self.document.append(List(items, list_type=ListType.ENUMERATED, indent=get_indents(self.indent+1)))
-
-    def bulleted_list(self, *items):
-        self.document.append(List(items, list_type=ListType.BULLETED, indent=get_indents(self.indent + 1)))
