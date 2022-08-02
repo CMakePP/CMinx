@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19) #For Python3 recognizing version
-find_package(Python3 VERSION 3.8 COMPONENTS Interpreter REQUIRED)
+find_package(Python3 3.8 COMPONENTS Interpreter REQUIRED)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(get_version_from_git)
@@ -18,13 +18,11 @@ option(BUILD_TESTING "Whether tests should be built ad ctest configured" OFF)
 ################################################################################
 # Work out install paths
 ################################################################################
-include(GNUInstallDirs)
-
 # Path, relative to install root, where binaries go
-set(CMINX_BIN_DIR "${CMAKE_INSTALL_BINDIR}")
+set(CMINX_BIN_DIR "bin")
 
 # Path, relative to install root, where libraries go
-set(CMINX_LIB_DIR "${CMAKE_INSTALL_LIBDIR}/cminx")
+set(CMINX_LIB_DIR "lib/cminx")
 
 # Path, relative to install root, where CMake modules and config files go
 set(CMINX_CMAKE_DIR "${CMINX_LIB_DIR}/cmake")
@@ -116,7 +114,11 @@ endif()
 # Installation
 ################################################################################
 
-install(DIRECTORY ${CMINX_STAGE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(
+    DIRECTORY ${CMINX_STAGE_DIR}/ 
+    DESTINATION ${CMAKE_INSTALL_PREFIX}
+    USE_SOURCE_PERMISSIONS
+)
 
 # For fetch content purposes we make cminx_gen_rst available to the caller
 find_package(cminx REQUIRED CONFIG HINTS ${CMINX_STAGE_DIR})

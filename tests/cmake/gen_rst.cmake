@@ -41,10 +41,13 @@ endmacro()
 ct_add_test(NAME test_gen_rst)
 function(${test_gen_rst})
 
+  #TODO: This is a hack
+  set(config_file "${cwd}/../../src/cminx/config_default.yaml")
+
   ct_add_section(NAME test_document)
   function(${test_document})
     do_setup()
-    cminx_gen_rst("${input_file}" "${output_dir}")
+    cminx_gen_rst("${input_file}" "${output_dir}" "-s" "${config_file}")
 
     ct_assert_file_exists("${output_file}")
 
@@ -55,7 +58,9 @@ function(${test_gen_rst})
   ct_add_section(NAME test_document_prefix)
   function(${test_document_prefix})
     do_setup()
-    cminx_gen_rst("${input_file}" "${output_dir}" "input")
+    cminx_gen_rst(
+      "${input_file}" "${output_dir}" "-p" "input" "-s" "${config_file}"
+    )
 
     ct_assert_file_exists("${output_file}")
 
@@ -66,7 +71,9 @@ function(${test_gen_rst})
   ct_add_section(NAME test_document_recursive)
   function(${test_document_recursive})
     do_setup()
-    cminx_gen_rst("${input_dir}" "${output_dir}")
+    cminx_gen_rst(
+      "${input_dir}" "${output_dir}" "-s" "${config_file}"
+    )
 
     ct_assert_file_exists("${output_file}")
 

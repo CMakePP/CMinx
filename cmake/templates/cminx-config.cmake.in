@@ -21,7 +21,11 @@ set(CMINX_EXECUTABLE ${CMINX_BIN_DIR}/cminx)
 
 # Find the CMinx CMake module
 set_and_check(CMINX_CMAKE_DIR "@PACKAGE_CMINX_CMAKE_DIR@")
-find_file(CMINX_CMAKE_MODULE_FOUND cminx.cmake "${CMINX_CMAKE_DIR}" REQUIRED)
+find_file(
+    CMINX_CMAKE_MODULE_FOUND cminx.cmake 
+    HINTS "${CMINX_CMAKE_DIR}" 
+    REQUIRED
+)
 
 check_required_components(cminx)
 

@@ -21,13 +21,8 @@ include_guard()
 # :type dir: dir
 # :param output: Directory to store output
 # :type output: dir
-# :param \*args: Optional arguments below. Pass to the function after all other 
-#                parameters, order-sensitive.
-#
-# :Optional Arguments:
-#    * *Prefix* (``string``) -- A prefix to be passed to CMinx. All files will 
-#      have the prefix prepended to their RST titles, and root-level files 
-#      will have their titles replaced by the prefix in recursive mode.
+# :param \*args: Additional parameters to forward to CMinx. Parameters are
+#                forwarded verbatim.
 #]]
 function(cminx_gen_rst _cgd_dir _cgd_output)
     set(_cgr_cminx_options "")
@@ -36,7 +31,7 @@ function(cminx_gen_rst _cgd_dir _cgd_output)
     endif()
 
     if(${ARGC} GREATER 2)
-        list(APPEND _cgr_cminx_options -p ${ARGV2})
+        list(APPEND _cgr_cminx_options "${ARGN}")
     endif()
 
     execute_process(
@@ -49,11 +44,12 @@ function(cminx_gen_rst _cgd_dir _cgd_output)
 
 	message("${process_output}")
     if(NOT process_result EQUAL 0)
-        message(
-            FATAL_ERROR "Failed to generate RST. "
-                        "Result code was: ${process_result}. "
-                        "Error output was: ${process_err}. "
-                        "Process output was: ${process_output}"
+        string(
+            CONCAT error_msg "Failed to generate RST.\n"
+                             "Result code was: ${process_result}.\n" 
+                             "Error output was: ${process_err}.\n" 
+                             "Process output was: ${process_output}\n"
         )
+        message(FATAL_ERROR "${error_msg}")
     endif()
 endfunction()
