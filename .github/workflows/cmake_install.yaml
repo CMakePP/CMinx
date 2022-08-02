@@ -23,16 +23,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        python_version: [3.8, 3.9, 3.10]
+
     steps:
       - uses: actions/checkout@v1
         with:
           fetch-depth: 0
       - uses: actions/setup-python@v1
         with:
-          python-version: '3.9'
+          python-version: ${{ matrix.python_version }}
       - uses: lukka/get-cmake@v3.20.1
       - name: Build
         run: |
+          python3 --version
           cmake -S . -B build -DCMAKE_INSTALL_PREFIX=`pwd`/install -DBUILD_TESTING=ON
           cmake --build build
           cmake --install build
