@@ -16,7 +16,11 @@
 
 # Find the CMinx binary
 set_and_check(CMINX_BIN_DIR "@PACKAGE_CMINX_BIN_DIR@")
-find_program(CMINX_EXECUTABLE_FOUND cminx "${CMINX_BIN_DIR}" REQUIRED)
+find_program(
+    CMINX_EXECUTABLE_FOUND cminx 
+    HINTS "${CMINX_BIN_DIR}"
+    REQUIRED
+)
 set(CMINX_EXECUTABLE ${CMINX_BIN_DIR}/cminx)
 
 # Find the CMinx CMake module
