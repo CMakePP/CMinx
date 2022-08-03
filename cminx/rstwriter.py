@@ -25,7 +25,7 @@ not generate invalid RST structures.
 :License: Apache 2.0
 """
 from enum import Enum
-from typing import Any, Union, IO, List
+from typing import Any, Union, IO, List, Tuple
 
 from cminx import Settings
 
@@ -126,7 +126,7 @@ class RSTList(object):
     Enumerated or Bulleted
     """
 
-    def __init__(self, items: tuple[str], list_type: ListType, indent: str = ""):
+    def __init__(self, items: Tuple[str], list_type: ListType, indent: str = ""):
         self.items = items
         self.list_type = list_type
         self.list_string = ""
