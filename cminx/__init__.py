@@ -251,7 +251,7 @@ def document(input_file: str, settings: Settings):
                         # Add prefix to beginning of header
                         index.title = prefix + settings.rst.module_path_separator + index.title
 
-                toctree = index.directive("toctre")
+                toctree = index.directive("toctree")
                 toctree.option("maxdepth", 2)
 
                 # Filter filenames for cmake files, then add a toctree entry
