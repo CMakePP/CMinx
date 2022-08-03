@@ -31,14 +31,6 @@ find_file(
     REQUIRED
 )
 
-# Find the CMinx default settings file
-set_and_check(CMINX_DATA_DIR "@PACKAGE_CMINX_DATA_DIR@")
-find_file(
-    CMINX_CONFIG_FILE config_default.yaml
-    HINTS "${CMINX_DATA_DIR}"
-    REQUIRED
-)
-
 check_required_components(cminx)
 
 include("${CMINX_CMAKE_DIR}/cminx.cmake")

@@ -127,17 +127,10 @@ def main(args: List[str] = tuple(sys.argv[1:])):
     args = parser.parse_args(args)
     settings = Configuration("cminx", __name__)
 
-    # If CMinx is an executable it'll be installed at ${install_root}/bin
-    # By default we install the default settings to ${install_root}/etc/cminx
-    # This checks if CMinx is an executable, then if it is we load the default
-    # config file.
-    # N.B. We need to do this first so that the usual mechanisms for overriding 
-    # the settings can still take effect.
+    # If CMinx is an executable we need to manually load the
+    # config_default.yaml file
     if getattr(sys, 'frozen', False):
-        install_root = os.path.dirname(os.path.dirname(sys.executable))
-        data_dir = os.path.join(install_root, "etc", "cminx")
-        config_file = os.path.join(data_dir, "config_default.yaml")
-        settings.set_file(config_file)
+         settings.set_file(os.path.join(sys._MEIPASS, "config_default.yaml"))
 
     if args.settings is not None:
         settings.set_file(os.path.abspath(args.settings))
