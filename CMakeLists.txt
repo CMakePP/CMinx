@@ -27,6 +27,9 @@ set(CMINX_LIB_DIR "lib/cminx")
 # Path, relative to install root, where CMake modules and config files go
 set(CMINX_CMAKE_DIR "${CMINX_LIB_DIR}/cmake")
 
+# Path, relative to install root, where configurations go
+set(CMINX_DATA_DIR "etc/cminx")
+
 # During the configuration, building, and testing phases we use a staging
 # directory as the install root. The install phase simply copies the staging
 # directory to the install location. This is the absolute path of the staging
@@ -72,6 +75,11 @@ file(
     COPY ${CMAKE_CURRENT_LIST_DIR}/cmake/cminx.cmake
     DESTINATION ${CMINX_STAGE_DIR}/${CMINX_CMAKE_DIR}
 )
+file(
+    COPY ${CMAKE_CURRENT_LIST_DIR}/src/cminx/config_default.yaml
+    DESTINATION ${CMINX_STAGE_DIR}/${CMINX_DATA_DIR}
+)
+
 
 ################################################################################
 # Write package config files
@@ -82,7 +90,7 @@ configure_package_config_file(
     "${CMAKE_CURRENT_LIST_DIR}/cmake/templates/cminx-config.cmake.in"
     "${CMINX_STAGE_DIR}/${CMINX_CMAKE_DIR}/cminx-config.cmake"
     INSTALL_DESTINATION "${CMINX_CMAKE_DIR}"
-    PATH_VARS CMINX_BIN_DIR CMINX_CMAKE_DIR
+    PATH_VARS CMINX_BIN_DIR CMINX_CMAKE_DIR CMINX_DATA_DIR
 )
 
 write_basic_package_version_file(
