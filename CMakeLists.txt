@@ -59,7 +59,7 @@ set(CMINX_CONFIG_FILE ${CMINX_SRC_DIR}/config_default.yaml)
 execute_process(
     COMMAND ${CMINX_VENV}/bin/python3 "-m" "PyInstaller"
                                       "--collect-data" "src/cminx"
-                                      "--add-data" "${CMINX_CONFIG_FILE}:."
+                                      "--add-data" "${CMINX_CONFIG_FILE}:cminx"
                                       "--name" "cminx"
                                       "--onefile"
                                       "${CMAKE_CURRENT_SOURCE_DIR}/src/main.py"

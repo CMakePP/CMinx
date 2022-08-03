@@ -127,11 +127,6 @@ def main(args: List[str] = tuple(sys.argv[1:])):
     args = parser.parse_args(args)
     settings = Configuration("cminx", __name__)
 
-    # If CMinx is an executable we need to manually load the
-    # config_default.yaml file
-    if getattr(sys, 'frozen', False):
-         settings.set_file(os.path.join(sys._MEIPASS, "config_default.yaml"))
-
     if args.settings is not None:
         settings.set_file(os.path.abspath(args.settings))
 
