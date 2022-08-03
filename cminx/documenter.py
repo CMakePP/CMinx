@@ -21,6 +21,7 @@ for CMake files.
 :License: Apache 2.0
 
 """
+from typing import List
 
 from antlr4 import *
 
