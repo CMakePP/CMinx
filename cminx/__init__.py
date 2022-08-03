@@ -28,6 +28,7 @@ import logging.config
 import os
 import re
 import sys
+from typing import List
 
 import pathspec
 from confuse import Configuration
@@ -46,7 +47,7 @@ except DistributionNotFound:
 logger: logging.Logger = logging.getLogger(__name__)
 
 
-def main(args: list[str] = tuple(sys.argv[1:])):
+def main(args: List[str] = tuple(sys.argv[1:])):
     """
     CMake Documentation Generator program entry point.
 

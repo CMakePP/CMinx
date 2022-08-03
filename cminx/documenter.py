@@ -94,7 +94,7 @@ class Documenter(object):
         self.process_docs(self.aggregator.documented)
         return self.writer
 
-    def process_docs(self, docs: list[DocumentationType]):
+    def process_docs(self, docs: List[DocumentationType]):
         """
         Loops over document and calls Documentation.process() with self.writer
 

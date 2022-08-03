@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Union
+from typing import Union, List
 
 from .rstwriter import RSTWriter, Directive, interpreted_text
 
@@ -48,7 +48,7 @@ class FunctionDocumentation(DocumentationType):
     directly to a Sphinx :code:`function` directive.
     """
 
-    params: list[str]
+    params: List[str]
     """The list of parameters a function definition takes"""
 
     def process(self, writer: RSTWriter):
@@ -65,7 +65,7 @@ class MacroDocumentation(DocumentationType):
     directly to a Sphinx :code:`function` directive and adds a
     :code:`warning` directive specifying that it is a macro.
     """
-    params: list[str]
+    params: List[str]
     """The list of parameters a macro definition takes"""
 
     def process(self, writer: RSTWriter):
@@ -123,7 +123,7 @@ class GenericCommandDocumentation(DocumentationType):
     a definition.
     """
 
-    params: list[str]
+    params: List[str]
     """Any parameters passed to the command, unfiltered since this documentation type has no knowledge of the command"""
 
     def process(self, writer: RSTWriter):
@@ -149,7 +149,7 @@ class TestDocumentation(DocumentationType):
     expect_fail: bool
     """Whether this test expects to fail."""
 
-    params: list[str] = field(default_factory=lambda: [])
+    params: List[str] = field(default_factory=lambda: [])
     """Any parameters defined by the linked function."""
 
     is_macro: bool = False
@@ -201,10 +201,10 @@ class MethodDocumentation(DocumentationType):
     parent_class: str
     """The class that this method is defined as a part of."""
 
-    param_types: list[str]
+    param_types: List[str]
     """The types of the parameters to the method"""
 
-    params: list[str]
+    params: List[str]
     """The parameter names."""
 
     is_constructor: bool
@@ -275,21 +275,21 @@ class ClassDocumentation(DocumentationType):
     to add their information to the class directive.
     """
 
-    superclasses: list[str]
+    superclasses: List[str]
     """A list of any superclasses this class has, empty if none"""
 
     # Type hint needs string because ClassDocumentation
     # not fully processed yet
-    inner_classes: list['ClassDocumentation']
+    inner_classes: List['ClassDocumentation']
     """Any classes defined within this class."""
 
-    constructors: list[MethodDocumentation]
+    constructors: List[MethodDocumentation]
     """A list of method documentation objects describing the constructors this class has."""
 
-    members: list[MethodDocumentation]
+    members: List[MethodDocumentation]
     """A list of method documentation objects describing the class's methods."""
 
-    attributes: list[AttributeDocumentation]
+    attributes: List[AttributeDocumentation]
     """A list of attribute documentation objects describing the class's attributes."""
 
     def process(self, writer: RSTWriter):

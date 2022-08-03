@@ -25,7 +25,7 @@ not generate invalid RST structures.
 :License: Apache 2.0
 """
 from enum import Enum
-from typing import Any, Union, IO
+from typing import Any, Union, IO, List
 
 from cminx import Settings
 
@@ -120,7 +120,7 @@ class DocTest(object):
         return self.doctest_string
 
 
-class List(object):
+class RSTList(object):
     """
     Represents one of the two types of RST lists:
     Enumerated or Bulleted
@@ -183,7 +183,7 @@ class SimpleTable(object):
     Represents an RST simple table.
     """
 
-    def __init__(self, tab: list[list[str]], headings: list[str]):
+    def __init__(self, tab: List[List[str]], headings: List[str]):
         self.table = tab
         self.column_headings = headings
         self.table_string = ""
@@ -350,7 +350,7 @@ class RSTWriter(object):
         self.indent = indent
         self.header_char: str = self.heading_level_chars[section_level]
         # Heading must be first in the document tree
-        self.document: list[Any] = [self.build_heading()]
+        self.document: List[Any] = [self.build_heading()]
 
     def clear(self):
         """
@@ -379,7 +379,7 @@ class RSTWriter(object):
         :param items: varargs containing the desired list items.
         """
 
-        self.document.append(List(items, ListType.BULLETED, indent=get_indents(self.indent)))
+        self.document.append(RSTList(items, ListType.BULLETED, indent=get_indents(self.indent)))
 
     def enumerated_list(self, *items: str):
         """
@@ -389,7 +389,7 @@ class RSTWriter(object):
 
         :param items: varargs containing the desired list items.
         """
-        self.document.append(List(items, ListType.ENUMERATED, indent=get_indents(self.indent)))
+        self.document.append(RSTList(items, ListType.ENUMERATED, indent=get_indents(self.indent)))
 
     def field(self, field_name: str, field_text: str):
         """
@@ -455,7 +455,7 @@ class RSTWriter(object):
         """
         return Heading(self.__title, self.header_char)
 
-    def simple_table(self, tab: list[list[str]], column_headings: list[str] = ()):
+    def simple_table(self, tab: List[List[str]], column_headings: List[str] = ()):
         """
         Add a simple table to the document tree. tab is a 2-dimensional list containing the table data. The first
         index is the row, the second is column. The first column may not contain multiple lines, all other columns

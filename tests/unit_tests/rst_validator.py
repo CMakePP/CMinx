@@ -19,7 +19,7 @@ import docutils.utils
 from docutils.nodes import paragraph, section, bullet_list, enumerated_list, table, system_message, doctest_block, \
     Admonition, field_list, image, tbody
 
-from cminx.rstwriter import RSTWriter, Paragraph, List, Field, DocTest, SimpleTable, Directive
+from cminx.rstwriter import RSTWriter, Paragraph, RSTList, Field, DocTest, SimpleTable, Directive
 
 
 class ValidationError(RuntimeError):
@@ -194,7 +194,7 @@ class RSTValidator:
                 f"Parsed field text {text} != original field text '{to_validate.field_text}'"
             )
 
-    def process_list(self, rst_list, to_validate: List):
+    def process_list(self, rst_list, to_validate: RSTList):
         """
         Processor for list elements, both bulleted and enumerated.
 
