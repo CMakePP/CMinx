@@ -26,9 +26,15 @@ purely personal preference.
 Pythonically
 ************
 
-When installing CMinx Pythonically, we strongly recommend you use a virtual 
-environment. To obtain the CMinx source code and setup the virtual environment
-run the following commands, one at a time, in a terminal:
+Unless you are developing CMinx we recommend you install CMinx from PyPI.
+From a terminal this is simply:
+
+.. code:: console
+
+   foo@bar:~$ pip install CMinx
+
+If you are developing CMinx then we recommend doing an editable install of
+CMinx in a virtual environment:
 
 .. code:: console
 
@@ -36,25 +42,13 @@ run the following commands, one at a time, in a terminal:
    foo@bar:~$ cd CMinx/
    foo@bar:~/CMinx$ python3 -m venv virt-env #Create our virtual environment
    foo@bar:~/CMinx$ source virt-env/bin/activate #Activate virtual environment
-
-To finish off the installation using PIP run:
-
-.. code:: console
-
-   (virt-env) foo@bar:~/CMinx$ pip3 install wheel
-   (virt-env) foo@bar:~/CMinx$ pip3 install .
-
-or if you prefer to install without PIP run:
-
-.. code:: console
-
-   (virt-env) foo@bar:~/CMinx$ python3 setup.py install #If pip not installed
+   (virt-env) foo@bar:~/CMinx$ pip3 install -e .
 
 **********
 With CMake
 **********
 
-Installing CMinx with CMake follows the usual CMake workflow, namely, run the 
+Installing CMinx with CMake follows the usual CMake workflow, namely, run the
 following commands, one at a time, in a terminal:
 
 .. code:: console

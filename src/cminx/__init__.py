@@ -126,6 +126,7 @@ def main(args: List[str] = tuple(sys.argv[1:])):
 
     args = parser.parse_args(args)
     settings = Configuration("cminx", __name__)
+
     if args.settings is not None:
         settings.set_file(os.path.abspath(args.settings))
 
