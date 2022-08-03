@@ -28,6 +28,7 @@ import logging.config
 import os
 import re
 import sys
+import logging.config
 from typing import List
 
 import pathspec
@@ -98,10 +99,9 @@ def main(args: List[str] = tuple(sys.argv[1:])):
         "-e",
         "--exclude",
         help="Exclude some files from documentation. Supports shell-style glob syntax, relative paths "
-             "are resolved with respect to the current working directory.",
+        "are resolved with respect to the current working directory.",
         dest="input.exclude_filters",
-        action="append"
-    )
+        action="append")
     parser.add_argument(
         "--version",
         action='version',
@@ -121,12 +121,14 @@ def main(args: List[str] = tuple(sys.argv[1:])):
     if settings["output"]["relative_to_config"].get():
         output_dir_relative_to_config = True
 
-    settings_dict = settings.get(config_template(output_dir_relative_to_config))
+    settings_dict = settings.get(
+        config_template(output_dir_relative_to_config))
 
     settings_obj = dict_to_settings(settings_dict)
 
     # Concatenate all exclude filters rather than overriding the entire list
-    settings_obj.input.exclude_filters = list(settings["input"]["exclude_filters"].all_contents())
+    settings_obj.input.exclude_filters = list(
+        settings["input"]["exclude_filters"].all_contents())
 
     # Load Python logging configuration from settings
     logging.config.dictConfig(settings_obj.logging.logger_config)
@@ -163,7 +165,9 @@ def document(input_file: str, settings: Settings):
         # os.path.join() adds a trailing slash to directories if absent
         input_path = os.path.join(input_path, '')
 
-    spec = pathspec.PathSpec.from_lines(pathspec.patterns.GitWildMatchPattern, settings.input.exclude_filters)
+    spec = pathspec.PathSpec.from_lines(
+        pathspec.patterns.GitWildMatchPattern,
+        settings.input.exclude_filters)
 
     logger.debug(f"Input path: {input_path}")
 
@@ -179,14 +183,21 @@ def document(input_file: str, settings: Settings):
         new_settings.rst.prefix = prefix
 
         # Walk dir and add cmake files to list
-        for root, subdirs, filenames in os.walk(input_path, topdown=True, followlinks=settings.input.follow_symlinks):
+        for root, subdirs, filenames in os.walk(
+                input_path, topdown=True, followlinks=settings.input.follow_symlinks):
 
             logger.debug(f"Subdirs: {subdirs}")
             logger.debug(f"Root: {root}")
 
             for subdir in subdirs:
-                # The extra os.path.join() with an empty string ensures the directory has a trailing slash
-                if spec.match_file(os.path.join(root, os.path.join(subdir, ""))):
+                # The extra os.path.join() with an empty string ensures the
+                # directory has a trailing slash
+                if spec.match_file(
+                    os.path.join(
+                        root,
+                        os.path.join(
+                            subdir,
+                            ""))):
                     subdirs.remove(subdir)
 
             for file in filenames:
@@ -201,13 +212,15 @@ def document(input_file: str, settings: Settings):
             #         filenames.remove(filename)
 
             if settings.input.auto_exclude_directories_without_cmake:
-                # Make a copy because modifying while iterating results in skipping some entries
+                # Make a copy because modifying while iterating results in
+                # skipping some entries
                 for subdir in copy.copy(subdirs):
                     logger.debug(f"Checking filenames in subdir {subdir}")
                     for filename in os.scandir(os.path.join(root, subdir)):
                         if filename.is_file() and filename.path.endswith(".cmake"):
                             break
-                    # If we exited loop normally, i.e. a .cmake file was not found
+                    # If we exited loop normally, i.e. a .cmake file was not
+                    # found
                     else:
                         subdirs.remove(subdir)
                 for filename in filenames:
