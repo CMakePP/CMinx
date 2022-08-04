@@ -1,0 +1,28 @@
+
+#####################
+cmake.python_virt_env
+#####################
+
+.. module:: cmake.python_virt_env
+
+
+.. function:: make_python_venv(mpv_exe mpv_venv)
+
+   Wraps the process of creating a virtual Python environment.
+   
+   :param mpv_exe: The Python interpreter to use to make the virtual environment
+   :param mpv_venv: The full path to the virtual environment
+   
+
+
+.. function:: python_venv_pip_install(pvpi_venv)
+
+   Wraps the process of installing a Python module into a virtual Python
+   environment, via pip.
+   
+   :param pvpi_venv: The full path to the Python virtual environment into which
+                     we are installing the Python module.
+   :param pvpi_module: The name of the pip package we are installing.
+   
+   
+

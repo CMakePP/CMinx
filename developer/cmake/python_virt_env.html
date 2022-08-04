@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cminx.document_single_file &mdash; CMinx v0.1.2 documentation</title>
+  <title>cmake.python_virt_env &mdash; CMinx v0.1.2 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,8 +20,8 @@
     <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="cminx.main" href="cminx.main.html" />
-    <link rel="prev" title="cminx.document" href="cminx.document.html" /> 
+    <link rel="next" title="Documenting CMinx" href="../documentation.html" />
+    <link rel="prev" title="cmake.get_version_from_git" href="get_version_from_git.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -58,8 +58,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../overview.html">Overview of How CMinx Works</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../api.html">CMinx API</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../api.html#python-modules">Python Modules</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../api.html#functions">Functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api.html#cmake-modules">CMake Modules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#functions">Functions</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../api.html#cmake-modules">CMake Modules</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../documentation.html">Documenting CMinx</a></li>
@@ -86,9 +86,10 @@
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../index.html">Developer Documentation</a> &raquo;</li>
           <li><a href="../api.html">CMinx API</a> &raquo;</li>
-      <li>cminx.document_single_file</li>
+          <li><a href="index.html">cmake</a> &raquo;</li>
+      <li>cmake.python_virt_env</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/developer/.autosummary/cminx.document_single_file.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/developer/cmake/python_virt_env.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -96,24 +97,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="cminx-document-single-file">
-<h1>cminx.document_single_file<a class="headerlink" href="#cminx-document-single-file" title="Permalink to this heading"></a></h1>
+  <section id="module-cmake.python_virt_env">
+<span id="cmake-python-virt-env"></span><h1>cmake.python_virt_env<a class="headerlink" href="#module-cmake.python_virt_env" title="Permalink to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="cminx.document_single_file">
-<span class="sig-prename descclassname"><span class="pre">cminx.</span></span><span class="sig-name descname"><span class="pre">document_single_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Settings</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.document_single_file" title="Permalink to this definition"></a></dt>
-<dd><p>Documents a single file, generates the RST, and places the file in the respective directory if output_dir
-specified.</p>
+<dt class="sig sig-object py" id="cmake.python_virt_env.make_python_venv">
+<span class="sig-prename descclassname"><span class="pre">cmake.python_virt_env.</span></span><span class="sig-name descname"><span class="pre">make_python_venv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mpv_exe</span> <span class="pre">mpv_venv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmake.python_virt_env.make_python_venv" title="Permalink to this definition"></a></dt>
+<dd><p>Wraps the process of creating a virtual Python environment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>file</strong> – Path to the CMake file to be documented</p></li>
-<li><p><strong>root</strong> – Directory considered to be the root of the source tree. The RST header and output tree will be</p></li>
+<li><p><strong>mpv_exe</strong> – The Python interpreter to use to make the virtual environment</p></li>
+<li><p><strong>mpv_venv</strong> – The full path to the virtual environment</p></li>
 </ul>
 </dd>
 </dl>
-<p>generated from the relative path between file and root
-:param settings: Object containing all necessary settings that will be passed down to the
-documenter, aggregator, and RST writer.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cmake.python_virt_env.python_venv_pip_install">
+<span class="sig-prename descclassname"><span class="pre">cmake.python_virt_env.</span></span><span class="sig-name descname"><span class="pre">python_venv_pip_install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pvpi_venv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cmake.python_virt_env.python_venv_pip_install" title="Permalink to this definition"></a></dt>
+<dd><p>Wraps the process of installing a Python module into a virtual Python
+environment, via pip.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pvpi_venv</strong> – The full path to the Python virtual environment into which
+we are installing the Python module.</p></li>
+<li><p><strong>pvpi_module</strong> – The name of the pip package we are installing.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -122,8 +135,8 @@ documenter, aggregator, and RST writer.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cminx.document.html" class="btn btn-neutral float-left" title="cminx.document" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cminx.main.html" class="btn btn-neutral float-right" title="cminx.main" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="get_version_from_git.html" class="btn btn-neutral float-left" title="cmake.get_version_from_git" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../documentation.html" class="btn btn-neutral float-right" title="Documenting CMinx" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

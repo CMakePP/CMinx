@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installing &mdash; CMinx v0.1.1 documentation</title>
+  <title>Installing &mdash; CMinx v0.1.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
             <a href="index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                0.1.1
+                0.1.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -89,22 +89,18 @@ methods should produce equivalent results and the choice of which to use is
 purely personal preference.</p>
 <section id="pythonically">
 <h2>Pythonically<a class="headerlink" href="#pythonically" title="Permalink to this heading"></a></h2>
-<p>When installing CMinx Pythonically, we strongly recommend you use a virtual
-environment. To obtain the CMinx source code and setup the virtual environment
-run the following commands, one at a time, in a terminal:</p>
+<p>Unless you are developing CMinx we recommend you install CMinx from PyPI.
+From a terminal this is simply:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">foo@bar:~$ </span>pip install CMinx
+</pre></div>
+</div>
+<p>If you are developing CMinx then we recommend doing an editable install of
+CMinx in a virtual environment:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">foo@bar:~$ </span>git clone https://github.com/CMakePP/CMinx.git
 <span class="gp">foo@bar:~$ </span><span class="nb">cd</span> CMinx/
 <span class="gp">foo@bar:~/CMinx$ </span>python3 -m venv virt-env <span class="c1">#Create our virtual environment</span>
 <span class="gp">foo@bar:~/CMinx$ </span><span class="nb">source</span> virt-env/bin/activate <span class="c1">#Activate virtual environment</span>
-</pre></div>
-</div>
-<p>To finish off the installation using PIP run:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(virt-env)</span> <span class="gp">foo@bar:~/CMinx$ </span>pip3 install wheel
-<span class="gp gp-VirtualEnv">(virt-env)</span> <span class="gp">foo@bar:~/CMinx$ </span>pip3 install .
-</pre></div>
-</div>
-<p>or if you prefer to install without PIP run:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(virt-env)</span> <span class="gp">foo@bar:~/CMinx$ </span>python3 setup.py install <span class="c1">#If pip not installed</span>
+<span class="gp gp-VirtualEnv">(virt-env)</span> <span class="gp">foo@bar:~/CMinx$ </span>pip3 install -e .
 </pre></div>
 </div>
 </section>

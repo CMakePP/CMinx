@@ -11,5 +11,5 @@ cmake
    get_cmake_test
    get_cpp
    get_version_from_git
-   templates/index.rst
+   python_virt_env
 

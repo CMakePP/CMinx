@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cmake.cminx &mdash; CMinx v0.1.1 documentation</title>
+  <title>cmake.cminx &mdash; CMinx v0.1.2 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
             <a href="../../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                0.1.1
+                0.1.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -108,14 +108,8 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dir</strong> (<em>dir</em>) – Directory to search for source files. Can also be a single file.</p></li>
 <li><p><strong>output</strong> (<em>dir</em>) – Directory to store output</p></li>
-<li><p><strong>*args</strong> – Optional arguments below. Pass to the function after all other parameters, order-sensitive.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Optional Arguments</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><em>Prefix</em> (<code class="docutils literal notranslate"><span class="pre">string</span></code>) – A prefix to be passed to CMinx. All files will have
-the prefix prepended to their RST titles, and root-level files will have their
-titles replaced by the prefix in recursive mode.</p></li>
+<li><p><strong>*args</strong> – Additional parameters to forward to CMinx. Parameters are
+forwarded verbatim.</p></li>
 </ul>
 </dd>
 </dl>
