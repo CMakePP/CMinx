@@ -1,5 +1,5 @@
 ---
-title: 'CMinx: Sphinx for CMake'
+title: 'CMinx: Sphinx Documentation Generator for CMake'
 tags:
   - Python
   - CMake
@@ -7,7 +7,7 @@ tags:
 authors:
   - name: Branden Butler
     equal-contrib: true
-    affiliation: "1, 2" 
+    affiliation: "1, 2"
   - name: Ryan M. Richard
     orcid: 0000-0000-0000-0000
     corresponding: true # (This is how to denote the corresponding author)
@@ -23,74 +23,59 @@ bibliography: paper.bib
 
 # Summary
 
-High-performance scientific software leverages 
+The exascale-era of high-performance computing arguably started when the
+Frontier supercomputer achieved a speed of more than 1.1 exaFLOPs (10$^{18}$
+floating-point operations per second) [@frontier]. With the breakdown of
+Dennard scaling, achieving exascale performance was only possible by relying
+on heterogeneous hardware. Unfortunately, hardware heterogeneity is likely here
+to stay for the foreseeable future, even though it significantly complicates
+high-performance scientific software development. For many high performance
+software packages, these complications start in the build system.
 
+As build systems for scientific software become more complicated there is an
+increasing desire to treat the infrastructure as code. This means that the
+build system should be modularized, and those modules should be documented,
+tested, reusable, and capable of distribution. With the popularity of C/C++
+for high-performance computing, "build system" is increasingly becoming
+synonymous with CMake (*N.B.* CMake is often billed as a build system
+generator; however, since the typical CMake workflow encapsulates building
+the software, the "generator" distinction is immaterial for our present
+discussion). Therefore modern high-performance scientific software development
+has a need for a robust CMake development ecosystem.
 
 # Statement of need
 
-`Gala` is an Astropy-affiliated Python package for galactic dynamics. Python
-enables wrapping low-level languages (e.g., C) for speed without losing
-flexibility or ease-of-use in the user-interface. The API for `Gala` was
-designed to provide a class-based and user-friendly interface to fast (C or
-Cython-optimized) implementations of common operations such as gravitational
-potential and force evaluation, orbit integration, dynamical transformations,
-and chaos indicators for nonlinear dynamics. `Gala` also relies heavily on and
-interfaces well with the implementations of physical units and astronomical
-coordinate systems in the `Astropy` package [@astropy] (`astropy.units` and
-`astropy.coordinates`).
+The CMake ecosystem contains a number of tools which facilitate the development
+of software written in C/C++, but notably absent from the CMake ecosystem are
+resources to facilitate writing the actual CMake build system. From a
+historical perspective this is understandable since CMake-based build systems
+have tended to be relatively small (*i.e.*, less than ~1K lines of code) and
+tightly coupled to the software package being built. Modern CMake build
+systems are increasingly complex and can include: hardware/software
+introspection, managing optional dependencies, managing software
+development environments, supporting multiple coding languages, coding
+language introspection, etc. While some may argue that these tasks are better
+handled elsewhere, the point remains that CMake is actually a very flexible
+language which can be used to automate complex development tasks. In all
+likelihood software developers are going to continue to use CMake for
+increasingly complex tasks, and it behooves us to grow the CMake development
+ecosystem accordingly.
 
-`Gala` was designed to be used by both astronomical researchers and by
-students in courses on gravitational dynamics or astronomy. It has already been
-used in a number of scientific publications [@Pearson:2017] and has also been
-used in graduate courses on Galactic dynamics to, e.g., provide interactive
-visualizations of textbook material [@Binney:2008]. The combination of speed,
-design, and support for Astropy functionality in `Gala` will enable exciting
-scientific explorations of forthcoming data releases from the *Gaia* mission
-[@gaia] by students and experts alike.
+One of the most basic elements of a software development ecosystem is the
+ability to generate application programming interface (API) documentation.
+Anecdotal evidence [@official_solution] indicates that the
+[official CMake API documentation](https://cmake.org/cmake/help/latest/) is
+generated using restructured text markup and Sphinx. The CMake source code
+contains a Sphinx plugin capable of extracting ready-to-go restructured text
+from CMake source code and rendering it with Sphinx. For simple CMake
+modules this solution works fine, but it notably lacks support for a number
+of CMake features (*e.g.*, targets and generator expressions) and requires
 
-# Mathematics
-
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
-
-Double dollars make self-standing equations:
-
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
-
-You can also use plain \LaTeX for equations
-\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
-\end{equation}
-and refer to \autoref{eq:fourier} from text.
-
-# Citations
-
-Citations to entries in paper.bib should be in
-[rMarkdown](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
-format.
-
-If you want to cite a software repository URL (e.g. something on GitHub without a preferred
-citation) then you can do it with the example BibTeX entry below for @fidgit.
-
-For a quick reference, the following citation commands can be used:
-- `@author:2001`  ->  "Author et al. (2001)"
-- `[@author:2001]` -> "(Author et al., 2001)"
-- `[@author1:2001; @author2:2001]` -> "(Author1 et al., 2001; Author2 et al., 2002)"
-
-# Figures
-
-Figures can be included like this:
-![Caption for example figure.\label{fig:example}](figure.png)
-and referenced from text using \autoref{fig:example}.
-
-Figure sizes can be customized by adding an optional second parameter:
-![Caption for example figure.](figure.png){ width=20% }
 
 # Acknowledgements
 
-We acknowledge contributions from Brigitta Sipocz, Syrtis Major, and Semyeong
-Oh, and support from Kathryn Johnston during the genesis of this project.
+The authors would also like to acknowledge GitHub users ni-fgenois,
+ni-dschiller, dschiller, and zachcran for discussions, bug-reports, and
+bug-fixes.
 
 # References
