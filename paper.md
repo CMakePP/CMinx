@@ -23,6 +23,27 @@ bibliography: paper.bib
 
 # Summary
 
+This manuscript introduces CMinx, a program for generating
+application programming interface (API) documentation for CMake modules
+(code written in the CMake language). Since much of CMinx's intended audience
+are C/C++ developers, we designed CMinx to operate similar to 
+Doxygen [@doxygen] (the *de facto* C/C++ API documentation tool). 
+Specifically, CMinx users add documentation comments to their CMake source
+code, and then run CMinx to generate Sphinx-compatible restructrued text (reST)
+files containing the API documentation. Unlike other CMake documentation 
+solutions, CMinx is aware of the grammar of the CMake language, thus CMinx 
+automatically extracts function/macro signatures (even when functions are 
+not documented), and is capable of generating documentation for the CMake 
+language's more idiosyncratic elements (*e.g.*, targets and generator 
+expressions). Furthermore, users can eaisily control almost every aspect 
+of the generated reST files via a YAML (YAML ain't Markup Language) 
+configuration file. The CMakePP organization manages a substantial CMake code
+base and has found CMinx to be invaluable to developer productivity. As more
+research software begins to treat infrastructure as code, we anticipate
+CMinx proving valueable to other projects as well.
+
+# Statement of need
+
 The exascale-era of high-performance scientific computing arguably started when
 the Frontier supercomputer achieved a performance of more than 1.1 exaFLOPs
 (10$^{18}$ floating-point operations per second) on the High-Performance
@@ -43,8 +64,6 @@ the typical CMake workflow encapsulates running the build system, we
 ignore the "generator" distinction in our present discussion). Therefore
 there is a need for a robust CMake development ecosystem in modern
 high-performance scientific software development.
-
-# Statement of need
 
 CMake is typically used as a build system for software packages written
 in a compiled language (*e.g.*, C or C++, but CMake supports a number of other
@@ -79,29 +98,23 @@ the CMake source code, and is available in a mirrored GitHub repository
 plugins [@official_sphinx_domain; @marco_koch] also exist, but they appear
 to have been abandoned.
 
-To our knowledge, all of the aforementioned documentation solutions more or
-less simply extract the reST API documentation verbatim. So aside from
-being able to store the documentation by
+To our knowledge, all of the aforementioned documentation solutions simply 
+extract the reST API documentation verbatim. Notably this means the
+developer is responsible for manually: adding the function/macro signatures 
+to the documentation, listing the function's parameters, and formatting
+(*e.g.*, titles and subtitles, creation of parameter tables, underline/overline
+consistency). For build system developers maintaining one or two CMake 
+modules, these are admittedly pretty minor inconveniences; however, for 
+an organizations which maintain a substational CMake code base, these "minor 
+inconveniences" start to impact productivity. Hence, to increase the 
+productivity of the CMakePP team, we created CMinx.
 
-By analogy to
-Doxygen [@doxygen] (the *de facto* C/C++ API documentation tool) we designed
-CMinx so that it actually understands the CMake language. This means CMinx is
-capable of automatically extracting signatures (even when functions are not
-documented), and perhaps more importantly providing documentation support for
-the more unique elements of the CMake language (*e.g.*, targets and
-generator expressions) which lack counterparts in other languages.
-Additionally, nearly every aspect of CMinx's generation can be controlled
-via a YAML (YAML ain't Markup Language) configuration file, allowing users
-to fine tune how their documentation looks without having to rewrite their
-API documentation.
-
-Concurrent to submitting this manuscript, we have created the first public
-release of CMinx. Promisingly the CMinx GitHub repository has already
-started to gain attention and interest from developers not affiliated with
-the authors of CMinx. We anticipate adoption of CMinx to accelerate,
-particularly within research software, as more projects adopt the
-"infrastructure as code" philosophy.
-
+Concurrent to submitting this manuscript, we have also created the first public
+release of CMinx. Promisingly, we have already started to see attention and 
+interest from developers not affiliated with the CMakePP organization. 
+So while, CMinx is not research software itself, we anticipate CMinx to be
+useful to many research software developers, particularly as more projects 
+adopt the "infrastructure as code" philosophy. 
 # Acknowledgements
 
 This research was supported by the Exascale Computing Project (17-SC-20-SC),
