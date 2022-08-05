@@ -23,56 +23,87 @@ bibliography: paper.bib
 
 # Summary
 
-The exascale-era of high-performance computing arguably started when the
-Frontier supercomputer achieved a speed of more than 1.1 exaFLOPs (10$^{18}$
-floating-point operations per second) [@frontier]. With the breakdown of
-Dennard scaling, achieving exascale performance was only possible by relying
-on heterogeneous hardware. Unfortunately, hardware heterogeneity is likely here
-to stay for the foreseeable future, even though it significantly complicates
-high-performance scientific software development. For many high performance
-software packages, these complications start in the build system.
+The exascale-era of high-performance scientific computing arguably started when
+the Frontier supercomputer achieved a performance of more than 1.1 exaFLOPs 
+(10$^{18}$ floating-point operations per second) on the High-Performance 
+Linpack Benchmark [@frontier]. With the breakdown of Dennard scaling, 
+achieving exascale performance is presently only possible by relying
+on heterogeneous hardware. Unfortunately hardware heterogeneity significantly 
+complicates high-performance scientific software development. 
+For many high performance software packages, these complications start in the
+build system.
 
 As build systems for scientific software become more complicated there is an
-increasing desire to treat the infrastructure as code. This means that the
+increasing desire to treat the build system as code. This means that the
 build system should be modularized, and those modules should be documented,
-tested, reusable, and capable of distribution. With the popularity of C/C++
-for high-performance computing, "build system" is increasingly becoming
-synonymous with CMake (*N.B.* CMake is often billed as a build system
-generator; however, since the typical CMake workflow encapsulates building
-the software, the "generator" distinction is immaterial for our present
-discussion). Therefore modern high-performance scientific software development
-has a need for a robust CMake development ecosystem.
+tested, and reusable. With the popularity of C/C++ for high-performance 
+computing, "build system" is increasingly becoming synonymous with CMake
+(*N.B.* CMake is often described as a build system generator; however, since 
+the typical CMake workflow encapsulates running the build system, we 
+ignore the "generator" distinction in our present discussion). Therefore 
+there is a need for a robust CMake development ecosystem in modern 
+high-performance scientific software development.
 
 # Statement of need
 
-The CMake ecosystem contains a number of tools which facilitate the development
-of software written in C/C++, but notably absent from the CMake ecosystem are
-resources to facilitate writing the actual CMake build system. From a
-historical perspective this is understandable since CMake-based build systems
-have tended to be relatively small (*i.e.*, less than ~1K lines of code) and
-tightly coupled to the software package being built. Modern CMake build
-systems are increasingly complex and can include: hardware/software
-introspection, managing optional dependencies, managing software
-development environments, supporting multiple coding languages, coding
-language introspection, etc. While some may argue that these tasks are better
-handled elsewhere, the point remains that CMake is actually a very flexible
+CMake is typically used as a build system for software packages written 
+in a compiled language (*e.g.*, C or C++, but CMake supports a number of other
+languages as well). For brevity we refer to the software package being
+built as the "target". The CMake ecosystem contains a number of tools which 
+facilitate the development of the target, but notably absent from the CMake
+ecosystem are resources to facilitate the develpment of the target's
+literal build system. From a historical perspective, this is understandable 
+since CMake-based build systems have tended to be relatively small (*i.e.*, 
+less than ~1K lines of code) and tightly coupled to the identity of the
+target. Modern build systems are increasingly complex and, depending on the
+needs of the target, can include: hardware/software introspection, managing 
+optional dependencies, managing the target's development environment, 
+supporting multiple coding languages, coding language introspection, etc. 
+While it may be argued that some of these tasks are better handled outside
+the build system, the point remains that CMake is actually a very flexible
 language which can be used to automate complex development tasks. In all
-likelihood software developers are going to continue to use CMake for
-increasingly complex tasks, and it behooves us to grow the CMake development
-ecosystem accordingly.
+likelihood scientific software developers are going to continue to use 
+CMake for increasingly complex tasks. Thus it behooves the build system
+development community to grow the CMake ecosystem accordingly.
 
 One of the most basic elements of a software development ecosystem is the
 ability to generate application programming interface (API) documentation.
-Anecdotal evidence [@official_solution] indicates that the
-[official CMake API documentation](https://cmake.org/cmake/help/latest/) is
-generated using restructured text markup and Sphinx. The CMake source code
-contains a Sphinx plugin capable of extracting ready-to-go restructured text
-from CMake source code and rendering it with Sphinx. For simple CMake
-modules this solution works fine, but it notably lacks support for a number
-of CMake features (*e.g.*, targets and generator expressions) and requires
+Anecdotal evidence [@official_solution] indicates that the CMake developers
+internally write API documentation using restructured text (reST) and 
+Sphinx. Following best practices, this reST API documentation resides
+next to the CMake source code being described. The CMake developers have
+written a Sphinx plugin which makes it easy to extract the API documentation 
+as part of a normal Sphinx workflow. This Sphinx plugin is distributed with 
+the CMake source code, and is available in a mirrored GitHub repository
+[@sphinx_plugin]. For completeness, we note that a couple of similar Sphinx 
+plugins [@official_sphinx_domain; @marco_koch] also exist, but they appear 
+to have been abadoned.
 
+To our knowledge, all of the aforementioned documentation solutions more or
+less simply extract the reST API documentation verbatim. By analogy to 
+Doxygen [@doxygen] (the *de facto* C/C++ API documentation tool) we designed 
+CMinx so that it actually understands the CMake language. This means CMinx is 
+capable of automatically extracting signatures (even when functions are not
+documented), and perhaps more importantly providing documentation support for
+the more unique elements of the CMake language (*e.g.*, targets and 
+generator expressions) which lack counterparts in other languages.
+Additionally, nearly every aspect of CMinx's generation can be controlled
+via a YAML (YAML ain't Markup Language) configuration file, allowing users
+to fine tune how their documentation looks without having to rewrite their
+API documentation.
+
+Concurrent to submitting this manuscript, we have created the first public
+release of CMinx. Promisingly the CMinx GitHub repository has already 
+started to gain attention and interest from developers not affiliated with
+the authors of CMinx. We anticipate adoption of CMinx to accelerate,
+particularly within research software, as more projects adopt the
+"infrastructure as code" philosophy.
 
 # Acknowledgements
+
+This research was supported by the Exascale Computing Project (17-SC-20-SC), 
+a collaborative effort of the U.S. Department of Energy Office of Science 
+and the National Nuclear Security Administration. 
 
 The authors would also like to acknowledge GitHub users ni-fgenois,
 ni-dschiller, dschiller, and zachcran for discussions, bug-reports, and
