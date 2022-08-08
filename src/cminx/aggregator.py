@@ -212,7 +212,8 @@ class DocumentationAggregator(CMakeListener):
         elif arg_len == 1:  # String
             value = ctx.single_argument()[1].getText()
 
-            # Includes the quote marks, need to remove them to get just the raw string
+            # If the value includes the quote marks,
+            # need to remove them to get just the raw string
             if value[0] == '"':
                 value = value[1:]
             if value[-1] == '"':
@@ -247,8 +248,14 @@ class DocumentationAggregator(CMakeListener):
         superclasses = params[1:]
         clazz = ClassDocumentation(name, docstring, superclasses, [], [], [], [])
         self.documented.append(clazz)
+
+        # If we are currently processing another class, then this one
+        # is an inner class and we need to add it
         if len(self.documented_classes_stack) > 0 and self.documented_classes_stack[-1] is not None:
             self.documented_classes_stack[-1].inner_classes.append(clazz)
+
+        # Continue processing within the class's context
+        # until we reach cpp_end_class()
         self.documented_classes_stack.append(clazz)
 
     def process_cpp_member(self, ctx: CMakeParser.Command_invocationContext, docstring: str,
