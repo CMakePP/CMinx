@@ -159,6 +159,10 @@ def document(input_file: str, settings: Settings):
     output_path: str = settings.output.directory
     recursive = settings.input.recursive
     prefix = settings.rst.prefix
+
+    # We copy because we're going to modify the
+    # settings to pass down to lower layers during
+    # preprocessing
     new_settings = copy.deepcopy(settings)
 
     input_path = os.path.abspath(input_file)
@@ -172,13 +176,23 @@ def document(input_file: str, settings: Settings):
 
     logger.debug(f"Input path: {input_path}")
 
+    # If the input path matches the exclusion pattern, then ignore
+    # this whole path
     if spec.match_file(input_path):
         return
 
     if not os.path.exists(input_path):
         logger.error(f"File or directory \"{input_path}\" does not exist")
         exit(-1)
+    elif os.path.isfile(input_path):
+        # If the input was a regular file,
+        # don't do anything special and just document the single file
+        if output_path is not None:
+            os.makedirs(output_path, exist_ok=True)
+        document_single_file(input_path, input_path, new_settings)
     elif os.path.isdir(input_path):
+        # Input was a directory, so we need to do a lot of preprocessing
+
         last_dir_element = os.path.basename(os.path.normpath(input_file))
         prefix = prefix if prefix is not None else last_dir_element
         new_settings.rst.prefix = prefix
@@ -190,6 +204,8 @@ def document(input_file: str, settings: Settings):
             logger.debug(f"Subdirs: {subdirs}")
             logger.debug(f"Root: {root}")
 
+            # Check our subdirs and see if any match the exclusion filters
+            # If they do, remove from the list and os.walk() will ignore them
             for subdir in subdirs:
                 # The extra os.path.join() with an empty string ensures the
                 # directory has a trailing slash
@@ -201,17 +217,15 @@ def document(input_file: str, settings: Settings):
                             ""))):
                     subdirs.remove(subdir)
 
+            # Check if any files match the exclusion filters
+            # If they do, remove them and the rest of the processing
+            # will ignore them
             for file in filenames:
                 if spec.match_file(os.path.join(root, file)):
                     filenames.remove(file)
 
-            # for subdir in subdirs:
-            #     if os.path.join(root, subdir) in exclude_globs:
-            #         subdirs.remove(subdir)
-            # for filename in filenames:
-            #     if os.path.join(root, filename) in exclude_globs:
-            #         filenames.remove(filename)
-
+            # Check subdirs and files to make sure .cmake files
+            # are present, if not then ignore
             if settings.input.auto_exclude_directories_without_cmake:
                 # Make a copy because modifying while iterating results in
                 # skipping some entries
@@ -224,6 +238,9 @@ def document(input_file: str, settings: Settings):
                     # found
                     else:
                         subdirs.remove(subdir)
+
+                # Check if files in current dir contain .cmake
+                # If not, ignore this dir and continue walking
                 for filename in filenames:
                     if filename.endswith(".cmake"):
                         break
@@ -233,6 +250,9 @@ def document(input_file: str, settings: Settings):
             # Sort filenames and subdirs in alphabetical order
             filenames = sorted(filenames)
             subdirs = sorted(subdirs)
+
+            # If we want to output to an actual file
+            # and not stdout
             if output_path is not None:
                 path = os.path.join(
                     output_path, os.path.relpath(
@@ -241,6 +261,8 @@ def document(input_file: str, settings: Settings):
                 os.makedirs(path, exist_ok=True)
 
                 rel_path = os.path.relpath(root, input_path)
+
+                # We need to create an index.rst file for each directory
                 index = RSTWriter(rel_path, settings=settings)
 
                 if prefix is not None:
@@ -270,6 +292,9 @@ def document(input_file: str, settings: Settings):
                             rel_path),
                         "index.rst"))
 
+            # All preprocessing is complete and we have
+            # our index.rst, now just loop over files with the .cmake
+            # extension and document them
             for file in filenames:
                 if "cmake" == file.split(".")[-1].lower():
                     document_single_file(
@@ -281,10 +306,7 @@ def document(input_file: str, settings: Settings):
 
             if not recursive:
                 break
-    elif os.path.isfile(input_path):
-        if output_path is not None:
-            os.makedirs(output_path, exist_ok=True)
-        document_single_file(input_path, input_path, new_settings)
+
     else:
         logger.error("File is a special file (socket, FIFO, device file) and is unsupported")
 
@@ -321,6 +343,9 @@ def document_single_file(file, root, settings: Settings):
 
     module_name = header_name
 
+    # Clean header and module names if desired
+    # by removing extension
+
     if not settings.rst.file_extensions_in_titles:
         header_name = re.sub(r"\.cmake$", "", header_name)
 
@@ -334,7 +359,8 @@ def document_single_file(file, root, settings: Settings):
     auto_documenter = Documenter(file, header_name, module_name, settings)
 
     output_writer = auto_documenter.process()
-    if output_path is not None:  # Determine where to place generated RST file
+    if output_path is not None:
+        # Determine where to place generated RST file
         os.makedirs(output_path, exist_ok=True)
         if os.path.isdir(output_path):
             output_filename = os.path.join(
