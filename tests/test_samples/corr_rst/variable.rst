@@ -12,7 +12,7 @@ test_samples.variable
    This variable is a list of string values.
    
 
-   :Default value: ['"Value"', '"Value 2"']
+   :Default value: "Value" "Value 2"
 
    :type: list
 

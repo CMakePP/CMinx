@@ -23,7 +23,7 @@ prefix.example
 .. function:: macro_say_hi(person)
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    This macro says hi.
    This documentation uses a differing format,
@@ -51,7 +51,7 @@ prefix.example
 .. function:: "${MyMacroName}"()
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    This is a documented macro, but the name
    is dynamically assigned.
@@ -71,7 +71,7 @@ prefix.example
    This variable is a list of string values.
    
 
-   :Default value: ['"Value"', '"Value 2"']
+   :Default value: "Value" "Value 2"
 
    :type: list
 
@@ -196,6 +196,10 @@ prefix.example
       This is an attribute
       
 
+   **Inner classes**
+
+   * :class:`MyClass3`
+
 
 
 .. py:class:: MyClass3
@@ -250,7 +254,7 @@ prefix.example
 .. function:: undocumented_macro()
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    
 

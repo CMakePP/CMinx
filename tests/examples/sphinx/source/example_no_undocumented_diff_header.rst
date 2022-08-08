@@ -23,7 +23,7 @@ examples.example.cmake
 .. function:: macro_say_hi(person)
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    This macro says hi.
    This documentation uses a differing format,
@@ -51,7 +51,7 @@ examples.example.cmake
 .. function:: "${MyMacroName}"()
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    This is a documented macro, but the name
    is dynamically assigned.
@@ -71,7 +71,7 @@ examples.example.cmake
    This variable is a list of string values.
    
 
-   :Default value: ['"Value"', '"Value 2"']
+   :Default value: "Value" "Value 2"
 
    :type: list
 
@@ -102,6 +102,10 @@ examples.example.cmake
 
    This is a class
    
+   **Inner classes**
+
+   * :class:`MyClass2`
+
 
 
 .. py:class:: MyClass2

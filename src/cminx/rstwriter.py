@@ -17,214 +17,37 @@
 """
 This module and associated classes provide a pure-Python interface for generating reStructuredText.
 The generated text may be either consumed by another Python application or directly written to a file-like object.
-This module does not currently perform syntax validation so it is up to the application developer to
+This module does not currently perform syntax validation, so it is up to the application developer to
 not generate invalid RST structures.
 
 
 :Author: Branden Butler
 :License: Apache 2.0
 """
-from typing import Any
+from enum import Enum
+from typing import Any, Union, IO, List, Tuple
 
 from cminx import Settings
 
 
-class RSTWriter(object):
+class ListType(Enum):
+    ENUMERATED = 0
+    BULLETED = 1
+
+
+def interpreted_text(role: str, text: str) -> str:
     """
-    Base reStructuredText writer. Does not perform verification.
+    This function generates an interpreted text RST element
+    from the specified text and using the specified role.
+    Interpreted text may appear almost anywhere regular text can
+    so making it a method of :class:`RSTWriter` would limit its functionality.
+
+
+    :param role: The role of the interpreted text
+    :param text: The literal text of the interpreted text
+    :return: The interpreted text element as a string
     """
-
-    heading_level_chars = ['#', '*', '=', '-', '_', '~', '!', '&', '@', '^']
-    """Characters to use as heading overline/underline, indexed by section_level"""
-
-    def __init__(
-            self,
-            title: str,
-            section_level: int = 0,
-            settings=Settings()):
-        self.__title: str = title
-        self.section_level: int = section_level
-        self.settings = settings
-        if settings.rst.headers is not None:
-            self.heading_level_chars = settings.rst.headers
-
-        self.header_char: str = self.heading_level_chars[section_level]
-        # Heading must be first in the document tree
-        self.document: list[Any] = [self.build_heading()]
-
-    def clear(self):
-        """
-        Clear all document tree elements (besides required heading)
-        """
-        del self.document[1:]
-
-    @property
-    def title(self):
-        return self.__title
-
-    @title.setter
-    def title(self, new_title):
-        """
-        Rebuild heading and replace the old one in the document tree whenever title is changed
-
-        :param new_title: The new section title to be used.
-        """
-        self.__title = new_title
-        self.document[0] = self.build_heading()
-
-    def bulleted_list(self, *items):
-        """
-        Add a bulleted list to the document tree.
-
-        :param items: varargs containing the desired list items.
-        """
-
-        self.document.append(List(items, List.BULLETED))
-
-    def enumerated_list(self, *items):
-        """
-        Add an enumerated list to the document tree; e.g.
-            1. Item 1
-            2. Item 2
-
-        :param items: varargs containing the desired list items.
-        """
-        self.document.append(List(items, List.ENUMERATED))
-
-    def field(self, field_name: str, field_text: str):
-        """
-        Add a field, such as Author or Version, to the document tree.
-
-        :param field_name: Name of the field being added, such as Author.
-
-        :param field_text: Value of the field, such as the author's name.
-        """
-        self.document.append(Field(field_name, field_text))
-
-    def doctest(self, test_line: str, expected_output: str):
-        """
-        Adds a doctest segment to the document tree.
-        A doctest segment appears as an interactive python session.
-        The doctest Python module can then be used to scan for these segments
-        and execute the test_line to ensure the output is the same.
-
-        :param test_line: Python code segment being used as the line to be tested.
-
-        :param expected_output: The exact string that is expected to be returned when test_line is evaluated.
-        """
-        self.document.append(DocTest(test_line, expected_output))
-
-    def section(self, title: str):
-        """
-        Constructs another RSTWriter and adds it to the document before returning it for use
-
-        :param title: The heading title to be used for the new subsection.
-        """
-        sect = RSTWriter(
-            title,
-            section_level=self.section_level + 1,
-            settings=self.settings)
-        self.document.append(sect)
-        return sect
-
-    def text(self, txt: str):
-        """
-        Add a paragraph to document tree.
-
-        :param txt: The content of the new paragraph.
-        """
-        self.document.append(Paragraph(txt))
-
-    def directive(self, name, *arguments):
-        """
-        Construct a directive and return it
-
-        :param name: Name of the directive being used, such as toctree or admonition.
-
-        :param arguments: Varargs to be used as the directive arguments, such as a topic title.
-        """
-        w = Directive(name, 0, *arguments, settings=self.settings)
-        self.document.append(w)
-        return w
-
-    def build_heading(self):
-        """
-        Adds overline and underline to RSTWriter.title (character is RSTWriter.header_char) and returns it
-
-        :return: A fully constructed Heading object.
-        """
-        return Heading(self.__title, self.header_char)
-
-    def simple_table(self, tab, column_headings=[]):
-        """
-        Add a simple table to the document tree. tab is a 2-dimensional list containing the table data. The first
-        index is the row, the second is column. The first column may not contain multiple lines, all other columns
-        may. column_headings is a list where each element is treated as a heading for that specific column,
-        i.e. index 0 will be the heading for the leftmost column.
-
-        :param tab: A two-dimensional list representing table data. First index is row, second is column. Each row
-        must have the same number of columns.
-
-        :param column_headings: A single-dimensional list containing column headings, if required. Index zero is the
-        heading for the left-most column. List must be same length as number of columns.
-
-        :raise ValueError: If tab has inconsistent numbers of columns or column_headings length (if nonzero) does not
-        match number of columns in tab.
-        """
-
-        self.document.append(SimpleTable(tab, column_headings))
-
-    def to_text(self):
-        """
-        Return text representation of this document
-
-        :return: The completed RST document in string form.
-        """
-        document_string = ""
-        for element in self.document:
-            document_string += f"{element}\n"
-        return document_string
-
-    def __str__(self):
-        """
-        Equivalent to :func: `~cminx.RSTWriter.to_text`
-
-        :return: The completed RST document in string form.
-        """
-        return self.to_text()
-
-    def write_to_file(self, file):
-        """
-        Write text representation of this document to file. File may be a string (path will be opened in write mode)
-        or a file-like object.
-
-        :param file: File to write to. May be a string representing a real filepath on the local filesystem (will be
-        overwritten), or a file-like object.
-
-        :raise ValueError: If file is nothing or empty string.
-
-        :raise TypeError: If file is not str or object with 'write()' method
-        """
-
-        # Don't use 'is' to compare to empty string, file might be subclass of str or could be a C-built string,
-        # both of which are different references Don't use "==" to compare to None, None will be a singleton in every
-        # case and objects may override __eq__()
-        if file == "" or file is None:
-            raise ValueError("File not set, cannot write RST document")
-        if isinstance(file, str):
-            # Strip leading/trailing whitespace, so we don't end up with '. '
-            # as a file, I have seen it happen before
-            with open(file.strip(),
-                      'w') as f:
-                f.write(str(self))
-        else:
-            # Might be invalid object, checking to make sure it's file-like
-            if hasattr(file, "write"):
-                file.write(str(self))
-            else:
-                # Not file-like object or string
-                raise TypeError(
-                    f"File is neither a string nor a file-like object, type is {type(file)}, cannot write RST document")
+    return f":{role}:`{text}`"
 
 
 class Paragraph(object):
@@ -232,9 +55,9 @@ class Paragraph(object):
     Represents an RST paragraph
     """
 
-    def __init__(self, text, prefix=""):
+    def __init__(self, text: str, indent: str = ""):
         self.text = text
-        self.prefix = prefix
+        self.prefix = indent
         self.text_string = ""
         self.build_text_string()
 
@@ -255,11 +78,11 @@ class Field(object):
     Represents an RST field, such as Author
     """
 
-    def __init__(self, field_name, field_text, prefix=""):
+    def __init__(self, field_name: str, field_text: str, indent: str = ""):
         self.field_name = field_name
         self.field_text = field_text
         self.field_string = ""
-        self.prefix = prefix
+        self.indent = indent
         self.build_field_string()
 
     def build_field_string(self):
@@ -268,7 +91,7 @@ class Field(object):
         RST string corresponding to this field
         """
 
-        self.field_string = f"\n{self.prefix}:{self.field_name}: {self.field_text}"
+        self.field_string = f"\n{self.indent}:{self.field_name}: {self.field_text}"
 
     def __str__(self):
         return self.field_string
@@ -279,10 +102,11 @@ class DocTest(object):
     Represents an RST DocTest
     """
 
-    def __init__(self, test_line, expected_output):
+    def __init__(self, test_line: str, expected_output: str, indent=""):
         self.test_line = test_line
         self.expected_output = expected_output
         self.doctest_string = ""
+        self.indent = indent
         self.build_doctest_string()
 
     def build_doctest_string(self):
@@ -290,39 +114,38 @@ class DocTest(object):
         Populates DocTest.doctest_string with the
         RST string corresponding to this DocTest
         """
-        self.doctest_string = f"\n>>> {self.test_line}\n{self.expected_output}\n"
+        self.doctest_string = f"\n{self.indent}>>> {self.test_line}\n{self.expected_output}\n"
 
     def __str__(self):
         return self.doctest_string
 
 
-class List(object):
+class RSTList(object):
     """
     Represents one of the two types of RST lists:
     Enumerated or Bulleted
     """
-    ENUMERATED = 0
-    BULLETED = 1
 
-    def __init__(self, items, list_type: int):
+    def __init__(self, items: Tuple[str], list_type: ListType, indent: str = ""):
         self.items = items
         self.list_type = list_type
         self.list_string = ""
+        self.indent = indent
         self.build_list_string()
 
     def build_list_string(self):
         """
-        Populates List.list_string with the
-        RST string cooresponding to this list
+        Populates RSTList.list_string with the
+        RST string corresponding to this list
         """
 
         self.list_string = "\n"
-        if self.list_type == self.ENUMERATED:
+        if self.list_type == ListType.ENUMERATED:
             for i in range(0, len(self.items)):
-                self.list_string += f"{i + 1}. {self.items[i]}\n"
-        elif self.list_type == self.BULLETED:
+                self.list_string += f"{self.indent}{i + 1}. {self.items[i]}\n"
+        elif self.list_type == ListType.BULLETED:
             for item in self.items:
-                self.list_string += f"* {item}\n"
+                self.list_string += f"{self.indent}* {item}\n"
         else:
             raise ValueError("Unknown list type")
 
@@ -335,7 +158,7 @@ class Heading(object):
     Represents a section heading
     """
 
-    def __init__(self, title, header_char):
+    def __init__(self, title: str, header_char: str):
         self.title = title
         self.header_char = header_char
         self.heading_string = ""
@@ -360,7 +183,7 @@ class SimpleTable(object):
     Represents an RST simple table.
     """
 
-    def __init__(self, tab, headings):
+    def __init__(self, tab: List[List[str]], headings: List[str]):
         self.table = tab
         self.column_headings = headings
         self.table_string = ""
@@ -458,7 +281,7 @@ class DirectiveHeading(object):
     Represents the unique heading for a Directive (.. :<name>:)
     """
 
-    def __init__(self, title: str, indent: str, args):
+    def __init__(self, title: str, indent: str, args: str):
         self.title = title
         self.indent = indent
         self.args = args
@@ -477,7 +300,7 @@ class Option(object):
     Represents a directive option, such as maxdepth
     """
 
-    def __init__(self, name, value, indent):
+    def __init__(self, name: str, value: str, indent: str):
         self.name = name
         self.value = value
         self.indent = indent
@@ -491,6 +314,225 @@ class Option(object):
         return self.option_string
 
 
+def get_indents(num) -> str:
+    """
+    Get the string containing the necessary indent.
+
+    :return: A string containing the correct number of whitespace characters, derived from the indent level.
+    """
+    indents = ""
+    for i in range(0, num):
+        # Directives require the first non-whitespace character of every line to line up with the first letter of
+        # the directive name
+        indents += '   '
+    return indents
+
+
+class RSTWriter(object):
+    """
+    Base reStructuredText writer. Does not perform verification.
+    This class presents an object-oriented and procedural API
+    for generating reStructuredText documents. The document is
+    held in an intermediate object-oriented representation until
+    the text representation is requested either through
+    :py:meth:`~cminx.rstwriter.RSTWriter.to_text`
+    or by calling :py:func:`str` on this object.
+    """
+
+    heading_level_chars = ['#', '*', '=', '-', '_', '~', '!', '&', '@', '^']
+    """Characters to use as heading overline/underline, indexed by section_level"""
+
+    def __init__(
+            self,
+            title: str,
+            section_level: int = 0,
+            settings=Settings(), indent: int = 0):
+        self.__title: str = title
+        self.section_level: int = section_level
+        self.settings = settings
+        if settings.rst.headers is not None:
+            self.heading_level_chars = settings.rst.headers
+
+        self.indent = indent
+        self.header_char: str = self.heading_level_chars[section_level]
+        # Heading must be first in the document tree
+        self.document: List[Any] = [self.build_heading()]
+
+    def clear(self):
+        """
+        Clear all document tree elements (besides required heading)
+        """
+        del self.document[1:]
+
+    @property
+    def title(self) -> str:
+        return self.__title
+
+    @title.setter
+    def title(self, new_title: str):
+        """
+        Rebuild heading and replace the old one in the document tree whenever title is changed
+
+        :param new_title: The new section title to be used.
+        """
+        self.__title = new_title
+        self.document[0] = self.build_heading()
+
+    def bulleted_list(self, *items: str):
+        """
+        Add a bulleted list to the document tree.
+
+        :param items: varargs containing the desired list items.
+        """
+
+        self.document.append(RSTList(items, ListType.BULLETED, indent=get_indents(self.indent)))
+
+    def enumerated_list(self, *items: str):
+        """
+        Add an enumerated list to the document tree; e.g.
+            1. Item 1
+            2. Item 2
+
+        :param items: varargs containing the desired list items.
+        """
+        self.document.append(RSTList(items, ListType.ENUMERATED, indent=get_indents(self.indent)))
+
+    def field(self, field_name: str, field_text: str):
+        """
+        Add a field, such as Author or Version, to the document tree.
+
+        :param field_name: Name of the field being added, such as Author.
+
+        :param field_text: Value of the field, such as the author's name.
+        """
+        self.document.append(Field(field_name, field_text, get_indents(self.indent)))
+
+    def doctest(self, test_line: str, expected_output: str):
+        """
+        Adds a doctest segment to the document tree.
+        A doctest segment appears as an interactive python session.
+        The doctest Python module can then be used to scan for these segments
+        and execute the test_line to ensure the output is the same.
+
+        :param test_line: Python code segment being used as the line to be tested.
+
+        :param expected_output: The exact string that is expected to be returned when test_line is evaluated.
+        """
+        self.document.append(DocTest(test_line, expected_output, indent=get_indents(self.indent)))
+
+    def section(self, title: str) -> 'RSTWriter':
+        """
+        Constructs another RSTWriter and adds it to the document before returning it for use
+
+        :param title: The heading title to be used for the new subsection.
+        """
+        sect = RSTWriter(
+            title,
+            section_level=self.section_level + 1,
+            settings=self.settings)
+        self.document.append(sect)
+        return sect
+
+    def text(self, txt: str):
+        """
+        Add a paragraph to document tree.
+
+        :param txt: The content of the new paragraph.
+        """
+        self.document.append(Paragraph(txt, indent=get_indents(self.indent)))
+
+    def directive(self, name: str, *arguments: str) -> 'Directive':
+        """
+        Construct a directive and return it
+
+        :param name: Name of the directive being used, such as toctree or admonition.
+
+        :param arguments: Varargs to be used as the directive arguments, such as a topic title.
+        """
+        w = Directive(name, self.indent, *arguments, settings=self.settings)
+        self.document.append(w)
+        return w
+
+    def build_heading(self) -> Heading:
+        """
+        Adds overline and underline to RSTWriter.title (character is RSTWriter.header_char) and returns it
+
+        :return: A fully constructed Heading object.
+        """
+        return Heading(self.__title, self.header_char)
+
+    def simple_table(self, tab: List[List[str]], column_headings: List[str] = ()):
+        """
+        Add a simple table to the document tree. tab is a 2-dimensional list containing the table data. The first
+        index is the row, the second is column. The first column may not contain multiple lines, all other columns
+        may. column_headings is a list where each element is treated as a heading for that specific column,
+        i.e. index 0 will be the heading for the leftmost column.
+
+        :param tab: A two-dimensional list representing table data. First index is row, second is column. Each row
+        must have the same number of columns.
+
+        :param column_headings: A single-dimensional list containing column headings, if required. Index zero is the
+        heading for the left-most column. List must be same length as number of columns.
+
+        :raise ValueError: If tab has inconsistent numbers of columns or column_headings length (if nonzero) does not
+        match number of columns in tab.
+        """
+
+        self.document.append(SimpleTable(tab, column_headings))
+
+    def to_text(self) -> str:
+        """
+        Return text representation of this document
+
+        :return: The completed RST document in string form.
+        """
+        document_string = ""
+        for element in self.document:
+            document_string += f"{element}\n"
+        return document_string
+
+    def __str__(self):
+        """
+        Equivalent to :func: `~cminx.RSTWriter.to_text`
+
+        :return: The completed RST document in string form.
+        """
+        return self.to_text()
+
+    def write_to_file(self, file: Union[str, IO]):
+        """
+        Write text representation of this document to file. File may be a string (path will be opened in write mode)
+        or a file-like object.
+
+        :param file: File to write to. May be a string representing a real filepath on the local filesystem (will be
+        overwritten), or a file-like object.
+
+        :raise ValueError: If file is nothing or empty string.
+
+        :raise TypeError: If file is not str or object with 'write()' method
+        """
+
+        # Don't use 'is' to compare to empty string, file might be subclass of str or could be a C-built string,
+        # both of which are different references Don't use "==" to compare to None, None will be a singleton in every
+        # case and objects may override __eq__()
+        if file == "" or file is None:
+            raise ValueError("File not set, cannot write RST document")
+        if isinstance(file, str):
+            # Strip leading/trailing whitespace, so we don't end up with '. '
+            # as a file, I have seen it happen before
+            with open(file.strip(),
+                      'w') as f:
+                f.write(str(self))
+        else:
+            # Might be invalid object, checking to make sure it's file-like
+            if hasattr(file, "write"):
+                file.write(str(self))
+            else:
+                # Not file-like object or string
+                raise TypeError(
+                    f"File is neither a string nor a file-like object, type is {type(file)}, cannot write RST document")
+
+
 class Directive(RSTWriter):
     """
     Use :func:`cminx.RSTWriter.directive` to construct.
@@ -498,7 +540,7 @@ class Directive(RSTWriter):
     Does not verify that the directive or its arguments are valid.
     """
 
-    def __init__(self, name, indent=0, *arguments, settings=Settings()):
+    def __init__(self, name: str, indent: int = 0, *arguments: str, settings: Settings = Settings()):
         """
         :param name: Name of the directive being constructed, eg. toctree or admonition.
 
@@ -507,38 +549,21 @@ class Directive(RSTWriter):
         :param arguments: Varargs to be used as the directive arguments, eg. a topic's title.
         """
 
-        self.indent: int = indent
         self.arguments = arguments
         self.options = []
-        super().__init__(name, settings=settings)
+        super().__init__(name, settings=settings, indent=indent + 1)
 
-    def directive(self, title, *arguments):
-        """
-        Add a sub-directive.
-
-        :param title: Name of the new subdirective, eg. toctree or admonition.
-
-        :param arguments: Varargs used as the directive arguments, such as a topic's title.
-        """
-        d = Directive(
-            title,
-            self.indent + 1,
-            *arguments,
-            settings=self.settings)
-        self.document.append(d)
-        return d
-
-    def build_heading(self):
+    def build_heading(self) -> DirectiveHeading:
         """
         Build directive heading format (ex. '.. toctree::') and return.
 
         :return: Correctly formatted directive heading string.
         """
         return DirectiveHeading(
-            self.title, self.get_indents(
-                self.indent), self.format_arguments())
+            self.title, get_indents(
+                self.indent - 1), self.format_arguments())
 
-    def format_arguments(self):
+    def format_arguments(self) -> str:
         """
         Format argument list into the correct argument string for use with directives.
 
@@ -546,7 +571,7 @@ class Directive(RSTWriter):
         """
         return ','.join(map(str, self.arguments))
 
-    def option(self, name: str, value=""):
+    def option(self, name: str, value: str = ""):
         """
         Add an option, such as toctree's maxdepth. Does not verify if valid option
         """
@@ -554,54 +579,10 @@ class Directive(RSTWriter):
             Option(
                 name,
                 value,
-                self.get_indents(
-                    self.indent +
-                    1)))
+                get_indents(
+                    self.indent)))
 
-    def get_indents(self, num):
-        """
-        Get the string containing the necessary indent.
-
-        :return: A string containing the correct number of whitespace characters, derived from the indent level.
-        """
-        indents = ""
-        for i in range(0, num):
-            # Directives require the first non-whitespace character of every line to line up with the first letter of
-            # the directive name
-            indents += '   '
-        return indents
-
-    def text(self, txt):
-        """
-        Add paragraph to document tree, adds proper indenting for directives as well.
-
-        :param txt: Content of the new paragraph.
-        """
-        self.document.append(
-            Paragraph(
-                txt,
-                '' +
-                self.get_indents(
-                    self.indent +
-                    1)))
-
-    def field(self, name: str, txt: str):
-        """
-        Add a field to document tree, adds proper indenting for directives.
-
-        :param name: Name of the field
-        :param txt: Text of the field
-        """
-
-        self.document.append(
-            Field(
-                name,
-                txt,
-                self.get_indents(
-                    self.indent +
-                    1)))
-
-    def to_text(self):
+    def to_text(self) -> str:
         """
         Return text representation of this document
 
