@@ -81,7 +81,7 @@ class Documenter(object):
         self.walker = ParseTreeWalker()
         self.walker.walk(self.aggregator, self.tree)
 
-    def process(self):
+    def process(self) -> RSTWriter:
         """
         Process Documenter.aggregator.documented and build RST document from it.
 
