@@ -47,7 +47,7 @@ class TestDocumenter(unittest.TestCase):
                 self.assertIsInstance(element, Directive, "Wrong RST element generated for macro")
                 self.assertEqual("function", element.document[0].title, "Wrong directive type for macro")
                 self.assertIsInstance(element.document[1], Directive)
-                self.assertEqual("warning", element.document[1].document[0].title, "Macro is missing warning")
+                self.assertEqual("note", element.document[1].document[0].title, "Macro is missing note")
             elif isinstance(doc, VariableDocumentation):
                 self.assertIsInstance(element, Directive, "Wrong RST element generated for variable")
                 self.assertEqual("data", element.document[0].title, "Wrong directive type for variable")

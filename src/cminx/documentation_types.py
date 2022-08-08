@@ -63,7 +63,7 @@ class MacroDocumentation(DocumentationType):
     This class serves as the representation of a documented
     CMake macro definition. It converts the macro definition
     directly to a Sphinx :code:`function` directive and adds a
-    :code:`warning` directive specifying that it is a macro.
+    :code:`note` directive specifying that it is a macro.
     """
     params: List[str]
     """The list of parameters a macro definition takes"""
@@ -72,7 +72,7 @@ class MacroDocumentation(DocumentationType):
         d = writer.directive(
             "function", f"{self.name}({' '.join(self.params)})")
         d.directive(
-            "warning",
+            "note",
             "This is a macro, and so does not introduce a new scope.")
         d.text(self.doc)
 

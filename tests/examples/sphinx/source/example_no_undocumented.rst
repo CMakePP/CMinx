@@ -23,7 +23,7 @@ examples.example
 .. function:: macro_say_hi(person)
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    This macro says hi.
    This documentation uses a differing format,
@@ -51,7 +51,7 @@ examples.example
 .. function:: "${MyMacroName}"()
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    This is a documented macro, but the name
    is dynamically assigned.

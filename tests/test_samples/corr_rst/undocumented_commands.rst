@@ -14,7 +14,7 @@ test_samples.undocumented_commands
 .. function:: undocumented_macro()
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    
 
