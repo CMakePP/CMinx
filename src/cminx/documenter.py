@@ -73,13 +73,11 @@ class Documenter(object):
         # require this type of stream
         self.parser = CMakeParser(self.stream)
         self.parser.addErrorListener(ParserErrorListener())
-        self.tree = self.parser.cmake_file()
 
         # Hard part is done, we now have a fully usable parse tree, now we just
         # need to walk it
         self.aggregator = DocumentationAggregator(settings)
         self.walker = ParseTreeWalker()
-        self.walker.walk(self.aggregator, self.tree)
 
     def process(self) -> RSTWriter:
         """
@@ -87,6 +85,10 @@ class Documenter(object):
 
         :return: Completed RSTWriter document, also located in Documenter.writer
         """
+
+        # Parse and lex the file, then walk the tree and aggregate the
+        # documented commands
+        self.walker.walk(self.aggregator, self.parser.cmake_file())
 
         # All of the documented commands are now stored in aggregator.documented,
         # each element is a namedtuple repesenting the type of documentation it is.
