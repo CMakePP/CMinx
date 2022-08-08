@@ -261,7 +261,8 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
 
-        :param is_constructor: Whether the member is a constructor, this parameter is reflected in the generated MethodDocumentation.
+        :param is_constructor: Whether the member is a constructor, this parameter is reflected in the generated
+        MethodDocumentation.
         """
         if len(ctx.single_argument()) < 2:
             pretty_text = docstring
