@@ -1,3 +1,15 @@
+"""
+This module contains a large assortment of dataclasses
+that represent each of the different types of documented
+commands that CMinx recognizes. Each dataclass also implements
+an abstract :code:`process()` method to convert the dataclass
+representation into an RST representation using :class:`RSTWriter`.
+
+:Author: Branden Butler
+:License: Apache 2.0
+
+"""
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum

@@ -17,7 +17,7 @@
 """
 This module and associated classes provide a pure-Python interface for generating reStructuredText.
 The generated text may be either consumed by another Python application or directly written to a file-like object.
-This module does not currently perform syntax validation so it is up to the application developer to
+This module does not currently perform syntax validation, so it is up to the application developer to
 not generate invalid RST structures.
 
 
@@ -135,7 +135,7 @@ class RSTList(object):
 
     def build_list_string(self):
         """
-        Populates List.list_string with the
+        Populates RSTList.list_string with the
         RST string corresponding to this list
         """
 
@@ -331,6 +331,12 @@ def get_indents(num) -> str:
 class RSTWriter(object):
     """
     Base reStructuredText writer. Does not perform verification.
+    This class presents an object-oriented and procedural API
+    for generating reStructuredText documents. The document is
+    held in an intermediate object-oriented representation until
+    the text representation is requested either through
+    :py:meth:`~cminx.rstwriter.RSTWriter.to_text`
+    or by calling :py:func:`str` on this object.
     """
 
     heading_level_chars = ['#', '*', '=', '-', '_', '~', '!', '&', '@', '^']

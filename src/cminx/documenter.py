@@ -90,8 +90,8 @@ class Documenter(object):
         # documented commands
         self.walker.walk(self.aggregator, self.parser.cmake_file())
 
-        # All of the documented commands are now stored in aggregator.documented,
-        # each element is a namedtuple repesenting the type of documentation it is.
+        # All the documented commands are now stored in aggregator.documented,
+        # each element is a namedtuple representing the type of documentation it is.
         # So far we can document functions, macros, and variables (only strings
         # and lists built using set)
         self.process_docs(self.aggregator.documented)
