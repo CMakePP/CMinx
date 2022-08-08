@@ -25,7 +25,12 @@ def main():
     suites = loader.discover(cwd, "test_*.py")
     all_tests = unittest.TestSuite(suites)
     runner = unittest.TextTestRunner()
-    runner.run(all_tests)
+    result = runner.run(all_tests)
+
+    if result.wasSuccessful():
+        exit(0)
+    else:
+        exit(1)
 
 
 if __name__ == '__main__':

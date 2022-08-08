@@ -12,12 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if(PACKAGE_FIND_NAME STREQUAL "CMinx")
-
-	if(PACKAGE_FIND_VERSION STREQUAL "@CMINX_VERSION@")
-		set(PACKAGE_VERSION_EXACT TRUE)
-		set(PACKAGE_VERSION_COMPATIBLE TRUE)
-	endif()
-	set(PACKAGE_VERSION "@CMINX_VERSION@")
-
-endif()
+input:
+  # Optional list of exclude filters
+  exclude_filters:
+    - more_cmake_files/
+    - example_2.cmake

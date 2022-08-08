@@ -7,5 +7,6 @@ prefix
    :maxdepth: 2
 
    example
-   sphinx/index.rst
+   example_2
+   more_cmake_files/index.rst
 

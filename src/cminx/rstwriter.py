@@ -37,7 +37,11 @@ class RSTWriter(object):
     heading_level_chars = ['#', '*', '=', '-', '_', '~', '!', '&', '@', '^']
     """Characters to use as heading overline/underline, indexed by section_level"""
 
-    def __init__(self, title: str, section_level: int = 0, settings=Settings()):
+    def __init__(
+            self,
+            title: str,
+            section_level: int = 0,
+            settings=Settings()):
         self.__title: str = title
         self.section_level: int = section_level
         self.settings = settings
@@ -45,7 +49,8 @@ class RSTWriter(object):
             self.heading_level_chars = settings.rst.headers
 
         self.header_char: str = self.heading_level_chars[section_level]
-        self.document: list[Any] = [self.build_heading()]  # Heading must be first in the document tree
+        # Heading must be first in the document tree
+        self.document: list[Any] = [self.build_heading()]
 
     def clear(self):
         """
@@ -115,8 +120,10 @@ class RSTWriter(object):
 
         :param title: The heading title to be used for the new subsection.
         """
-        sect = RSTWriter(title,
-                         section_level=self.section_level + 1, settings=self.settings)
+        sect = RSTWriter(
+            title,
+            section_level=self.section_level + 1,
+            settings=self.settings)
         self.document.append(sect)
         return sect
 
@@ -205,7 +212,8 @@ class RSTWriter(object):
         if file == "" or file is None:
             raise ValueError("File not set, cannot write RST document")
         if isinstance(file, str):
-            # Strip leading/trailing whitespace, so we don't end up with '. ' as a file, I have seen it happen before
+            # Strip leading/trailing whitespace, so we don't end up with '. '
+            # as a file, I have seen it happen before
             with open(file.strip(),
                       'w') as f:
                 f.write(str(self))
@@ -235,7 +243,8 @@ class Paragraph(object):
         Populates Paragraph.text_string with the
         RST string corresponding to this paragraph
         """
-        self.text_string = "\n".join([self.prefix + text for text in self.text.split("\n")])
+        self.text_string = "\n".join(
+            [self.prefix + text for text in self.text.split("\n")])
 
     def __str__(self):
         return self.text_string
@@ -371,20 +380,27 @@ class SimpleTable(object):
         row_separator_width = 0
 
         # Used to ensure number of columns is consistent throughout the table;
-        # Length of row gives number of cells in row, which corresponds to number of columns
+        # Length of row gives number of cells in row, which corresponds to
+        # number of columns
         num_columns = len(self.table[0])
 
-        if len(self.column_headings) != 0 and len(self.column_headings) != num_columns:
-            raise ValueError("Different number of headings than number of columns in table")
+        if len(self.column_headings) != 0 and len(
+                self.column_headings) != num_columns:
+            raise ValueError(
+                "Different number of headings than number of columns in table")
 
         # Find the longest cell to use as the row separator width Yes I know doing it this way is inefficient,
-        # but readability is more important unless we're dealing with thousands of cells.
+        # but readability is more important unless we're dealing with thousands
+        # of cells.
         for row in self.table:
-            # Check column number against number of cells in row; should be equal
+            # Check column number against number of cells in row; should be
+            # equal
             if len(row) != num_columns:
                 raise ValueError("Number of columns in table is inconsistent")
             for cell in row:
-                cell_length = len(str(cell))  # Temporarily cache in case calculating length is time-consuming.
+                # Temporarily cache in case calculating length is
+                # time-consuming.
+                cell_length = len(str(cell))
                 row_separator_width = cell_length if cell_length > row_separator_width else row_separator_width
 
         # Account for column headings, in case they're longer than the cells
@@ -397,7 +413,9 @@ class SimpleTable(object):
             row_separator += "="
 
         table_str = ""
-        heading_lines = ["", "", ""]  # Index zero is heading overline, index 1 is headings, index 2 is underline
+        # Index zero is heading overline, index 1 is headings, index 2 is
+        # underline
+        heading_lines = ["", "", ""]
         # Build heading overlines/underlines and add correct spacing
         for heading in self.column_headings:
             heading_len = len(heading)
@@ -413,7 +431,8 @@ class SimpleTable(object):
             heading_lines[0] += "  "  # Recommended 2 spaces between columns
             heading_lines[1] += "  "
 
-        heading_lines[2] = heading_lines[0]  # Overline and underline should be the same
+        # Overline and underline should be the same
+        heading_lines[2] = heading_lines[0]
         table_str += "\n".join(heading_lines) + "\n"
 
         # Add cells to table string
@@ -501,7 +520,11 @@ class Directive(RSTWriter):
 
         :param arguments: Varargs used as the directive arguments, such as a topic's title.
         """
-        d = Directive(title, self.indent + 1, *arguments, settings=self.settings)
+        d = Directive(
+            title,
+            self.indent + 1,
+            *arguments,
+            settings=self.settings)
         self.document.append(d)
         return d
 
@@ -511,7 +534,9 @@ class Directive(RSTWriter):
 
         :return: Correctly formatted directive heading string.
         """
-        return DirectiveHeading(self.title, self.get_indents(self.indent), self.format_arguments())
+        return DirectiveHeading(
+            self.title, self.get_indents(
+                self.indent), self.format_arguments())
 
     def format_arguments(self):
         """
@@ -525,7 +550,13 @@ class Directive(RSTWriter):
         """
         Add an option, such as toctree's maxdepth. Does not verify if valid option
         """
-        self.options.append(Option(name, value, self.get_indents(self.indent + 1)))
+        self.options.append(
+            Option(
+                name,
+                value,
+                self.get_indents(
+                    self.indent +
+                    1)))
 
     def get_indents(self, num):
         """
@@ -546,7 +577,13 @@ class Directive(RSTWriter):
 
         :param txt: Content of the new paragraph.
         """
-        self.document.append(Paragraph(txt, '' + self.get_indents(self.indent + 1)))
+        self.document.append(
+            Paragraph(
+                txt,
+                '' +
+                self.get_indents(
+                    self.indent +
+                    1)))
 
     def field(self, name: str, txt: str):
         """
@@ -556,7 +593,13 @@ class Directive(RSTWriter):
         :param txt: Text of the field
         """
 
-        self.document.append(Field(name, txt, self.get_indents(self.indent + 1)))
+        self.document.append(
+            Field(
+                name,
+                txt,
+                self.get_indents(
+                    self.indent +
+                    1)))
 
     def to_text(self):
         """
