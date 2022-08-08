@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-# Copyright 2021 CMakePP
+# Copyright 2022 CMakePP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,16 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-"""
-Convenience script to call cminx.main()
+[build-system]
+requires = [ "setuptools>=41", "wheel", "setuptools-git-versioning", ]
+build-backend = "setuptools.build_meta"
 
-:Author: Branden Butler
-:License: Apache 2.0
-"""
-
-from cminx import *
-
-if __name__ == "__main__":
-    main(sys.argv[1:])
+[tool.setuptools-git-versioning]
+enabled = true
+dev_template = "{tag}"
+dirty_template = "{tag}"

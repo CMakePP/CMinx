@@ -19,14 +19,14 @@ header:
 
   paths-ignore:
     - .github/
-    - cminx/parser/
+    - src/cminx/parser/
     - docs/source/.templates
     - docs/source/developer/uml_diagrams/*.drawio
     - docs/Makefile
     - tests/
-    - CODE_OF_CONDUCT.md
     - LICENSE
-    - VERSION.txt
+    - MANIFEST.in
+    - setup.cfg
 
 
   comment: never

@@ -1,11 +1,10 @@
 find_package(CMinx
              ${PROJECT_VERSION}
-             PATHS "${CMINX_PACKAGE_SEARCH_PATH}"
+             PATHS "${CMINX_STAGE_DIR}"
              NO_DEFAULT_PATH
              REQUIRED
              CONFIG
 )
-include(cminx)
 
 set(cwd "${CMAKE_CURRENT_LIST_DIR}")
 
@@ -46,7 +45,6 @@ function(${test_gen_rst})
   function(${test_document})
     do_setup()
     cminx_gen_rst("${input_file}" "${output_dir}")
-
     ct_assert_file_exists("${output_file}")
 
     do_teardown()
@@ -56,7 +54,7 @@ function(${test_gen_rst})
   ct_add_section(NAME test_document_prefix)
   function(${test_document_prefix})
     do_setup()
-    cminx_gen_rst("${input_file}" "${output_dir}" "input")
+    cminx_gen_rst("${input_file}" "${output_dir}" "-p" "input")
 
     ct_assert_file_exists("${output_file}")
 

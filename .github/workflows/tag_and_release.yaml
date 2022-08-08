@@ -20,7 +20,15 @@ on:
       - master
 
 jobs:
-  release:
+  tag:
     uses: CMakePP/.github/.github/workflows/tag_and_release_master.yaml@main
     secrets:
       token: ${{ secrets.UPDATE_VERSION_TXT }}
+  release:
+    needs: tag
+    if: | 
+      (needs.tag.outputs.bumped_major == 'true') || 
+      (needs.tag.outputs.bumped_minor == 'true')
+    uses: CMakePP/.github/.github/workflows/pypi_release_master.yaml@main
+    secrets:
+      token: ${{ secrets.PYPI_API_TOKEN }}
