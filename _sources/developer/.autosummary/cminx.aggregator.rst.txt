@@ -1,0 +1,5 @@
+﻿cminx.aggregator
+================
+
+.. automodule:: cminx.aggregator
+   :members:

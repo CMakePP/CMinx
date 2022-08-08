@@ -9,7 +9,7 @@ cmake.get_cpp
 .. function:: get_cpp()
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    
 

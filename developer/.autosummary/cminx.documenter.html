@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cminx.documenter &mdash; CMinx v0.1.3 documentation</title>
+  <title>cminx.documenter &mdash; CMinx v0.1.4 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,7 +20,7 @@
     <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="cminx.parser.aggregator" href="cminx.parser.aggregator.html" />
+    <link rel="next" title="cminx.aggregator" href="cminx.aggregator.html" />
     <link rel="prev" title="cminx.rstwriter" href="cminx.rstwriter.html" /> 
 </head>
 
@@ -32,7 +32,7 @@
             <a href="../../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                0.1.3
+                0.1.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -114,23 +114,8 @@ for CMake files.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documenter.</span></span><span class="sig-name descname"><span class="pre">Documenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Settings</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Settings(input=InputSettings(include_undocumented_function=True,</span> <span class="pre">include_undocumented_macro=True,</span> <span class="pre">include_undocumented_cpp_class=True,</span> <span class="pre">include_undocumented_cpp_attr=True,</span> <span class="pre">include_undocumented_cpp_constructor=True,</span> <span class="pre">include_undocumented_cpp_member=True,</span> <span class="pre">include_undocumented_ct_add_test=True,</span> <span class="pre">include_undocumented_ct_add_section=True,</span> <span class="pre">auto_exclude_directories_without_cmake=True,</span> <span class="pre">exclude_filters=(),</span> <span class="pre">recursive=False,</span> <span class="pre">follow_symlinks=False),</span> <span class="pre">output=OutputSettings(directory=None,</span> <span class="pre">relative_to_config=False),</span> <span class="pre">logging=LoggingSettings(logger_config={}),</span> <span class="pre">rst=RSTSettings(file_extensions_in_titles=False,</span> <span class="pre">file_extensions_in_modules=False,</span> <span class="pre">prefix=None,</span> <span class="pre">module_path_separator='.',</span> <span class="pre">headers=('#',</span> <span class="pre">'*',</span> <span class="pre">'=',</span> <span class="pre">'-',</span> <span class="pre">'_',</span> <span class="pre">'~',</span> <span class="pre">'!',</span> <span class="pre">'&amp;',</span> <span class="pre">'&#64;',</span> <span class="pre">'^')))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter" title="Permalink to this definition"></a></dt>
 <dd><p>Generates RST documentation from aggregated documentation, combining parser.aggregator and rstwriter.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="cminx.documenter.Documenter.add_attr_doc">
-<span class="sig-name descname"><span class="pre">add_attr_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.parser.aggregator.html#cminx.parser.aggregator.AttributeDocumentation" title="cminx.parser.aggregator.AttributeDocumentation"><span class="pre">AttributeDocumentation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_directive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.Directive" title="cminx.rstwriter.Directive"><span class="pre">Directive</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.add_attr_doc" title="Permalink to this definition"></a></dt>
-<dd><p>Creates and adds a py:attribute directive to the supplied class directive.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cminx.documenter.Documenter.add_method_doc">
-<span class="sig-name descname"><span class="pre">add_method_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MethodDocumentation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_directive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.Directive" title="cminx.rstwriter.Directive"><span class="pre">Directive</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.add_method_doc" title="Permalink to this definition"></a></dt>
-<dd><p>Adds a py:method directive to the supplied class directive
-using the supplied MethodDocumentation to determine whether
-the member is a constructor or not, as well as what params and
-types the member has.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.process">
-<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></span><a class="headerlink" href="#cminx.documenter.Documenter.process" title="Permalink to this definition"></a></dt>
 <dd><p>Process Documenter.aggregator.documented and build RST document from it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -140,85 +125,12 @@ types the member has.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="cminx.documenter.Documenter.process_class_doc">
-<span class="sig-name descname"><span class="pre">process_class_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.parser.aggregator.html#cminx.parser.aggregator.ClassDocumentation" title="cminx.parser.aggregator.ClassDocumentation"><span class="pre">ClassDocumentation</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_class_doc" title="Permalink to this definition"></a></dt>
-<dd><p>Adds a py:class directive containing information on the CMakePP
-class that was documented, including all attributes, constructors, and members</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.process_docs">
-<span class="sig-name descname"><span class="pre">process_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_docs" title="Permalink to this definition"></a></dt>
-<dd><p>Loops over document and dispatches each documentation to the respective processor.</p>
+<span class="sig-name descname"><span class="pre">process_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">DocumentationType</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_docs" title="Permalink to this definition"></a></dt>
+<dd><p>Loops over document and calls Documentation.process() with self.writer</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>docs</strong> – List of documentation objects.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cminx.documenter.Documenter.process_function_doc">
-<span class="sig-name descname"><span class="pre">process_function_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.parser.aggregator.html#cminx.parser.aggregator.FunctionDocumentation" title="cminx.parser.aggregator.FunctionDocumentation"><span class="pre">FunctionDocumentation</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_function_doc" title="Permalink to this definition"></a></dt>
-<dd><p>FunctionDocumentation processor. Generates the RST “function” directive.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>doc</strong> (<a class="reference internal" href="cminx.parser.aggregator.html#cminx.parser.aggregator.FunctionDocumentation" title="cminx.parser.aggregator.FunctionDocumentation"><em>FunctionDocumentation</em></a>) – Documentation for the function</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cminx.documenter.Documenter.process_generic_command_doc">
-<span class="sig-name descname"><span class="pre">process_generic_command_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_generic_command_doc" title="Permalink to this definition"></a></dt>
-<dd><p>This method processes any documented commands that don’t have any other processors.
-All it does is generate a function directive containing the command’s name and arguments,
-and adds a warning that it’s just an invocation and not a definition.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cminx.documenter.Documenter.process_macro_doc">
-<span class="sig-name descname"><span class="pre">process_macro_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_macro_doc" title="Permalink to this definition"></a></dt>
-<dd><p>MacroDocumentation processor. Generates the RST “function” directive containing
-a “warning” directive explaining that it is a macro.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>doc</strong> (<a class="reference internal" href="cminx.parser.aggregator.html#cminx.parser.aggregator.MacroDocumentation" title="cminx.parser.aggregator.MacroDocumentation"><em>MacroDocumentation</em></a>) – Documentation for the macro</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cminx.documenter.Documenter.process_section_doc">
-<span class="sig-name descname"><span class="pre">process_section_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_section_doc" title="Permalink to this definition"></a></dt>
-<dd><p>SectionDocumentation processor. Generates the RST “function” directive containing
-a “warning” directive explaining that it is a test.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>doc</strong> (<em>SectionDocumentation</em>) – Documentation for the test</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cminx.documenter.Documenter.process_test_doc">
-<span class="sig-name descname"><span class="pre">process_test_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_test_doc" title="Permalink to this definition"></a></dt>
-<dd><p>TestDocumentation processor. Generates the RST “function” directive containing
-a “warning” directive explaining that it is a test.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>doc</strong> (<em>TestDocumentation</em>) – Documentation for the test</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cminx.documenter.Documenter.process_variable_doc">
-<span class="sig-name descname"><span class="pre">process_variable_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter.process_variable_doc" title="Permalink to this definition"></a></dt>
-<dd><p>VariableDocumentation processor. Generates the RST “data” directive.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>doc</strong> (<a class="reference internal" href="cminx.parser.aggregator.html#cminx.parser.aggregator.VariableDocumentation" title="cminx.parser.aggregator.VariableDocumentation"><em>VariableDocumentation</em></a>) – Documentation for the variable.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -232,7 +144,7 @@ a “warning” directive explaining that it is a test.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="cminx.rstwriter.html" class="btn btn-neutral float-left" title="cminx.rstwriter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cminx.parser.aggregator.html" class="btn btn-neutral float-right" title="cminx.parser.aggregator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cminx.aggregator.html" class="btn btn-neutral float-right" title="cminx.aggregator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

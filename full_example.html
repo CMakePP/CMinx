@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Workflow &mdash; CMinx v0.1.3 documentation</title>
+  <title>Example Workflow &mdash; CMinx v0.1.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
             <a href="index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                0.1.3
+                0.1.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -371,7 +371,7 @@ examples.example
 .. function:: macro_say_hi(person)
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    This macro says hi.
    This documentation uses a differing format,
@@ -399,7 +399,7 @@ examples.example
 .. function:: &quot;${MyMacroName}&quot;()
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    This is a documented macro, but the name
    is dynamically assigned.
@@ -419,7 +419,7 @@ examples.example
    This variable is a list of string values.
    
 
-   :Default value: [&#39;&quot;Value&quot;&#39;, &#39;&quot;Value 2&quot;&#39;]
+   :Default value: &quot;Value&quot; &quot;Value 2&quot;
 
    :type: list
 
@@ -544,6 +544,10 @@ examples.example
       This is an attribute
       
 
+   **Inner classes**
+
+   * :class:`MyClass3`
+
 
 
 .. py:class:: MyClass3
@@ -598,7 +602,7 @@ examples.example
 .. function:: undocumented_macro()
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    
 
