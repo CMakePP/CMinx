@@ -18,9 +18,9 @@ import unittest
 import context
 
 from cminx.documenter import Documenter
-from cminx.parser.aggregator import ClassDocumentation, FunctionDocumentation, GenericCommandDocumentation, \
-    MacroDocumentation, VariableDocumentation, TestDocumentation, SectionDocumentation
-from cminx.rstwriter import Directive
+from cminx.documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
+    GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation
+from cminx.rstwriter import Directive, RSTWriter
 
 
 class TestDocumenter(unittest.TestCase):
@@ -35,7 +35,8 @@ class TestDocumenter(unittest.TestCase):
     def test_process(self):
         self.documenter.process()  # Convert all documentation into RST
         self.assertEqual(len(self.documenter.aggregator.documented), len(self.documenter.writer.document) - 2,
-                         "Generated RST has different length from input documentation")  # RSTWriter adds one element for document heading, documenter adds another for module definition
+                         "Generated RST has different length from input documentation")  # RSTWriter adds one element
+        # for document heading, documenter adds another for module definition
         for i in range(0, len(self.documenter.aggregator.documented)):
             doc = self.documenter.aggregator.documented[i]
             element = self.documenter.writer.document[i + 2]
@@ -46,7 +47,7 @@ class TestDocumenter(unittest.TestCase):
                 self.assertIsInstance(element, Directive, "Wrong RST element generated for macro")
                 self.assertEqual("function", element.document[0].title, "Wrong directive type for macro")
                 self.assertIsInstance(element.document[1], Directive)
-                self.assertEqual("warning", element.document[1].document[0].title, "Macro is missing warning")
+                self.assertEqual("note", element.document[1].document[0].title, "Macro is missing note")
             elif isinstance(doc, VariableDocumentation):
                 self.assertIsInstance(element, Directive, "Wrong RST element generated for variable")
                 self.assertEqual("data", element.document[0].title, "Wrong directive type for variable")
@@ -66,12 +67,10 @@ class TestDocumenter(unittest.TestCase):
             else:
                 self.fail(f"Unknown documentation type: {doc}")
 
-    def test_incorrect_documentation_type(self):
-        self.assertRaises(ValueError, self.documenter.process_docs, ["This is not a valid documentation type"])
-
     def test_incorrect_variable_type(self):
-        self.assertRaises(ValueError, self.documenter.process_variable_doc,
-                          VariableDocumentation("name", "Not a valid variable type", "0", "This should fail"))
+        var_doc = VariableDocumentation("name", "Not a valid variable type", "0", "This should fail")
+        self.assertRaises(ValueError, var_doc.process,
+                          RSTWriter("test_writer"))
 
 
 if __name__ == '__main__':

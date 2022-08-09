@@ -9,7 +9,7 @@ test_samples.basic_macro
 .. function:: macro_say_hi(person)
 
 
-   .. warning:: This is a macro, and so does not introduce a new scope.
+   .. note:: This is a macro, and so does not introduce a new scope.
 
    This macro says hi.
    This documentation uses a differing format,

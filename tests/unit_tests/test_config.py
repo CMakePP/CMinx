@@ -34,6 +34,7 @@ class TestConfig(unittest.TestCase):
         self.output_file = os.path.join(self.output_dir, "example.rst")
         self.output_index_file = os.path.join(self.output_dir, "index.rst")
         self.config_dir = context.config_dir
+        self.maxDiff = None
 
     def tearDown(self):
         try:
