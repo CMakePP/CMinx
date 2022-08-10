@@ -27,6 +27,8 @@ header:
     - LICENSE
     - MANIFEST.in
     - setup.cfg
+    - paper.bib
+    - paper.md
 
 
   comment: never
