@@ -30,7 +30,7 @@ application programming interface (API) documentation for CMake modules
 is comprised of C/C++ developers, CMinx is designed to operate similar to
 Doxygen [@doxygen] (the *de facto* C/C++ API documentation tool).
 Specifically, developers annotate their CMake source with documentation
-comments (traditional CMake block comments, starting with an extra "["
+comments (traditional CMake block comments, starting with an extra "`[`"
 character). The documentation comments, written in reST [@rest],
 describe to the reader how the functions, parameters, and variables should be
 used. Running CMinx on the annotated source code generates reST files containing
