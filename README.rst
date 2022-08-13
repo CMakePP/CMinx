@@ -20,8 +20,7 @@ CMinx
 .. image:: https://codecov.io/gh/CMakePP/CMinx/branch/master/graph/badge.svg?token=wbiPq8Gnrs
    :target: https://codecov.io/gh/CMakePP/CMinx
 
-Full documentation, including details on how to install CMinx and quickly get
-started can be found `here <https://cmakepp.github.io/CMinx/>`__.
+Full documentation can be found `here <https://cmakepp.github.io/CMinx/>`__.
 
 *****************
 Statement of Need
@@ -109,3 +108,16 @@ API Documentation
 
 Full API documentation can be found 
 `here <https://cmakepp.github.io/CMinx/developer/api.html>`__.
+
+************
+Contributing
+************
+
+In short, we try to be a welcoming community. If you have questions, 
+suggestions, bug reports, *etc.* open an issue and we will address them
+as soon as possible. If you want to contribute code, that's even better. We
+recommend you start a draft PR early in the process so we know the contribution
+is coming and can help you along the way.
+
+CMinx is part of the CMakePP organization, whose contributing guidelines can be
+found `here <https://github.com/CMakePP/.github/blob/main/CONTRIBUTING.md>`__.
