@@ -1,4 +1,0 @@
-coverage
-docutils>=0.10
-pytest
-pytest-cov
