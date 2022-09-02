@@ -21,8 +21,9 @@ from antlr4 import *
 from cminx.parser import ParserErrorListener
 from cminx.parser.CMakeLexer import CMakeLexer
 from cminx.parser.CMakeParser import CMakeParser
-from cminx.parser.aggregator import ClassDocumentation, DocumentationAggregator, DOC_TYPES, FunctionDocumentation, \
-    MacroDocumentation, VariableDocumentation, VarType, GenericCommandDocumentation
+from cminx.aggregator import DocumentationAggregator
+from cminx.documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
+    GenericCommandDocumentation, ClassDocumentation, VarType, DocumentationType
 
 
 class TestAggregator(unittest.TestCase):
@@ -55,7 +56,7 @@ class TestAggregator(unittest.TestCase):
         # So far we can document functions, macros, and variables (only strings and lists built using set)
         for doced_command in self.aggregator.documented:
             self.assertNotEqual(doced_command, None)
-            self.assertIn(type(doced_command), DOC_TYPES, "Unknown documentation type")
+            self.assertIsInstance(doced_command, DocumentationType, "Unknown documentation type")
 
     def test_doccomment_function_leading_space(self):
         docstring = "This is a function"
@@ -74,7 +75,7 @@ endfunction()
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), FunctionDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
-        self.assertEqual(self.aggregator.documented[0].function.strip(), function_name,
+        self.assertEqual(self.aggregator.documented[0].name.strip(), function_name,
                          "Incorrect function_name extracted")
         self.assertListEqual([param.strip() for param in self.aggregator.documented[0].params], params,
                              "Incorrect params extracted")
@@ -96,7 +97,7 @@ endmacro()
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), MacroDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
-        self.assertEqual(self.aggregator.documented[0].macro.strip(), macro_name, "Incorrect macro_name extracted")
+        self.assertEqual(self.aggregator.documented[0].name.strip(), macro_name, "Incorrect macro_name extracted")
         self.assertListEqual([param.strip() for param in self.aggregator.documented[0].params], params,
                              "Incorrect params extracted")
 
@@ -116,8 +117,8 @@ set({var_name} "{val}")
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
-        self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect function_name extracted")
-        self.assertEqual(self.aggregator.documented[0].type, VarType.String)
+        self.assertEqual(self.aggregator.documented[0].name.strip(), var_name, "Incorrect function_name extracted")
+        self.assertEqual(self.aggregator.documented[0].type, VarType.STRING)
         self.assertEqual(self.aggregator.documented[0].value.strip(), val.strip(), "Incorrect value extracted")
 
     def test_doccomment_listvar_leading_space(self):
@@ -135,11 +136,11 @@ set({var_name} {params[0]} {params[1]})
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
-        self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect var_name extracted")
-        self.assertEqual(self.aggregator.documented[0].type, VarType.List)
+        self.assertEqual(self.aggregator.documented[0].name.strip(), var_name, "Incorrect var_name extracted")
+        self.assertEqual(self.aggregator.documented[0].type, VarType.LIST)
 
-        self.assertListEqual([param.strip() for param in self.aggregator.documented[0].value], params,
-                             "Incorrect list elements extracted")
+        self.assertEqual(self.aggregator.documented[0].value, " ".join(params),
+                         "Incorrect list elements extracted")
 
     def test_unset(self):
         docstring = "Unsetting a variable"
@@ -155,8 +156,8 @@ set({var_name})
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
         self.assertEqual(self.aggregator.documented[0].doc.strip(), docstring, "Incorrect docstring extracted")
-        self.assertEqual(self.aggregator.documented[0].varname.strip(), var_name, "Incorrect var_name extracted")
-        self.assertEqual(self.aggregator.documented[0].type, VarType.Unset)
+        self.assertEqual(self.aggregator.documented[0].name.strip(), var_name, "Incorrect var_name extracted")
+        self.assertEqual(self.aggregator.documented[0].type, VarType.UNSET)
 
     def test_cpp_class_no_superclass_no_inner(self):
         self.test_cpp_class_multi_superclass_no_inner([])
@@ -175,8 +176,8 @@ set({var_name})
             [f'{inner_class_docstring}\ncpp_class({inner_class_name})\ncpp_end_class()' for inner_class_name in
              inner_classes])
         method_definitions = '\n'.join([
-                                           f'{method_docstring}\ncpp_member({method_name} {class_name})\nfunction(' + '${' + method_name + '})\nendfunction()'
-                                           for method_name in methods])
+            f'{method_docstring}\ncpp_member({method_name} {class_name})\nfunction(' + '${' + method_name + '})\nendfunction()'
+            for method_name in methods])
         attribute_definitions = '\n'.join(
             [f'{attribute_docstring}\ncpp_attr({class_name} {attr_name})' for attr_name in attributes])
         self.input_stream = InputStream(f'''

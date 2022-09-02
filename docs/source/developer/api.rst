@@ -28,7 +28,7 @@ Python Modules
 
    cminx.rstwriter
    cminx.documenter
-   cminx.parser.aggregator
+   cminx.aggregator
    cminx.parser.CMakeLexer
    cminx.parser.CMakeParser
    cminx.parser.CMakeListener
