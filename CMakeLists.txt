@@ -102,9 +102,7 @@ if(BUILD_TESTING)
     include("${PROJECT_SOURCE_DIR}/cmake/get_cpp.cmake")
     include("${PROJECT_SOURCE_DIR}/cmake/get_cmake_test.cmake")
 
-    python_venv_pip_install(
-        ${CMINX_VENV} "-r" "${CMAKE_CURRENT_SOURCE_DIR}/requirements.txt"
-    )
+    python_venv_pip_install(${CMINX_VENV} "-e" ".[testing]")
 
     include(cmake_test/cmake_test)
     include(CTest)
@@ -118,7 +116,7 @@ endif()
 ################################################################################
 
 install(
-    DIRECTORY ${CMINX_STAGE_DIR}/ 
+    DIRECTORY ${CMINX_STAGE_DIR}/
     DESTINATION ${CMAKE_INSTALL_PREFIX}
     USE_SOURCE_PERMISSIONS
 )
