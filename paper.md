@@ -50,17 +50,6 @@ we anticipate CMinx will prove invaluable to many additional projects as well.
 
 # Statement of need
 
-The exascale-era of high-performance scientific computing arguably started when
-the Frontier supercomputer achieved a performance of more than 1.1 exaFLOPs
-(10$^{18}$ floating-point operations per second) on the High-Performance
-Linpack Benchmark [@frontier]. With the breakdown of Dennard scaling
-(*i.e.*, the power usage of a transistor is proportional to its area),
-achieving exascale performance is presently only possible by relying
-on heterogeneous hardware. Unfortunately, hardware heterogeneity significantly
-complicates the process of developing high-performance scientific software.
-For many high-performance software packages, these complications start in the
-build system.
-
 The process of building a software package written in a compiled language
 (*e.g.*, C or C++) has always been complicated. Over the years, various build
 system solutions have evolved to ease the process. Historically, there
