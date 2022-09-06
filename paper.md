@@ -94,9 +94,8 @@ appear to now be abandoned.
 To our knowledge, all of the aforementioned Sphinx plugins simply extract the
 reST API documentation verbatim. Notably, this means the developer is
 responsible
-for manually: adding the function/macro signatures to the documentation, listing
-the function's parameters, and the overall formatting (*e.g.*, titles and
-subtitles, creation of parameter tables, underline/overline consistency). For
+for manually adding the function/macro signatures to the documentation, listing
+the function's parameters, and the overall formatting. For
 build system developers maintaining one or two CMake modules, these are
 admittedly pretty minor inconveniences; however, for organizations
 maintaining a substantial CMake code base (such as those for exascale programs),
