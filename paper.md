@@ -40,7 +40,7 @@ easily converted to another format via Pandoc [@pandoc].
 
 Unlike other solutions for documenting CMake modules, CMinx knows the CMake
 language's grammar. This enables CMinx to automatically extract function/macro
-signatures (even when functions are not documented). CMinx also integrates
+signatures, even when functions are not documented. CMinx also integrates
 seamlessly into existing CMake build systems. CMinx's output is highly
 customizable and easily controlled via a YAML [@yaml] configuration file.
 CMinx has already proved to be an invaluable
