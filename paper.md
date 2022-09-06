@@ -65,8 +65,8 @@ The process of building a software package written in a compiled language
 (*e.g.*, C or C++) has always been complicated. Over the years, various build
 system solutions have evolved to ease the process. Historically, there
 has been a propensity to treat each build system as a one-off use case. This is
-understandable since build systems have tended to be relatively small (*i.e.*,
-less than ~1K lines of code) and tightly coupled to the identity of the package.
+understandable since build systems have tended to be relatively small
+and tightly coupled to the structure and purpose of the package.
 With build system complexity at an all-time high, there is now an
 increasing desire (at least within scientific computing communities) to treat
 the underlying build system infrastructure as code. This means that the
