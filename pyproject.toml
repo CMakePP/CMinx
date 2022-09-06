@@ -13,8 +13,42 @@
 # limitations under the License.
 
 [build-system]
-requires = [ "setuptools>=41", "wheel", "setuptools-git-versioning", ]
+requires = ["setuptools>=41", "wheel", "setuptools-git-versioning"]
 build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "CMinx"
+dynamic = ["version"]
+description = "Documentation Generator for the CMake Language"
+readme = "README.rst"
+license = {file = "LICENSE"}
+authors = [{name = "CMakePP"}]
+keywords = ["CMake", "Documentation"]
+classifiers = ["Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Documentation",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Software Development :: Build Tools"
+]
+urls = {"GitHub" = "https://github.com/CMakePP/CMinx"}
+scripts = {"cminx" = "cminx:main"}
+dependencies = ["antlr4-python3-runtime==4.7.2",
+    "confuse>=1.7",
+    "pathspec>=0.9.0"
+]
+
+
+[project.optional-dependencies]
+testing = ["coverage", "docutils>=0.10", "pytest", "pytest-cov"]
+
+
+[tool.setuptools]
+packages = ["cminx"]
+package-dir = {"" = "src"}
+include-package-data = true
+
 
 [tool.setuptools-git-versioning]
 enabled = true
