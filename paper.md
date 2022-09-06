@@ -26,9 +26,9 @@ bibliography: paper.bib
 
 This manuscript introduces CMinx, a program for generating
 application programming interface (API) documentation written in the CMake
-language, and CMake modules in particular. Since most of CMinx's intended
-audience is comprised of C/C++ developers, CMinx is designed to operate similar
-to Doxygen [@doxygen] (the *de facto* C/C++ API documentation tool).
+language, and CMake modules in particular. Since most of CMinx's intended audience
+is comprised of C/C++ developers, CMinx is designed to operate similar to
+Doxygen [@doxygen], the *de facto* C/C++ API documentation tool.
 Specifically, developers annotate their CMake source with documentation
 comments (traditional CMake block comments, starting with an extra "`[`"
 character). The documentation comments, written in reST [@rest],
@@ -40,7 +40,7 @@ easily converted to another format via Pandoc [@pandoc].
 
 Unlike other solutions for documenting CMake modules, CMinx knows the CMake
 language's grammar. This enables CMinx to automatically extract function/macro
-signatures (even when functions are not documented). CMinx also integrates
+signatures, even when functions are not documented. CMinx also integrates
 seamlessly into existing CMake build systems. CMinx's output is highly
 customizable and easily controlled via a YAML [@yaml] configuration file.
 CMinx has already proved to be an invaluable
@@ -50,23 +50,12 @@ we anticipate CMinx will prove invaluable to many additional projects as well.
 
 # Statement of need
 
-The exascale-era of high-performance scientific computing arguably started when
-the Frontier supercomputer achieved a performance of more than 1.1 exaFLOPs
-(10$^{18}$ floating-point operations per second) on the High-Performance
-Linpack Benchmark [@frontier]. With the breakdown of Dennard scaling
-(*i.e.*, the power usage of a transistor is proportional to its area),
-achieving exascale performance is presently only possible by relying
-on heterogeneous hardware. Unfortunately, hardware heterogeneity significantly
-complicates the process of developing high-performance scientific software.
-For many high-performance software packages, these complications start in the
-build system.
-
 The process of building a software package written in a compiled language
 (*e.g.*, C or C++) has always been complicated. Over the years, various build
 system solutions have evolved to ease the process. Historically, there
 has been a propensity to treat each build system as a one-off use case. This is
-understandable since build systems have tended to be relatively small (*i.e.*,
-less than ~1K lines of code) and tightly coupled to the identity of the package.
+understandable since build systems have tended to be relatively small
+and tightly coupled to the structure and purpose of the package.
 With build system complexity at an all-time high, there is now an
 increasing desire (at least within scientific computing communities) to treat
 the underlying build system infrastructure as code. This means that the
@@ -91,8 +80,8 @@ modules. API documentation is arguably one of the most basic elements of a
 software development ecosystem, and it is our hope that CMinx will serve as the
 foundation for a robust CMake development ecosystem.
 
-Anecdotal evidence [@official_solution] indicates that the developers of the
-CMake language (*i.e.*, Kitware) internally write their API documentation
+Anecdotal evidence [@official_solution] indicates that Kitware, the developers
+of the CMake language, internally write their API documentation
 using reST and Sphinx. Following best practices, this reST documentation
 resides next to the described CMake code. Kitware has also written a
 Sphinx plugin that makes it easy to extract the API documentation as part of a
@@ -105,9 +94,8 @@ appear to now be abandoned.
 To our knowledge, all of the aforementioned Sphinx plugins simply extract the
 reST API documentation verbatim. Notably, this means the developer is
 responsible
-for manually: adding the function/macro signatures to the documentation, listing
-the function's parameters, and the overall formatting (*e.g.*, titles and
-subtitles, creation of parameter tables, underline/overline consistency). For
+for manually adding the function/macro signatures to the documentation, listing
+the function's parameters, and the overall formatting. For
 build system developers maintaining one or two CMake modules, these are
 admittedly pretty minor inconveniences; however, for organizations
 maintaining a substantial CMake code base (such as those for exascale programs),
