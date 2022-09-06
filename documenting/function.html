@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Documenting a Function &mdash; CMinx v1.0.2 documentation</title>
+  <title>Documenting a Function &mdash; CMinx v1.0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
             <a href="../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.2
+                1.0.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -48,6 +48,8 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Using CMinx to Document Your Code</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="types_of_comments.html">Types of Comments</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Documenting a Function</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-function-documentation">Basic Function Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#documenting-keyword-arguments">Documenting Keyword Arguments</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#recommended-rest-directives">Recommended reST Directives</a></li>
 </ul>
 </li>
@@ -116,20 +118,44 @@ file. A good template is:</p>
 <span class="c">#]]</span>
 </pre></div>
 </div>
-<section id="recommended-rest-directives">
-<h2>Recommended reST Directives<a class="headerlink" href="#recommended-rest-directives" title="Permalink to this heading"></a></h2>
-<p>reST’s default set of directives encompasses many language nuances which are
-not found in the CMake language. Of the default reST directives, the ones that
-map directly to aspects of the CMake language are:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">:param</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">parameter&gt;:</span> <span class="pre">&lt;description</span> <span class="pre">of</span> <span class="pre">parameter&gt;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">:keyword</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">keyword&gt;:</span> <span class="pre">&lt;description</span> <span class="pre">of</span> <span class="pre">keyword&gt;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">:type</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">parameter&gt;:</span> <span class="pre">&lt;type</span> <span class="pre">of</span> <span class="pre">parameter</span> <span class="pre">named</span> <span class="pre">&quot;name</span> <span class="pre">of</span> <span class="pre">parameter&quot;&gt;</span></code></p></li>
-</ul>
-<p>Respectively these document: positional arguments, keyword arguments (<em>i.e.</em>,
-arguments to be parsed by <code class="docutils literal notranslate"><span class="pre">cmake_parse_arguments</span></code>), and the type of a
-positional argument or keyword. Unlike most languages CMake does not natively
-support returns.</p>
+<p>The following sections describe the aspects of this template in more detail.</p>
+<section id="basic-function-documentation">
+<h2>Basic Function Documentation<a class="headerlink" href="#basic-function-documentation" title="Permalink to this heading"></a></h2>
+<p>As an example consider the very simple CMake function <code class="docutils literal notranslate"><span class="pre">say_hi_to</span></code> defined as:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">function</span><span class="p">(</span><span class="s">say_hi_to</span><span class="w"> </span><span class="s">person</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;Hi ${person}&quot;</span><span class="p">)</span>
+<span class="nb">endfunction</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">say_hi_to</span></code> takes one positional argument <code class="docutils literal notranslate"><span class="pre">person</span></code> which is the name of the
+person we want to say hi to.  For documenting positional arguments it is
+recommended you use the <code class="docutils literal notranslate"><span class="pre">:param:</span></code> field like:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
+<span class="c"># This function has very basic documentation.</span>
+<span class="c">#</span>
+<span class="c"># This function&#39;s description stays close to idealized formatting and does not</span>
+<span class="c"># do anything fancy.</span>
+<span class="c">#</span>
+<span class="c"># :param person: The person this function says hi to</span>
+<span class="c"># :type person: string</span>
+<span class="c">#]]</span>
+<span class="nb">function</span><span class="p">(</span><span class="s">say_hi_to</span><span class="w"> </span><span class="s">person</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;Hi ${person}&quot;</span><span class="p">)</span>
+<span class="nb">endfunction</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Running CMinx on the documented code will generate:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">function</span><span class="p">::</span> say_hi_to(person)
+
+   This function has very basic documentation.
+   
+   This function&#39;s description stays close to idealized formatting and does not
+   do anything fancy.
+   
+   <span class="nc">:param person:</span> The person this function says hi to
+   <span class="nc">:type person:</span> string
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Since CMake is an interpreted language, it may not be obvious at first, but
@@ -139,7 +165,47 @@ generator expressions, target names, strings, and lists. A list can contain
 any of the aforementioned types (including other lists) and all objects can
 be implicitly converted to stings.</p>
 </div>
-<p>An example using all three of these directives:</p>
+<p>The documentation comment has three parts:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># This function has very basic documentation.
+</pre></div>
+</div>
+<p>is the short/brief description; it’s used to quickly summarize what the function
+does. The short description is often used when a user is trying to quickly
+ascertain what functionality a CMake module provides.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># This function&#39;s description stays close to idealized formatting and does not
+# do anything fancy.
+</pre></div>
+</div>
+<p>is the detailed description; it’s used to provide more in depth documentation
+beyond the brief description. Finally,</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># :param person: The person this function says hi to
+# :type person: string
+</pre></div>
+</div>
+<p>documents the positional arguments to the function including how they are used
+and what their types.</p>
+</section>
+<section id="documenting-keyword-arguments">
+<h2>Documenting Keyword Arguments<a class="headerlink" href="#documenting-keyword-arguments" title="Permalink to this heading"></a></h2>
+<p>In modern CMake it is common practice for functions that accept many
+arguments, to accept those arguments as keyword arguments instead of
+positional arguments. As an example consider an “advanced” version of
+<code class="docutils literal notranslate"><span class="pre">say_hi_to</span></code> defined as:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">function</span><span class="p">(</span><span class="s">advanced_say_hi_to</span><span class="w"> </span><span class="s">me</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="s">PARSE_ARGV</span><span class="w"> </span><span class="s">1</span><span class="w"> </span><span class="s">_asht</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="s2">&quot;PERSONS;CATS&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;I, ${me}, want to say hi to the following &quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;people: ${_asht_PERSONS} and the following cats: ${_asht_CATS}&quot;</span><span class="p">)</span>
+<span class="nb">endfunction</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Although not strictly necessary, most CMake function implementations handle
+keyword arguments by calling <code class="docutils literal notranslate"><span class="pre">cmake_parse_arguments</span></code>. The arguments to
+<code class="docutils literal notranslate"><span class="pre">cmake_parse_arguments</span></code> are the keywords the function recognizes; in this
+example the keyword arguments are <code class="docutils literal notranslate"><span class="pre">PERSONS</span></code> and <code class="docutils literal notranslate"><span class="pre">CATS</span></code> (see
+<a class="reference external" href="https://cmake.org/cmake/help/latest/command/cmake_parse_arguments.html">here</a>
+for more details about <code class="docutils literal notranslate"><span class="pre">cmake_parse_arguments</span></code>).</p>
+<p>Documenting keyword arguments is similar to documenting positional parameters
+except that instead of using the <code class="docutils literal notranslate"><span class="pre">:param:</span></code> field, one uses <code class="docutils literal notranslate"><span class="pre">:keyword:</span></code>:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
 <span class="c"># Variation of say_hi_to, which takes lists of people and cats to say hi to.</span>
 <span class="c">#</span>
@@ -161,16 +227,8 @@ be implicitly converted to stings.</p>
 <span class="nb">endfunction</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Assuming the above CMake lives in the file <code class="docutils literal notranslate"><span class="pre">advanced_function.cmake</span></code>, CMinx
-will generate the reST file:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">##############################</span>
-<span class="gh">test_samples.advanced_function</span>
-<span class="gh">##############################</span>
-
-<span class="p">..</span> <span class="ow">module</span><span class="p">::</span> test_samples.advanced_function
-
-
-<span class="p">..</span> <span class="ow">function</span><span class="p">::</span> advanced_say_hi_to(me)
+<p>Running CMinx on this code generates:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">function</span><span class="p">::</span> advanced_say_hi_to(me)
 
    Variation of say_hi_to, which takes lists of people and cats to say hi to.
    
@@ -184,9 +242,29 @@ will generate the reST file:</p>
    <span class="nc">:type PERSONS:</span> list of strings
    <span class="nc">:keyword CATS:</span> The cat or cats to say hi to.
    <span class="nc">:type CATS:</span> list of strings
-   
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While it is recommended that you document positional arguments differently
+than keyword arguments by using <code class="docutils literal notranslate"><span class="pre">:param:</span></code> vs. <code class="docutils literal notranslate"><span class="pre">:keyword:</span></code> the resulting
+HTML documentation may end up rendering the two the same.</p>
+</div>
+</section>
+<section id="recommended-rest-directives">
+<h2>Recommended reST Directives<a class="headerlink" href="#recommended-rest-directives" title="Permalink to this heading"></a></h2>
+<p>reST’s default set of directives encompasses many language nuances which are
+not found in the CMake language. Of the default reST directives, the ones that
+map directly to aspects of the CMake language are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">:param</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">parameter&gt;:</span> <span class="pre">&lt;description</span> <span class="pre">of</span> <span class="pre">parameter&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:keyword</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">keyword&gt;:</span> <span class="pre">&lt;description</span> <span class="pre">of</span> <span class="pre">keyword&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:type</span> <span class="pre">&lt;name</span> <span class="pre">of</span> <span class="pre">parameter&gt;:</span> <span class="pre">&lt;type</span> <span class="pre">of</span> <span class="pre">parameter</span> <span class="pre">named</span> <span class="pre">&quot;name</span> <span class="pre">of</span> <span class="pre">parameter&quot;&gt;</span></code></p></li>
+</ul>
+<p>Respectively these document: positional arguments, keyword arguments (<em>i.e.</em>,
+arguments to be parsed by <code class="docutils literal notranslate"><span class="pre">cmake_parse_arguments</span></code>), and the type of a
+positional argument or keyword. Unlike most languages CMake does not natively
+support returns.</p>
 </section>
 </section>
 
