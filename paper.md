@@ -48,6 +48,16 @@ productivity tool in the authors' other projects, and, given that other
 scientific software projects also rely heavily on source code written in CMake,
 we anticipate CMinx will prove invaluable to many additional projects as well.
 
+Concurrent with the submission of this manuscript, we have also released the
+first production version of CMinx, version 1.0.0. CMinx can be obtained
+from the Python Packaging Index via "`pip install CMinx`". Alternatively, CMinx
+can be used as a CMake module via CMake's "`FetchContent`" command.
+Despite only just releasing 1.0.0, the CMinx GitHub organization
+has already started to see attention and interest from developers not
+affiliated with the authors. So while CMinx might not be considered research
+software, we anticipate CMinx to be a useful productivity tool for the large
+swath of research software that uses CMake as their build system.
+
 # Statement of need
 
 The process of building a software package written in a compiled language
@@ -56,17 +66,13 @@ system solutions have evolved to ease the process. Historically, there
 has been a propensity to treat each build system as a one-off use case. This is
 understandable since build systems have tended to be relatively small
 and tightly coupled to the structure and purpose of the package.
-With build system complexity at an all-time high, there is now an
-increasing desire (at least within scientific computing communities) to treat
-the underlying build system infrastructure as code. This means that the
-build system should be modularized, and those modules should be documented,
-tested, and reusable. With the popularity of C/C++ for high-performance
-computing, "build system" is increasingly becoming synonymous with CMake
-(*N.B.* CMake is often described as a build system generator; however, since
-the typical CMake workflow encapsulates running the build system, the
-present manuscript ignores the "generator" distinction). Therefore with the
-advent of the exascale era, there is a desperate need for a robust CMake
-development ecosystem.
+With build system complexity at an all-time high[@snir2014,@xSDK], there is an
+increasing need to treat the underlying build system infrastructure as code.
+This means that the build system should be modularized, and those modules
+should be documented, tested, and reusable. With the popularity of C/C++ for
+high-performance computing, "build system" is increasingly becoming synonymous
+with CMake. Therefore with the advent of the exascale era, there is a desperate
+need for a robust CMake development ecosystem.
 
 CMake already contains a number of tools and features that facilitate
 development of the target software package. For example, CMake's
@@ -109,24 +115,13 @@ need to maintain and makes it easier for the resulting documentation to be
 used in workflows that do not rely on Sphinx. Finally, CMinx has a CMake API
 to integrate more easily into existing CMake workflows.
 
-Concurrent with the submission of this manuscript, we have also released the
-first production version of CMinx, version 1.0.0. CMinx can be obtained
-from the Python Packaging Index via "`pip install CMinx`". Alternatively, CMinx
-can be used as a CMake module via CMake's "`FetchContent`" command.
-Despite only just releasing 1.0.0, the CMinx GitHub organization
-has already started to see attention and interest from developers not
-affiliated with the authors. So while CMinx might not be considered research
-software, we anticipate CMinx to be a useful productivity tool for the large
-swath of research software that uses CMake as their build system.
-
 # Acknowledgements
 
 This research was supported by the Exascale Computing Project (17-SC-20-SC),
 a collaborative effort of the U.S. Department of Energy Office of Science
 and the National Nuclear Security Administration.
 
-The authors would also like to acknowledge GitHub users ni-fgenois,
-ni-dschiller, dschiller, and zachcran for discussions, bug-reports, and
+The authors would also like to acknowledge GitHub users dschiller, ni-dschiller,  ni-fgenois, peanutfun, and zachcran for sdiscussions, bug-reports, and
 bug-fixes.
 
 # References
