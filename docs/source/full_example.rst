@@ -181,6 +181,27 @@ to the ``conf.py`` file (where in ``conf.py`` is somewhat irrelevant, but its
 usually added as some of the first lines of code). Note that the paths to
 ``cminx.main()`` are relative to the location of the ``conf.py`` file.
 
+Option 3: Call CMinx from CMake
+===============================
+
+It is also possible to integrate CMinx into an existing build system. This is
+most easily done via CMake's
+`FetchContent <https://cmake.org/cmake/help/latest/module/FetchContent.html>`__
+module.
+
+.. code-block:: cmake
+
+   include(FetchContent)
+   FetchContent_Declare(
+       cminx
+       GIT_REPOSITORY https://github.com/cmakepp/cminx.git
+   )
+   FetchContent_MakeAvailable(cminx)
+   cminx_gen_rst("${CMAKE_CURRENT_LIST_DIR}/cmake" "${output_dir}")
+
+This assumes that the CMake script is located in the root directory of your
+repository.
+
 ******************
 Step 4: Run Sphinx
 ******************
