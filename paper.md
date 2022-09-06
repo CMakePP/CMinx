@@ -91,8 +91,8 @@ modules. API documentation is arguably one of the most basic elements of a
 software development ecosystem, and it is our hope that CMinx will serve as the
 foundation for a robust CMake development ecosystem.
 
-Anecdotal evidence [@official_solution] indicates that the developers of the
-CMake language (*i.e.*, Kitware) internally write their API documentation
+Anecdotal evidence [@official_solution] indicates that Kitware, the developers
+of the CMake language, internally write their API documentation
 using reST and Sphinx. Following best practices, this reST documentation
 resides next to the described CMake code. Kitware has also written a
 Sphinx plugin that makes it easy to extract the API documentation as part of a
