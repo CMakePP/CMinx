@@ -20,16 +20,16 @@ The purpose of this page is to show a start to finish example of how to use
 CMinx and Sphinx to generate documentation. For the purposes of this tutorial
 we assume:
 
-- your project has a root directory ``root/``,
-- ``root/docs/`` contains (or will contain) the source for the documentation,
-- ``root/cmake/`` contains CMake modules, and
-- ``root/cmake/example.cmake`` is the documented CMake source file
+- your project has a root directory ``example/``,
+- ``example/docs/`` contains (or will contain) the source for the documentation,
+- ``example/cmake/`` contains CMake modules, and
+- ``example/cmake/example.cmake`` is the documented CMake source file
 
 Summarily we assume a project structure:
 
 .. code::
 
-   └─ root/
+   └─ example/
       ├─ docs/
       └─ cmake/
          └─ example.cmake
@@ -64,7 +64,7 @@ this step. In the ``docs/`` directory run:
 
 .. code:: console
 
-      foo@bar:root/docs$ sphinx-quickstart
+      foo@bar:example/docs$ sphinx-quickstart
 
 and answer the questions according to your preferences (we highly recommend
 separating the source and build directory). Afterwards you should have a
@@ -73,7 +73,7 @@ directories):
 
 .. code::
 
-   └─ root/
+   └─ example/
       ├─ docs/
       |  ├─ build/
       |  ├─ make.bat
@@ -92,12 +92,12 @@ Step 2: Update index.rst
 
 When we run CMinx it will generate a directory filled with API documentation
 for our CMake module. We need to decide where to put that directory. There are
-many possibilities, but we recommend a directory in ``root/docs/source``
+many possibilities, but we recommend a directory in ``example/docs/source``
 which is used to specifically house the API documentation
-(*e.g.*, ``root/docs/source/cmake_api``).
+(*e.g.*, ``example/docs/source/cmake_api``).
 
 Regardless of where you choose to put the generated files, the next step is to
-modify ``root/docs/source/index.rst`` so that the documentation Sphinx generates
+modify ``example/docs/source/index.rst`` so that the documentation Sphinx generates
 properly links to the API documentation. The default contents of ``index.rst``
 will look something like:
 
@@ -126,7 +126,7 @@ will look something like:
    * :ref:`search`
 
 Assuming you decide you too would like to put your API documentation in
-``root/docs/source/cmake_api`` change line 13 to:
+``example/docs/source/cmake_api`` change line 13 to:
 
 .. code-block:: rst
 
@@ -139,7 +139,7 @@ Assuming you decide you too would like to put your API documentation in
    As of this writing Sphinx does not allow you to reference out of a Sphinx
    project from inside a ``toctree`` directive (the root of a Sphinx project
    is defined by where the ``conf.py`` file lives). This means you can not
-   put your generated API documentation in ``root/docs/build`` for example
+   put your generated API documentation in ``example/docs/build`` for example
    (at least without doing some dodgy stuff).
 
 *****************
@@ -158,7 +158,7 @@ Bash-like shell on a Unix-like system). Assuming CMinx is in our path we run
 
 .. code:: console
 
-      foo@bar:root$ cminx -o <output_dir> -r cmake
+      foo@bar:example$ cminx -o <output_dir> -r cmake
 
 Where ``<output_dir>`` is the path to where you chose to put the API
 documentation (``docs/source/cmake_api`` if you followed our suggestion
@@ -191,7 +191,7 @@ way):
 
 .. code::
 
-   └─ root/
+   └─ example/
       ├─ docs/
       |  ├─ build/
       |  ├─ make.bat
@@ -209,11 +209,11 @@ way):
          └─ example.cmake
 
 We are now finally read to generate the documentation. To do so, run
-(in ``root/docs``):
+(in ``example/docs``):
 
 .. code:: console
 
-   foo@bar:root/docs$ make html
+   foo@bar:example/docs$ make html
 
 The index of the resulting website will live at
-``root/docs/build/html/index.html``.
+``example/docs/build/html/index.html``.
