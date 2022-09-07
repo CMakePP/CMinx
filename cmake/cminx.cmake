@@ -42,15 +42,4 @@ function(cminx_gen_rst _cgd_dir _cgd_output)
         RESULT_VARIABLE process_result
         COMMAND_ERROR_IS_FATAL ANY
     )
-
-	message("${process_output}")
-    if(NOT process_result EQUAL 0)
-        string(
-            CONCAT error_msg "Failed to generate RST.\n"
-                             "Result code was: ${process_result}.\n"
-                             "Error output was: ${process_err}.\n"
-                             "Process output was: ${process_output}\n"
-        )
-        message(FATAL_ERROR "${error_msg}")
-    endif()
 endfunction()
