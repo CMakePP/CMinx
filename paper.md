@@ -121,7 +121,8 @@ This research was supported by the Exascale Computing Project (17-SC-20-SC),
 a collaborative effort of the U.S. Department of Energy Office of Science
 and the National Nuclear Security Administration.
 
-The authors would also like to acknowledge GitHub users dschiller, ni-dschiller,  ni-fgenois, peanutfun, and zachcran for sdiscussions, bug-reports, and
-bug-fixes.
+The authors would also like to acknowledge GitHub users dschiller, ni-dschiller,
+ni-fgenois, peanutfun, robertodr, and zachcran for suggestions, discussions,
+bug-reports, and bug-fixes.
 
 # References
