@@ -61,7 +61,7 @@ swath of research software that uses CMake as their build system.
 # Statement of need
 
 The process of building a software package written in a compiled language
-(*e.g.*, C or C++) has always been complicated. Over the years, various build
+(*e.g.*, C, C++ or Fortran) has always been complicated. Over the years, various build
 system solutions have evolved to ease the process. Historically, there
 has been a propensity to treat each build system as a one-off use case. This is
 understandable since build systems have tended to be relatively small
