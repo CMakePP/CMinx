@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example CMinx/Sphinx Workflow &mdash; CMinx v1.0.3 documentation</title>
+  <title>Example CMinx/Sphinx Workflow &mdash; CMinx v1.0.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
             <a href="index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.3
+                1.0.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -93,13 +93,13 @@
 CMinx and Sphinx to generate documentation. For the purposes of this tutorial
 we assume:</p>
 <ul class="simple">
-<li><p>your project has a root directory <code class="docutils literal notranslate"><span class="pre">root/</span></code>,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">root/docs/</span></code> contains (or will contain) the source for the documentation,</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">root/cmake/</span></code> contains CMake modules, and</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">root/cmake/example.cmake</span></code> is the documented CMake source file</p></li>
+<li><p>your project has a root directory <code class="docutils literal notranslate"><span class="pre">example/</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">example/docs/</span></code> contains (or will contain) the source for the documentation,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">example/cmake/</span></code> contains CMake modules, and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">example/cmake/example.cmake</span></code> is the documented CMake source file</p></li>
 </ul>
 <p>Summarily we assume a project structure:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ root/
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ example/
    ├─ docs/
    └─ cmake/
       └─ example.cmake
@@ -123,14 +123,14 @@ instructions)</p></li>
 <p>This step focuses on setting up the <code class="docutils literal notranslate"><span class="pre">docs/</span></code> directory for Sphinx-based
 documentation. If your <code class="docutils literal notranslate"><span class="pre">docs/</span></code> directory is already setup feel free to skip
 this step. In the <code class="docutils literal notranslate"><span class="pre">docs/</span></code> directory run:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">foo@bar:root/docs$ </span>sphinx-quickstart
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">foo@bar:example/docs$ </span>sphinx-quickstart
 </pre></div>
 </div>
 <p>and answer the questions according to your preferences (we highly recommend
 separating the source and build directory). Afterwards you should have a
 directory structure like (assuming you selected separate source and build
 directories):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ root/
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ example/
    ├─ docs/
    |  ├─ build/
    |  ├─ make.bat
@@ -149,11 +149,11 @@ directories):</p>
 <h2>Step 2: Update index.rst<a class="headerlink" href="#step-2-update-index-rst" title="Permalink to this heading"></a></h2>
 <p>When we run CMinx it will generate a directory filled with API documentation
 for our CMake module. We need to decide where to put that directory. There are
-many possibilities, but we recommend a directory in <code class="docutils literal notranslate"><span class="pre">root/docs/source</span></code>
+many possibilities, but we recommend a directory in <code class="docutils literal notranslate"><span class="pre">example/docs/source</span></code>
 which is used to specifically house the API documentation
-(<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">root/docs/source/cmake_api</span></code>).</p>
+(<em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">example/docs/source/cmake_api</span></code>).</p>
 <p>Regardless of where you choose to put the generated files, the next step is to
-modify <code class="docutils literal notranslate"><span class="pre">root/docs/source/index.rst</span></code> so that the documentation Sphinx generates
+modify <code class="docutils literal notranslate"><span class="pre">example/docs/source/index.rst</span></code> so that the documentation Sphinx generates
 properly links to the API documentation. The default contents of <code class="docutils literal notranslate"><span class="pre">index.rst</span></code>
 will look something like:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">.. example documentation master file, created by</span>
@@ -179,7 +179,7 @@ will look something like:</p>
 </pre></div>
 </div>
 <p>Assuming you decide you too would like to put your API documentation in
-<code class="docutils literal notranslate"><span class="pre">root/docs/source/cmake_api</span></code> change line 13 to:</p>
+<code class="docutils literal notranslate"><span class="pre">example/docs/source/cmake_api</span></code> change line 13 to:</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>cmake_api/example/index
 </pre></div>
 </div>
@@ -189,7 +189,7 @@ will look something like:</p>
 <p>As of this writing Sphinx does not allow you to reference out of a Sphinx
 project from inside a <code class="docutils literal notranslate"><span class="pre">toctree</span></code> directive (the root of a Sphinx project
 is defined by where the <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> file lives). This means you can not
-put your generated API documentation in <code class="docutils literal notranslate"><span class="pre">root/docs/build</span></code> for example
+put your generated API documentation in <code class="docutils literal notranslate"><span class="pre">example/docs/build</span></code> for example
 (at least without doing some dodgy stuff).</p>
 </div>
 </section>
@@ -202,7 +202,7 @@ choose the one that works best for your workflow.</p>
 <p>To generate the documentation, we enter our system shell (example assumes
 Bash-like shell on a Unix-like system). Assuming CMinx is in our path we run
 (in the root directory):</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">foo@bar:root$ </span>cminx -o &lt;output_dir&gt; -r cmake
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">foo@bar:example$ </span>cminx -o &lt;output_dir&gt; -r cmake
 </pre></div>
 </div>
 <p>Where <code class="docutils literal notranslate"><span class="pre">&lt;output_dir&gt;</span></code> is the path to where you chose to put the API
@@ -228,7 +228,7 @@ usually added as some of the first lines of code). Note that the paths to
 <p>Regardless of which option you chose in Step 3, your directory structure should
 now look like (still assuming you have taken our recommendations along the
 way):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ root/
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└─ example/
    ├─ docs/
    |  ├─ build/
    |  ├─ make.bat
@@ -247,12 +247,12 @@ way):</p>
 </pre></div>
 </div>
 <p>We are now finally read to generate the documentation. To do so, run
-(in <code class="docutils literal notranslate"><span class="pre">root/docs</span></code>):</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">foo@bar:root/docs$ </span>make html
+(in <code class="docutils literal notranslate"><span class="pre">example/docs</span></code>):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">foo@bar:example/docs$ </span>make html
 </pre></div>
 </div>
 <p>The index of the resulting website will live at
-<code class="docutils literal notranslate"><span class="pre">root/docs/build/html/index.html</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">example/docs/build/html/index.html</span></code>.</p>
 </section>
 </section>
 
