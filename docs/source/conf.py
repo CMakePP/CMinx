@@ -71,6 +71,9 @@ html_theme_options = {
 }
 html_context = {
     'display_github' : True,
+    'github_user' : 'CMakePP',
+    'github_repo' : 'CMinx',
+    'github_version' : 'master/docs/source/'
 }
 htmlhelp_basename = project + 'doc'
 extensions = [
