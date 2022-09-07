@@ -66,7 +66,7 @@ system solutions have evolved to ease the process. Historically, there
 has been a propensity to treat each build system as a one-off use case. This is
 understandable since build systems have tended to be relatively small
 and tightly coupled to the structure and purpose of the package.
-With build system complexity at an all-time high[@snir2014,@xSDK], there is an
+With build system complexity at an all-time high [@snir2014,@xSDK], there is an
 increasing need to treat the underlying build system infrastructure as code.
 This means that the build system should be modularized, and those modules
 should be documented, tested, and reusable. With the popularity of C/C++ for
