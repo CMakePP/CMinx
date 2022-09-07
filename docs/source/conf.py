@@ -66,12 +66,7 @@ exclude_patterns = ['build', '.templates']
 pygments_style = 'sphinx'
 # Required theme setup
 html_theme = 'sphinx_rtd_theme'
-html_theme_options = {
-    'vcs_pageview_mode' : 'edit'
-}
-html_context = {
-    'display_github' : True,
-}
+
 htmlhelp_basename = project + 'doc'
 extensions = [
     'sphinx.ext.mathjax',
