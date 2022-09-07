@@ -71,7 +71,7 @@ increasing need to treat the underlying build system infrastructure as code.
 This means that the build system should be modularized, and those modules
 should be documented, tested, and reusable. With the popularity of C/C++ for
 high-performance computing, "build system" is increasingly becoming synonymous
-with CMake. Therefore with the advent of the exascale era, there is a desperate
+with CMake: there is a desperate
 need for a robust CMake development ecosystem.
 
 CMake already contains a number of tools and features that facilitate
