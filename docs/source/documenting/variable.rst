@@ -17,7 +17,7 @@ Documenting a Variable
 **********************
 
 CMinx supports documenting variables. The process is identical to documenting a
-function or macro, except that the documentation comment proceeds a ``set``
+function or macro, except that the documentation comment precedes a ``set``
 command. An example:
 
 .. literalinclude:: ../../../tests/test_samples/variable.cmake
