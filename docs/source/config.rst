@@ -42,7 +42,8 @@ options recognized by CMinx into four categories:
 
 1. ``input``.   Affects which files and file parts CMinx will parse.
 2. ``output``.  Affects how CMinx outputs results.
-3. ``logging``. Options pertaining to CMinx's log messages.
+3. ``logging``. Options pertaining to CMinx's log messages. See
+   :ref:`logging_options` for more details.
 4. ``rst``.     Used to control the formatting of the generated reST.
 
 ****************************
@@ -82,6 +83,25 @@ directly to the ``main`` function like:
 
 (in both code examples ``<other options>`` should be replaced with any
 additional command line options the user wants to pass to CMinx).
+
+
+.. _logging_options:
+
+*******************
+Logging Options
+*******************
+In CMinx's configuration files, there is a `logging` section. This section is
+special in that it forwards all options inside of it to the Python
+`logging.config` module. This means that users can configure the Python logging
+ system, and thus CMinx's logging settings, directly from a standard config
+ file.
+
+See
+`here <https://docs.python.org/3/library/logging.config.html#logging-config-dictschema>`__
+for all valid logging configuration options. The YAML examples present within
+will work as long as they are within the `logging` section of the config file.
+See :ref:`default_config` for an example of a basic logging configuration.
+
 
 .. _default_config:
 
