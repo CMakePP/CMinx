@@ -64,6 +64,7 @@ execute_process(
                                       "--onefile"
                                       "${CMAKE_CURRENT_SOURCE_DIR}/src/main.py"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    COMMAND_ERROR_IS_FATAL ANY
 )
 
 # Move CMinx (and the CMinx CMake module) to the stage directory
