@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usage &mdash; CMinx v1.0.9 documentation</title>
+  <title>Usage &mdash; CMinx v1.0.10 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
             <a href="index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.9
+                1.0.10
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -45,6 +45,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuring CMinx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="documenting/index.html">Using CMinx to Document Your Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="full_example.html">Example CMinx/Sphinx Workflow</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a></li>
@@ -83,22 +84,44 @@ with a block doc-comment. A block doc-comment begins with <code class="code docu
 with <code class="code docutils literal notranslate"><span class="pre">#]]</span></code>.</p>
 <p>Then run <code class="code docutils literal notranslate"><span class="pre">cminx</span></code> on your CMake files, outputting to a directory of your
 choosing. The help text is printed below for reference:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">cminx</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span><span class="p">]</span> <span class="n">file</span> <span class="p">[</span><span class="n">file</span> <span class="o">...</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: cminx [-h] [-o OUTPUT.DIRECTORY] [-r] [-p RST.PREFIX] [-s SETTINGS]
+             [-e INPUT.EXCLUDE_FILTERS] [--version]
+             files [files ...]
 
-<span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
-   <span class="n">file</span>                 <span class="n">CMake</span> <span class="n">file</span> <span class="n">to</span> <span class="n">generate</span> <span class="n">documentation</span> <span class="k">for</span><span class="o">.</span> <span class="n">If</span>
-                        <span class="n">directory</span><span class="p">,</span> <span class="n">will</span> <span class="n">generate</span> <span class="n">documentation</span> <span class="k">for</span> <span class="nb">all</span>
-                        <span class="o">*.</span><span class="n">cmake</span> <span class="n">files</span> <span class="p">(</span><span class="n">case</span><span class="o">-</span><span class="n">insensitive</span><span class="p">)</span>
+Automatic documentation generator for CMake files. This program generates
+Sphinx-compatible RST documents, which are incompatible with standard
+docutils. Config files are searched for according to operating-system-
+dependent directories, such as $XDG_CONFIG_HOME/cminx on Linux. Additional
+config files can be specified with the -s option.
 
-<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
-  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
-  <span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">OUTPUT</span>
-                        <span class="n">Directory</span> <span class="n">to</span> <span class="n">output</span> <span class="n">generated</span> <span class="n">RST</span> <span class="n">to</span><span class="o">.</span> <span class="n">If</span> <span class="ow">not</span>
-                        <span class="n">specified</span> <span class="n">will</span> <span class="nb">print</span> <span class="n">to</span> <span class="n">standard</span> <span class="n">output</span><span class="o">.</span> <span class="n">Output</span> <span class="n">files</span>
-                        <span class="n">will</span> <span class="n">have</span> <span class="n">the</span> <span class="n">original</span> <span class="n">filename</span> <span class="k">with</span> <span class="n">the</span> <span class="n">cmake</span>
-                        <span class="n">extension</span> <span class="n">replaced</span> <span class="n">by</span> <span class="o">.</span><span class="n">rst</span>
-  <span class="o">-</span><span class="n">r</span><span class="p">,</span> <span class="o">--</span><span class="n">recursive</span>       <span class="n">If</span> <span class="n">specified</span><span class="p">,</span> <span class="n">will</span> <span class="n">generate</span> <span class="n">documentation</span> <span class="k">for</span> <span class="nb">all</span>
-                        <span class="n">subdirectories</span> <span class="n">of</span> <span class="n">specified</span> <span class="n">directory</span> <span class="n">recursively</span>
+positional arguments:
+   files             CMake file to generate documentation for. If
+                     directory, will generate documentation for all *.cmake
+                     files (case-insensitive)
+
+options:
+   -h, --help            show this help message and exit
+   -o OUTPUT.DIRECTORY, --output OUTPUT.DIRECTORY
+                         Directory to output generated RST to. If not specified
+                         will print to standard output. Output files will have
+                         the original filename with the cmake extension
+                         replaced by .rst
+   -r, --recursive       If specified, will generate documentation for all
+                         subdirectories of specified directory recursively. If
+                         the prefix is not specified, it will be set to the
+                         last element of the input path.
+   -p RST.PREFIX, --prefix RST.PREFIX
+                         If specified, all output files will have headers
+                         generated as if the prefix was the top level package.
+   -s SETTINGS, --settings SETTINGS
+                        Load settings from the specified YAML file. Parameters
+                        specified by this file will override defaults, and
+                        command-line arguments will override both.
+   -e INPUT.EXCLUDE_FILTERS, --exclude INPUT.EXCLUDE_FILTERS
+                        Exclude some files from documentation. Supports shell-
+                        style glob syntax, relative paths are resolved with
+                        respect to the current working directory.
+   --version            show program&#39;s version number and exit
 </pre></div>
 </div>
 </section>
