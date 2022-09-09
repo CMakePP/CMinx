@@ -92,14 +92,14 @@ Logging Options
 *******************
 In CMinx's configuration files, there is a `logging` section. This section is
 special in that it forwards all options inside of it to the Python
-`logging.config` module. This means that users can configure the Python logging
- system, and thus CMinx's logging settings, directly from a standard config
- file.
+``logging.config`` module. This means that users can configure the Python
+logging system, and thus CMinx's logging settings, directly from a standard
+config file.
 
 See
 `here <https://docs.python.org/3/library/logging.config.html#logging-config-dictschema>`__
 for all valid logging configuration options. The YAML examples present within
-will work as long as they are within the `logging` section of the config file.
+will work as long as they are within the ``logging`` section of the config file.
 See :ref:`default_config` for an example of a basic logging configuration.
 
 
