@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example CMinx/Sphinx Workflow &mdash; CMinx v1.0.8 documentation</title>
+  <title>Example CMinx/Sphinx Workflow &mdash; CMinx v1.0.9 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
             <a href="index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.8
+                1.0.9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -53,6 +53,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#step-3-run-cminx">Step 3: Run CMinx</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#option-1-manually-run-cminx">Option 1: Manually run CMinx</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#option-2-modify-conf-py">Option 2: Modify conf.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-3-call-cminx-from-cmake">Option 3: Call CMinx from CMake</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#step-4-run-sphinx">Step 4: Run Sphinx</a></li>
@@ -221,6 +222,24 @@ Sphinx generated. In particular we add:</p>
 <p>to the <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> file (where in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> is somewhat irrelevant, but its
 usually added as some of the first lines of code). Note that the paths to
 <code class="docutils literal notranslate"><span class="pre">cminx.main()</span></code> are relative to the location of the <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> file.</p>
+</section>
+<section id="option-3-call-cminx-from-cmake">
+<h3>Option 3: Call CMinx from CMake<a class="headerlink" href="#option-3-call-cminx-from-cmake" title="Permalink to this heading"></a></h3>
+<p>It is also possible to integrate CMinx into an existing build system. This is
+most easily done via CMake’s
+<a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html">FetchContent</a>
+module.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">include</span><span class="p">(</span><span class="s">FetchContent</span><span class="p">)</span>
+<span class="nb">FetchContent_Declare</span><span class="p">(</span>
+<span class="w">    </span><span class="s">cminx</span>
+<span class="w">    </span><span class="s">GIT_REPOSITORY</span><span class="w"> </span><span class="s">https://github.com/cmakepp/cminx.git</span>
+<span class="p">)</span>
+<span class="nb">FetchContent_MakeAvailable</span><span class="p">(</span><span class="s">cminx</span><span class="p">)</span>
+<span class="nb">cminx_gen_rst</span><span class="p">(</span><span class="s2">&quot;${CMAKE_CURRENT_LIST_DIR}/cmake&quot;</span><span class="w"> </span><span class="s2">&quot;${output_dir}&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This assumes that the CMake script is located in the root directory of your
+repository.</p>
 </section>
 </section>
 <section id="step-4-run-sphinx">
