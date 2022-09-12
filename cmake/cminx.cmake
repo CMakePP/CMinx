@@ -35,21 +35,11 @@ function(cminx_gen_rst _cgd_dir _cgd_output)
     endif()
 
     execute_process(
-        COMMAND "${CMINX_EXECUTABLE}" "${_cgd_dir}" ${_cgr_cminx_options} 
+        COMMAND "${CMINX_EXECUTABLE}" "${_cgd_dir}" ${_cgr_cminx_options}
                 "-o" "${_cgd_output}"
         OUTPUT_VARIABLE process_output
         ERROR_VARIABLE process_err
         RESULT_VARIABLE process_result
+        COMMAND_ERROR_IS_FATAL ANY
     )
-
-	message("${process_output}")
-    if(NOT process_result EQUAL 0)
-        string(
-            CONCAT error_msg "Failed to generate RST.\n"
-                             "Result code was: ${process_result}.\n" 
-                             "Error output was: ${process_err}.\n" 
-                             "Process output was: ${process_output}\n"
-        )
-        message(FATAL_ERROR "${error_msg}")
-    endif()
 endfunction()

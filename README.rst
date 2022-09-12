@@ -44,9 +44,22 @@ The easiest way to install CMinx is via ``pip``. Simply run:
 
    pip install CMinx
 
-More detailed instructions, including how to install CMinx as part of a CMake
-build system, can be found 
+
+CMinx can also easily be used as part of a CMake workflow by adding:
+
+.. code-block:: cmake
+
+   include(FetchContent)
+   FetchContent_Declare(
+       cminx
+       GIT_REPOSITORY https://github.com/cmakepp/cminx.git
+   )
+   FetchContent_MakeAvailable(cminx)
+   cminx_gen_rst("${input_dir}" "${output_dir}")
+
+to your ``CMakeLists.txt`` file. More detailed instructions, can be found
 `here <https://cmakepp.github.io/CMinx/installation.html>`__.
+
 
 *************
 Example Usage
@@ -93,27 +106,28 @@ Which will generate:
    .. function:: example(param0)
 
       A brief description.
-   
+
       A more detailed description, must be separated from the brief by at least
       one blank line.
-   
+
       :param param0: The 0-th parameter passed to the function
 
 See `here <https://cmakepp.github.io/CMinx/documenting/index.html>`__ for more
 detailed usage instructions.
 
+
 *****************
 API Documentation
 *****************
 
-Full API documentation can be found 
+Full API documentation can be found
 `here <https://cmakepp.github.io/CMinx/developer/api.html>`__.
 
 ************
 Contributing
 ************
 
-In short, we try to be a welcoming community. If you have questions, 
+In short, we try to be a welcoming community. If you have questions,
 suggestions, bug reports, *etc.* open an issue and we will address them
 as soon as possible. If you want to contribute code, that's even better. We
 recommend you start a draft PR early in the process so we know the contribution
