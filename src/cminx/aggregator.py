@@ -60,6 +60,15 @@ class DocumentationAggregator(CMakeListener):
         definition
         """
 
+        self.definition_command_stack = []
+        """
+        A stack containing the current definition command that we are inside.
+        A definition command is any command that defines a construct with both a
+        beginning command and an ending command, with all commands within being considered
+        part of the definition. Examples of definition commands include
+        function(), macro(), and cpp_class().
+        """
+
         self.consumed = []
         """
         A list containing all of the Command_invocationContexts that have already been processed
