@@ -16,7 +16,7 @@ import logging
 
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
-    MethodDocumentation, VarType
+    MethodDocumentation, VarType, CTestDocumentation
 from .parser.CMakeListener import CMakeListener
 # Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention
 # inconsistencies here
@@ -362,6 +362,43 @@ class DocumentationAggregator(CMakeListener):
         default_values = params[2] if len(params) > 2 else None
         clazz.attributes.append(AttributeDocumentation(
             name, docstring, parent_class, default_values))
+
+    def process_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+        """
+        Extracts information from a CTest add_test() command.
+        Note: this is not the processor for the CMakeTest ct_add_test() command,
+        but the processor for the vanilla CMake add_test() command.
+
+        :param ctx: Documented command context. Constructed by the Antlr4 parser.
+
+        :param docstring: Cleaned docstring.
+        """
+        params = [param.getText() for param in ctx.single_argument()]  # Extract parameters
+
+        if len(params) < 2:
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
+
+            self.logger.error(
+                f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}")
+            return
+
+        name = ""
+        for i in range(0, len(params)):
+            param = params[i]
+            if param.upper() == "NAME":
+                try:
+                    name = params[i + 1]
+                except IndexError:
+                    pretty_text = docstring
+                    pretty_text += f"\n{ctx.getText()}"
+
+                    self.logger.error(f"add_test() called with incorrect parameters: {params}\n\n{pretty_text}")
+                    return
+
+        test_doc = CTestDocumentation(name, docstring, filter(lambda p: p != name and p != "NAME", params))
+        self.documented.append(test_doc)
+        self.documented_awaiting_function_def = test_doc
 
     def process_generic_command(self, command_name: str, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
