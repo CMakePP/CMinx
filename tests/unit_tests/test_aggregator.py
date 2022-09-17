@@ -297,6 +297,17 @@ cpp_end_class()
         self.assertEqual(0, len(self.aggregator.documented),
                          f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
 
+    def test_invalid_ctest_add_test_params(self):
+        docstring = "This is documentation for an incorrect ct_add_section() call"
+        # ct_add_test() requires an additional param after NAME, not before
+        params = ["NAME"]
+        command_name = "add_test"
+        command = f'{command_name}({" ".join(params)})'
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented),
+                         f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
     def test_incorrect_set_params(self):
         docstring = "This is documentation for an incorrect set() call"
         params = []
