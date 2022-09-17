@@ -251,3 +251,26 @@ function("${undocumented_test}")
     endfunction()
 
 endfunction()
+
+#[[[
+# This is a documented CTest test.
+# Note that this is a vanilla CMake
+# add_test() command, not a ct_add_test()
+# command
+#]]
+add_test(
+    NAME ctest_test
+    COMMAND bash -c echo test
+)
+
+#[[
+# This is an udocumented CTest test.
+# Note that this is a vanilla CMake
+# add_test() command, not a ct_add_test()
+# command
+#]]
+add_test(
+    NAME ctest_test_undocumented
+    COMMAND bash -c echo test
+)
+
