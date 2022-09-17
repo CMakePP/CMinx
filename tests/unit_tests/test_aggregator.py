@@ -299,7 +299,7 @@ cpp_end_class()
 
     def test_invalid_ctest_add_test_params(self):
         docstring = "This is documentation for an incorrect ct_add_section() call"
-        # ct_add_test() requires an additional param after NAME, not before
+        # add_test() requires two params minimum
         params = ["NAME"]
         command_name = "add_test"
         command = f'{command_name}({" ".join(params)})'
@@ -310,7 +310,7 @@ cpp_end_class()
 
     def test_incorrect_ctest_add_test_params(self):
         docstring = "This is documentation for an incorrect ct_add_section() call"
-        # ct_add_test() requires an additional param after NAME, not before
+        # add_test() requires an additional param after NAME, not before
         params = ["blah", "NAME"]
         command_name = "add_test"
         command = f'{command_name}({" ".join(params)})'
