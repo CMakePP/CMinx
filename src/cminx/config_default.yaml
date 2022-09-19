@@ -45,6 +45,12 @@ input:
   # auto-generated.
   include_undocumented_ct_add_section: true
 
+  # Whether undocumented CTest tests should have documentation
+  # auto-generated. This controls whether all vanilla
+  # CMake add_test() commands should be documented,
+  # it has no relation to CMakeTest tests.
+  include_undocumented_add_test: true
+
   # Whether directories not containing .cmake
   # files should be excluded from recursive mode searching.
   auto_exclude_directories_without_cmake: true

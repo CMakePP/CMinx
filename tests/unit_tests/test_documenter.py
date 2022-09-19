@@ -19,7 +19,7 @@ import context
 
 from cminx.documenter import Documenter
 from cminx.documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
-    GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation
+    GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, CTestDocumentation
 from cminx.rstwriter import Directive, RSTWriter
 
 
@@ -64,6 +64,9 @@ class TestDocumenter(unittest.TestCase):
             elif isinstance(doc, SectionDocumentation):
                 self.assertIsInstance(element, Directive, "Wrong RST element generated for test section")
                 self.assertEqual("function", element.document[0].title, "Wrong directive type for test section")
+            elif isinstance(doc, CTestDocumentation):
+                self.assertIsInstance(element, Directive, "Wrong RST element generated for CTest test")
+                self.assertEqual("function", element.document[0].title, "Wrong directive type for CTest test")
             else:
                 self.fail(f"Unknown documentation type: {doc}")
 

@@ -81,7 +81,8 @@ class TestInit(unittest.TestCase):
         input_settings = InputSettings(include_undocumented_ct_add_test=False, include_undocumented_cpp_attr=False,
                                        include_undocumented_function=False, include_undocumented_cpp_class=False,
                                        include_undocumented_macro=False, include_undocumented_cpp_member=False,
-                                       include_undocumented_ct_add_section=False, recursive=True)
+                                       include_undocumented_ct_add_section=False, include_undocumented_add_test=False,
+                                       recursive=True)
         output_settings = OutputSettings(directory=self.output_dir)
         rst_settings = RSTSettings(file_extensions_in_modules=True, file_extensions_in_titles=True,
                                    headers=['^', '*', '=', '-', '_', '~', '!', '&', '@'])
