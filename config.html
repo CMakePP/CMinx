@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Configuring CMinx &mdash; CMinx v1.0.10 documentation</title>
+  <title>Configuring CMinx &mdash; CMinx v1.0.11 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
             <a href="index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.10
+                1.0.11
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -191,6 +191,12 @@ of CMinx and the default values for those options.</p>
 <span class="w">  </span><span class="c1"># Whether undocumented test sections should have documentation</span><span class="w"></span>
 <span class="w">  </span><span class="c1"># auto-generated.</span><span class="w"></span>
 <span class="w">  </span><span class="nt">include_undocumented_ct_add_section</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1"># Whether undocumented CTest tests should have documentation</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># auto-generated. This controls whether all vanilla</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># CMake add_test() commands should be documented,</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># it has no relation to CMakeTest tests.</span><span class="w"></span>
+<span class="w">  </span><span class="nt">include_undocumented_add_test</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1"># Whether directories not containing .cmake</span><span class="w"></span>
 <span class="w">  </span><span class="c1"># files should be excluded from recursive mode searching.</span><span class="w"></span>

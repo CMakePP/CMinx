@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cminx.aggregator &mdash; CMinx v1.0.10 documentation</title>
+  <title>cminx.aggregator &mdash; CMinx v1.0.11 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
             <a href="../../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.10
+                1.0.11
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -101,7 +101,7 @@
 <span id="cminx-aggregator"></span><h1>cminx.aggregator<a class="headerlink" href="#module-cminx.aggregator" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.aggregator.</span></span><span class="sig-name descname"><span class="pre">DocumentationAggregator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Settings</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Settings(input=InputSettings(include_undocumented_function=True,</span> <span class="pre">include_undocumented_macro=True,</span> <span class="pre">include_undocumented_cpp_class=True,</span> <span class="pre">include_undocumented_cpp_attr=True,</span> <span class="pre">include_undocumented_cpp_constructor=True,</span> <span class="pre">include_undocumented_cpp_member=True,</span> <span class="pre">include_undocumented_ct_add_test=True,</span> <span class="pre">include_undocumented_ct_add_section=True,</span> <span class="pre">auto_exclude_directories_without_cmake=True,</span> <span class="pre">exclude_filters=(),</span> <span class="pre">recursive=False,</span> <span class="pre">follow_symlinks=False),</span> <span class="pre">output=OutputSettings(directory=None,</span> <span class="pre">relative_to_config=False),</span> <span class="pre">logging=LoggingSettings(logger_config={}),</span> <span class="pre">rst=RSTSettings(file_extensions_in_titles=False,</span> <span class="pre">file_extensions_in_modules=False,</span> <span class="pre">prefix=None,</span> <span class="pre">module_path_separator='.',</span> <span class="pre">headers=('#',</span> <span class="pre">'*',</span> <span class="pre">'=',</span> <span class="pre">'-',</span> <span class="pre">'_',</span> <span class="pre">'~',</span> <span class="pre">'!',</span> <span class="pre">'&amp;',</span> <span class="pre">'&#64;',</span> <span class="pre">'^')))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.aggregator.</span></span><span class="sig-name descname"><span class="pre">DocumentationAggregator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Settings</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Settings(input=InputSettings(include_undocumented_function=True,</span> <span class="pre">include_undocumented_macro=True,</span> <span class="pre">include_undocumented_cpp_class=True,</span> <span class="pre">include_undocumented_cpp_attr=True,</span> <span class="pre">include_undocumented_cpp_constructor=True,</span> <span class="pre">include_undocumented_cpp_member=True,</span> <span class="pre">include_undocumented_ct_add_test=True,</span> <span class="pre">include_undocumented_ct_add_section=True,</span> <span class="pre">include_undocumented_add_test=True,</span> <span class="pre">auto_exclude_directories_without_cmake=True,</span> <span class="pre">exclude_filters=(),</span> <span class="pre">recursive=False,</span> <span class="pre">follow_symlinks=False),</span> <span class="pre">output=OutputSettings(directory=None,</span> <span class="pre">relative_to_config=False),</span> <span class="pre">logging=LoggingSettings(logger_config={}),</span> <span class="pre">rst=RSTSettings(file_extensions_in_titles=False,</span> <span class="pre">file_extensions_in_modules=False,</span> <span class="pre">prefix=None,</span> <span class="pre">module_path_separator='.',</span> <span class="pre">headers=('#',</span> <span class="pre">'*',</span> <span class="pre">'=',</span> <span class="pre">'-',</span> <span class="pre">'_',</span> <span class="pre">'~',</span> <span class="pre">'!',</span> <span class="pre">'&amp;',</span> <span class="pre">'&#64;',</span> <span class="pre">'^')))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator" title="Permalink to this definition"></a></dt>
 <dd><p>Processes all docstrings and their associated commands, aggregating
 them in a list.</p>
 <dl class="py attribute">
@@ -149,6 +149,22 @@ processing (process_{command}(), i.e. process_function())</p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>NotImplementedError</strong> – If no processor can be found for the command that was documented.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_add_test">
+<span class="sig-name descname"><span class="pre">process_add_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_add_test" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts information from a CTest add_test() command.
+Note: this is not the processor for the CMakeTest ct_add_test() command,
+but the processor for the vanilla CMake add_test() command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ctx</strong> – Documented command context. Constructed by the Antlr4 parser.</p></li>
+<li><p><strong>docstring</strong> – Cleaned docstring.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

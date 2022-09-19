@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Documenting a Macro &mdash; CMinx v1.0.11 documentation</title>
+  <title>Documenting a CTest Test &mdash; CMinx v1.0.11 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,9 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Documenting a Variable" href="variable.html" />
-    <link rel="prev" title="Documenting a Function" href="function.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,18 +40,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../config.html">Configuring CMinx</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Using CMinx to Document Your Code</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="types_of_comments.html">Types of Comments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="function.html">Documenting a Function</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Documenting a Macro</a></li>
-<li class="toctree-l2"><a class="reference internal" href="variable.html">Documenting a Variable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cmaketest.html">Documenting a CMakeTest Test</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Using CMinx to Document Your Code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../full_example.html">Example CMinx/Sphinx Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../about.html">CMinx Background</a></li>
@@ -74,10 +65,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Using CMinx to Document Your Code</a> &raquo;</li>
-      <li>Documenting a Macro</li>
+      <li>Documenting a CTest Test</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/CMakePP/CMinx/edit/master/docs/source/documenting/macro.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/CMakePP/CMinx/edit/master/docs/source/documenting/ctest_add_test.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -85,45 +75,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="documenting-a-macro">
-<h1>Documenting a Macro<a class="headerlink" href="#documenting-a-macro" title="Permalink to this heading"></a></h1>
-<p>From the perspective of a CMinx user, one documents a macro in the same manner
-as a function. For example:</p>
+  <section id="documenting-a-ctest-test">
+<h1>Documenting a CTest Test<a class="headerlink" href="#documenting-a-ctest-test" title="Permalink to this heading"></a></h1>
+<p>CMinx can be used to document a CTest test created by the
+<a class="reference external" href="https://cmake.org/cmake/help/latest/command/add_test.html">add_test()</a> command.
+Again, this is done analogous to other documentation use cases, <em>i.e.</em>, by
+proceeding the <code class="docutils literal notranslate"><span class="pre">add_test()</span></code> command with a
+documentation comment. For example,</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
-<span class="c"># This macro says hi.</span>
-<span class="c"># This documentation uses a differing format,</span>
-<span class="c"># but is still processed correctly.</span>
-<span class="c">#</span>
-<span class="c"># :param person: The person we want to greet.</span>
-<span class="c"># :type person: string</span>
+<span class="c"># This is how to document a CTest test.</span>
+<span class="c"># Note that this is not a CMakeTest,</span>
+<span class="c"># but rather a vanilla CMake add_test() command.</span>
 <span class="c">#]]</span>
-<span class="nb">macro</span><span class="p">(</span><span class="s">macro_say_hi</span><span class="w"> </span><span class="s">person</span><span class="p">)</span>
-<span class="w">   </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;Hi ${person}&quot;</span><span class="p">)</span>
-<span class="nb">endmacro</span><span class="p">()</span>
+<span class="nb">add_test</span><span class="p">(</span>
+<span class="w">    </span><span class="s">NAME</span><span class="w"> </span><span class="s">example_test</span>
+<span class="w">    </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">echo</span><span class="w"> </span><span class="s">hello</span>
+<span class="w">    </span><span class="s">WORKING_DIRECTORY</span><span class="w"> </span><span class="s">build/</span>
+<span class="p">)</span>
 </pre></div>
 </div>
-<p>Since macros and functions behave differently in CMake (the biggest difference
-being that functions introduce a new scope, whereas macros do not). CMinx will
-automatically note in the generated documentation whether the command being
-documented is a function or a macro.</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">########################</span>
-<span class="gh">test_samples.basic_macro</span>
-<span class="gh">########################</span>
+<p>which generates:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">###########################</span>
+<span class="gh">test_samples.ctest_add_test</span>
+<span class="gh">###########################</span>
 
-<span class="p">..</span> <span class="ow">module</span><span class="p">::</span> test_samples.basic_macro
+<span class="p">..</span> <span class="ow">module</span><span class="p">::</span> test_samples.ctest_add_test
 
 
-<span class="p">..</span> <span class="ow">function</span><span class="p">::</span> macro_say_hi(person)
+<span class="p">..</span> <span class="ow">function</span><span class="p">::</span> example_test(COMMAND echo hello WORKING_DIRECTORY build/)
 
 
-<span class="p">   ..</span> <span class="ow">note</span><span class="p">::</span> This is a macro, and so does not introduce a new scope.
+<span class="p">   ..</span> <span class="ow">warning</span><span class="p">::</span> This is a CTest test definition, do not call this manually. Use the &quot;ctest&quot; program to execute this test.
 
-   This macro says hi.
-   This documentation uses a differing format,
-   but is still processed correctly.
-   
-   <span class="nc">:param person:</span> The person we want to greet.
-   <span class="nc">:type person:</span> string
+   This is how to document a CTest test.
+   Note that this is not a CMakeTest,
+   but rather a vanilla CMake add_test() command.
    
 </pre></div>
 </div>
@@ -132,10 +118,7 @@ documented is a function or a macro.</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="function.html" class="btn btn-neutral float-left" title="Documenting a Function" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="variable.html" class="btn btn-neutral float-right" title="Documenting a Variable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
