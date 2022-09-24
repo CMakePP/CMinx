@@ -42,11 +42,11 @@ you need to run ``ctest`` in the build directory.
 
 If CMinx was built with Python you can still run all the tests, except the ones
 pertaining to the CMake API. To test CMinx built with Python you first need to
-install the extra unit test dependencies (assumed to be run in this directory):
+install the extra unit test dependencies (run in root directory):
 
 .. code::
 
-   pip install -r requirements.txt
+   pip install -e .[testing]
 
 After installing the extra packages needed for unit testing, the unit tests can
 be run with (still in this directory):

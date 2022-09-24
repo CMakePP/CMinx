@@ -36,6 +36,7 @@ Table Of Contents
 
    installation
    quickstart
+   config
    documenting/index
    full_example
    usage
