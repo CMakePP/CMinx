@@ -6,7 +6,7 @@ test_samples.advanced_function
 .. module:: test_samples.advanced_function
 
 
-.. function:: advanced_say_hi_to(me)
+.. function:: advanced_say_hi_to(me **kwargs)
 
    Variation of say_hi_to, which takes lists of people and cats to say hi to.
    

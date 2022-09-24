@@ -34,6 +34,12 @@ prefix.example
    
 
 
+.. function:: func_kwargs(**kwargs)
+
+   This is a function with **kwargs.
+   
+
+
 .. function:: "${MyFunctionName}"()
 
    This is a documented function, but the name
