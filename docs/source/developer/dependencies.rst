@@ -72,13 +72,16 @@ Confuse
 
 Confuse is a Python library for managing YAML configuration files. CMinx uses
 it to load default configuration values from ``cminx/config_default.yml`` and
-search system configuration paths such as ``/etc/cminx/`` and ``~/.config/cminx/`` for `config.yaml` files.
-See `Search Paths <https://confuse.readthedocs.io/en/latest/usage.html#search-paths>`_ for more details.
+search system configuration paths such as ``/etc/cminx/`` and
+``~/.config/cminx/`` for `config.yaml` files.
+See `Search Paths <https://confuse.readthedocs.io/en/latest/usage.html#search-paths>`_
+for more details.
 
 
 Confuse also supports checking the configuration files for malformed or incorrect entries using templating. Templating is accomplished in the ``cminx.config`` module.
 
-As of writing, cminx uses the latest version of Confuse, version 1.7.0. Later versions with the same major version should continue to work.
+As of writing, cminx uses the latest version of Confuse, version 1.7.0. Later
+versions with the same major version should continue to work.
 
 ********
 PathSpec

@@ -45,6 +45,102 @@ file. A good template is:
    #    This is a note, it will show up using reST's native note section
    #]]
 
+The following sections describe the aspects of this template in more detail.
+
+Basic Function Documentation
+============================
+
+As an example consider the very simple CMake function ``say_hi_to`` defined as:
+
+.. literalinclude:: ../../../tests/test_samples/basic_function.cmake
+   :language: cmake
+   :lines: 12-14
+
+``say_hi_to`` takes one positional argument ``person`` which is the name of the
+person we want to say hi to.  For documenting positional arguments it is
+recommended you use the ``:param:`` field like:
+
+.. literalinclude:: ../../../tests/test_samples/basic_function.cmake
+   :language: cmake
+   :lines: 3-14
+
+Running CMinx on the documented code will generate:
+
+.. literalinclude:: ../../../tests/test_samples/corr_rst/basic_function.rst
+   :language: rst
+   :lines: 9-17
+
+.. note::
+
+   Since CMake is an interpreted language, it may not be obvious at first, but
+   CMake does have types. In one context or another, native CMake distinguishes
+   among: booleans, command names, file paths, floating-point numbers, integers,
+   generator expressions, target names, strings, and lists. A list can contain
+   any of the aforementioned types (including other lists) and all objects can
+   be implicitly converted to stings.
+
+The documentation comment has three parts:
+
+.. literalinclude:: ../../../tests/test_samples/basic_function.cmake
+   :lines: 4
+   :language: none
+
+is the short/brief description; it's used to quickly summarize what the function
+does. The short description is often used when a user is trying to quickly
+ascertain what functionality a CMake module provides.
+
+.. literalinclude:: ../../../tests/test_samples/basic_function.cmake
+   :lines: 6-7
+   :language: none
+
+is the detailed description; it's used to provide more in depth documentation
+beyond the brief description. Finally,
+
+.. literalinclude:: ../../../tests/test_samples/basic_function.cmake
+   :lines: 9-10
+   :language: none
+
+documents the positional arguments to the function including how they are used
+and what their types.
+
+Documenting Keyword Arguments
+=============================
+
+In modern CMake it is common practice for functions that accept many
+arguments, to accept those arguments as keyword arguments instead of
+positional arguments. As an example consider an "advanced" version of
+``say_hi_to`` defined as:
+
+.. literalinclude:: ../../../tests/test_samples/advanced_function.cmake
+   :language: cmake
+   :lines: 15-19
+
+Although not strictly necessary, most CMake function implementations handle
+keyword arguments by calling ``cmake_parse_arguments``. The arguments to
+``cmake_parse_arguments`` are the keywords the function recognizes; in this
+example the keyword arguments are ``PERSONS`` and ``CATS`` (see
+`here <https://cmake.org/cmake/help/latest/command/cmake_parse_arguments.html>`__
+for more details about ``cmake_parse_arguments``).
+
+Documenting keyword arguments is similar to documenting positional parameters
+except that instead of using the ``:param:`` field, one uses ``:keyword:``:
+
+.. literalinclude:: ../../../tests/test_samples/advanced_function.cmake
+   :language: cmake
+   :lines: 1-19
+
+Running CMinx on this code generates:
+
+.. literalinclude:: ../../../tests/test_samples/corr_rst/advanced_function.rst
+   :language: rst
+   :lines: 9-22
+
+.. note::
+
+   While it is recommended that you document positional arguments differently
+   than keyword arguments by using ``:param:`` vs. ``:keyword:`` the resulting
+   HTML documentation may end up rendering the two the same.
+
 Recommended reST Directives
 ===========================
 
@@ -60,23 +156,3 @@ Respectively these document: positional arguments, keyword arguments (*i.e.*,
 arguments to be parsed by ``cmake_parse_arguments``), and the type of a
 positional argument or keyword. Unlike most languages CMake does not natively
 support returns.
-
-.. note::
-
-   Since CMake is an interpreted language, it may not be obvious at first, but
-   CMake does have types. In one context or another, native CMake distinguishes
-   among: booleans, command names, file paths, floating-point numbers, integers,
-   generator expressions, target names, strings, and lists. A list can contain
-   any of the aforementioned types (including other lists) and all objects can
-   be implicitly converted to stings.
-
-An example using all three of these directives:
-
-.. literalinclude:: ../../../tests/test_samples/advanced_function.cmake
-   :language: cmake
-
-Assuming the above CMake lives in the file ``advanced_function.cmake``, CMinx
-will generate the reST file:
-
-.. literalinclude:: ../../../tests/test_samples/corr_rst/advanced_function.rst
-   :language: rst

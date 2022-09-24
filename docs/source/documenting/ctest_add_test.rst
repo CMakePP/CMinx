@@ -12,17 +12,20 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 ..
-**********************
-Documenting a Variable
-**********************
+############################
+Documenting a CTest Test
+############################
 
-CMinx supports documenting variables. The process is identical to documenting a
-function or macro, except that the documentation comment precedes a ``set``
-command. An example:
+CMinx can be used to document a CTest test created by the
+`add_test() <https://cmake.org/cmake/help/latest/command/add_test.html>`_ command.
+Again, this is done analogous to other documentation use cases, *i.e.*, by
+proceeding the ``add_test()`` command with a
+documentation comment. For example,
 
-.. literalinclude:: ../../../tests/test_samples/variable.cmake
+.. literalinclude:: ../../../tests/test_samples/ctest_add_test.cmake
    :language: cmake
 
 which generates:
 
-.. literalinclude:: ../../../tests/test_samples/corr_rst/variable.rst
+.. literalinclude:: ../../../tests/test_samples/corr_rst/ctest_add_test.rst
+   :language: rst
