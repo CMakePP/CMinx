@@ -127,3 +127,15 @@ examples.example.cmake
    This is a nested class
    
 
+
+.. function:: ctest_test(COMMAND bash -c echo test)
+
+
+   .. warning:: This is a CTest test definition, do not call this manually. Use the "ctest" program to execute this test.
+
+   This is a documented CTest test.
+   Note that this is a vanilla CMake
+   add_test() command, not a ct_add_test()
+   command
+   
+
