@@ -34,6 +34,7 @@ def config_template(output_dir_relative_to_config: bool = False) -> dict:
             "include_undocumented_cpp_constructor": bool,
             "include_undocumented_cpp_member": bool,
             "include_undocumented_ct_add_test": bool,
+            "include_undocumented_add_test": bool,
             "include_undocumented_ct_add_section": bool,
             "auto_exclude_directories_without_cmake": bool,
             "exclude_filters": confuse.Optional(list, default=()),
@@ -68,6 +69,7 @@ class InputSettings:
     include_undocumented_cpp_member: bool = True
     include_undocumented_ct_add_test: bool = True
     include_undocumented_ct_add_section: bool = True
+    include_undocumented_add_test: bool = True
     auto_exclude_directories_without_cmake: bool = True
     exclude_filters: List[str] = ()
     recursive: bool = False

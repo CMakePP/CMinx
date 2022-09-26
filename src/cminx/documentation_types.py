@@ -162,6 +162,28 @@ class GenericCommandDocumentation(DocumentationType):
 
 
 @dataclass
+class CTestDocumentation(DocumentationType):
+    """
+    This dataclass holds documentation information
+    for a vanilla CTest test. These tests are created
+    with the "add_test()" command from regular
+    CMake, and documenting such a call will
+    create this type of documentation.
+    """
+    params: List[str] = field(default_factory=lambda: [])
+
+    def process(self, writer: RSTWriter):
+        d = writer.directive(
+            "function",
+            f"{self.name}({' '.join(self.params)})")
+        d.directive(
+            "warning",
+            'This is a CTest test definition, do not call this manually. '
+            'Use the "ctest" program to execute this test.')
+        d.text(self.doc)
+
+
+@dataclass
 class TestDocumentation(DocumentationType):
     """
     This class provides support for documenting
