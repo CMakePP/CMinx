@@ -27,6 +27,7 @@ header:
     - LICENSE
     - MANIFEST.in
     - setup.cfg
+    - *.txt
 
 
   comment: never
