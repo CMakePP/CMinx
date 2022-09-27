@@ -20,6 +20,9 @@ CMinx
 .. image:: https://codecov.io/gh/CMakePP/CMinx/branch/master/graph/badge.svg?token=wbiPq8Gnrs
    :target: https://codecov.io/gh/CMakePP/CMinx
 
+.. image:: https://zenodo.org/badge/204571361.svg
+   :target: https://zenodo.org/badge/latestdoi/204571361
+
 Full documentation can be found `here <https://cmakepp.github.io/CMinx/>`__.
 
 *****************
