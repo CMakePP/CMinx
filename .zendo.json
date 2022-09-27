@@ -1,0 +1,31 @@
+{
+    "description": "<p>This is the state of CMinx at the time of submission to the Journal of Open Source Software.</p>", 
+    "license": "other-open", 
+    "title": "CMinx: A CMake Documentation Generator", 
+    "version": "v1.0.12", 
+    "upload_type": "software", 
+    "publication_date": "2022-09-27", 
+    "creators": [
+        {
+            "affiliation": "Ames National Laboratory / Iowa State University", 
+            "name": "Branden Butler"
+        }, 
+        {
+            "affiliation": "Ames National Laboratory / Iowa State University", 
+            "name": "Ryan Richard"
+        }
+    ], 
+    "access_right": "open", 
+    "related_identifiers": [
+        {
+            "scheme": "url", 
+            "identifier": "https://github.com/CMakePP/CMinx/tree/v1.0.12", 
+            "relation": "isSupplementTo"
+        }, 
+        {
+            "scheme": "doi", 
+            "identifier": "10.5281/zenodo.7116601", 
+            "relation": "isVersionOf"
+        }
+    ]
+}
