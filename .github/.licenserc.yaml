@@ -28,6 +28,7 @@ header:
     - LICENSE
     - MANIFEST.in
     - setup.cfg
+    - .zenodo.json
 
 
   comment: never
