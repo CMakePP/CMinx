@@ -54,14 +54,13 @@ from the Python Packaging Index via "`pip install CMinx`". Alternatively, CMinx
 can be used as a CMake module via CMake's "`FetchContent`" command.
 Despite only just releasing 1.0.0, the CMinx GitHub organization
 has already started to see attention and interest from developers not
-affiliated with the authors. So while CMinx might not be considered research
-software, we anticipate CMinx to be a useful productivity tool for the large
+affiliated with the authors. We anticipate CMinx will be a useful productivity tool for the large
 swath of research software that uses CMake as their build system.
 
 # Statement of need
 
 The process of building a software package written in a compiled language
-(*e.g.*, C, C++ or Fortran) has always been complicated. Over the years, various build
+(e.g., C, C++, Fortran) has always been complicated. Over the years, various build
 system solutions have evolved to ease the process. Historically, there
 has been a propensity to treat each build system as a one-off use case. This is
 understandable since build systems have tended to be relatively small
@@ -123,6 +122,6 @@ and the National Nuclear Security Administration.
 
 The authors would also like to acknowledge GitHub users dschiller, ni-dschiller,
 ni-fgenois, peanutfun, robertodr, and zachcran for suggestions, discussions,
-bug-reports, and bug-fixes.
+bug reports, and bug fixes.
 
 # References
