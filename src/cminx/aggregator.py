@@ -16,7 +16,7 @@ import logging
 
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
-    MethodDocumentation, VarType, CTestDocumentation
+    MethodDocumentation, VarType, CTestDocumentation, AbstractCommandDefinitionDocumentation
 from .parser.CMakeListener import CMakeListener
 # Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention
 # inconsistencies here
@@ -139,9 +139,8 @@ class DocumentationAggregator(CMakeListener):
         """
         if len(self.definition_command_stack) > 0:
             last_element = self.definition_command_stack[-1]
-            t = type(last_element)
-            if t is FunctionDocumentation or t is MacroDocumentation:
-                last_element.params.append("**kwargs")
+            if isinstance(last_element, AbstractCommandDefinitionDocumentation):
+                last_element.has_kwargs = True
 
     def process_ct_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
