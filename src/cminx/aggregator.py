@@ -96,9 +96,10 @@ class DocumentationAggregator(CMakeListener):
 
         params = [p.getText() for p in def_params[1:]]
         function_name = def_params[0].getText()
+        has_kwargs = "**kwargs" in docstring
 
         # Extracts function name and adds the completed function documentation to the 'documented' list
-        doc = FunctionDocumentation(function_name, docstring, params)
+        doc = FunctionDocumentation(function_name, docstring, params, has_kwargs)
         self.documented.append(doc)
         self.definition_command_stack.append(doc)
 
@@ -123,9 +124,10 @@ class DocumentationAggregator(CMakeListener):
 
         params = [p.getText() for p in def_params[1:]]
         macro_name = def_params[0].getText()
+        has_kwargs = "**kwargs" in docstring
 
         # Extracts macro name and adds the completed macro documentation to the 'documented' list
-        doc = MacroDocumentation(macro_name, docstring, params)
+        doc = MacroDocumentation(macro_name, docstring, params, has_kwargs)
         self.documented.append(doc)
         self.definition_command_stack.append(doc)
 
