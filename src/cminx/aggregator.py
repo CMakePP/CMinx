@@ -38,6 +38,11 @@ supports Unset in case someone wants to document why something is unset.
 """
 
 
+class DefinitionCommand:
+    def __init__(self, documentation: AbstractCommandDefinitionDocumentation, should_document = True):
+        self.documentation = documentation
+        self.should_document = should_document
+
 class DocumentationAggregator(CMakeListener):
     """
     Processes all docstrings and their associated commands, aggregating
@@ -101,7 +106,7 @@ class DocumentationAggregator(CMakeListener):
         # Extracts function name and adds the completed function documentation to the 'documented' list
         doc = FunctionDocumentation(function_name, docstring, params, has_kwargs)
         self.documented.append(doc)
-        self.definition_command_stack.append(doc)
+        self.definition_command_stack.append(DefinitionCommand(doc))
 
     def process_macro(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -129,7 +134,7 @@ class DocumentationAggregator(CMakeListener):
         # Extracts macro name and adds the completed macro documentation to the 'documented' list
         doc = MacroDocumentation(macro_name, docstring, params, has_kwargs)
         self.documented.append(doc)
-        self.definition_command_stack.append(doc)
+        self.definition_command_stack.append(DefinitionCommand(doc))
 
     def process_cmake_parse_arguments(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -141,8 +146,8 @@ class DocumentationAggregator(CMakeListener):
         """
         if len(self.definition_command_stack) > 0:
             last_element = self.definition_command_stack[-1]
-            if isinstance(last_element, AbstractCommandDefinitionDocumentation):
-                last_element.has_kwargs = True
+            if last_element.should_document and isinstance(last_element.documentation, AbstractCommandDefinitionDocumentation):
+                last_element.documentation.has_kwargs = True
 
     def process_ct_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -528,9 +533,16 @@ class DocumentationAggregator(CMakeListener):
 
                 # Clear the var since we've processed the function/macro def we need
                 self.documented_awaiting_function_def = None
-            elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed\
-                    and self.settings.input.__dict__[f"include_undocumented_{command}"]:
-                getattr(self, f"process_{command}")(ctx, "")
+
+                # Allows scanning for cmake_parse_arguments() inside other types of definitions
+                self.definition_command_stack.append(DefinitionCommand(None, False))
+            elif command == "endfunction" or command == "endmacro":
+                self.definition_command_stack.pop()
+            elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed:
+                if self.settings.input.__dict__[f"include_undocumented_{command}"]:
+                    getattr(self, f"process_{command}")(ctx, "")
+                elif command == "function" or command == "macro":
+                    self.definition_command_stack.append(DefinitionCommand(None, False))
         except Exception as e:
             line_num = ctx.start.line
             self.logger.error(f"Caught exception while processing command beginning at line number {line_num}")
