@@ -135,6 +135,12 @@ Running CMinx on this code generates:
    :language: rst
    :lines: 9-22
 
+Notice how the function signature was automatically
+updated to include a ``**kwargs`` parameter. CMinx will do
+this for any function that calls ``cmake_parse_arguments`` or
+includes ``:param **kwargs:`` in its doc comment. If this is not
+desired, it can be changed through the configuration file.
+
 .. note::
 
    While it is recommended that you document positional arguments differently
