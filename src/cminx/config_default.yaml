@@ -62,7 +62,7 @@ input:
   # "**kwargs" as the last parameter. This will also occur
   # if a call to "cmake_parse_arguments()" exists within the
   # body of the function or macro.
-  kwargs_doc_trigger_string: ":param **kwargs:"
+  kwargs_doc_trigger_string: ":keyword"
 
   # Whether directories should be documented recursively
   recursive: false
