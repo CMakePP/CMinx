@@ -7,6 +7,9 @@
 #
 # :param me: The name of the person saying hi.
 # :type me: string
+#
+# **Keyword Arguments**
+#
 # :keyword PERSONS: The person or persons to say hi to.
 # :type PERSONS: list of strings
 # :keyword CATS: The cat or cats to say hi to.
