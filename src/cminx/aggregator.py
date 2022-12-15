@@ -17,6 +17,7 @@ import logging
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
     MethodDocumentation, VarType, CTestDocumentation, AbstractCommandDefinitionDocumentation
+from .exceptions import CMakeSyntaxException
 from .parser.CMakeListener import CMakeListener
 # Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention
 # inconsistencies here
@@ -96,8 +97,10 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            self.logger.error(f"function() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
-            return
+            raise CMakeSyntaxException(
+                f"function() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}",
+                ctx.start.line
+            )
 
         params = [p.getText() for p in def_params[1:]]
         function_name = def_params[0].getText()
@@ -123,9 +126,10 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            self.logger.error(
-                f"macro() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
-            return
+            raise CMakeSyntaxException(
+                f"macro() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}",
+                ctx.start.line
+            )
 
         params = [p.getText() for p in def_params[1:]]
         macro_name = def_params[0].getText()
