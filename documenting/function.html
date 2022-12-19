@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Documenting a Function &mdash; CMinx v1.0.12 documentation</title>
+  <title>Documenting a Function &mdash; CMinx v1.0.13 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -33,7 +33,7 @@
             <a href="../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.12
+                1.0.13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -79,9 +79,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Using CMinx to Document Your Code</a> &raquo;</li>
-      <li>Documenting a Function</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Using CMinx to Document Your Code</a></li>
+      <li class="breadcrumb-item active">Documenting a Function</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/CMakePP/CMinx/edit/master/docs/source/documenting/function.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -217,6 +217,9 @@ except that instead of using the <code class="docutils literal notranslate"><spa
 <span class="c">#</span>
 <span class="c"># :param me: The name of the person saying hi.</span>
 <span class="c"># :type me: string</span>
+<span class="c">#</span>
+<span class="c"># **Keyword Arguments**</span>
+<span class="c">#</span>
 <span class="c"># :keyword PERSONS: The person or persons to say hi to.</span>
 <span class="c"># :type PERSONS: list of strings</span>
 <span class="c"># :keyword CATS: The cat or cats to say hi to.</span>
@@ -230,7 +233,7 @@ except that instead of using the <code class="docutils literal notranslate"><spa
 </pre></div>
 </div>
 <p>Running CMinx on this code generates:</p>
-<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">function</span><span class="p">::</span> advanced_say_hi_to(me)
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">function</span><span class="p">::</span> advanced_say_hi_to(me **kwargs)
 
    Variation of say_hi_to, which takes lists of people and cats to say hi to.
    
@@ -240,18 +243,32 @@ except that instead of using the <code class="docutils literal notranslate"><spa
    
    <span class="nc">:param me:</span> The name of the person saying hi.
    <span class="nc">:type me:</span> string
+   
+   <span class="gs">**Keyword Arguments**</span>
+   
    <span class="nc">:keyword PERSONS:</span> The person or persons to say hi to.
    <span class="nc">:type PERSONS:</span> list of strings
    <span class="nc">:keyword CATS:</span> The cat or cats to say hi to.
    <span class="nc">:type CATS:</span> list of strings
 </pre></div>
 </div>
+<p>Notice how the function signature was automatically
+updated to include a <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> parameter. CMinx will do
+this for any function that calls <code class="docutils literal notranslate"><span class="pre">cmake_parse_arguments</span></code> or
+includes <code class="docutils literal notranslate"><span class="pre">:keyword</span></code> in its doc comment, the latter of which
+is configurable. If this is not desired, it can be turned
+off through the configuration file.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>While it is recommended that you document positional arguments differently
 than keyword arguments by using <code class="docutils literal notranslate"><span class="pre">:param:</span></code> vs. <code class="docutils literal notranslate"><span class="pre">:keyword:</span></code> the resulting
-HTML documentation may end up rendering the two the same.</p>
+HTML documentation may end up rendering the two the same. Thus, one should
+place a separator to clearly define which are keyword arguments.</p>
 </div>
+<p>CMake arguments can not only be keywords, where a value is supplied after the keyword,
+but can also be switches or options, where the keyword itself toggles the option and
+no subsequent value is passed. For these arguments, document them as part of the
+keyword arguments but set the type as <code class="docutils literal notranslate"><span class="pre">option</span></code>.</p>
 </section>
 <section id="recommended-rest-directives">
 <h2>Recommended reST Directives<a class="headerlink" href="#recommended-rest-directives" title="Permalink to this heading"></a></h2>

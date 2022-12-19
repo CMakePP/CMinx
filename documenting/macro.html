@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Documenting a Macro &mdash; CMinx v1.0.12 documentation</title>
+  <title>Documenting a Macro &mdash; CMinx v1.0.13 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -33,7 +33,7 @@
             <a href="../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.12
+                1.0.13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -74,9 +74,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Using CMinx to Document Your Code</a> &raquo;</li>
-      <li>Documenting a Macro</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Using CMinx to Document Your Code</a></li>
+      <li class="breadcrumb-item active">Documenting a Macro</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/CMakePP/CMinx/edit/master/docs/source/documenting/macro.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -125,6 +125,65 @@ documented is a function or a macro.</p>
    
    <span class="nc">:param person:</span> The person we want to greet.
    <span class="nc">:type person:</span> string
+   
+</pre></div>
+</div>
+<p>CMinx supports the same documentation features for macros as it
+does for <a class="reference internal" href="function.html"><span class="doc">functions</span></a>. This includes determining
+when a macro has keyword arguments as in the following example.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[</span>
+<span class="c"># Variation of macro_say_hi, which takes lists of people and cats to say hi to.</span>
+<span class="c">#</span>
+<span class="c"># This macro is basically the same as ``macro_say_hi``, but accounts for the</span>
+<span class="c"># fact that you may want to say hi to multiple people and maybe even a cat or</span>
+<span class="c"># two.</span>
+<span class="c">#</span>
+<span class="c"># :param me: The name of the person saying hi.</span>
+<span class="c"># :type me: string</span>
+<span class="c">#</span>
+<span class="c"># **Keyword Arguments**</span>
+<span class="c">#</span>
+<span class="c"># :keyword PERSONS: The person or persons to say hi to.</span>
+<span class="c"># :type PERSONS: list of strings</span>
+<span class="c"># :keyword CATS: The cat or cats to say hi to.</span>
+<span class="c"># :type CATS: list of strings</span>
+<span class="c">#]]</span>
+<span class="nb">macro</span><span class="p">(</span><span class="s">advanced_macro_say_hi</span><span class="w"> </span><span class="s">me</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="s">PARSE_ARGV</span><span class="w"> </span><span class="s">1</span><span class="w"> </span><span class="s">_asht</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="s2">&quot;PERSONS;CATS&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;I, ${me}, want to say hi to the following &quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;people: ${_asht_PERSONS} and the following cats: ${_asht_CATS}&quot;</span><span class="p">)</span>
+<span class="nb">endmacro</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>CMinx will automatically add <code class="code docutils literal notranslate"><span class="pre">**kwargs</span></code> to the macro signature line
+in the output RST.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">###########################</span>
+<span class="gh">test_samples.advanced_macro</span>
+<span class="gh">###########################</span>
+
+<span class="p">..</span> <span class="ow">module</span><span class="p">::</span> test_samples.advanced_macro
+
+
+<span class="p">..</span> <span class="ow">function</span><span class="p">::</span> advanced_macro_say_hi(me **kwargs)
+
+
+<span class="p">   ..</span> <span class="ow">note</span><span class="p">::</span> This is a macro, and so does not introduce a new scope.
+
+   Variation of macro_say_hi, which takes lists of people and cats to say hi to.
+   
+   This macro is basically the same as <span class="s">``macro_say_hi``</span>, but accounts for the
+   fact that you may want to say hi to multiple people and maybe even a cat or
+   two.
+   
+   <span class="nc">:param me:</span> The name of the person saying hi.
+   <span class="nc">:type me:</span> string
+   
+   <span class="gs">**Keyword Arguments**</span>
+   
+   <span class="nc">:keyword PERSONS:</span> The person or persons to say hi to.
+   <span class="nc">:type PERSONS:</span> list of strings
+   <span class="nc">:keyword CATS:</span> The cat or cats to say hi to.
+   <span class="nc">:type CATS:</span> list of strings
    
 </pre></div>
 </div>

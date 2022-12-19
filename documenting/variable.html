@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Documenting a Variable &mdash; CMinx v1.0.12 documentation</title>
+  <title>Documenting a Variable &mdash; CMinx v1.0.13 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -33,7 +33,7 @@
             <a href="../index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.12
+                1.0.13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -74,9 +74,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Using CMinx to Document Your Code</a> &raquo;</li>
-      <li>Documenting a Variable</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Using CMinx to Document Your Code</a></li>
+      <li class="breadcrumb-item active">Documenting a Variable</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/CMakePP/CMinx/edit/master/docs/source/documenting/variable.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -112,46 +112,44 @@ command. An example:</p>
 </pre></div>
 </div>
 <p>which generates:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="c1">#####################</span>
-<span class="n">test_samples</span><span class="o">.</span><span class="n">variable</span>
-<span class="c1">#####################</span>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">#####################</span>
+<span class="gh">test_samples.variable</span>
+<span class="gh">#####################</span>
 
-<span class="o">..</span> <span class="n">module</span><span class="p">::</span> <span class="n">test_samples</span><span class="o">.</span><span class="n">variable</span>
+<span class="p">..</span> <span class="ow">module</span><span class="p">::</span> test_samples.variable
 
 
-<span class="o">..</span> <span class="n">data</span><span class="p">::</span> <span class="n">MyList</span>
+<span class="p">..</span> <span class="ow">data</span><span class="p">::</span> MyList
 
-   <span class="n">This</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">example</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">documentation</span><span class="o">.</span>
-   <span class="n">This</span> <span class="n">variable</span> <span class="ow">is</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">string</span> <span class="n">values</span><span class="o">.</span>
+   This is an example of variable documentation.
+   This variable is a list of string values.
    
 
-   <span class="p">:</span><span class="n">Default</span> <span class="n">value</span><span class="p">:</span> <span class="s2">&quot;Value&quot;</span> <span class="s2">&quot;Value 2&quot;</span>
+   <span class="nc">:Default value:</span> &quot;Value&quot; &quot;Value 2&quot;
 
-   <span class="p">:</span><span class="nb">type</span><span class="p">:</span> <span class="nb">list</span>
+   <span class="nc">:type:</span> list
 
 
-<span class="o">..</span> <span class="n">data</span><span class="p">::</span> <span class="n">MyList</span>
+<span class="p">..</span> <span class="ow">data</span><span class="p">::</span> MyList
 
-   <span class="n">This</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">example</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">documentation</span><span class="o">.</span>
-   <span class="n">This</span> <span class="n">variable</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">single</span> <span class="n">string</span> <span class="n">value</span>
+   This is an example of variable documentation.
+   This variable is a single string value
    
 
-   <span class="p">:</span><span class="n">Default</span> <span class="n">value</span><span class="p">:</span> <span class="n">Value</span>
+   <span class="nc">:Default value:</span> Value
 
-   <span class="p">:</span><span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
+   <span class="nc">:type:</span> str
 
 
-<span class="o">..</span> <span class="n">data</span><span class="p">::</span> <span class="n">MyList</span>
+<span class="p">..</span> <span class="ow">data</span><span class="p">::</span> MyList
 
-   <span class="n">This</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">example</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">documentation</span><span class="o">.</span>
-   <span class="n">This</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">UNSET</span> <span class="n">declaration</span>
+   This is an example of variable documentation.
+   This is an UNSET declaration
    
 
-   <span class="p">:</span><span class="n">Default</span> <span class="n">value</span><span class="p">:</span> <span class="kc">None</span>
+   <span class="nc">:Default value:</span> None
 
-   <span class="p">:</span><span class="nb">type</span><span class="p">:</span> <span class="n">UNSET</span>
-
+   <span class="nc">:type:</span> UNSET
 </pre></div>
 </div>
 </section>

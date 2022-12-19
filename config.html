@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Configuring CMinx &mdash; CMinx v1.0.12 documentation</title>
+  <title>Configuring CMinx &mdash; CMinx v1.0.13 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -33,7 +33,7 @@
             <a href="index.html" class="icon icon-home"> CMinx
           </a>
               <div class="version">
-                1.0.12
+                1.0.13
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -73,8 +73,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Configuring CMinx</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Configuring CMinx</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/CMakePP/CMinx/edit/master/docs/source/config.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -202,6 +202,15 @@ of CMinx and the default values for those options.</p>
 <span class="w">  </span><span class="c1"># Whether directories not containing .cmake</span><span class="w"></span>
 <span class="w">  </span><span class="c1"># files should be excluded from recursive mode searching.</span><span class="w"></span>
 <span class="w">  </span><span class="nt">auto_exclude_directories_without_cmake</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1"># What string should trigger automatic kwargs documentation</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># generation when encountered in a doccomment for a function()</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># or macro() definition. When this string is encountered</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># the defined command parameter list will be modified to include</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># &quot;**kwargs&quot; as the last parameter. This will also occur</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># if a call to &quot;cmake_parse_arguments()&quot; exists within the</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># body of the function or macro.</span><span class="w"></span>
+<span class="w">  </span><span class="nt">kwargs_doc_trigger_string</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:keyword&quot;</span><span class="w"></span>
 
 <span class="w">  </span><span class="c1"># Whether directories should be documented recursively</span><span class="w"></span>
 <span class="w">  </span><span class="nt">recursive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
