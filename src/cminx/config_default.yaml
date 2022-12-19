@@ -55,6 +55,15 @@ input:
   # files should be excluded from recursive mode searching.
   auto_exclude_directories_without_cmake: true
 
+  # What string should trigger automatic kwargs documentation
+  # generation when encountered in a doccomment for a function()
+  # or macro() definition. When this string is encountered
+  # the defined command parameter list will be modified to include
+  # "**kwargs" as the last parameter. This will also occur
+  # if a call to "cmake_parse_arguments()" exists within the
+  # body of the function or macro.
+  kwargs_doc_trigger_string: ":keyword"
+
   # Whether directories should be documented recursively
   recursive: false
 

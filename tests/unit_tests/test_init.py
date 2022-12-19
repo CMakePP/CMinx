@@ -132,6 +132,18 @@ class TestInit(unittest.TestCase):
         with open(context.corr_index_prefix_rst, 'r') as corr_file, open(self.output_index_file, 'r') as generated_file:
             self.assertEqual(corr_file.read(), generated_file.read())
 
+    def test_nonexistent_input(self):
+        """Tests whether trying to document a nonexistent file exits with -1"""
+        args = ["nonexistent-file.cmake"]
+        exit_code = None
+        try:
+            helpers.quiet_cminx(args)
+        except SystemExit as e:
+            exit_code = e.code
+
+        self.assertEqual(-1, exit_code, f"Exit code for nonexistent input incorrect (None means did not exit):"
+                                        "{exit_code}")
+
 
 if __name__ == '__main__':
     unittest.main()

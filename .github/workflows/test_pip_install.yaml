@@ -22,7 +22,7 @@ on:
       
 jobs:
   test_release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -36,6 +36,7 @@ jobs:
         run: twine check dist/*
       - name: Test built package
         run: |
-          pip install dist/*.tar.gz
+          pip install pytest
+          pip install --user dist/*.tar.gz
           cd tests
           python -B test_all.py  
