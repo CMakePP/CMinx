@@ -18,3 +18,5 @@ ignore:
   - "src/cminx/parser/CMakeParser.py"
   - "src/cminx/parser/CMakeListener.py"
   - "src/cminx/parser/CMakeLexer.py"
+codecov: 
+ token: 3c6e3d73-cf40-4b28-ae6d-e968d7f759fa
