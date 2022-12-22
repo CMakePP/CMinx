@@ -22,6 +22,22 @@ cmake_file
 	: (documented_command | command_invocation)* EOF
 	;
 
+/*Begin CMinx*/
+
+documented_command
+	: bracket_doccomment command_invocation
+	;
+
+bracket_doccomment
+        : Docstring
+	;
+
+Docstring
+    : '#[[[' .*? '#]]'
+    ;
+
+/*End Cminx*/
+
 command_invocation
 	: Identifier '(' (single_argument|compound_argument)* ')'
 	;
@@ -81,6 +97,8 @@ Bracket_arg_nested
 	;
 
 
+
+
 Bracket_comment
 	: '#[' Bracket_arg_nested ']'
 	-> skip
@@ -105,15 +123,4 @@ Space
 	-> skip
 	;
 
-
-
-/*Begin CMinx*/
-
-documented_command
-	: Bracket_doccomment command_invocation
-	;
-
-Bracket_doccomment
-        : '#[[[' .*? '#]]'
-	;
 
