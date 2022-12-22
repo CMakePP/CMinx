@@ -17,6 +17,8 @@ grammar CMake;
 Changes:
 	Renamed from file to cmake_file to avoid conflict with Python
 	Added documented_command to list of expected parser rules
+	Added bracket_doccomment to parser rules
+	Added Docstring to lexer rules
 */
 cmake_file
 	: (documented_command | command_invocation)* EOF
