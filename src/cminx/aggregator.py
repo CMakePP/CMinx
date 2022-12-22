@@ -427,7 +427,7 @@ class DocumentationAggregator(CMakeListener):
 
         :raise NotImplementedError: If no processor can be found for the command that was documented.
         """
-        text = ctx.Bracket_doccomment().getText()
+        text = ctx.bracket_doccomment().getText()
         lines = text.split("\n")
 
         # If last line starts with leading spaces or tabs, count how many and remove from all lines
@@ -505,3 +505,6 @@ class DocumentationAggregator(CMakeListener):
             line_num = ctx.start.line
             self.logger.error(f"Caught exception while processing command beginning at line number {line_num}")
             raise e
+
+    def enterBracket_doccomment(self, ctx:CMakeParser.Bracket_doccommentContext):
+        pass
