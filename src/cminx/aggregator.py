@@ -62,7 +62,7 @@ class DocumentationAggregator(CMakeListener):
 
         self.consumed = []
         """
-        A list containing all of the Command_invocationContexts that have already been processed
+        A list containing all of the contexts that have already been processed
         """
         
         self.logger = logging.getLogger(__name__)
@@ -457,6 +457,7 @@ class DocumentationAggregator(CMakeListener):
         try:
             command = ctx.command_invocation().Identifier().getText().lower()
             self.consumed.append(ctx.command_invocation())
+            self.consumed.append(ctx.bracket_doccomment())
             if f"process_{command}" in dir(self):
                 getattr(self, f"process_{command}")(ctx.command_invocation(), cleaned_doc)
             else:
@@ -506,5 +507,5 @@ class DocumentationAggregator(CMakeListener):
             self.logger.error(f"Caught exception while processing command beginning at line number {line_num}")
             raise e
 
-    def enterBracket_doccomment(self, ctx:CMakeParser.Bracket_doccommentContext):
+    def enterBracket_doccomment(self, ctx: CMakeParser.Bracket_doccommentContext):
         pass

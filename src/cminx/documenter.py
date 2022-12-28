@@ -27,11 +27,11 @@ from antlr4 import *
 
 from .aggregator import DocumentationAggregator
 from cminx import Settings
-from .documentation_types import DocumentationType
+from .documentation_types import DocumentationType, ModuleDocumentation
 from .parser import ParserErrorListener
 from .parser.CMakeLexer import CMakeLexer
 from .parser.CMakeParser import CMakeParser
-from .rstwriter import RSTWriter
+from .rstwriter import RSTWriter, Directive
 
 
 class Documenter(object):
@@ -58,9 +58,11 @@ class Documenter(object):
         if module_name is None:
             module_name = title
 
+        self.module_name = module_name
+
         self.writer = RSTWriter(title, settings=settings)
 
-        self.module = self.writer.directive("module", module_name)
+        self.module: Directive
 
         # We need a string stream of some kind, FileStream is easiest
         self.input_stream = FileStream(file)
@@ -103,6 +105,11 @@ class Documenter(object):
 
         :param docs: List of documentation objects.
         """
+
+        module_docs = [x for x in docs if isinstance(x, ModuleDocumentation)]
+
+        if len(module_docs) == 0:
+            docs.insert(0, ModuleDocumentation(self.module_name, ""))
 
         for doc in docs:
             doc.process(self.writer)
