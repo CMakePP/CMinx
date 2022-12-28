@@ -29,6 +29,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Union, List
 
+from . import Settings
 from .rstwriter import RSTWriter, Directive, interpreted_text
 
 
@@ -367,3 +368,15 @@ class ClassDocumentation(DocumentationType):
         if len(self.inner_classes) > 0:
             d.text("**Inner classes**")
             d.bulleted_list(*[interpreted_text("class", clazz.name) for clazz in self.inner_classes])
+
+
+@dataclass
+class ModuleDocumentation(DocumentationType):
+    """
+    Represents documentation for an entire CMake module
+    """
+
+    def process(self, writer: RSTWriter):
+        module = writer.directive("module", self.name)
+        if self.doc is not None and len(self.doc) != 0:
+            module.text(self.doc)
