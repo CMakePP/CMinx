@@ -26,6 +26,15 @@ class CMakeListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by CMakeParser#documented_module.
+    def enterDocumented_module(self, ctx:CMakeParser.Documented_moduleContext):
+        pass
+
+    # Exit a parse tree produced by CMakeParser#documented_module.
+    def exitDocumented_module(self, ctx:CMakeParser.Documented_moduleContext):
+        pass
+
+
     # Enter a parse tree produced by CMakeParser#bracket_doccomment.
     def enterBracket_doccomment(self, ctx:CMakeParser.Bracket_doccommentContext):
         pass

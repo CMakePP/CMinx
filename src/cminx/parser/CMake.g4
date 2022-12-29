@@ -21,7 +21,7 @@ Changes:
 	Added Docstring to lexer rules
 */
 cmake_file
-	: (documented_command | command_invocation)* EOF
+	: documented_module? (documented_command | command_invocation)* EOF
 	;
 
 /*Begin CMinx*/
@@ -30,13 +30,32 @@ documented_command
 	: bracket_doccomment command_invocation
 	;
 
+documented_module
+    : Module_docstring
+    ;
+
 bracket_doccomment
-        : Docstring
-	;
+    : Docstring
+    ;
+
+Module_docstring
+    : Doccomment_start Space? '@module' (Space Unquoted_argument)? .*? '#]]'
+    ;
 
 Docstring
-    : '#[[[' .*? '#]]'
+        : Doccomment_start .*? '#]]'
+	;
+
+
+Doccomment_start
+    : '#[[['
     ;
+
+Blockcomment_end
+    : '#]]'
+    ;
+
+
 
 /*End Cminx*/
 
