@@ -65,7 +65,7 @@ class DocumentationAggregator(CMakeListener):
         """
         A list containing all of the contexts that have already been processed
         """
-        
+
         self.logger = logging.getLogger(__name__)
 
     def process_function(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
@@ -506,7 +506,7 @@ class DocumentationAggregator(CMakeListener):
 
                 # Clear the var since we've processed the function/macro def we need
                 self.documented_awaiting_function_def = None
-            elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed\
+            elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed \
                     and self.settings.input.__dict__[f"include_undocumented_{command}"]:
                 getattr(self, f"process_{command}")(ctx, "")
         except Exception as e:
@@ -514,11 +514,9 @@ class DocumentationAggregator(CMakeListener):
             self.logger.error(f"Caught exception while processing command beginning at line number {line_num}")
             raise e
 
-    def enterBracket_doccomment(self, ctx: CMakeParser.Bracket_doccommentContext):
-        if ctx not in self.consumed and ".. module::" in ctx.Docstring().getText():
-            text = ctx.Docstring().getText()
-            cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
-            module_def = next(filter(lambda x: ".. module::" in x, cleaned_lines), None)
-            module_name = module_def.replace(".. module::", "")
-            doc = "\n".join([line for line in cleaned_lines if ".. module::" not in line])
-            self.documented.append(ModuleDocumentation(module_name, doc))
+    def enterDocumented_module(self, ctx: CMakeParser.Documented_moduleContext):
+        text = ctx.Module_docstring().getText()
+        cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
+        module_name = cleaned_lines[0].replace("@module", "").strip()
+        doc = "\n".join(cleaned_lines[1:])
+        self.documented.append(ModuleDocumentation(module_name, doc))
