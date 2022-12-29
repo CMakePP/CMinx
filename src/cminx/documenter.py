@@ -111,5 +111,11 @@ class Documenter(object):
         if len(module_docs) == 0:
             docs.insert(0, ModuleDocumentation(self.module_name, ""))
 
+        for module_doc in module_docs:
+            if module_doc.name is None or len(module_doc.name) == 0:
+                module_doc.name = self.module_name
+            else:
+                self.writer.title = module_doc.name
+
         for doc in docs:
             doc.process(self.writer)
