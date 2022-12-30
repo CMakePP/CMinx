@@ -67,36 +67,51 @@ class DocumentationType(ABC):
 
 
 @dataclass
-class FunctionDocumentation(DocumentationType):
+class AbstractCommandDefinitionDocumentation(DocumentationType, ABC):
+    """
+    Abstract dataclass that acts as the parent of FunctionDocumentation
+    and MacroDocumentation.
+    """
+
+    params: List[str]
+    """The list of parameters a command definition takes"""
+
+    has_kwargs: bool = False
+    """Whether this command definition has keyword arguments."""
+
+
+@dataclass
+class FunctionDocumentation(AbstractCommandDefinitionDocumentation):
     """
     This class serves as the representation of a documented
     CMake function definition. It converts the function definition
     directly to a Sphinx :code:`function` directive.
     """
 
-    params: List[str]
-    """The list of parameters a function definition takes"""
-
     def process(self, writer: RSTWriter):
+        param_list = self.params
+        if self.has_kwargs:
+            param_list.append("**kwargs")
         d = writer.directive(
-            "function", f"{self.name}({' '.join(self.params)})")
+            "function", f"{self.name}({' '.join(param_list)})")
         d.text(self.doc)
 
 
 @dataclass
-class MacroDocumentation(DocumentationType):
+class MacroDocumentation(AbstractCommandDefinitionDocumentation):
     """
     This class serves as the representation of a documented
     CMake macro definition. It converts the macro definition
     directly to a Sphinx :code:`function` directive and adds a
     :code:`note` directive specifying that it is a macro.
     """
-    params: List[str]
-    """The list of parameters a macro definition takes"""
 
     def process(self, writer: RSTWriter):
+        param_list = self.params
+        if self.has_kwargs:
+            param_list.append("**kwargs")
         d = writer.directive(
-            "function", f"{self.name}({' '.join(self.params)})")
+            "function", f"{self.name}({' '.join(param_list)})")
         d.directive(
             "note",
             "This is a macro, and so does not introduce a new scope.")

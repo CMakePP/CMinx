@@ -26,3 +26,4 @@ command. An example:
 which generates:
 
 .. literalinclude:: ../../../tests/test_samples/corr_rst/variable.rst
+   :language: rst

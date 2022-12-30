@@ -29,3 +29,17 @@ documented is a function or a macro.
 
 .. literalinclude:: ../../../tests/test_samples/corr_rst/basic_macro.rst
    :language: rst
+
+
+CMinx supports the same documentation features for macros as it
+does for :doc:`functions <./function>`. This includes determining
+when a macro has keyword arguments as in the following example.
+
+.. literalinclude:: ../../../tests/test_samples/advanced_macro.cmake
+   :language: cmake
+
+CMinx will automatically add :code:`**kwargs` to the macro signature line
+in the output RST.
+
+.. literalinclude:: ../../../tests/test_samples/corr_rst/advanced_macro.rst
+   :language: rst

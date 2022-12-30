@@ -16,7 +16,8 @@ import logging
 
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
-    MethodDocumentation, VarType, CTestDocumentation
+    MethodDocumentation, VarType, CTestDocumentation, AbstractCommandDefinitionDocumentation
+from .exceptions import CMakeSyntaxException
 from .parser.CMakeListener import CMakeListener
 # Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention
 # inconsistencies here
@@ -38,6 +39,11 @@ supports Unset in case someone wants to document why something is unset.
 """
 
 
+class DefinitionCommand:
+    def __init__(self, documentation: AbstractCommandDefinitionDocumentation, should_document = True):
+        self.documentation = documentation
+        self.should_document = should_document
+
 class DocumentationAggregator(CMakeListener):
     """
     Processes all docstrings and their associated commands, aggregating
@@ -58,6 +64,15 @@ class DocumentationAggregator(CMakeListener):
         """
         A variable containing a documented command such as cpp_member() that is awaiting its function/macro
         definition
+        """
+
+        self.definition_command_stack = []
+        """
+        A stack containing the current definition command that we are inside.
+        A definition command is any command that defines a construct with both a
+        beginning command and an ending command, with all commands within being considered
+        part of the definition. Examples of definition commands include
+        function(), macro(), and cpp_class().
         """
 
         self.consumed = []
@@ -82,14 +97,19 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            self.logger.error(f"function() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
-            return
+            raise CMakeSyntaxException(
+                f"function() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}",
+                ctx.start.line
+            )
 
         params = [p.getText() for p in def_params[1:]]
         function_name = def_params[0].getText()
+        has_kwargs = self.settings.input.kwargs_doc_trigger_string in docstring
 
         # Extracts function name and adds the completed function documentation to the 'documented' list
-        self.documented.append(FunctionDocumentation(function_name, docstring, params))
+        doc = FunctionDocumentation(function_name, docstring, params, has_kwargs)
+        self.documented.append(doc)
+        self.definition_command_stack.append(DefinitionCommand(doc))
 
     def process_macro(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -106,15 +126,32 @@ class DocumentationAggregator(CMakeListener):
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
 
-            self.logger.error(
-                f"macro() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
-            return
+            raise CMakeSyntaxException(
+                f"macro() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}",
+                ctx.start.line
+            )
 
         params = [p.getText() for p in def_params[1:]]
         macro_name = def_params[0].getText()
+        has_kwargs = self.settings.input.kwargs_doc_trigger_string in docstring
 
         # Extracts macro name and adds the completed macro documentation to the 'documented' list
-        self.documented.append(MacroDocumentation(macro_name, docstring, params))
+        doc = MacroDocumentation(macro_name, docstring, params, has_kwargs)
+        self.documented.append(doc)
+        self.definition_command_stack.append(DefinitionCommand(doc))
+
+    def process_cmake_parse_arguments(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+        """
+        Determines whether a documented function or macro uses *args or *kwargs.
+
+        :param ctx: Documented command context. Constructed by the Antlr4 parser.
+
+        :param docstring: Cleaned docstring.
+        """
+        if len(self.definition_command_stack) > 0:
+            last_element = self.definition_command_stack[-1]
+            if last_element.should_document and isinstance(last_element.documentation, AbstractCommandDefinitionDocumentation):
+                last_element.documentation.has_kwargs = True
 
     def process_ct_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
@@ -482,6 +519,8 @@ class DocumentationAggregator(CMakeListener):
                 self.documented_classes_stack.append(None)
             elif command == "cpp_end_class":
                 self.documented_classes_stack.pop()
+            elif command == "cmake_parse_arguments":
+                self.process_cmake_parse_arguments(ctx, "")
             elif ((command == "function"
                    or command == "macro")
                   and self.documented_awaiting_function_def is not None):
@@ -498,9 +537,16 @@ class DocumentationAggregator(CMakeListener):
 
                 # Clear the var since we've processed the function/macro def we need
                 self.documented_awaiting_function_def = None
-            elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed\
-                    and self.settings.input.__dict__[f"include_undocumented_{command}"]:
-                getattr(self, f"process_{command}")(ctx, "")
+
+                # Allows scanning for cmake_parse_arguments() inside other types of definitions
+                self.definition_command_stack.append(DefinitionCommand(None, False))
+            elif command == "endfunction" or command == "endmacro":
+                self.definition_command_stack.pop()
+            elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed:
+                if self.settings.input.__dict__[f"include_undocumented_{command}"]:
+                    getattr(self, f"process_{command}")(ctx, "")
+                elif command == "function" or command == "macro":
+                    self.definition_command_stack.append(DefinitionCommand(None, False))
         except Exception as e:
             line_num = ctx.start.line
             self.logger.error(f"Caught exception while processing command beginning at line number {line_num}")
