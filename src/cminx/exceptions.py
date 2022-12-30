@@ -12,11 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Ignore Antlr4-generated files
-ignore:
-  - "src/cminx/parser/CMakeVisitor.py"
-  - "src/cminx/parser/CMakeParser.py"
-  - "src/cminx/parser/CMakeListener.py"
-  - "src/cminx/parser/CMakeLexer.py"
-codecov: 
- token: 3c6e3d73-cf40-4b28-ae6d-e968d7f759fa
+import dataclasses
+
+
+@dataclasses.dataclass
+class CMakeSyntaxException(Exception):
+    msg: str
+    line: int

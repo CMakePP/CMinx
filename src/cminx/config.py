@@ -37,6 +37,7 @@ def config_template(output_dir_relative_to_config: bool = False) -> dict:
             "include_undocumented_add_test": bool,
             "include_undocumented_ct_add_section": bool,
             "auto_exclude_directories_without_cmake": bool,
+            "kwargs_doc_trigger_string": confuse.Optional(confuse.String(), default=":keyword"),
             "exclude_filters": confuse.Optional(list, default=()),
             "recursive": bool,
             "follow_symlinks": bool
@@ -71,6 +72,7 @@ class InputSettings:
     include_undocumented_ct_add_section: bool = True
     include_undocumented_add_test: bool = True
     auto_exclude_directories_without_cmake: bool = True
+    kwargs_doc_trigger_string: str = ":param **kwargs:"
     exclude_filters: List[str] = ()
     recursive: bool = False
     follow_symlinks: bool = False
