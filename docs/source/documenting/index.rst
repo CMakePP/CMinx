@@ -26,6 +26,7 @@ Using CMinx to Document Your Code
    :maxdepth: 2
 
    types_of_comments
+   module
    function
    macro
    variable
