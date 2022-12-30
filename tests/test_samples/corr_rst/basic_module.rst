@@ -6,7 +6,7 @@ test_samples.basic_module
 .. module:: test_samples.basic_module
 
    This is a basic CMake module.
-   The `@module` component is required and
+   The :code:`@module` component is required and
    must appear on the first line. An
    optional module name may appear after the
    module tag, if it is not present the module
