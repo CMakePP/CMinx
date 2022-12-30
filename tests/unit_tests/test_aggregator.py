@@ -15,9 +15,12 @@
 #
 import unittest
 
+import pytest
+
 import context
 from antlr4 import *
 
+from cminx.exceptions import CMakeSyntaxException
 from cminx.parser import ParserErrorListener
 from cminx.parser.CMakeLexer import CMakeLexer
 from cminx.parser.CMakeParser import CMakeParser
@@ -163,10 +166,10 @@ set({var_name})
         self.test_cpp_class_multi_superclass_no_inner([])
 
     def test_cpp_class_multi_superclass_multi_members(self,
-                                                      superclasses=["SuperClassA", "SuperClassB", "SuperClassC"],
-                                                      attributes=["attr1", "attr2"],
-                                                      methods=["method1", "method2"],
-                                                      inner_classes=["Inner1", "Inner2"]):
+                                                      superclasses=("SuperClassA", "SuperClassB", "SuperClassC"),
+                                                      attributes=("attr1", "attr2"),
+                                                      methods=("method1", "method2"),
+                                                      inner_classes=("Inner1", "Inner2")):
         class_docstring = "This is a class"
         inner_class_docstring = "#[[[\n# This is an inner class\n#]]"
         method_docstring = "#[[[\n# This is a method\n#]]"
@@ -239,7 +242,8 @@ cpp_end_class()
         command_name = "function"
         command = f'{command_name}({" ".join(params)})'
         self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
-        self.reset()
+        with pytest.raises(CMakeSyntaxException):
+            self.reset()
         self.assertEqual(0, len(self.aggregator.documented),
                          f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
 
@@ -249,7 +253,8 @@ cpp_end_class()
         command_name = "macro"
         command = f'{command_name}({" ".join(params)})'
         self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
-        self.reset()
+        with pytest.raises(CMakeSyntaxException):
+            self.reset()
         self.assertEqual(0, len(self.aggregator.documented),
                          f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
 
@@ -370,6 +375,11 @@ cpp_end_class()
         self.reset()
         self.assertEqual(0, len(self.aggregator.documented),
                          f"cpp_member() call outside class was still added to documented list: {self.aggregator.documented}")
+
+    def test_invalid_syntax(self):
+        self.input_stream = InputStream("#[[[\n#invalid syntax\n#]]\nfunction()\nend_function()")
+        with pytest.raises(CMakeSyntaxException):
+            self.reset()
 
 
 if __name__ == '__main__':

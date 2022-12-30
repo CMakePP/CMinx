@@ -32,6 +32,18 @@ macro(macro_say_hi person)
 endmacro()
 
 
+#[[[
+# This is a function with **kwargs.
+#]]
+function(func_kwargs)
+	cmake_parse_arguments(
+		"func_kwargs"
+		"OPTIONAL"
+		${ARGN}
+	)
+
+endfunction()
+
 set(MyFunctionName "Name_Of_A_Function")
 
 #[[[

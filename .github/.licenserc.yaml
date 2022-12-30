@@ -23,12 +23,12 @@ header:
     - docs/source/.templates
     - docs/source/developer/uml_diagrams/*.drawio
     - docs/Makefile
+    - docs/requirements.txt
     - tests/
     - LICENSE
     - MANIFEST.in
     - setup.cfg
-    - paper.bib
-    - paper.md
+    - .zenodo.json
 
 
   comment: never

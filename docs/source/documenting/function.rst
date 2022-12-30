@@ -113,7 +113,7 @@ positional arguments. As an example consider an "advanced" version of
 
 .. literalinclude:: ../../../tests/test_samples/advanced_function.cmake
    :language: cmake
-   :lines: 15-19
+   :lines: 18-22
 
 Although not strictly necessary, most CMake function implementations handle
 keyword arguments by calling ``cmake_parse_arguments``. The arguments to
@@ -127,19 +127,32 @@ except that instead of using the ``:param:`` field, one uses ``:keyword:``:
 
 .. literalinclude:: ../../../tests/test_samples/advanced_function.cmake
    :language: cmake
-   :lines: 1-19
+   :lines: 1-22
 
 Running CMinx on this code generates:
 
 .. literalinclude:: ../../../tests/test_samples/corr_rst/advanced_function.rst
    :language: rst
-   :lines: 9-22
+   :lines: 9-25
+
+Notice how the function signature was automatically
+updated to include a ``**kwargs`` parameter. CMinx will do
+this for any function that calls ``cmake_parse_arguments`` or
+includes ``:keyword`` in its doc comment, the latter of which
+is configurable. If this is not desired, it can be turned
+off through the configuration file.
 
 .. note::
 
    While it is recommended that you document positional arguments differently
    than keyword arguments by using ``:param:`` vs. ``:keyword:`` the resulting
-   HTML documentation may end up rendering the two the same.
+   HTML documentation may end up rendering the two the same. Thus, one should
+   place a separator to clearly define which are keyword arguments.
+
+CMake arguments can not only be keywords, where a value is supplied after the keyword,
+but can also be switches or options, where the keyword itself toggles the option and
+no subsequent value is passed. For these arguments, document them as part of the
+keyword arguments but set the type as ``option``.
 
 Recommended reST Directives
 ===========================
