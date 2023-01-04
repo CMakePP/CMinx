@@ -17,10 +17,47 @@ grammar CMake;
 Changes:
 	Renamed from file to cmake_file to avoid conflict with Python
 	Added documented_command to list of expected parser rules
+	Added bracket_doccomment to parser rules
+	Added Docstring to lexer rules
 */
 cmake_file
-	: (documented_command | command_invocation)* EOF
+	: documented_module? (documented_command | command_invocation)* EOF
 	;
+
+/*Begin CMinx*/
+
+documented_command
+	: bracket_doccomment command_invocation
+	;
+
+documented_module
+    : Module_docstring
+    ;
+
+bracket_doccomment
+    : Docstring
+    ;
+
+Module_docstring
+    : Doccomment_start Space? '@module' (Space Unquoted_argument)? .*? '#]]'
+    ;
+
+Docstring
+        : Doccomment_start .*? '#]]'
+	;
+
+
+Doccomment_start
+    : '#[[['
+    ;
+
+Blockcomment_end
+    : '#]]'
+    ;
+
+
+
+/*End Cminx*/
 
 command_invocation
 	: Identifier '(' (single_argument|compound_argument)* ')'
@@ -81,6 +118,8 @@ Bracket_arg_nested
 	;
 
 
+
+
 Bracket_comment
 	: '#[' Bracket_arg_nested ']'
 	-> skip
@@ -105,15 +144,4 @@ Space
 	-> skip
 	;
 
-
-
-/*Begin CMinx*/
-
-documented_command
-	: Bracket_doccomment command_invocation
-	;
-
-Bracket_doccomment
-        : '#[[[' .*? '#]]'
-	;
 

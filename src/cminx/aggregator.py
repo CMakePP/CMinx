@@ -13,10 +13,11 @@
 # limitations under the License.
 
 import logging
+from typing import List
 
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
-    MethodDocumentation, VarType, CTestDocumentation, AbstractCommandDefinitionDocumentation
+    MethodDocumentation, VarType, CTestDocumentation, ModuleDocumentation, AbstractCommandDefinitionDocumentation
 from .exceptions import CMakeSyntaxException
 from .parser.CMakeListener import CMakeListener
 # Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention
@@ -77,9 +78,9 @@ class DocumentationAggregator(CMakeListener):
 
         self.consumed = []
         """
-        A list containing all of the Command_invocationContexts that have already been processed
+        A list containing all of the contexts that have already been processed
         """
-        
+
         self.logger = logging.getLogger(__name__)
 
     def process_function(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
@@ -454,19 +455,8 @@ class DocumentationAggregator(CMakeListener):
         self.documented.append(GenericCommandDocumentation(
             command_name, docstring, args))
 
-    def enterDocumented_command(self, ctx: CMakeParser.Documented_commandContext):
-        """
-        Main entrypoint into the documentation processor and aggregator. Called by ParseTreeWalker whenever
-        encountering a documented command. Cleans the docstring and dispatches ctx to other functions for additional
-        processing (process_{command}(), i.e. process_function())
-
-        :param ctx: Documented command context, constructed by the Antlr4 parser.
-
-        :raise NotImplementedError: If no processor can be found for the command that was documented.
-        """
-        text = ctx.Bracket_doccomment().getText()
-        lines = text.split("\n")
-
+    @staticmethod
+    def clean_doc_lines(lines: List[str]) -> str:
         # If last line starts with leading spaces or tabs, count how many and remove from all lines
         num_spaces = 0
         for i in range(0, len(lines[-1])):
@@ -491,9 +481,27 @@ class DocumentationAggregator(CMakeListener):
         if cleaned_doc.startswith("\n"):
             cleaned_doc = cleaned_doc[1:]
 
+        return cleaned_doc
+
+    def enterDocumented_command(self, ctx: CMakeParser.Documented_commandContext):
+        """
+        Main entrypoint into the documentation processor and aggregator. Called by ParseTreeWalker whenever
+        encountering a documented command. Cleans the docstring and dispatches ctx to other functions for additional
+        processing (process_{command}(), i.e. process_function())
+
+        :param ctx: Documented command context, constructed by the Antlr4 parser.
+
+        :raise NotImplementedError: If no processor can be found for the command that was documented.
+        """
+        text = ctx.bracket_doccomment().getText()
+        lines = text.split("\n")
+
+        cleaned_doc = DocumentationAggregator.clean_doc_lines(lines)
+
         try:
             command = ctx.command_invocation().Identifier().getText().lower()
             self.consumed.append(ctx.command_invocation())
+            self.consumed.append(ctx.bracket_doccomment())
             if f"process_{command}" in dir(self):
                 getattr(self, f"process_{command}")(ctx.command_invocation(), cleaned_doc)
             else:
@@ -547,7 +555,15 @@ class DocumentationAggregator(CMakeListener):
                     getattr(self, f"process_{command}")(ctx, "")
                 elif command == "function" or command == "macro":
                     self.definition_command_stack.append(DefinitionCommand(None, False))
+
         except Exception as e:
             line_num = ctx.start.line
             self.logger.error(f"Caught exception while processing command beginning at line number {line_num}")
             raise e
+
+    def enterDocumented_module(self, ctx: CMakeParser.Documented_moduleContext):
+        text = ctx.Module_docstring().getText()
+        cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
+        module_name = cleaned_lines[0].replace("@module", "").strip()
+        doc = "\n".join(cleaned_lines[1:])
+        self.documented.append(ModuleDocumentation(module_name, doc))

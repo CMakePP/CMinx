@@ -19,7 +19,8 @@ import context
 
 from cminx.documenter import Documenter
 from cminx.documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
-    GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, CTestDocumentation
+    GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, CTestDocumentation, \
+    ModuleDocumentation
 from cminx.rstwriter import Directive, RSTWriter
 
 
@@ -34,13 +35,15 @@ class TestDocumenter(unittest.TestCase):
 
     def test_process(self):
         self.documenter.process()  # Convert all documentation into RST
-        self.assertEqual(len(self.documenter.aggregator.documented), len(self.documenter.writer.document) - 2,
+        self.assertEqual(len(self.documenter.aggregator.documented), len(self.documenter.writer.document) - 1,
                          "Generated RST has different length from input documentation")  # RSTWriter adds one element
         # for document heading, documenter adds another for module definition
         for i in range(0, len(self.documenter.aggregator.documented)):
             doc = self.documenter.aggregator.documented[i]
-            element = self.documenter.writer.document[i + 2]
-            if isinstance(doc, FunctionDocumentation):
+            element = self.documenter.writer.document[i + 1]
+            if isinstance(doc, ModuleDocumentation):
+                self.assertIsInstance(element, Directive, "Wrong RST element generated for module doc")
+            elif isinstance(doc, FunctionDocumentation):
                 self.assertIsInstance(element, Directive, "Wrong RST element generated for function")
                 self.assertEqual("function", element.document[0].title, "Wrong directive type for function")
             elif isinstance(doc, MacroDocumentation):
