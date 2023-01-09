@@ -1,23 +1,44 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Configuring CMinx &mdash; CMinx v1.1.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  <title>Configuring CMinx &mdash; CMinx v1.1.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/js/theme.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -25,16 +46,33 @@
     <link rel="prev" title="Quickstart" href="quickstart.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
+
+          
             <a href="index.html" class="icon icon-home"> CMinx
+          
+
+          
           </a>
+
+          
+            
+            
               <div class="version">
-                1.1.0
+                1.1.2
               </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -42,7 +80,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
@@ -60,32 +109,75 @@
 <li class="toctree-l1"><a class="reference internal" href="developer/index.html">Developer Documentation</a></li>
 </ul>
 
+            
+          
         </div>
+        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">CMinx</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Configuring CMinx</li>
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Configuring CMinx</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
+          
+            
               <a href="https://github.com/CMakePP/CMinx/edit/master/docs/source/config.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+            
   <section id="configuring-cminx">
-<h1>Configuring CMinx<a class="headerlink" href="#configuring-cminx" title="Permalink to this heading"></a></h1>
+<h1>Configuring CMinx<a class="headerlink" href="#configuring-cminx" title="Permalink to this heading">¶</a></h1>
 <p>By default the reST files generated by CMinx are to the authors’ liking. We
 realize that preferences will vary from user to user and have thus attempted
 to expose as many customization points as possible. <a class="reference internal" href="#default-config"><span class="std std-ref">Default Configuration File</span></a> lists
@@ -93,7 +185,7 @@ all currently recognized CMinx options and their default values. Users
 can provide configuration files which set values for one or more of these
 options in order to override the default values.</p>
 <section id="about-configuration-file">
-<h2>About Configuration File<a class="headerlink" href="#about-configuration-file" title="Permalink to this heading"></a></h2>
+<h2>About Configuration File<a class="headerlink" href="#about-configuration-file" title="Permalink to this heading">¶</a></h2>
 <p>Configuration files are <a class="reference external" href="https://yaml.org/">YAML</a> files. Under the hood,
 CMinx relies on the
 <a class="reference external" href="https://confit.readthedocs.io/en/latest/#">Confuse</a> library for locating,
@@ -114,7 +206,7 @@ options recognized by CMinx into four categories:</p>
 </ol>
 </section>
 <section id="writing-a-configuration-file">
-<h2>Writing a Configuration File<a class="headerlink" href="#writing-a-configuration-file" title="Permalink to this heading"></a></h2>
+<h2>Writing a Configuration File<a class="headerlink" href="#writing-a-configuration-file" title="Permalink to this heading">¶</a></h2>
 <p>One of the first things CMinx does when it is run is to load the default
 values for all options. If a user provides a configuration file, the
 configuration file will be used to override initially loaded default values.
@@ -125,8 +217,8 @@ regardless of whether they are documented or not (if they are not documented
 the generated documentation is little more than the signature). Let’s say we
 do not want CMinx to generate documentation for undocumented functions. In this
 case, we create a file <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> and put the following in it:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">input</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">include_undocumented_function</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">input</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">include_undocumented_function</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </pre></div>
 </div>
 <p>Assuming <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> lives in the directory we are invoking CMinx from, we
@@ -144,7 +236,7 @@ directly to the <code class="docutils literal notranslate"><span class="pre">mai
 additional command line options the user wants to pass to CMinx).</p>
 </section>
 <section id="logging-options">
-<span id="id1"></span><h2>Logging Options<a class="headerlink" href="#logging-options" title="Permalink to this heading"></a></h2>
+<span id="id1"></span><h2>Logging Options<a class="headerlink" href="#logging-options" title="Permalink to this heading">¶</a></h2>
 <p>In CMinx’s configuration files, there is a <cite>logging</cite> section. This section is
 special in that it forwards all options inside of it to the Python
 <code class="docutils literal notranslate"><span class="pre">logging.config</span></code> module. This means that users can configure the Python
@@ -157,147 +249,147 @@ will work as long as they are within the <code class="docutils literal notransla
 See <a class="reference internal" href="#default-config"><span class="std std-ref">Default Configuration File</span></a> for an example of a basic logging configuration.</p>
 </section>
 <section id="default-configuration-file">
-<span id="default-config"></span><h2>Default Configuration File<a class="headerlink" href="#default-configuration-file" title="Permalink to this heading"></a></h2>
+<span id="default-config"></span><h2>Default Configuration File<a class="headerlink" href="#default-configuration-file" title="Permalink to this heading">¶</a></h2>
 <p>The following lists all configuration options recognized by the current version
 of CMinx and the default values for those options.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">input</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># Whether undocumented functions should have documentation</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># auto-generated.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">include_undocumented_function</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">input</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Whether undocumented functions should have documentation</span>
+<span class="w">  </span><span class="c1"># auto-generated.</span>
+<span class="w">  </span><span class="nt">include_undocumented_function</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="w">  </span><span class="c1"># Whether undocumented macros should have documentation</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># auto-generated.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">include_undocumented_macro</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether undocumented macros should have documentation</span>
+<span class="w">  </span><span class="c1"># auto-generated.</span>
+<span class="w">  </span><span class="nt">include_undocumented_macro</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="w">  </span><span class="c1"># Whether undocumented classes should have documentation</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># auto-generated.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">include_undocumented_cpp_class</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether undocumented classes should have documentation</span>
+<span class="w">  </span><span class="c1"># auto-generated.</span>
+<span class="w">  </span><span class="nt">include_undocumented_cpp_class</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="w">  </span><span class="c1"># Whether undocumented attributes within CMakePP classes should have documentation</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># auto-generated.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">include_undocumented_cpp_attr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether undocumented attributes within CMakePP classes should have documentation</span>
+<span class="w">  </span><span class="c1"># auto-generated.</span>
+<span class="w">  </span><span class="nt">include_undocumented_cpp_attr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="w">  </span><span class="c1"># Whether undocumented members within CMakePP classes should have documentation</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># auto-generated.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">include_undocumented_cpp_member</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether undocumented members within CMakePP classes should have documentation</span>
+<span class="w">  </span><span class="c1"># auto-generated.</span>
+<span class="w">  </span><span class="nt">include_undocumented_cpp_member</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="w">  </span><span class="c1"># Whether undocumented constructors within CMakePP classes should have documentation</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># auto-generated.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">include_undocumented_cpp_constructor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether undocumented constructors within CMakePP classes should have documentation</span>
+<span class="w">  </span><span class="c1"># auto-generated.</span>
+<span class="w">  </span><span class="nt">include_undocumented_cpp_constructor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="w">  </span><span class="c1"># Whether undocumented tests should have documentation</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># auto-generated.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">include_undocumented_ct_add_test</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether undocumented tests should have documentation</span>
+<span class="w">  </span><span class="c1"># auto-generated.</span>
+<span class="w">  </span><span class="nt">include_undocumented_ct_add_test</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="w">  </span><span class="c1"># Whether undocumented test sections should have documentation</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># auto-generated.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">include_undocumented_ct_add_section</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether undocumented test sections should have documentation</span>
+<span class="w">  </span><span class="c1"># auto-generated.</span>
+<span class="w">  </span><span class="nt">include_undocumented_ct_add_section</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="w">  </span><span class="c1"># Whether undocumented CTest tests should have documentation</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># auto-generated. This controls whether all vanilla</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># CMake add_test() commands should be documented,</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># it has no relation to CMakeTest tests.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">include_undocumented_add_test</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether undocumented CTest tests should have documentation</span>
+<span class="w">  </span><span class="c1"># auto-generated. This controls whether all vanilla</span>
+<span class="w">  </span><span class="c1"># CMake add_test() commands should be documented,</span>
+<span class="w">  </span><span class="c1"># it has no relation to CMakeTest tests.</span>
+<span class="w">  </span><span class="nt">include_undocumented_add_test</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="w">  </span><span class="c1"># Whether directories not containing .cmake</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># files should be excluded from recursive mode searching.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">auto_exclude_directories_without_cmake</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether directories not containing .cmake</span>
+<span class="w">  </span><span class="c1"># files should be excluded from recursive mode searching.</span>
+<span class="w">  </span><span class="nt">auto_exclude_directories_without_cmake</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
-<span class="w">  </span><span class="c1"># What string should trigger automatic kwargs documentation</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># generation when encountered in a doccomment for a function()</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># or macro() definition. When this string is encountered</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># the defined command parameter list will be modified to include</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># &quot;**kwargs&quot; as the last parameter. This will also occur</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># if a call to &quot;cmake_parse_arguments()&quot; exists within the</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># body of the function or macro.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">kwargs_doc_trigger_string</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:keyword&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># What string should trigger automatic kwargs documentation</span>
+<span class="w">  </span><span class="c1"># generation when encountered in a doccomment for a function()</span>
+<span class="w">  </span><span class="c1"># or macro() definition. When this string is encountered</span>
+<span class="w">  </span><span class="c1"># the defined command parameter list will be modified to include</span>
+<span class="w">  </span><span class="c1"># &quot;**kwargs&quot; as the last parameter. This will also occur</span>
+<span class="w">  </span><span class="c1"># if a call to &quot;cmake_parse_arguments()&quot; exists within the</span>
+<span class="w">  </span><span class="c1"># body of the function or macro.</span>
+<span class="w">  </span><span class="nt">kwargs_doc_trigger_string</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:keyword&quot;</span>
 
-<span class="w">  </span><span class="c1"># Whether directories should be documented recursively</span><span class="w"></span>
-<span class="w">  </span><span class="nt">recursive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether directories should be documented recursively</span>
+<span class="w">  </span><span class="nt">recursive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
-<span class="w">  </span><span class="c1"># Whether CMinx should follow symlinks that resolve to directories</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># when using recursive mode.</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># This can cause infinite recursion if the symlink resolves</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># to a parent directory of itself</span><span class="w"></span>
-<span class="w">  </span><span class="nt">follow_symlinks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether CMinx should follow symlinks that resolve to directories</span>
+<span class="w">  </span><span class="c1"># when using recursive mode.</span>
+<span class="w">  </span><span class="c1"># This can cause infinite recursion if the symlink resolves</span>
+<span class="w">  </span><span class="c1"># to a parent directory of itself</span>
+<span class="w">  </span><span class="nt">follow_symlinks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
-<span class="w">  </span><span class="c1"># Optional list of exclude filters</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># The full list of filters is combined from all sources,</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># and not overridden.</span><span class="w"></span>
-<span class="w">  </span><span class="c1">#exclude_filters:</span><span class="w"></span>
-<span class="w">  </span><span class="c1">#  - __pycache__</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Optional list of exclude filters</span>
+<span class="w">  </span><span class="c1"># The full list of filters is combined from all sources,</span>
+<span class="w">  </span><span class="c1"># and not overridden.</span>
+<span class="w">  </span><span class="c1">#exclude_filters:</span>
+<span class="w">  </span><span class="c1">#  - __pycache__</span>
 
-<span class="nt">output</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># The directory to write generated RST files to. If not set,</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># will output to STDOUT instead.</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># Relative paths will be resolved with regard to the relative_to_config setting</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># directory: build/</span><span class="w"></span>
+<span class="nt">output</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># The directory to write generated RST files to. If not set,</span>
+<span class="w">  </span><span class="c1"># will output to STDOUT instead.</span>
+<span class="w">  </span><span class="c1"># Relative paths will be resolved with regard to the relative_to_config setting</span>
+<span class="w">  </span><span class="c1"># directory: build/</span>
 
-<span class="w">  </span><span class="c1"># If false, relative output paths are resolved with regard to the current working directory.</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># If true, they are instead resolved with regard to the directory where the highest priority</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># output.directory property is specified. If the highest priority config source does not have</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># a file, the current working directory is instead used.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">relative_to_config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># If false, relative output paths are resolved with regard to the current working directory.</span>
+<span class="w">  </span><span class="c1"># If true, they are instead resolved with regard to the directory where the highest priority</span>
+<span class="w">  </span><span class="c1"># output.directory property is specified. If the highest priority config source does not have</span>
+<span class="w">  </span><span class="c1"># a file, the current working directory is instead used.</span>
+<span class="w">  </span><span class="nt">relative_to_config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
-<span class="nt">logging</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># Supports all Python logging dict config options</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># See https://docs.python.org/3/howto/logging.html#configuring-logging</span><span class="w"></span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
-<span class="w">  </span><span class="nt">formatters</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">simple</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;%(asctime)s</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">%(name)s</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">%(levelname)s</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">%(message)s&#39;</span><span class="w"></span>
-<span class="w">  </span><span class="nt">handlers</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">console</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">class</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logging.StreamHandler</span><span class="w"></span>
-<span class="w">      </span><span class="c1"># Changing this level changes what&#39;s viewable on stdout</span><span class="w"></span>
-<span class="w">      </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span><span class="w"></span>
-<span class="w">      </span><span class="nt">formatter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simple</span><span class="w"></span>
-<span class="w">      </span><span class="nt">stream</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ext://sys.stdout</span><span class="w"></span>
-<span class="w">      </span><span class="c1">#Uncomment to add logfile handler</span><span class="w"></span>
-<span class="c1">#    logfile:</span><span class="w"></span>
-<span class="c1">#      class: logging.FileHandler</span><span class="w"></span>
-<span class="c1">#      # Changing this level changes what&#39;s viewable in the log file</span><span class="w"></span>
-<span class="c1">#      level: DEBUG</span><span class="w"></span>
-<span class="c1">#      formatter: simple</span><span class="w"></span>
-<span class="c1">#      # File to output the log to, relative paths are resolved with regard</span><span class="w"></span>
-<span class="c1">#      # to current working directory upon execution</span><span class="w"></span>
-<span class="c1">#      filename: log.txt</span><span class="w"></span>
-<span class="c1">#      # Mode used to write the log file. &#39;a&#39; appends and &#39;w&#39; writes, erasing original content</span><span class="w"></span>
-<span class="c1">#      mode: &#39;w&#39;</span><span class="w"></span>
-<span class="w">  </span><span class="nt">loggers</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">cminx</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="c1"># Changing this overrides log levels in handlers</span><span class="w"></span>
-<span class="w">      </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span><span class="w"></span>
-<span class="w">      </span><span class="nt">handlers</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">console</span><span class="w"></span>
-<span class="w">        </span><span class="c1">#- logfile # Uncomment to add logging to a file called log.txt</span><span class="w"></span>
-<span class="w">      </span><span class="nt">propagate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">no</span><span class="w"></span>
-<span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span><span class="w"></span>
-<span class="w">    </span><span class="nt">handlers</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">console</span><span class="w"></span>
+<span class="nt">logging</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Supports all Python logging dict config options</span>
+<span class="w">  </span><span class="c1"># See https://docs.python.org/3/howto/logging.html#configuring-logging</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">formatters</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">simple</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;%(asctime)s</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">%(name)s</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">%(levelname)s</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">%(message)s&#39;</span>
+<span class="w">  </span><span class="nt">handlers</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">console</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">class</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logging.StreamHandler</span>
+<span class="w">      </span><span class="c1"># Changing this level changes what&#39;s viewable on stdout</span>
+<span class="w">      </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span>
+<span class="w">      </span><span class="nt">formatter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simple</span>
+<span class="w">      </span><span class="nt">stream</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ext://sys.stdout</span>
+<span class="w">      </span><span class="c1">#Uncomment to add logfile handler</span>
+<span class="c1">#    logfile:</span>
+<span class="c1">#      class: logging.FileHandler</span>
+<span class="c1">#      # Changing this level changes what&#39;s viewable in the log file</span>
+<span class="c1">#      level: DEBUG</span>
+<span class="c1">#      formatter: simple</span>
+<span class="c1">#      # File to output the log to, relative paths are resolved with regard</span>
+<span class="c1">#      # to current working directory upon execution</span>
+<span class="c1">#      filename: log.txt</span>
+<span class="c1">#      # Mode used to write the log file. &#39;a&#39; appends and &#39;w&#39; writes, erasing original content</span>
+<span class="c1">#      mode: &#39;w&#39;</span>
+<span class="w">  </span><span class="nt">loggers</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cminx</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># Changing this overrides log levels in handlers</span>
+<span class="w">      </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">      </span><span class="nt">handlers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">console</span>
+<span class="w">        </span><span class="c1">#- logfile # Uncomment to add logging to a file called log.txt</span>
+<span class="w">      </span><span class="nt">propagate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">no</span>
+<span class="w">  </span><span class="nt">root</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">    </span><span class="nt">handlers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">console</span>
 
-<span class="nt">rst</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># Whether the title of the RST file should contain the CMake file&#39;s</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># extension.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">file_extensions_in_titles</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="nt">rst</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Whether the title of the RST file should contain the CMake file&#39;s</span>
+<span class="w">  </span><span class="c1"># extension.</span>
+<span class="w">  </span><span class="nt">file_extensions_in_titles</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
-<span class="w">  </span><span class="c1"># Whether the module directive should contain the CMake file&#39;s</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># extension.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">file_extensions_in_modules</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Whether the module directive should contain the CMake file&#39;s</span>
+<span class="w">  </span><span class="c1"># extension.</span>
+<span class="w">  </span><span class="nt">file_extensions_in_modules</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
-<span class="w">  </span><span class="c1"># Character to use as a separator between CMake directories and modules</span><span class="w"></span>
-<span class="w">  </span><span class="nt">module_path_separator</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;.&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># Character to use as a separator between CMake directories and modules</span>
+<span class="w">  </span><span class="nt">module_path_separator</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;.&#39;</span>
 
-<span class="w">  </span><span class="c1"># A list of characters to be used for RST headers.</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># The character is selected by using the section depth to index</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># into this list. It is recommended to have at least 4 characters</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># in the list, to support at least 4 sections of nesting.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">headers</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;#&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;*&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;=&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;-&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;_&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;~&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;!&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;&amp;&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;@&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;^&#39;</span><span class="p p-Indicator">]</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># A list of characters to be used for RST headers.</span>
+<span class="w">  </span><span class="c1"># The character is selected by using the section depth to index</span>
+<span class="w">  </span><span class="c1"># into this list. It is recommended to have at least 4 characters</span>
+<span class="w">  </span><span class="c1"># in the list, to support at least 4 sections of nesting.</span>
+<span class="w">  </span><span class="nt">headers</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;#&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;*&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;=&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;-&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;_&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;~&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;!&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;&amp;&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;@&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;^&#39;</span><span class="p p-Indicator">]</span>
 
-<span class="w">  </span><span class="c1"># A prefix to use for RST headers and modules</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># If not set, the path to the file relative to the input path will be used instead</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># prefix: Prefix</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># A prefix to use for RST headers and modules</span>
+<span class="w">  </span><span class="c1"># If not set, the path to the file relative to the input path will be used instead</span>
+<span class="w">  </span><span class="c1"># prefix: Prefix</span>
 </pre></div>
 </div>
 </section>
@@ -305,33 +397,50 @@ of CMinx and the default values for those options.</p>
 
 
            </div>
+           
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="documenting/index.html" class="btn btn-neutral float-right" title="Using CMinx to Document Your Code" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, CMakePP Team.</p>
-  </div>
+    <p>
+        &#169; Copyright 2023, CMakePP Team.
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

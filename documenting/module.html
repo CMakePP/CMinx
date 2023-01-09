@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Documenting a Module &mdash; CMinx v1.1.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Documenting a Function" href="function.html" />
+    <link rel="prev" title="Types of Comments" href="types_of_comments.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> CMinx
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.1.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuring CMinx</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Using CMinx to Document Your Code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="types_of_comments.html">Types of Comments</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Documenting a Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function.html">Documenting a Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macro.html">Documenting a Macro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variable.html">Documenting a Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmaketest.html">Documenting a CMakeTest Test</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../full_example.html">Example CMinx/Sphinx Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">CMinx Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer/index.html">Developer Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CMinx</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Using CMinx to Document Your Code</a> &raquo;</li>
+        
+      <li>Documenting a Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            
+              <a href="https://github.com/CMakePP/CMinx/edit/master/docs/source/documenting/module.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="documenting-a-module">
+<h1>Documenting a Module<a class="headerlink" href="#documenting-a-module" title="Permalink to this heading">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The generated module documentation will only be
+processed by Sphinx in versions greater than or
+equal to 5.2. In older versions, the documentation
+body text will simply be ignored. The optional module
+name will still be processed if supplied.</p>
+</div>
+<p>CMinx is able to generate documentation for a CMake module in much
+the same way that functions and other elements are documented.
+There are a few differences however:</p>
+<ol class="arabic simple">
+<li><p>The module doccomment must be the first non-comment
+element of the file. This means it must occur before the usual
+<code class="code docutils literal notranslate"><span class="pre">include_guard()</span></code> call or any other commands. Failing
+this requirement will result in a parse error.</p></li>
+<li><p>The module doccomment must have the <code class="code docutils literal notranslate"><span class="pre">&#64;module</span></code> directive
+in the same line as the opening <code class="code docutils literal notranslate"><span class="pre">#[[[</span></code> tag. This requirement
+ensures a module doccomment is not accidentally attached to
+a command instead.</p></li>
+<li><p>The <code class="code docutils literal notranslate"><span class="pre">&#64;module</span></code> directive may have a single optional argument
+that specifies a module name to be used instead of the autogenerated
+name. Setting the module name will also set the generated
+documentation’s title to the given name. The file name will be unchanged.</p></li>
+</ol>
+<p>A basic module doccomment looks like so:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[ @module</span>
+<span class="c"># This is a basic CMake module.</span>
+<span class="c"># The :code:`@module` component is required and</span>
+<span class="c"># must appear on the first line. An</span>
+<span class="c"># optional module name may appear after the</span>
+<span class="c"># module tag, if it is not present the module</span>
+<span class="c"># name is autogenerated as usual. This</span>
+<span class="c"># file allows the module name to be autogenerated.</span>
+<span class="c">#]]</span>
+</pre></div>
+</div>
+<p>This doccomment is translated by CMinx to the following RST:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">#########################</span>
+<span class="gh">test_samples.basic_module</span>
+<span class="gh">#########################</span>
+
+<span class="p">..</span> <span class="ow">module</span><span class="p">::</span> test_samples.basic_module
+
+   This is a basic CMake module.
+   The <span class="na">:code:</span><span class="nv">`@module`</span> component is required and
+   must appear on the first line. An
+   optional module name may appear after the
+   module tag, if it is not present the module
+   name is autogenerated as usual. This
+   file allows the module name to be autogenerated.
+   
+</pre></div>
+</div>
+<p>As one can see, the <code class="code docutils literal notranslate"><span class="pre">..</span> <span class="pre">module::</span></code> directive still has a module name
+even though the source does not specify one. This is because CMinx autogenerates
+a module name based on the source filename and its path relative to the input path
+that CMinx is given on the command line. The module name
+generation can be adjusted through the configuration file.</p>
+<p>A module doccomment that overrides the autogenerated module name can
+be seen here:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[ @module advanced_module_name</span>
+<span class="c"># This is a more advanced usage of a module</span>
+<span class="c"># doc comment. A call to `function()` immediately</span>
+<span class="c"># follows this comment but because of the `@module` directive</span>
+<span class="c"># this comment is not considered a doccomment on the `function()`</span>
+<span class="c"># call. This file also sets the module name to `advanced_module_name`</span>
+<span class="c"># instead of allowing it to be autogenerated.</span>
+<span class="c">#]]</span>
+<span class="nb">function</span><span class="p">(</span><span class="s">test_func</span><span class="w"> </span><span class="s">param1</span><span class="p">)</span>
+
+<span class="nb">endfunction</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>CMinx generates the following RST from this source file:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">####################</span>
+<span class="gh">advanced_module_name</span>
+<span class="gh">####################</span>
+
+<span class="p">..</span> <span class="ow">module</span><span class="p">::</span> advanced_module_name
+
+   This is a more advanced usage of a module
+   doc comment. A call to <span class="nv">`function()`</span> immediately
+   follows this comment but because of the <span class="nv">`@module`</span> directive
+   this comment is not considered a doccomment on the <span class="nv">`function()`</span>
+   call. This file also sets the module name to <span class="nv">`advanced_module_name`</span>
+   instead of allowing it to be autogenerated.
+   
+
+
+<span class="p">..</span> <span class="ow">function</span><span class="p">::</span> test_func(param1)
+
+   
+</pre></div>
+</div>
+<p>Here, one can see that the module name and the title were overridden with
+the name set in the <code class="code docutils literal notranslate"><span class="pre">&#64;module</span></code> directive. One may also see that although
+the doccomment appears directly above a function declaration, it is not
+interpreted as a function doccomment due to the <code class="code docutils literal notranslate"><span class="pre">&#64;module</span></code> directive.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above is an intentionally obtuse usage of doccomments
+to show how the <code class="code docutils literal notranslate"><span class="pre">&#64;module</span></code> directive affects parsing.
+It is <em>heavily</em> advised to separate the module doccomment
+and any subsequent code without doccomments by at least
+a blank line. Preferably, documented code should be
+placed after the module doccomment to help visually separate
+the module doccomment from any command.</p>
+</div>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="function.html" class="btn btn-neutral float-right" title="Documenting a Function" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="types_of_comments.html" class="btn btn-neutral float-left" title="Types of Comments" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2023, CMakePP Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
