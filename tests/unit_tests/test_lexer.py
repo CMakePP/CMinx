@@ -47,7 +47,7 @@ class TestLexer(unittest.TestCase):
         doc = '#[[[\nThis is a doccomment\n#]]'
         self.stream = InputStream(doc)
         self.reset()
-        self.assertListEqual([token.type for token in self.tokens], [CMakeLexer.Bracket_doccomment])
+        self.assertListEqual([token.type for token in self.tokens], [CMakeLexer.Docstring])
         self.assertEqual(self.tokens[0].text, doc)
 
     def test_identifier(self):

@@ -39,3 +39,23 @@ For comparison, an annotation comment looks like:
 .. literalinclude:: ../../../tests/examples/example.cmake
    :language: cmake
    :lines: 1-5
+
+Sometimes documentation comments need additional information in their
+headers to inform CMinx about the type of documentation the comment
+represents. This information is contained in the first
+line of the documentation comment (the line with :code:`#[[[`)
+and is marked by a special directive start character :code:`@`.
+For example, a module documentation comment contains the :code:`@module`
+directive:
+
+.. literalinclude:: ../../../tests/test_samples/basic_module.cmake
+   :language: cmake
+   :lines: 1-9
+
+.. note::
+   Doccomment directives marked by :code:`@` are different from RST directives.
+   They are hints to CMinx for how to parse the doccomment and how to format
+   it in the output, they *are not* passed through to the generated RST
+   and therefore Sphinx is entirely unaware of them. Consider them akin to
+   preprocessor directives.
+
