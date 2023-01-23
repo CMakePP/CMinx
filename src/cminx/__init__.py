@@ -82,6 +82,7 @@ def main(args: List[str] = tuple(sys.argv[1:])):
              "recursively. If the prefix is not specified, it will be set to the last element of the "
              "input path.",
         action="store_true",
+        default=None,
         dest="input.recursive")
     parser.add_argument(
         "-p",
@@ -277,13 +278,14 @@ def document(input_file: str, settings: Settings):
                 toctree = index.directive("toctree")
                 toctree.option("maxdepth", 2)
 
+                if recursive:
+                    for directory in subdirs:
+                        toctree.text(os.path.join(directory, "index.rst"))
+
                 # Filter filenames for cmake files, then add a toctree entry
                 for file in [f for f in filenames if f.lower().endswith(".cmake")]:
                     toctree.text('.'.join(file.split('.')[:-1]))
 
-                if recursive:
-                    for directory in subdirs:
-                        toctree.text(os.path.join(directory, "index.rst"))
 
                 index.write_to_file(
                     os.path.join(
