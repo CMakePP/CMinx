@@ -132,7 +132,7 @@ class VariableDocumentation(DocumentationType):
     and a :code:`type` field.
     """
 
-    type: VarType
+    type: Union[VarType, str]
     """The type that the variable is."""
 
     value: Union[str, None]
@@ -151,6 +151,34 @@ class VariableDocumentation(DocumentationType):
         else:
             raise ValueError(f"Unknown variable type: {self.type}")
         d.field("type", var_type)
+
+
+@dataclass
+class OptionDocumentation(VariableDocumentation):
+    """
+    This class documents a CMake option() command,
+    representing a user-configurable option that can
+    be selected via the cache. The RST form of this documentation
+    also uses the :code:`data` directive, but includes a note
+    specifying the variable is an option.
+    """
+
+    help_text: Union[str, None]
+    """The help text that the option has, if any"""
+
+    def process(self, writer: RSTWriter):
+        d = writer.directive("data", f"{self.name}")
+        note = d.directive("note")
+        note.text(
+            f"""
+            This variable is a user-editable option,
+            meaning it appears within the cache and can be
+            edited on the command line by the :code:`-D` flag.
+            Help text: {self.help_text} 
+            """)
+        d.text(self.doc)
+        d.field("Default value", self.value)
+        d.field("type", self.type)
 
 
 @dataclass
