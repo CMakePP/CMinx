@@ -460,8 +460,8 @@ class DocumentationAggregator(CMakeListener):
             params[0],
             docstring,
             "bool",
-            params[1],
-            params[2] if len(params) == 3 else None
+            params[2] if len(params) == 3 else None,
+            params[1]
         )
         self.documented.append(option_doc)
 
