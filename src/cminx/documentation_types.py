@@ -174,10 +174,10 @@ class OptionDocumentation(VariableDocumentation):
             This variable is a user-editable option,
             meaning it appears within the cache and can be
             edited on the command line by the :code:`-D` flag.
-            Help text: {self.help_text} 
             """)
         d.text(self.doc)
-        d.field("Default value", self.value)
+        d.field("Help text", self.help_text)
+        d.field("Default value", self.value if self.value is not None else "OFF")
         d.field("type", self.type)
 
 
