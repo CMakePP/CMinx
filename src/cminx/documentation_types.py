@@ -163,8 +163,8 @@ class OptionDocumentation(VariableDocumentation):
     specifying the variable is an option.
     """
 
-    help_text: Union[str, None]
-    """The help text that the option has, if any"""
+    help_text: str
+    """The help text that the option has."""
 
     def process(self, writer: RSTWriter):
         d = writer.directive("data", f"{self.name}")
