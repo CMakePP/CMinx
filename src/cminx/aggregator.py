@@ -434,9 +434,8 @@ class DocumentationAggregator(CMakeListener):
                     self.logger.error(f"add_test() called with incorrect parameters: {params}\n\n{pretty_text}")
                     return
 
-        test_doc = CTestDocumentation(name, docstring, filter(lambda p: p != name and p != "NAME", params))
+        test_doc = CTestDocumentation(name, docstring, [p for p in params if p != name and p != "NAME"])
         self.documented.append(test_doc)
-        self.documented_awaiting_function_def = test_doc
 
     def process_generic_command(self, command_name: str, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
