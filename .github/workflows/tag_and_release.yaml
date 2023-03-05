@@ -28,7 +28,8 @@ jobs:
     needs: tag
     if: | 
       (needs.tag.outputs.bumped_major == 'true') || 
-      (needs.tag.outputs.bumped_minor == 'true')
+      (needs.tag.outputs.bumped_minor == 'true') ||
+      (needs.tag.outputs.bumped_patch == 'true')
     uses: CMakePP/.github/.github/workflows/pypi_release_master.yaml@main
     secrets:
       token: ${{ secrets.PYPI_API_TOKEN }}
