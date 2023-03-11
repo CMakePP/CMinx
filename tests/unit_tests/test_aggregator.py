@@ -364,6 +364,16 @@ cpp_end_class()
         self.assertEqual(0, len(self.aggregator.documented),
                          f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
 
+    def test_incorrect_option_params(self):
+        params = []
+        command_name = "option"
+        command = f'{command_name}({" ".join(params)})'
+        docstring = f"This is documentation for an incorrect {command_name}() call"
+        self.input_stream = InputStream(f'#[[[\n{docstring}\n#]]\n{command}')
+        self.reset()
+        self.assertEqual(0, len(self.aggregator.documented),
+                         f"Incorrect {command_name}() call was still added to documented list: {self.aggregator.documented}")
+
     def test_cpp_attr_outside_class(self):
         self.input_stream = InputStream("#[[[\n# cpp_attr() outside class\n#]]\ncpp_attr()")
         self.reset()
