@@ -102,10 +102,10 @@ class RSTSettings:
 
 @dataclass
 class Settings:
-    input: InputSettings = InputSettings()
-    output: OutputSettings = OutputSettings()
-    logging: LoggingSettings = LoggingSettings()
-    rst: RSTSettings = RSTSettings()
+    input: InputSettings = field(default_factory=lambda: InputSettings())
+    output: OutputSettings = field(default_factory=lambda: OutputSettings())
+    logging: LoggingSettings = field(default_factory=lambda: LoggingSettings())
+    rst: RSTSettings = field(default_factory=lambda: RSTSettings())
 
 
 def dict_to_settings(input_dict: dict) -> Settings:

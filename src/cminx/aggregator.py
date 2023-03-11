@@ -437,7 +437,6 @@ class DocumentationAggregator(CMakeListener):
 
         test_doc = CTestDocumentation(name, docstring, [p for p in params if p != name and p != "NAME"])
         self.documented.append(test_doc)
-        self.documented_awaiting_function_def = test_doc
 
     def process_option(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
