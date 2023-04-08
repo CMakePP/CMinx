@@ -64,6 +64,13 @@ input:
   # body of the function or macro.
   kwargs_doc_trigger_string: ":keyword"
 
+  # Strips out any string matching this regex
+  # for parameter names. This is useful for when
+  # parameter names have a prefix/postfix to prevent
+  # name collisions. This affects function, macro, and method
+  # definitions.
+  parameter_name_strip_regex: ""
+
   # Whether directories should be documented recursively
   recursive: false
 

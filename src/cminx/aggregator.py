@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import logging
+import re
 from typing import List
 
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
@@ -103,7 +104,7 @@ class DocumentationAggregator(CMakeListener):
                 ctx.start.line
             )
 
-        params = [p.getText() for p in def_params[1:]]
+        params = [re.sub(self.settings.input.parameter_name_strip_regex, "", p.getText()) for p in def_params[1:]]
         function_name = def_params[0].getText()
         has_kwargs = self.settings.input.kwargs_doc_trigger_string in docstring
 
