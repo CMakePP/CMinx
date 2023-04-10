@@ -45,6 +45,10 @@ input:
   # auto-generated.
   include_undocumented_ct_add_section: true
 
+  # Whether undocumented options should have documentation
+  # auto-generated.
+  include_undocumented_option: true
+
   # Whether undocumented CTest tests should have documentation
   # auto-generated. This controls whether all vanilla
   # CMake add_test() commands should be documented,

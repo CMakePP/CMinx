@@ -18,7 +18,8 @@ from typing import List
 
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
-    MethodDocumentation, VarType, CTestDocumentation, ModuleDocumentation, AbstractCommandDefinitionDocumentation
+    MethodDocumentation, VarType, CTestDocumentation, ModuleDocumentation, AbstractCommandDefinitionDocumentation, \
+    OptionDocumentation
 from .exceptions import CMakeSyntaxException
 from .parser.CMakeListener import CMakeListener
 # Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention
@@ -437,6 +438,32 @@ class DocumentationAggregator(CMakeListener):
 
         test_doc = CTestDocumentation(name, docstring, [p for p in params if p != name and p != "NAME"])
         self.documented.append(test_doc)
+
+    def process_option(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+        """
+        Extracts information from an :code:`option()` command and creates
+        an OptionDocumentation from it. It extracts the option name,
+        the help text, and the default value if any.
+
+        :param ctx: Documented command context. Constructed by the Antlr4 parser.
+        :param docstring: Cleaned docstring.
+        """
+        params = [param.getText() for param in ctx.single_argument()]  # Extract parameters
+        if len(params) < 2 or len(params) > 3:
+            pretty_text = docstring
+            pretty_text += f"\n{ctx.getText()}"
+
+            self.logger.error(
+                f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}")
+            return
+        option_doc = OptionDocumentation(
+            params[0],
+            docstring,
+            "bool",
+            params[2] if len(params) == 3 else None,
+            params[1]
+        )
+        self.documented.append(option_doc)
 
     def process_generic_command(self, command_name: str, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
