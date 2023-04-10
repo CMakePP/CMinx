@@ -286,3 +286,8 @@ add_test(
     COMMAND bash -c echo test
 )
 
+#[[[
+# This is a documented option
+#]]
+option(TEST_OPTION "This is a test option" OFF)
+
