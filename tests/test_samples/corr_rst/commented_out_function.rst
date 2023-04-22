@@ -19,10 +19,3 @@ test_samples.commented_out_function
    :type param2: desc
    
 
-Documenting a commented-out function should not blow up
-
-:param param3: This is a parameter
-:type param3: str
-:param param4: This is another parameter
-:type param4: desc
-

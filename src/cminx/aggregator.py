@@ -603,7 +603,7 @@ class DocumentationAggregator(CMakeListener):
         if ctx not in self.consumed:
             text = ctx.Docstring().getText()
             cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
-            self.documented.append(DanglingDoccomment("", "\n".join(cleaned_lines)))
+            #self.documented.append(DanglingDoccomment("", "\n".join(cleaned_lines)))
             self.logger.warning(
-                f"Detected dangling doccomment, resulting RST will be valid but may vary with CMinx version."
+                f"Detected dangling doccomment, ignoring. RST may change depending on CMinx version."
             )
