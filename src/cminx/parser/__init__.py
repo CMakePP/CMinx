@@ -1,3 +1,7 @@
+import logging
+
+from antlr4 import Parser, DFA
+from antlr4.atn.ATNConfigSet import ATNConfigSet
 from antlr4.error.ErrorListener import ErrorListener
 
 
@@ -13,14 +17,19 @@ class ParserErrorListener(ErrorListener):
     def __init__(self):
         super(ParserErrorListener, self).__init__()
 
+        self.logger = logging.getLogger(__name__)
+
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         """
         As per the Antlr4 Javadoc:
-            Upon syntax error, notify any interested parties. This is not how to recover from errors or compute error messages.
-            ErrorStrategy specifies how to recover from syntax errors and how to compute error messages.
-            This listener's job is simply to emit a computed message, though it has enough information to create its own message in many cases.
-            The RecognitionException (e) is non-null for all syntax errors except when we discover mismatched token errors that we can recover from in-line,
-            without returning from the surrounding rule (via the single token insertion and deletion mechanism).
+
+            Upon syntax error, notify any interested parties. This is not how to recover from errors or compute error
+            messages. ErrorStrategy specifies how to recover from syntax errors and how to compute error messages.
+            This listener's job is simply to emit a computed message, though it has enough information to create its
+            own message in many cases. The RecognitionException (e) is non-null for all syntax errors except when we
+            discover mismatched token errors that we can recover from in-line, without returning from the surrounding
+            rule (via the single token insertion and deletion mechanism).
+
         :raises RecognitionException: When the mismatched token cannot be recovered from
         :raises CMakeSyntaxError: When it is possible to recover from this error via single token insertion/deletion.
         """
@@ -32,48 +41,71 @@ class ParserErrorListener(ErrorListener):
             s.msg = msg
             raise s
 
-    def reportAmbiguity(self, recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs):
+    def reportAmbiguity(self, recognizer: Parser, dfa: DFA, startIndex: int,
+                        stopIndex: int, exact: bool, ambigAlts: set, configs: ATNConfigSet):
         """
         As per the Antlr4 Javadoc:
-            This method is called by the parser when a full-context prediction results in an ambiguity.
-            Each full-context prediction which does not result in a syntax error will call either ErrorListener.reportContextSensitivity() or ErrorListener.reportAmbiguity().
 
-            When ambigAlts is not None, it contains the set of potentially viable alternatives identified by the prediction algorithm. When ambigAlts is None, use ATNConfigSet.getAlts() to obtain the represented alternatives from the configs argument.
+            This method is called by the parser when a full-context prediction results in an ambiguity. Each
+            full-context prediction which does not result in a syntax error will call either
+            ErrorListener.reportContextSensitivity() or ErrorListener.reportAmbiguity().
 
-            When exact is True, all of the potentially viable alternatives are truly viable, i.e. this is reporting an exact ambiguity. When exact is False, at least two of the potentially viable alternatives are viable for the current input, but the prediction algorithm terminated as soon as it determined that at least the minimum potentially viable alternative is truly viable.
+            When ambigAlts is not None, it contains the set of potentially viable alternatives identified by the
+            prediction algorithm. When ambigAlts is None, use ATNConfigSet.getAlts() to obtain the represented
+            alternatives from the configs argument.
 
-            When the PredictionMode.LL_EXACT_AMBIG_DETECTION prediction mode is used, the parser is required to identify exact ambiguities so exact will always be true.
+            When exact is True, all of the potentially viable alternatives are truly viable, i.e. this is reporting
+            an exact ambiguity. When exact is False, at least two of the potentially viable alternatives are viable
+            for the current input, but the prediction algorithm terminated as soon as it determined that at least the
+            minimum potentially viable alternative is truly viable.
+
+            When the PredictionMode.LL_EXACT_AMBIG_DETECTION prediction mode is used, the parser is required to
+            identify exact ambiguities so exact will always be true.
 
             This method is not used by lexers.
 
-        :raises RuntimeError: Unconditionally, we should not encounter ambiguities
+        This method only logs ambiguities, it does not halt parsing as our grammar
+        is ambiguous. The chosen alternative is implied to be the first one in the grammar.
         """
+        self.logger.debug(f"Found parse ambiguity at starting index {startIndex}, stop index {stopIndex}")
 
-        raise RuntimeError("Parse ambiguity")
-
-    def reportAttemptingFullContext(self, recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs):
+    def reportAttemptingFullContext(self, recognizer: Parser, dfa: DFA, startIndex: int,
+                                    stopIndex: int, conflictingAlts: set, configs: ATNConfigSet):
         """
         As per the Antlr4 Javadoc:
-            This method is called when an SLL conflict occurs and the parser is about to use the full context information to make an LL decision.
-            If one or more configurations in configs contains a semantic predicate, the predicates are evaluated before this method is called. The subset of alternatives which are still viable after predicates are evaluated is reported in conflictingAlts.
+
+            This method is called when an SLL conflict occurs and the parser is about to use the full context
+            information to make an LL decision. If one or more configurations in configs contains a semantic
+            predicate, the predicates are evaluated before this method is called. The subset of alternatives which
+            are still viable after predicates are evaluated is reported in conflictingAlts.
 
             This method is not used by lexers.
 
-        Currently this is a no-op, it is unknown whether we should allow or disallow full context LL decisions.
+        Currently, this is a no-op, it is unknown whether we should allow or disallow full context LL decisions.
         """
         pass
 
-    def reportContextSensitivity(self, recognizer, dfa, startIndex, stopIndex, prediction, configs):
+    def reportContextSensitivity(self, recognizer: Parser, dfa: DFA, startIndex: int,
+                                 stopIndex: int, prediction: int, configs: ATNConfigSet):
         """
         As per the Antlr4 Javadoc:
-            This method is called by the parser when a full-context prediction has a unique result.
-            Each full-context prediction which does not result in a syntax error will call either ErrorListener.reportContextSensitivity() or ErrorListener.reportAmbiguity().
 
-            For prediction implementations that only evaluate full-context predictions when an SLL conflict is found (including the default ParserATNSimulator implementation), this method reports cases where SLL conflicts were resolved to unique full-context predictions, i.e. the decision was context-sensitive.
-            This report does not necessarily indicate a problem, and it may appear even in completely unambiguous grammars.
-            configs may have more than one represented alternative if the full-context prediction algorithm does not evaluate predicates before beginning the full-context prediction. In all cases, the final prediction is passed as the prediction argument.
+            This method is called by the parser when a full-context prediction has a unique result. Each full-context
+            prediction which does not result in a syntax error will call either
+            ErrorListener.reportContextSensitivity() or ErrorListener.reportAmbiguity().
 
-            Note that the definition of "context sensitivity" in this method differs from the concept in DecisionInfo.contextSensitivities. This method reports all instances where an SLL conflict occurred but LL parsing produced a unique result, whether or not that unique result matches the minimum alternative in the SLL conflicting set.
+            For prediction implementations that only evaluate full-context predictions when an SLL conflict is found
+            (including the default ParserATNSimulator implementation), this method reports cases where SLL conflicts
+            were resolved to unique full-context predictions, i.e. the decision was context-sensitive. This report
+            does not necessarily indicate a problem, and it may appear even in completely unambiguous grammars.
+            configs may have more than one represented alternative if the full-context prediction algorithm does not
+            evaluate predicates before beginning the full-context prediction. In all cases, the final prediction is
+            passed as the prediction argument.
+
+            Note that the definition of "context sensitivity" in this method differs from the concept in
+            DecisionInfo.contextSensitivities. This method reports all instances where an SLL conflict occurred but
+            LL parsing produced a unique result, whether or not that unique result matches the minimum alternative in
+            the SLL conflicting set.
 
             This method is not used by lexers.
 

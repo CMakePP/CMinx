@@ -27,8 +27,8 @@ class TestErrorListener(unittest.TestCase):
         self.assertRaises(CMakeSyntaxError, self.listener.syntaxError, None, None, 1, 1, "Test message", None)
 
     def test_ambiguity(self):
-        # This method will only be called if the grammar is bad, call manually to ensure that if it is ever called we get an error
-        self.assertRaises(RuntimeError, self.listener.reportAmbiguity, None, None, None, None, None, None, None)
+        # Our grammar is now ambiguous, so ensure reporting an ambiguity does not raise an exception
+        self.listener.reportAmbiguity(None, None, None, None, None, None, None)
 
     def test_full_context(self):
         # No-op, we include it for documentation purposes
