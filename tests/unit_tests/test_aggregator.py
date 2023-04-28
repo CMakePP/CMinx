@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import textwrap
 import unittest
 
 import pytest
@@ -109,13 +110,13 @@ endmacro()
         var_name = "TEST_VAR"
         val = "This is a value"
 
-        self.input_stream = InputStream(f'''
-#[[[
- {docstring}
-#]]
-set({var_name} "{val}")
+        self.input_stream = InputStream(textwrap.dedent(f'''
+                                #[[[
+                                 {docstring}
+                                #]]
+                                set({var_name} "{val}")
 
-        ''')
+                            '''))
         self.reset()
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
@@ -129,12 +130,12 @@ set({var_name} "{val}")
         var_name = "listvar"
         params = ["param1", "param2"]
 
-        self.input_stream = InputStream(f'''
-#[[[
- {docstring}
-#]]
-set({var_name} {params[0]} {params[1]})
-        ''')
+        self.input_stream = InputStream(textwrap.dedent(f'''
+                                #[[[
+                                {docstring}
+                                #]]
+                                set({var_name} {params[0]} {params[1]})
+                            '''))
         self.reset()
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
@@ -149,12 +150,12 @@ set({var_name} {params[0]} {params[1]})
         docstring = "Unsetting a variable"
         var_name = "myvar"
 
-        self.input_stream = InputStream(f'''
-#[[[
- {docstring}
-#]]
-set({var_name})
-        ''')
+        self.input_stream = InputStream(textwrap.dedent(f'''
+                                #[[[
+                                {docstring}
+                                #]]
+                                set({var_name})
+                            '''))
         self.reset()
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
@@ -176,27 +177,43 @@ set({var_name})
         attribute_docstring = "#[[[\n# This is an attribute\n#]]"
         class_name = "MyClass"
         inner_class_definitions = '\n'.join(
-            [f'{inner_class_docstring}\ncpp_class({inner_class_name})\ncpp_end_class()' for inner_class_name in
-             inner_classes])
-        method_definitions = '\n'.join([
-            f'{method_docstring}\ncpp_member({method_name} {class_name})\nfunction(' + '${' + method_name + '})\nendfunction()'
-            for method_name in methods])
+            [
+                textwrap.dedent(f"""\
+                    {inner_class_docstring}
+                    cpp_class({inner_class_name})
+                    cpp_end_class()
+                """)
+                for inner_class_name in inner_classes
+            ]
+        )
+        # Curly brackets in f strings are escaped with two brackets. So we end up with "${<value of method_name>}"
+        method_definitions = '\n'.join(
+            [
+                textwrap.dedent(f"""\
+                    {method_docstring}
+                    cpp_member({method_name} {class_name})
+                    function(${{{method_name}}})
+                    endfunction()
+                """)
+                for method_name in methods
+            ]
+        )
         attribute_definitions = '\n'.join(
             [f'{attribute_docstring}\ncpp_attr({class_name} {attr_name})' for attr_name in attributes])
-        self.input_stream = InputStream(f'''
-#[[[
-# {class_docstring}
-#]]
-cpp_class({class_name} {' '.join(superclasses)})
+        self.input_stream = InputStream(textwrap.dedent(f'''
+                                #[[[
+                                # {class_docstring}
+                                #]]
+                                cpp_class({class_name} {' '.join(superclasses)})
 
-    {attribute_definitions}
+                                    {attribute_definitions}
 
-    {method_definitions}
+                                    {method_definitions}
 
-    {inner_class_definitions}
+                                    {inner_class_definitions}
 
-cpp_end_class()
-        ''')
+                                cpp_end_class()
+                            '''))
         self.reset()
         self.assertEqual(len(self.aggregator.documented), 1 + len(inner_classes),
                          "Different number of documented commands than expected")
@@ -214,7 +231,7 @@ cpp_end_class()
         self.assertEqual(len(self.aggregator.documented[0].members), len(methods), "Members incorrectly found")
         self.assertEqual(len(self.aggregator.documented[0].attributes), len(attributes), "Attributes incorrectly found")
 
-    def test_cpp_class_multi_superclass_no_inner(self, superclasses=["SuperClassA", "SuperClassB", "SuperClassC"]):
+    def test_cpp_class_multi_superclass_no_inner(self, superclasses=("SuperClassA", "SuperClassB", "SuperClassC")):
         self.test_cpp_class_multi_superclass_multi_members(superclasses=superclasses, attributes=[], methods=[])
 
     def test_cpp_class_one_superclasses_no_inner(self):
