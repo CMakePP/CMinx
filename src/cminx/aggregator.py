@@ -19,7 +19,8 @@ from typing import List
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
     MethodDocumentation, VarType, CTestDocumentation, ModuleDocumentation, AbstractCommandDefinitionDocumentation, \
-    OptionDocumentation
+    OptionDocumentation, DanglingDoccomment
+
 from .exceptions import CMakeSyntaxException
 from .parser.CMakeListener import CMakeListener
 # Annoyingly, the Antl4 Python libraries use camelcase since it was originally Java, so we have convention
@@ -43,9 +44,10 @@ supports Unset in case someone wants to document why something is unset.
 
 
 class DefinitionCommand:
-    def __init__(self, documentation: AbstractCommandDefinitionDocumentation, should_document = True):
+    def __init__(self, documentation: AbstractCommandDefinitionDocumentation, should_document=True):
         self.documentation = documentation
         self.should_document = should_document
+
 
 class DocumentationAggregator(CMakeListener):
     """
@@ -153,7 +155,8 @@ class DocumentationAggregator(CMakeListener):
         """
         if len(self.definition_command_stack) > 0:
             last_element = self.definition_command_stack[-1]
-            if last_element.should_document and isinstance(last_element.documentation, AbstractCommandDefinitionDocumentation):
+            if last_element.should_document and isinstance(last_element.documentation,
+                                                           AbstractCommandDefinitionDocumentation):
                 last_element.documentation.has_kwargs = True
 
     def process_ct_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
@@ -520,6 +523,7 @@ class DocumentationAggregator(CMakeListener):
 
         :raise NotImplementedError: If no processor can be found for the command that was documented.
         """
+        self.consumed.append(ctx.bracket_doccomment())
         text = ctx.bracket_doccomment().getText()
         lines = text.split("\n")
 
@@ -536,7 +540,8 @@ class DocumentationAggregator(CMakeListener):
         except Exception as e:
             line_num = ctx.command_invocation().start.line
             self.logger.error(
-                f"Caught exception while processing documented command beginning at line number {line_num}")
+                f"Caught exception while processing documented command beginning at line number {line_num}"
+            )
             raise e
 
     def enterCommand_invocation(self, ctx: CMakeParser.Command_invocationContext):
@@ -594,3 +599,12 @@ class DocumentationAggregator(CMakeListener):
         module_name = cleaned_lines[0].replace("@module", "").strip()
         doc = "\n".join(cleaned_lines[1:])
         self.documented.append(ModuleDocumentation(module_name, doc))
+
+    def enterBracket_doccomment(self, ctx: CMakeParser.Bracket_doccommentContext):
+        if ctx not in self.consumed:
+            text = ctx.Docstring().getText()
+            cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
+            #self.documented.append(DanglingDoccomment("", "\n".join(cleaned_lines)))
+            self.logger.warning(
+                f"Detected dangling doccomment, ignoring. RST may change depending on CMinx version."
+            )

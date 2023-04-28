@@ -423,3 +423,14 @@ class ModuleDocumentation(DocumentationType):
         module = writer.directive("module", self.name)
         if self.doc is not None and len(self.doc) != 0:
             module.text(self.doc)
+
+
+@dataclass
+class DanglingDoccomment(DocumentationType):
+    """
+    Represents a doccomment that is not attached to any other entity.
+    This documentation type's name is left unused, and the doc contains
+    the cleaned text of the dangling doccomment.
+    """
+    def process(self, writer: RSTWriter):
+        writer.text(self.doc)

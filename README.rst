@@ -23,6 +23,7 @@ CMinx
 .. image:: https://joss.theoj.org/papers/10.21105/joss.04680/status.svg
    :target: https://doi.org/10.21105/joss.04680
 
+
 Full documentation can be found `here <https://cmakepp.github.io/CMinx/>`__.
 
 *****************

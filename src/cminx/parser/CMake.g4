@@ -19,12 +19,20 @@ Changes:
 	Added documented_command to list of expected parser rules
 	Added bracket_doccomment to parser rules
 	Added Docstring to lexer rules
+	Added bracket_doccomment to top-level parse rule, enabling dangling doccomments
 */
-cmake_file
-	: documented_module? (documented_command | command_invocation)* EOF
-	;
 
 /*Begin CMinx*/
+
+/*
+    WARNING: This grammar is ambiguous because of the bracket_doccomment alternative.
+    Ambiguity is resolved via order of alternatives, ensure order is consistent
+    with the desired precedence.
+*/
+cmake_file
+	: documented_module? (documented_command | command_invocation | bracket_doccomment)* EOF
+	;
+
 
 documented_command
 	: bracket_doccomment command_invocation
@@ -39,11 +47,11 @@ bracket_doccomment
     ;
 
 Module_docstring
-    : Doccomment_start Space? '@module' (Space Unquoted_argument)? .*? '#]]'
+    : Doccomment_start Space? '@module' (Space Unquoted_argument)? .*? Blockcomment_end
     ;
 
 Docstring
-        : Doccomment_start .*? '#]]'
+        : Doccomment_start Space? .*? Blockcomment_end
 	;
 
 
