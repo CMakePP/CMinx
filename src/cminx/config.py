@@ -40,7 +40,8 @@ def config_template(output_dir_relative_to_config: bool = False) -> dict:
             "auto_exclude_directories_without_cmake": bool,
             "kwargs_doc_trigger_string": confuse.Optional(confuse.String(), default=":keyword"),
             "exclude_filters": confuse.Optional(list, default=()),
-            "parameter_name_strip_regex": confuse.Optional(confuse.String(), default=""),
+            "function_parameter_name_strip_regex": confuse.Optional(confuse.String(), default=""),
+            "macro_parameter_name_strip_regex": confuse.Optional(confuse.String(), default=""),
             "recursive": bool,
             "follow_symlinks": bool
         },
@@ -77,7 +78,8 @@ class InputSettings:
     auto_exclude_directories_without_cmake: bool = True
     kwargs_doc_trigger_string: str = ":param **kwargs:"
     exclude_filters: List[str] = ()
-    parameter_name_strip_regex: str = ""
+    function_parameter_name_strip_regex: str = ""
+    macro_parameter_name_strip_regex: str = ""
     recursive: bool = False
     follow_symlinks: bool = False
 

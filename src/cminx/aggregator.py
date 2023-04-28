@@ -107,7 +107,9 @@ class DocumentationAggregator(CMakeListener):
                 ctx.start.line
             )
 
-        params = [re.sub(self.settings.input.parameter_name_strip_regex, "", p.getText()) for p in def_params[1:]]
+        params = [
+            re.sub(self.settings.input.function_parameter_name_strip_regex, "", p.getText()) for p in def_params[1:]
+        ]
         function_name = def_params[0].getText()
         has_kwargs = self.settings.input.kwargs_doc_trigger_string in docstring
 
@@ -136,7 +138,9 @@ class DocumentationAggregator(CMakeListener):
                 ctx.start.line
             )
 
-        params = [p.getText() for p in def_params[1:]]
+        params = [
+            re.sub(self.settings.input.macro_parameter_name_strip_regex, "", p.getText()) for p in def_params[1:]
+        ]
         macro_name = def_params[0].getText()
         has_kwargs = self.settings.input.kwargs_doc_trigger_string in docstring
 
@@ -604,7 +608,7 @@ class DocumentationAggregator(CMakeListener):
         if ctx not in self.consumed:
             text = ctx.Docstring().getText()
             cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
-            #self.documented.append(DanglingDoccomment("", "\n".join(cleaned_lines)))
+            # self.documented.append(DanglingDoccomment("", "\n".join(cleaned_lines)))
             self.logger.warning(
                 f"Detected dangling doccomment, ignoring. RST may change depending on CMinx version."
             )

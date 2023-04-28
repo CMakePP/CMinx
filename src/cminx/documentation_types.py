@@ -29,7 +29,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Union, List
 
-from . import Settings
 from .rstwriter import RSTWriter, Directive, interpreted_text
 
 
