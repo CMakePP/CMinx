@@ -21,6 +21,8 @@ import pytest
 import context
 from antlr4 import *
 
+from cminx import Settings
+from cminx.config import InputSettings
 from cminx.exceptions import CMakeSyntaxException
 from cminx.parser import ParserErrorListener
 from cminx.parser.CMakeLexer import CMakeLexer
@@ -38,7 +40,7 @@ class TestAggregator(unittest.TestCase):
         self.input_stream = FileStream(self.filename)
         self.reset()
 
-    def reset(self):
+    def reset(self, settings=Settings()):
         # Convert those strings into tokens and build a stream from those
         self.lexer = CMakeLexer(self.input_stream)
         self.stream = CommonTokenStream(self.lexer)
@@ -49,7 +51,7 @@ class TestAggregator(unittest.TestCase):
         self.tree = self.parser.cmake_file()
 
         # Hard part is done, we now have a fully useable parse tree, now we just need to walk it
-        self.aggregator = DocumentationAggregator()
+        self.aggregator = DocumentationAggregator(settings)
         self.walker = ParseTreeWalker()
         self.walker.walk(self.aggregator, self.tree)
 
@@ -407,6 +409,60 @@ endmacro()
         self.input_stream = InputStream("#[[[\n#invalid syntax\n#]]\nfunction()\nend_function()")
         with pytest.raises(CMakeSyntaxException):
             self.reset()
+
+    def test_function_param_regex(self):
+        func_name = "test_func"
+        stripped_param_names = ["param1" "param2_with_underscores"]
+        param_names = [f"_tf_{name}" for name in stripped_param_names]
+
+        docstring = "This is a function that has its param name regex-stripped"
+
+        regex = "^_[a-zA-Z]*_"
+
+        self.input_stream = InputStream(textwrap.dedent(f"""
+                    #[[[
+                    # {docstring}
+                    #]]
+                    function({func_name} {' '.join(param_names)})
+                    endfunction()
+                """))
+
+        input_settings = InputSettings(function_parameter_name_strip_regex=regex)
+        self.reset(settings=Settings(input=input_settings))
+        self.assertIsInstance(self.aggregator.documented[0], FunctionDocumentation)
+        self.assertEqual(func_name, self.aggregator.documented[0].name)
+        for i in range(0, len(stripped_param_names)):
+            self.assertEqual(
+                stripped_param_names[i], self.aggregator.documented[0].params[i],
+                "Parameter name was not stripped correctly"
+            )
+
+    def test_macro_param_regex(self):
+        func_name = "test_macro"
+        stripped_param_names = ["param1" "param2_with_underscores"]
+        param_names = [f"_tm_{name}" for name in stripped_param_names]
+
+        docstring = "This is a macro that has its param name regex-stripped"
+
+        regex = "^_[a-zA-Z]*_"
+
+        self.input_stream = InputStream(textwrap.dedent(f"""
+            #[[[
+            # {docstring}
+            #]]
+            macro({func_name} {' '.join(param_names)})
+            endmacro()
+        """))
+
+        input_settings = InputSettings(macro_parameter_name_strip_regex=regex)
+        self.reset(settings=Settings(input=input_settings))
+        self.assertIsInstance(self.aggregator.documented[0], MacroDocumentation)
+        self.assertEqual(func_name, self.aggregator.documented[0].name)
+        for i in range(0, len(stripped_param_names)):
+            self.assertEqual(
+                stripped_param_names[i], self.aggregator.documented[0].params[i],
+                "Parameter name was not stripped correctly"
+            )
 
 
 if __name__ == '__main__':
