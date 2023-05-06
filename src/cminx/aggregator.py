@@ -14,7 +14,8 @@
 
 import logging
 import re
-from typing import List
+from dataclasses import dataclass
+from typing import List, Union
 
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
@@ -43,10 +44,30 @@ supports Unset in case someone wants to document why something is unset.
 """
 
 
+@dataclass
 class DefinitionCommand:
-    def __init__(self, documentation: AbstractCommandDefinitionDocumentation, should_document=True):
-        self.documentation = documentation
-        self.should_document = should_document
+    """
+    A container for documentation of definition commands, used to update
+    the parameter list when a :code:`cmake_parse_arguments()` command
+    is encountered.
+
+    A definition command is a command that defines another command,
+    so the function() and macro() commands are definition commands.
+    Instances of this dataclass are placed on the top of a stack
+    when definition commands are encountered.
+    """
+    documentation: Union[AbstractCommandDefinitionDocumentation, None]
+    """
+    The documentation for the definition command. If None,
+    this DefinitionCommand will be ignored when popped.
+    """
+
+    should_document: bool = True
+    """
+    Whether the contained documentation object should be updated
+    if a :code:`cmake_parse_arguments()` command is found.
+    When false, this object is ignored.
+    """
 
 
 class DocumentationAggregator(CMakeListener):
@@ -152,6 +173,8 @@ class DocumentationAggregator(CMakeListener):
     def process_cmake_parse_arguments(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
         """
         Determines whether a documented function or macro uses *args or *kwargs.
+        Accesses the last element in the :code:`definition_command_stack` to
+        update the documentation's :code:`has_kwargs` field.
 
         :param ctx: Documented command context. Constructed by the Antlr4 parser.
 
