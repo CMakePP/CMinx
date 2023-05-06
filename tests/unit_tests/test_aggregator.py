@@ -29,7 +29,7 @@ from cminx.parser.CMakeLexer import CMakeLexer
 from cminx.parser.CMakeParser import CMakeParser
 from cminx.aggregator import DocumentationAggregator
 from cminx.documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
-    GenericCommandDocumentation, ClassDocumentation, VarType, DocumentationType
+    GenericCommandDocumentation, ClassDocumentation, VarType, DocumentationType, MethodDocumentation
 
 
 class TestAggregator(unittest.TestCase):
@@ -412,7 +412,7 @@ endmacro()
 
     def test_function_param_regex(self):
         func_name = "test_func"
-        stripped_param_names = ["param1" "param2_with_underscores"]
+        stripped_param_names = ["param1", "param2_with_underscores"]
         param_names = [f"_tf_{name}" for name in stripped_param_names]
 
         docstring = "This is a function that has its param name regex-stripped"
@@ -439,7 +439,7 @@ endmacro()
 
     def test_macro_param_regex(self):
         func_name = "test_macro"
-        stripped_param_names = ["param1" "param2_with_underscores"]
+        stripped_param_names = ["param1", "param2_with_underscores"]
         param_names = [f"_tm_{name}" for name in stripped_param_names]
 
         docstring = "This is a macro that has its param name regex-stripped"
@@ -461,6 +461,38 @@ endmacro()
         for i in range(0, len(stripped_param_names)):
             self.assertEqual(
                 stripped_param_names[i], self.aggregator.documented[0].params[i],
+                "Parameter name was not stripped correctly"
+            )
+
+    def test_method_param_regex(self):
+        func_name = "test_method"
+        stripped_param_names = ["param1", "param2_with_underscores"]
+        param_names = [f"_tm_{name}" for name in stripped_param_names]
+        param_types = ["desc", "str"]
+
+        docstring = "This is a method that has its param name regex-stripped"
+
+        regex = "^_[a-zA-Z]*_"
+
+        self.input_stream = InputStream(textwrap.dedent(f"""
+                    cpp_class(TestClass)
+                        #[[[
+                        # {docstring}
+                        #]]
+                        cpp_member({func_name} TestClass {' '.join(param_types)})
+                        function("${{{func_name}}}" self {' '.join(param_names)})
+                        endfunction()
+                    cpp_end_class()
+                """))
+
+        input_settings = InputSettings(method_parameter_name_strip_regex=regex)
+        self.reset(settings=Settings(input=input_settings))
+        self.assertIsInstance(self.aggregator.documented[0], ClassDocumentation)
+        self.assertIsInstance(self.aggregator.documented[0].members[0], MethodDocumentation)
+        self.assertEqual(func_name, self.aggregator.documented[0].members[0].name)
+        for i in range(0, len(stripped_param_names)):
+            self.assertEqual(
+                stripped_param_names[i], self.aggregator.documented[0].members[0].params[i],
                 "Parameter name was not stripped correctly"
             )
 
