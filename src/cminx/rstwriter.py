@@ -31,8 +31,19 @@ from cminx import Settings
 
 
 class ListType(Enum):
+    """
+    Represents the different types of RST
+    lists.
+    """
+
     ENUMERATED = 0
+    """
+    An enumerated RST list.
+    """
     BULLETED = 1
+    """
+    A bulleted RST list. 
+    """
 
 
 def interpreted_text(role: str, text: str) -> str:
@@ -55,13 +66,13 @@ class Paragraph(object):
     Represents an RST paragraph
     """
 
-    def __init__(self, text: str, indent: str = ""):
-        self.text = text
-        self.prefix = indent
-        self.text_string = ""
+    def __init__(self, text: str, indent: str = "") -> None:
+        self.text: str = text
+        self.prefix: str = indent
+        self.text_string: str = ""
         self.build_text_string()
 
-    def build_text_string(self):
+    def build_text_string(self) -> None:
         """
         Populates Paragraph.text_string with the
         RST string corresponding to this paragraph
@@ -69,7 +80,7 @@ class Paragraph(object):
         self.text_string = "\n".join(
             [self.prefix + text for text in self.text.split("\n")])
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.text_string
 
 
@@ -78,14 +89,14 @@ class Field(object):
     Represents an RST field, such as Author
     """
 
-    def __init__(self, field_name: str, field_text: str, indent: str = ""):
-        self.field_name = field_name
-        self.field_text = field_text
-        self.field_string = ""
-        self.indent = indent
+    def __init__(self, field_name: str, field_text: str, indent: str = "") -> None:
+        self.field_name: str = field_name
+        self.field_text: str = field_text
+        self.field_string: str = ""
+        self.indent: str = indent
         self.build_field_string()
 
-    def build_field_string(self):
+    def build_field_string(self) -> None:
         """
         Populates Field.field_string with the
         RST string corresponding to this field
@@ -93,7 +104,7 @@ class Field(object):
 
         self.field_string = f"\n{self.indent}:{self.field_name}: {self.field_text}"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.field_string
 
 
@@ -102,21 +113,21 @@ class DocTest(object):
     Represents an RST DocTest
     """
 
-    def __init__(self, test_line: str, expected_output: str, indent=""):
-        self.test_line = test_line
-        self.expected_output = expected_output
-        self.doctest_string = ""
-        self.indent = indent
+    def __init__(self, test_line: str, expected_output: str, indent: str = "") -> None:
+        self.test_line: str = test_line
+        self.expected_output: str = expected_output
+        self.doctest_string: str = ""
+        self.indent: str = indent
         self.build_doctest_string()
 
-    def build_doctest_string(self):
+    def build_doctest_string(self) -> None:
         """
         Populates DocTest.doctest_string with the
         RST string corresponding to this DocTest
         """
         self.doctest_string = f"\n{self.indent}>>> {self.test_line}\n{self.expected_output}\n"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.doctest_string
 
 
@@ -126,17 +137,19 @@ class RSTList(object):
     Enumerated or Bulleted
     """
 
-    def __init__(self, items: Tuple[str], list_type: ListType, indent: str = ""):
-        self.items = items
-        self.list_type = list_type
-        self.list_string = ""
-        self.indent = indent
+    def __init__(self, items: Tuple[str], list_type: ListType, indent: str = "") -> None:
+        self.items: Tuple[str] = items
+        self.list_type: ListType = list_type
+        self.list_string: str = ""
+        self.indent: str = indent
         self.build_list_string()
 
-    def build_list_string(self):
+    def build_list_string(self) -> None:
         """
         Populates RSTList.list_string with the
-        RST string corresponding to this list
+        RST string corresponding to this list.
+
+        :raises ValueError: When :py:attr:`~.RSTList.list_type` is unknown.
         """
 
         self.list_string = "\n"
@@ -149,7 +162,7 @@ class RSTList(object):
         else:
             raise ValueError("Unknown list type")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.list_string
 
 
@@ -158,13 +171,13 @@ class Heading(object):
     Represents a section heading
     """
 
-    def __init__(self, title: str, header_char: str):
+    def __init__(self, title: str, header_char: str) -> None:
         self.title = title
         self.header_char = header_char
         self.heading_string = ""
         self.build_heading_string()
 
-    def build_heading_string(self):
+    def build_heading_string(self) -> None:
         """
         Populates Heading.heading_string with the
         RST string corresponding to this heading
@@ -174,7 +187,7 @@ class Heading(object):
             heading += self.header_char
         self.heading_string = f"\n{heading}\n{self.title}\n{heading}"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.heading_string
 
 
@@ -184,12 +197,12 @@ class SimpleTable(object):
     """
 
     def __init__(self, tab: List[List[str]], headings: List[str]):
-        self.table = tab
-        self.column_headings = headings
-        self.table_string = ""
+        self.table: List[List[str]] = tab
+        self.column_headings: List[str] = headings
+        self.table_string: str = ""
         self.build_table_string()
 
-    def build_table_string(self):
+    def build_table_string(self) -> None:
         """
         Populates SimpleTable.table_string with the
         RST string equivalent of this table
@@ -212,7 +225,7 @@ class SimpleTable(object):
             raise ValueError(
                 "Different number of headings than number of columns in table")
 
-        # Find the longest cell to use as the row separator width Yes I know doing it this way is inefficient,
+        # Find the longest cell to use as the row separator width. Yes I know doing it this way is inefficient,
         # but readability is more important unless we're dealing with thousands
         # of cells.
         for row in self.table:
@@ -236,27 +249,25 @@ class SimpleTable(object):
             row_separator += "="
 
         table_str = ""
-        # Index zero is heading overline, index 1 is headings, index 2 is
-        # underline
-        heading_lines = ["", "", ""]
+        heading_lines = {"overline": "", "headings": "", "underline": ""}
         # Build heading overlines/underlines and add correct spacing
         for heading in self.column_headings:
             heading_len = len(heading)
             for i in range(0, row_separator_width):
-                heading_lines[0] += '='
+                heading_lines["overline"] += '='
 
                 # If current line position is not greater than the length of the heading, add the character at position
                 # Else, add spaces until end of row separator
                 if i < heading_len:
-                    heading_lines[1] += heading[i]
+                    heading_lines["headings"] += heading[i]
                 else:
-                    heading_lines[1] += " "
-            heading_lines[0] += "  "  # Recommended 2 spaces between columns
-            heading_lines[1] += "  "
+                    heading_lines["headings"] += " "
+            heading_lines["overline"] += "  "  # Recommended 2 spaces between columns
+            heading_lines["headings"] += "  "
 
         # Overline and underline should be the same
-        heading_lines[2] = heading_lines[0]
-        table_str += "\n".join(heading_lines) + "\n"
+        heading_lines["underline"] = heading_lines["overline"]
+        table_str += "\n".join(heading_lines.values()) + "\n"
 
         # Add cells to table string
         for row in self.table:
@@ -272,7 +283,7 @@ class SimpleTable(object):
         table_str += "\n"
         self.table_string = table_str
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.table_string
 
 
@@ -281,17 +292,18 @@ class DirectiveHeading(object):
     Represents the unique heading for a Directive (.. :<name>:)
     """
 
-    def __init__(self, title: str, indent: str, args: str):
-        self.title = title
-        self.indent = indent
-        self.args = args
-        self.heading_string = ""
+    def __init__(self, title: str, indent: str, args: str) -> None:
+        self.title: str = title
+        self.indent: str = indent
+        self.args: str = args
+        self.heading_string: str = ""
         self.build_heading_string()
 
-    def build_heading_string(self):
+    def build_heading_string(self) -> None:
+        """Builds the directive heading string and stores in :py:attr:`~heading_str`"""
         self.heading_string = f"\n{self.indent}.. {self.title}:: {self.args}"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.heading_string
 
 
@@ -300,29 +312,34 @@ class Option(object):
     Represents a directive option, such as maxdepth
     """
 
-    def __init__(self, name: str, value: str, indent: str):
-        self.name = name
-        self.value = value
-        self.indent = indent
-        self.option_string = ""
+    def __init__(self, name: str, value: str, indent: str) -> None:
+        self.name: str = name
+        self.value: str = value
+        self.indent: str = indent
+        self.option_string: str = ""
         self.build_option_string()
 
-    def build_option_string(self):
+    def build_option_string(self) -> None:
+        """Builds the option string and stores in :py:attr:`~option_string`"""
         self.option_string = f"{self.indent}:{self.name}: {self.value}"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.option_string
 
 
-def get_indents(num) -> str:
+def get_indents(num: int) -> str:
     """
     Get the string containing the necessary indent.
+    The number of spaces in the returned string equals three times
+    the input number, because directives require three spaces
+    so the text lines up with the first letter of the directive name.
 
-    :return: A string containing the correct number of whitespace characters, derived from the indent level.
+    :return: A string containing the correct number of space characters, derived from the indent level.
     """
     indents = ""
     for i in range(0, num):
-        # Directives require the first non-whitespace character of every line to line up with the first letter of
+        # Directives require the first non-whitespace character
+        # of every line to line up with the first letter of
         # the directive name
         indents += '   '
     return indents
@@ -339,26 +356,26 @@ class RSTWriter(object):
     or by calling :py:func:`str` on this object.
     """
 
-    heading_level_chars = ['#', '*', '=', '-', '_', '~', '!', '&', '@', '^']
+    heading_level_chars: List[str] = ['#', '*', '=', '-', '_', '~', '!', '&', '@', '^']
     """Characters to use as heading overline/underline, indexed by section_level"""
 
     def __init__(
             self,
             title: str,
             section_level: int = 0,
-            settings=Settings(), indent: int = 0):
+            settings: Settings = Settings(), indent: int = 0) -> None:
         self.__title: str = title
         self.section_level: int = section_level
-        self.settings = settings
+        self.settings: Settings = settings
         if settings.rst.headers is not None:
             self.heading_level_chars = settings.rst.headers
 
-        self.indent = indent
+        self.indent: int = indent
         self.header_char: str = self.heading_level_chars[section_level]
         # Heading must be first in the document tree
         self.document: List[Any] = [self.build_heading()]
 
-    def clear(self):
+    def clear(self) -> None:
         """
         Clear all document tree elements (besides required heading)
         """
@@ -369,7 +386,7 @@ class RSTWriter(object):
         return self.__title
 
     @title.setter
-    def title(self, new_title: str):
+    def title(self, new_title: str) -> None:
         """
         Rebuild heading and replace the old one in the document tree whenever title is changed
 
@@ -378,7 +395,7 @@ class RSTWriter(object):
         self.__title = new_title
         self.document[0] = self.build_heading()
 
-    def bulleted_list(self, *items: str):
+    def bulleted_list(self, *items: str) -> None:
         """
         Add a bulleted list to the document tree.
 
@@ -387,7 +404,7 @@ class RSTWriter(object):
 
         self.document.append(RSTList(items, ListType.BULLETED, indent=get_indents(self.indent)))
 
-    def enumerated_list(self, *items: str):
+    def enumerated_list(self, *items: str) -> None:
         """
         Add an enumerated list to the document tree; e.g.
             1. Item 1
@@ -397,7 +414,7 @@ class RSTWriter(object):
         """
         self.document.append(RSTList(items, ListType.ENUMERATED, indent=get_indents(self.indent)))
 
-    def field(self, field_name: str, field_text: str):
+    def field(self, field_name: str, field_text: str) -> None:
         """
         Add a field, such as Author or Version, to the document tree.
 
@@ -407,7 +424,7 @@ class RSTWriter(object):
         """
         self.document.append(Field(field_name, field_text, get_indents(self.indent)))
 
-    def doctest(self, test_line: str, expected_output: str):
+    def doctest(self, test_line: str, expected_output: str) -> None:
         """
         Adds a doctest segment to the document tree.
         A doctest segment appears as an interactive python session.
@@ -433,7 +450,7 @@ class RSTWriter(object):
         self.document.append(sect)
         return sect
 
-    def text(self, txt: str):
+    def text(self, txt: str) -> None:
         """
         Add a paragraph to document tree.
 
@@ -491,7 +508,7 @@ class RSTWriter(object):
             document_string += f"{element}\n"
         return document_string
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Equivalent to :func: `~cminx.RSTWriter.to_text`
 
@@ -499,7 +516,7 @@ class RSTWriter(object):
         """
         return self.to_text()
 
-    def write_to_file(self, file: Union[str, IO]):
+    def write_to_file(self, file: Union[str, IO]) -> None:
         """
         Write text representation of this document to file. File may be a string (path will be opened in write mode)
         or a file-like object.
@@ -540,7 +557,7 @@ class Directive(RSTWriter):
     Does not verify that the directive or its arguments are valid.
     """
 
-    def __init__(self, name: str, indent: int = 0, *arguments: str, settings: Settings = Settings()):
+    def __init__(self, name: str, indent: int = 0, *arguments: str, settings: Settings = Settings()) -> None:
         """
         :param name: Name of the directive being constructed, eg. toctree or admonition.
 
@@ -549,8 +566,8 @@ class Directive(RSTWriter):
         :param arguments: Varargs to be used as the directive arguments, eg. a topic's title.
         """
 
-        self.arguments = arguments
-        self.options = []
+        self.arguments: Tuple[str] = arguments
+        self.options: List[Option] = []
         super().__init__(name, settings=settings, indent=indent + 1)
 
     def build_heading(self) -> DirectiveHeading:
@@ -571,7 +588,7 @@ class Directive(RSTWriter):
         """
         return ','.join(map(str, self.arguments))
 
-    def option(self, name: str, value: str = ""):
+    def option(self, name: str, value: str = "") -> None:
         """
         Add an option, such as toctree's maxdepth. Does not verify if valid option
         """
