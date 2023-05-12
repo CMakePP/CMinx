@@ -89,8 +89,8 @@ input:
   # for parameter names. This is useful for when
   # parameter names have a prefix/postfix to prevent
   # name collisions. This affects CMakePP
-  # class method definitions.
-  method_parameter_name_strip_regex: ""
+  # class member definitions.
+  member_parameter_name_strip_regex: ""
 
   # Whether directories should be documented recursively
   recursive: false

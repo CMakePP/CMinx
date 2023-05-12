@@ -42,7 +42,7 @@ def config_template(output_dir_relative_to_config: bool = False) -> dict:
             "exclude_filters": confuse.Optional(list, default=()),
             "function_parameter_name_strip_regex": confuse.Optional(confuse.String(), default=""),
             "macro_parameter_name_strip_regex": confuse.Optional(confuse.String(), default=""),
-            "method_parameter_name_strip_regex": confuse.Optional(confuse.String(), default=""),
+            "member_parameter_name_strip_regex": confuse.Optional(confuse.String(), default=""),
             "recursive": bool,
             "follow_symlinks": bool
         },
@@ -81,7 +81,7 @@ class InputSettings:
     exclude_filters: List[str] = ()
     function_parameter_name_strip_regex: str = ""
     macro_parameter_name_strip_regex: str = ""
-    method_parameter_name_strip_regex: str = ""
+    member_parameter_name_strip_regex: str = ""
     recursive: bool = False
     follow_symlinks: bool = False
 

@@ -485,7 +485,7 @@ endmacro()
                     cpp_end_class()
                 """))
 
-        input_settings = InputSettings(method_parameter_name_strip_regex=regex)
+        input_settings = InputSettings(member_parameter_name_strip_regex=regex)
         self.reset(settings=Settings(input=input_settings))
         self.assertIsInstance(self.aggregator.documented[0], ClassDocumentation)
         self.assertIsInstance(self.aggregator.documented[0].members[0], MethodDocumentation)

@@ -596,7 +596,7 @@ class DocumentationAggregator(CMakeListener):
                           for param in ctx.single_argument()]
                 if isinstance(self.documented_awaiting_function_def, MethodDocumentation):
                     params = [
-                        re.sub(self.settings.input.method_parameter_name_strip_regex, "", p.getText()) for p in
+                        re.sub(self.settings.input.member_parameter_name_strip_regex, "", p.getText()) for p in
                         ctx.single_argument()
                     ]
 
