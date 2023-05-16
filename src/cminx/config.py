@@ -12,6 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+Contains config objects, their defaults,
+the config template for confuse, and a function
+to convert a dictionary to a :class:`~Settings` object.
+
+The settings object mirrors the template and
+the :code:`config_default.yaml` file. Visit that file
+for information on what each setting does.
+"""
+
 import confuse
 import os
 from typing import List
