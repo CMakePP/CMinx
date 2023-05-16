@@ -17,5 +17,20 @@ import dataclasses
 
 @dataclasses.dataclass
 class CMakeSyntaxException(Exception):
+    """
+    Denotes a syntax error in the CMake source code.
+    This is usually not recoverable and analysis
+    of the CMake code is not guaranteed to be consistent,
+    so generation of this exception is expected to
+    halt the program.
+    """
+
     msg: str
+    """A message describing the syntax error."""
+
     line: int
+    """
+    The line in the CMake file where the exception was detected.
+    Note that this may not be the line where the error is actually located
+    in the source, only where the lexer or parser detected an error.
+    """
