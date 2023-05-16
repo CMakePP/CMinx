@@ -23,7 +23,7 @@ representation into an RST representation using :class:`RSTWriter`.
 :License: Apache 2.0
 
 """
-
+import textwrap
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
@@ -36,8 +36,16 @@ class VarType(Enum):
     """The types of variables accepted by the CMake :code:`set()` command"""
     
     STRING = 1
+    """A String variable, ex: :code:`set(str_var "Hello")`"""
+
     LIST = 2
+    """A List variable, ex: :code:`set(list_var item1 item2 item3)`"""
+
     UNSET = 3
+    """
+    Unsetting a variable, i.e. not an actual variable but a declaration
+    that a variable no longer exists. Ex: :code:`set(MyVar)`
+    """
 
 
 @dataclass
@@ -55,13 +63,13 @@ class DocumentationType(ABC):
     """The full doc comment, cleaned of # characters."""
 
     @abstractmethod
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         """
         Processes the data stored in this documentation type,
         converting it to RST form by using the given RST writer.
 
         :param writer: RSTWriter instance that the documentation
-        will be added to.
+                       will be added to.
         """
         pass
 
@@ -88,7 +96,7 @@ class FunctionDocumentation(AbstractCommandDefinitionDocumentation):
     directly to a Sphinx :code:`function` directive.
     """
 
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         param_list = self.params
         if self.has_kwargs:
             param_list.append("**kwargs")
@@ -106,7 +114,7 @@ class MacroDocumentation(AbstractCommandDefinitionDocumentation):
     :code:`note` directive specifying that it is a macro.
     """
 
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         param_list = self.params
         if self.has_kwargs:
             param_list.append("**kwargs")
@@ -124,7 +132,7 @@ class VariableDocumentation(DocumentationType):
     This class serves as the representation of a documented
     CMake variable definition (:code:`set()` command). It can only
     recognize the CMake primitives :code:`str` and :code:`list`, as
-    well as the :code:`UNSET` subcommand.
+    well as the implied :code:`unset()` when no value is given.
 
     This class translates the definition into a Sphinx
     :code:`data` directive, with a :code:`Default value` field
@@ -137,7 +145,7 @@ class VariableDocumentation(DocumentationType):
     value: Union[str, None]
     """A default value that the variable has"""
 
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         d = writer.directive("data", f"{self.name}")
         d.text(self.doc)
         d.field("Default value", self.value)
@@ -165,15 +173,15 @@ class OptionDocumentation(VariableDocumentation):
     help_text: str
     """The help text that the option has."""
 
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         d = writer.directive("data", f"{self.name}")
         note = d.directive("note")
-        note.text(
+        note.text(textwrap.dedent(
             f"""
             This variable is a user-editable option,
             meaning it appears within the cache and can be
             edited on the command line by the :code:`-D` flag.
-            """)
+            """))
         d.text(self.doc)
         d.field("Help text", self.help_text)
         d.field("Default value", self.value if self.value is not None else "OFF")
@@ -195,7 +203,7 @@ class GenericCommandDocumentation(DocumentationType):
     params: List[str]
     """Any parameters passed to the command, unfiltered since this documentation type has no knowledge of the command"""
 
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         d = writer.directive(
             "function", f"{self.name}({' '.join(self.params)})")
         d.directive(
@@ -215,7 +223,7 @@ class CTestDocumentation(DocumentationType):
     """
     params: List[str] = field(default_factory=lambda: [])
 
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         d = writer.directive(
             "function",
             f"{self.name}({' '.join(self.params)})")
@@ -246,7 +254,7 @@ class TestDocumentation(DocumentationType):
     is_macro: bool = False
     """Whether the linked command is a macro or a function. If true, a warning stating so is generated."""
 
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         d = writer.directive(
             "function",
             f"{self.name}({'EXPECTFAIL' if self.expect_fail else ''})")
@@ -266,7 +274,7 @@ class SectionDocumentation(TestDocumentation):
     section.
     """
 
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         d = writer.directive(
             "function",
             f"{self.name}({'EXPECTFAIL' if self.expect_fail else ''})")
@@ -304,7 +312,7 @@ class MethodDocumentation(DocumentationType):
     is_macro: bool = False
     """Whether the linked command is a macro or a function. If true, a note saying so is generated."""
 
-    def process(self, writer: Directive):
+    def process(self, writer: Directive) -> None:
         params_pretty = ', '.join(
             self.params) + ("[, ...]" if "args" in self.param_types else "")
         d = writer.directive(
@@ -343,7 +351,7 @@ class AttributeDocumentation(DocumentationType):
     default_value: str
     """The default value of this attribute, if it has one."""
 
-    def process(self, writer: Directive):
+    def process(self, writer: Directive) -> None:
         d = writer.directive("py:attribute", f"{self.name}")
         if self.default_value is not None:
             d.option("value", self.default_value)
@@ -383,7 +391,7 @@ class ClassDocumentation(DocumentationType):
     attributes: List[AttributeDocumentation]
     """A list of attribute documentation objects describing the class's attributes."""
 
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         d = writer.directive("py:class", f"{self.name}")
         if len(self.superclasses) > 0:
             bases = "Bases: " + \
@@ -418,7 +426,7 @@ class ModuleDocumentation(DocumentationType):
     Represents documentation for an entire CMake module
     """
 
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         module = writer.directive("module", self.name)
         if self.doc is not None and len(self.doc) != 0:
             module.text(self.doc)
@@ -431,5 +439,5 @@ class DanglingDoccomment(DocumentationType):
     This documentation type's name is left unused, and the doc contains
     the cleaned text of the dangling doccomment.
     """
-    def process(self, writer: RSTWriter):
+    def process(self, writer: RSTWriter) -> None:
         writer.text(self.doc)
