@@ -12,15 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+This module interfaces with the generated CMake parser.
+The primary entrypoint is :class:`~DocumentationAggregator`,
+which subclasses :class:`cminx.parser.CMakeListener`. This
+class listens to all relevent parser rules, generates
+:class:`cminx.documentation_types.DocumentationType`
+objects that represent the parsed CMake, and
+aggregates them in a single list.
+
+:Author: Branden Butler
+:License: Apache 2.0
+"""
+
 import logging
 import re
 from dataclasses import dataclass
 from typing import List, Union
 
+from antlr4 import ParserRuleContext
+
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
     MethodDocumentation, VarType, CTestDocumentation, ModuleDocumentation, AbstractCommandDefinitionDocumentation, \
-    OptionDocumentation, DanglingDoccomment
+    OptionDocumentation, DanglingDoccomment, DocumentationType
 
 from .exceptions import CMakeSyntaxException
 from .parser.CMakeListener import CMakeListener
@@ -28,20 +43,6 @@ from .parser.CMakeListener import CMakeListener
 # inconsistencies here
 from .parser.CMakeParser import CMakeParser
 from cminx import Settings
-
-"""
-This module interfaces with the generated CMake parser.
-It also subclasses CMakeListener to aggregate and further
-process documented commands on-the-fly.
-
-Processed documentation is stored in two different types of named tuples
-depending on the type being documented. VariableDocumentation also stores
-what type the variable is, either String or List for most purposes but also
-supports Unset in case someone wants to document why something is unset.
-
-:Author: Branden Butler
-:License: Apache 2.0
-"""
 
 
 @dataclass
@@ -73,26 +74,34 @@ class DefinitionCommand:
 class DocumentationAggregator(CMakeListener):
     """
     Processes all docstrings and their associated commands, aggregating
-    them in a list.
+    them in a list. Uses the given :class:`~cminx.config.Settings` object
+    to determine aggregation settings, and will document commands without
+    doccomments if the associated settings are set.
+
+    The method used to generate the documentation object for
+    a given command is chosen by searching for a method with the name
+    :code:`"process_<command name>"` with two arguments: :code:`ctx` that is
+    of type :class:`cminx.parser.CMakeParser.Command_invocationContext`,
+    and :code:`docstring` that is of type string.
     """
 
-    def __init__(self, settings: Settings = Settings()):
-        self.settings = settings
+    def __init__(self, settings: Settings = Settings()) -> None:
+        self.settings: Settings = settings
         """Application settings used to determine what commands to document"""
 
-        self.documented = []
+        self.documented: List[DocumentationType] = []
         """All current documented commands"""
 
-        self.documented_classes_stack = []
+        self.documented_classes_stack: List[Union[ClassDocumentation, None]] = []
         """A stack containing the documented classes and inner classes as they are processed"""
 
-        self.documented_awaiting_function_def = None
+        self.documented_awaiting_function_def: Union[DocumentationType, None] = None
         """
         A variable containing a documented command such as cpp_member() that is awaiting its function/macro
         definition
         """
 
-        self.definition_command_stack = []
+        self.definition_command_stack: List[DefinitionCommand] = []
         """
         A stack containing the current definition command that we are inside.
         A definition command is any command that defines a construct with both a
@@ -101,14 +110,14 @@ class DocumentationAggregator(CMakeListener):
         function(), macro(), and cpp_class().
         """
 
-        self.consumed = []
+        self.consumed: List[ParserRuleContext] = []
         """
         A list containing all of the contexts that have already been processed
         """
 
-        self.logger = logging.getLogger(__name__)
+        self.logger: logging.Logger = logging.getLogger(__name__)
 
-    def process_function(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_function(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Extracts function name and declared parameters.
 
@@ -139,7 +148,7 @@ class DocumentationAggregator(CMakeListener):
         self.documented.append(doc)
         self.definition_command_stack.append(DefinitionCommand(doc))
 
-    def process_macro(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_macro(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Extracts macro name and declared parameters.
 
@@ -170,7 +179,7 @@ class DocumentationAggregator(CMakeListener):
         self.documented.append(doc)
         self.definition_command_stack.append(DefinitionCommand(doc))
 
-    def process_cmake_parse_arguments(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_cmake_parse_arguments(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Determines whether a documented function or macro uses *args or *kwargs.
         Accesses the last element in the :code:`definition_command_stack` to
@@ -186,7 +195,7 @@ class DocumentationAggregator(CMakeListener):
                                                            AbstractCommandDefinitionDocumentation):
                 last_element.documentation.has_kwargs = True
 
-    def process_ct_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_ct_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Extracts test name and declared parameters.
 
@@ -226,7 +235,7 @@ class DocumentationAggregator(CMakeListener):
         self.documented.append(test_doc)
         self.documented_awaiting_function_def = test_doc
 
-    def process_ct_add_section(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_ct_add_section(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Extracts section name and declared parameters.
 
@@ -265,7 +274,7 @@ class DocumentationAggregator(CMakeListener):
         self.documented.append(section_doc)
         self.documented_awaiting_function_def = section_doc
 
-    def process_set(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_set(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Extracts variable name and values from the documented set command.
         Also determines the type of set command/variable: String, List, or Unset.
@@ -308,7 +317,7 @@ class DocumentationAggregator(CMakeListener):
             self.documented.append(VariableDocumentation(
                 varname, docstring, VarType.UNSET, None))
 
-    def process_cpp_class(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_cpp_class(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Extracts the name and the declared superclasses from the documented
         cpp_class command.
@@ -343,7 +352,7 @@ class DocumentationAggregator(CMakeListener):
         self.documented_classes_stack.append(clazz)
 
     def process_cpp_member(self, ctx: CMakeParser.Command_invocationContext, docstring: str,
-                           is_constructor: bool = False):
+                           is_constructor: bool = False) -> None:
         """
         Extracts the method name and declared parameter types from the documented cpp_member
         command.
@@ -390,13 +399,13 @@ class DocumentationAggregator(CMakeListener):
             clazz.members.append(method_doc)
         self.documented_awaiting_function_def = method_doc
 
-    def process_cpp_constructor(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_cpp_constructor(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Alias for calling process_cpp_member() with is_constructor=True.
         """
         self.process_cpp_member(ctx, docstring, is_constructor=True)
 
-    def process_cpp_attr(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_cpp_attr(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Extracts the name and any default values from the documented cpp_attr
         command.
@@ -433,7 +442,7 @@ class DocumentationAggregator(CMakeListener):
         clazz.attributes.append(AttributeDocumentation(
             name, docstring, parent_class, default_values))
 
-    def process_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_add_test(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Extracts information from a CTest add_test() command.
         Note: this is not the processor for the CMakeTest ct_add_test() command,
@@ -469,7 +478,7 @@ class DocumentationAggregator(CMakeListener):
         test_doc = CTestDocumentation(name, docstring, [p for p in params if p != name and p != "NAME"])
         self.documented.append(test_doc)
 
-    def process_option(self, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_option(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
         Extracts information from an :code:`option()` command and creates
         an OptionDocumentation from it. It extracts the option name,
@@ -495,7 +504,8 @@ class DocumentationAggregator(CMakeListener):
         )
         self.documented.append(option_doc)
 
-    def process_generic_command(self, command_name: str, ctx: CMakeParser.Command_invocationContext, docstring: str):
+    def process_generic_command(self, command_name: str, ctx: CMakeParser.Command_invocationContext,
+                                docstring: str) -> None:
         """
         Extracts command invocation and arguments for a documented command that does not
         have a dedicated processor function.
@@ -540,7 +550,7 @@ class DocumentationAggregator(CMakeListener):
 
         return cleaned_doc
 
-    def enterDocumented_command(self, ctx: CMakeParser.Documented_commandContext):
+    def enterDocumented_command(self, ctx: CMakeParser.Documented_commandContext) -> None:
         """
         Main entrypoint into the documentation processor and aggregator. Called by ParseTreeWalker whenever
         encountering a documented command. Cleans the docstring and dispatches ctx to other functions for additional
@@ -571,7 +581,7 @@ class DocumentationAggregator(CMakeListener):
             )
             raise e
 
-    def enterCommand_invocation(self, ctx: CMakeParser.Command_invocationContext):
+    def enterCommand_invocation(self, ctx: CMakeParser.Command_invocationContext) -> None:
         """
         Visitor for all other commands, used for locating position-dependent
         elements of documented commands, such as cpp_end_class() that pops the class stack,
@@ -625,17 +635,17 @@ class DocumentationAggregator(CMakeListener):
             self.logger.error(f"Caught exception while processing command beginning at line number {line_num}")
             raise e
 
-    def enterDocumented_module(self, ctx: CMakeParser.Documented_moduleContext):
+    def enterDocumented_module(self, ctx: CMakeParser.Documented_moduleContext) -> None:
         text = ctx.Module_docstring().getText()
         cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
         module_name = cleaned_lines[0].replace("@module", "").strip()
         doc = "\n".join(cleaned_lines[1:])
         self.documented.append(ModuleDocumentation(module_name, doc))
 
-    def enterBracket_doccomment(self, ctx: CMakeParser.Bracket_doccommentContext):
+    def enterBracket_doccomment(self, ctx: CMakeParser.Bracket_doccommentContext) -> None:
         if ctx not in self.consumed:
-            text = ctx.Docstring().getText()
-            cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
+            # text = ctx.Docstring().getText()
+            # cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
             # self.documented.append(DanglingDoccomment("", "\n".join(cleaned_lines)))
             self.logger.warning(
                 f"Detected dangling doccomment, ignoring. RST may change depending on CMinx version."
