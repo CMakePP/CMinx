@@ -25,10 +25,12 @@ Python Modules
 .. autosummary::
    :toctree: .autosummary
 
-
-   cminx.rstwriter
-   cminx.documenter
    cminx.aggregator
+   cminx.config
+   cminx.documenter
+   cminx.documentation_types
+   cminx.exceptions
+   cminx.rstwriter
    cminx.parser.CMakeLexer
    cminx.parser.CMakeParser
    cminx.parser.CMakeListener
