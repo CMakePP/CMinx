@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cminx.documentation_types &mdash; CMinx v1.1.8 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="cminx.exceptions" href="cminx.exceptions.html" />
+    <link rel="prev" title="cminx.documenter" href="cminx.documenter.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CMinx
+          </a>
+              <div class="version">
+                1.1.8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">Configuring CMinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../documenting/index.html">Using CMinx to Document Your Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../full_example.html">Example CMinx/Sphinx Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">CMinx Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Developer Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#table-of-contents">Table of Contents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../repo_structure.html">CMinx Repo Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dependencies.html">CMinx Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dependencies.html#cminx-testing-dependencies">CMinx Testing Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dependencies.html#cminx-documentation-dependencies">CMinx Documentation Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../overview.html">Overview of How CMinx Works</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html">CMinx API</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../api.html#python-modules">Python Modules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#functions">Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#cmake-modules">CMake Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../documentation.html">Documenting CMinx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ci.html">CMinx’s CI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CMinx</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Developer Documentation</a></li>
+          <li class="breadcrumb-item"><a href="../api.html">CMinx API</a></li>
+      <li class="breadcrumb-item active">cminx.documentation_types</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/CMakePP/CMinx/edit/master/docs/source/developer/.autosummary/cminx.documentation_types.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-cminx.documentation_types">
+<span id="cminx-documentation-types"></span><h1>cminx.documentation_types<a class="headerlink" href="#module-cminx.documentation_types" title="Permalink to this heading"></a></h1>
+<p>This module contains a large assortment of dataclasses
+that represent each of the different types of documented
+commands that CMinx recognizes. Each dataclass also implements
+an abstract <code class="code docutils literal notranslate"><span class="pre">process()</span></code> method to convert the dataclass
+representation into an RST representation using <code class="xref py py-class docutils literal notranslate"><span class="pre">RSTWriter</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Branden Butler</p>
+</dd>
+<dt class="field-even">License<span class="colon">:</span></dt>
+<dd class="field-even"><p>Apache 2.0</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.AbstractCommandDefinitionDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">AbstractCommandDefinitionDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">has_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.AbstractCommandDefinitionDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>Abstract dataclass that acts as the parent of FunctionDocumentation
+and MacroDocumentation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.AbstractCommandDefinitionDocumentation.has_kwargs">
+<span class="sig-name descname"><span class="pre">has_kwargs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#cminx.documentation_types.AbstractCommandDefinitionDocumentation.has_kwargs" title="Permalink to this definition"></a></dt>
+<dd><p>Whether this command definition has keyword arguments.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.AbstractCommandDefinitionDocumentation.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.documentation_types.AbstractCommandDefinitionDocumentation.params" title="Permalink to this definition"></a></dt>
+<dd><p>The list of parameters a command definition takes</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.AttributeDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">AttributeDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.AttributeDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This is a special documentation type that stores
+information on a class’s attributes. Its <a href="#id1"><span class="problematic" id="id2">:method:`process`</span></a>
+method takes a directive created by <a class="reference internal" href="#cminx.documentation_types.ClassDocumentation" title="cminx.documentation_types.ClassDocumentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassDocumentation</span></code></a>.</p>
+<p>It translates the CMakePP attribute definition into a Sphinx
+<code class="code docutils literal notranslate"><span class="pre">py:attribute</span></code> directive, with a <code class="code docutils literal notranslate"><span class="pre">value</span></code> option if
+it has a default value.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.AttributeDocumentation.default_value">
+<span class="sig-name descname"><span class="pre">default_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cminx.documentation_types.AttributeDocumentation.default_value" title="Permalink to this definition"></a></dt>
+<dd><p>The default value of this attribute, if it has one.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.AttributeDocumentation.parent_class">
+<span class="sig-name descname"><span class="pre">parent_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cminx.documentation_types.AttributeDocumentation.parent_class" title="Permalink to this definition"></a></dt>
+<dd><p>The class that defines this attribute.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.AttributeDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.Directive" title="cminx.rstwriter.Directive"><span class="pre">Directive</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.AttributeDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.CTestDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">CTestDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.CTestDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This dataclass holds documentation information
+for a vanilla CTest test. These tests are created
+with the “add_test()” command from regular
+CMake, and documenting such a call will
+create this type of documentation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.CTestDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.CTestDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.ClassDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">ClassDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">superclasses</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_classes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cminx.documentation_types.ClassDocumentation" title="cminx.documentation_types.ClassDocumentation"><span class="pre">ClassDocumentation</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constructors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cminx.documentation_types.MethodDocumentation" title="cminx.documentation_types.MethodDocumentation"><span class="pre">MethodDocumentation</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">members</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cminx.documentation_types.MethodDocumentation" title="cminx.documentation_types.MethodDocumentation"><span class="pre">MethodDocumentation</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attributes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cminx.documentation_types.AttributeDocumentation" title="cminx.documentation_types.AttributeDocumentation"><span class="pre">AttributeDocumentation</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.ClassDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This is a documentation type that represents a CMakePP
+class definition. It holds information on all the class’s
+constructors, methods, and attributes via <a class="reference internal" href="#cminx.documentation_types.MethodDocumentation" title="cminx.documentation_types.MethodDocumentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">MethodDocumentation</span></code></a>
+and <a class="reference internal" href="#cminx.documentation_types.AttributeDocumentation" title="cminx.documentation_types.AttributeDocumentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">AttributeDocumentation</span></code></a>. It also contains string identifiers
+for its superclasses and inner classes.</p>
+<p>This class translates the associated CMakePP class definition into a
+Sphinx <code class="code docutils literal notranslate"><span class="pre">py:class</span></code> directive, then loops over all constructors,
+methods, and attributes and calls their <a href="#id3"><span class="problematic" id="id4">:method:`process`</span></a> method
+to add their information to the class directive.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.ClassDocumentation.attributes">
+<span class="sig-name descname"><span class="pre">attributes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cminx.documentation_types.AttributeDocumentation" title="cminx.documentation_types.AttributeDocumentation"><span class="pre">AttributeDocumentation</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.documentation_types.ClassDocumentation.attributes" title="Permalink to this definition"></a></dt>
+<dd><p>A list of attribute documentation objects describing the class’s attributes.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.ClassDocumentation.constructors">
+<span class="sig-name descname"><span class="pre">constructors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cminx.documentation_types.MethodDocumentation" title="cminx.documentation_types.MethodDocumentation"><span class="pre">MethodDocumentation</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.documentation_types.ClassDocumentation.constructors" title="Permalink to this definition"></a></dt>
+<dd><p>A list of method documentation objects describing the constructors this class has.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.ClassDocumentation.inner_classes">
+<span class="sig-name descname"><span class="pre">inner_classes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cminx.documentation_types.ClassDocumentation" title="cminx.documentation_types.ClassDocumentation"><span class="pre">ClassDocumentation</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.documentation_types.ClassDocumentation.inner_classes" title="Permalink to this definition"></a></dt>
+<dd><p>Any classes defined within this class.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.ClassDocumentation.members">
+<span class="sig-name descname"><span class="pre">members</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cminx.documentation_types.MethodDocumentation" title="cminx.documentation_types.MethodDocumentation"><span class="pre">MethodDocumentation</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.documentation_types.ClassDocumentation.members" title="Permalink to this definition"></a></dt>
+<dd><p>A list of method documentation objects describing the class’s methods.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.ClassDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.ClassDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.ClassDocumentation.superclasses">
+<span class="sig-name descname"><span class="pre">superclasses</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.documentation_types.ClassDocumentation.superclasses" title="Permalink to this definition"></a></dt>
+<dd><p>A list of any superclasses this class has, empty if none</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.DanglingDoccomment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">DanglingDoccomment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.DanglingDoccomment" title="Permalink to this definition"></a></dt>
+<dd><p>Represents a doccomment that is not attached to any other entity.
+This documentation type’s name is left unused, and the doc contains
+the cleaned text of the dangling doccomment.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.DanglingDoccomment.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.DanglingDoccomment.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.DocumentationType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">DocumentationType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.DocumentationType" title="Permalink to this definition"></a></dt>
+<dd><p>This is the base class for all documentation types. It defines a single
+abstract process() method that is used to write the documentation RST
+to a given <code class="xref py py-class docutils literal notranslate"><span class="pre">RSTWriter</span></code>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.DocumentationType.doc">
+<span class="sig-name descname"><span class="pre">doc</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cminx.documentation_types.DocumentationType.doc" title="Permalink to this definition"></a></dt>
+<dd><p>The full doc comment, cleaned of # characters.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.DocumentationType.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cminx.documentation_types.DocumentationType.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the documentation type. For functions this is the function
+name, for variables this is the variable name, etc.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.DocumentationType.process">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.DocumentationType.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.FunctionDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">FunctionDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">has_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.FunctionDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This class serves as the representation of a documented
+CMake function definition. It converts the function definition
+directly to a Sphinx <code class="code docutils literal notranslate"><span class="pre">function</span></code> directive.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.FunctionDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.FunctionDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.GenericCommandDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">GenericCommandDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.GenericCommandDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This class represents any documented command that does
+not fit into any of the other documentation types.</p>
+<p>All this class does is translate the documented
+command into a Sphinx <code class="code docutils literal notranslate"><span class="pre">function</span></code> directive with
+a warning that it is a command invocation and not
+a definition.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.GenericCommandDocumentation.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.documentation_types.GenericCommandDocumentation.params" title="Permalink to this definition"></a></dt>
+<dd><p>Any parameters passed to the command, unfiltered since this documentation type has no knowledge of the command</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.GenericCommandDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.GenericCommandDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.MacroDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">MacroDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">has_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.MacroDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This class serves as the representation of a documented
+CMake macro definition. It converts the macro definition
+directly to a Sphinx <code class="code docutils literal notranslate"><span class="pre">function</span></code> directive and adds a
+<code class="code docutils literal notranslate"><span class="pre">note</span></code> directive specifying that it is a macro.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.MacroDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.MacroDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.MethodDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">MethodDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_types</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_constructor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_macro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.MethodDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This is a special documentation type that holds
+information on a class’s method or constructor.</p>
+<p>Its <a href="#id5"><span class="problematic" id="id6">:method:`process`</span></a> method requires a directive
+created by <a class="reference internal" href="#cminx.documentation_types.ClassDocumentation" title="cminx.documentation_types.ClassDocumentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassDocumentation</span></code></a>.</p>
+<p>It translates the CMakePP method definition into
+a Sphinx <code class="code docutils literal notranslate"><span class="pre">py:method</span></code> directive, with a note
+if it is a macro.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.MethodDocumentation.is_constructor">
+<span class="sig-name descname"><span class="pre">is_constructor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#cminx.documentation_types.MethodDocumentation.is_constructor" title="Permalink to this definition"></a></dt>
+<dd><p>Whether this method is a constructor.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.MethodDocumentation.is_macro">
+<span class="sig-name descname"><span class="pre">is_macro</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#cminx.documentation_types.MethodDocumentation.is_macro" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the linked command is a macro or a function. If true, a note saying so is generated.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.MethodDocumentation.param_types">
+<span class="sig-name descname"><span class="pre">param_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.documentation_types.MethodDocumentation.param_types" title="Permalink to this definition"></a></dt>
+<dd><p>The types of the parameters to the method</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.MethodDocumentation.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.documentation_types.MethodDocumentation.params" title="Permalink to this definition"></a></dt>
+<dd><p>The parameter names.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.MethodDocumentation.parent_class">
+<span class="sig-name descname"><span class="pre">parent_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cminx.documentation_types.MethodDocumentation.parent_class" title="Permalink to this definition"></a></dt>
+<dd><p>The class that this method is defined as a part of.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.MethodDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.Directive" title="cminx.rstwriter.Directive"><span class="pre">Directive</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.MethodDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.ModuleDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">ModuleDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.ModuleDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>Represents documentation for an entire CMake module</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.ModuleDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.ModuleDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.OptionDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">OptionDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cminx.documentation_types.VarType" title="cminx.documentation_types.VarType"><span class="pre">VarType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.OptionDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This class documents a CMake option() command,
+representing a user-configurable option that can
+be selected via the cache. The RST form of this documentation
+also uses the <code class="code docutils literal notranslate"><span class="pre">data</span></code> directive, but includes a note
+specifying the variable is an option.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.OptionDocumentation.help_text">
+<span class="sig-name descname"><span class="pre">help_text</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cminx.documentation_types.OptionDocumentation.help_text" title="Permalink to this definition"></a></dt>
+<dd><p>The help text that the option has.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.OptionDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.OptionDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.SectionDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">SectionDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect_fail:</span> <span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_macro:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.SectionDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This class provides support for documenting
+CMakeTest test sections. It translates the
+section exactly as <a class="reference internal" href="#cminx.documentation_types.TestDocumentation" title="cminx.documentation_types.TestDocumentation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestDocumentation</span></code></a>
+except that the warning says that it is a test
+section.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.SectionDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.SectionDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.TestDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">TestDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect_fail:</span> <span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params:</span> <span class="pre">~typing.List[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_macro:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.TestDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This class provides support for documenting
+CMakeTest tests. It translates the test definition
+into a Sphinx <code class="code docutils literal notranslate"><span class="pre">function</span></code> definition with an
+EXPECTFAIL parameter if the test is expected to fail
+and a warning stating that it is a test and should not
+be called manually.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.TestDocumentation.expect_fail">
+<span class="sig-name descname"><span class="pre">expect_fail</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#cminx.documentation_types.TestDocumentation.expect_fail" title="Permalink to this definition"></a></dt>
+<dd><p>Whether this test expects to fail.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.TestDocumentation.is_macro">
+<span class="sig-name descname"><span class="pre">is_macro</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#cminx.documentation_types.TestDocumentation.is_macro" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the linked command is a macro or a function. If true, a warning stating so is generated.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.TestDocumentation.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.documentation_types.TestDocumentation.params" title="Permalink to this definition"></a></dt>
+<dd><p>Any parameters defined by the linked function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.TestDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.TestDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.VarType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">VarType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.VarType" title="Permalink to this definition"></a></dt>
+<dd><p>The types of variables accepted by the CMake <code class="code docutils literal notranslate"><span class="pre">set()</span></code> command</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.VarType.LIST">
+<span class="sig-name descname"><span class="pre">LIST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#cminx.documentation_types.VarType.LIST" title="Permalink to this definition"></a></dt>
+<dd><p>A List variable, ex: <code class="code docutils literal notranslate"><span class="pre">set(list_var</span> <span class="pre">item1</span> <span class="pre">item2</span> <span class="pre">item3)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.VarType.STRING">
+<span class="sig-name descname"><span class="pre">STRING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#cminx.documentation_types.VarType.STRING" title="Permalink to this definition"></a></dt>
+<dd><p>A String variable, ex: <code class="code docutils literal notranslate"><span class="pre">set(str_var</span> <span class="pre">&quot;Hello&quot;)</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.VarType.UNSET">
+<span class="sig-name descname"><span class="pre">UNSET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#cminx.documentation_types.VarType.UNSET" title="Permalink to this definition"></a></dt>
+<dd><p>Unsetting a variable, i.e. not an actual variable but a declaration
+that a variable no longer exists. Ex: <code class="code docutils literal notranslate"><span class="pre">set(MyVar)</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.documentation_types.VariableDocumentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documentation_types.</span></span><span class="sig-name descname"><span class="pre">VariableDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cminx.documentation_types.VarType" title="cminx.documentation_types.VarType"><span class="pre">VarType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documentation_types.VariableDocumentation" title="Permalink to this definition"></a></dt>
+<dd><p>This class serves as the representation of a documented
+CMake variable definition (<code class="code docutils literal notranslate"><span class="pre">set()</span></code> command). It can only
+recognize the CMake primitives <code class="code docutils literal notranslate"><span class="pre">str</span></code> and <code class="code docutils literal notranslate"><span class="pre">list</span></code>, as
+well as the implied <code class="code docutils literal notranslate"><span class="pre">unset()</span></code> when no value is given.</p>
+<p>This class translates the definition into a Sphinx
+<code class="code docutils literal notranslate"><span class="pre">data</span></code> directive, with a <code class="code docutils literal notranslate"><span class="pre">Default</span> <span class="pre">value</span></code> field
+and a <code class="code docutils literal notranslate"><span class="pre">type</span></code> field.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cminx.documentation_types.VariableDocumentation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documentation_types.VariableDocumentation.process" title="Permalink to this definition"></a></dt>
+<dd><p>Processes the data stored in this documentation type,
+converting it to RST form by using the given RST writer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>writer</strong> – RSTWriter instance that the documentation
+will be added to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.VariableDocumentation.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#cminx.documentation_types.VarType" title="cminx.documentation_types.VarType"><span class="pre">VarType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cminx.documentation_types.VariableDocumentation.type" title="Permalink to this definition"></a></dt>
+<dd><p>The type that the variable is.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.documentation_types.VariableDocumentation.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cminx.documentation_types.VariableDocumentation.value" title="Permalink to this definition"></a></dt>
+<dd><p>A default value that the variable has</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cminx.documenter.html" class="btn btn-neutral float-left" title="cminx.documenter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cminx.exceptions.html" class="btn btn-neutral float-right" title="cminx.exceptions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, CMakePP Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

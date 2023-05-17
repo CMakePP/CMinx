@@ -1,0 +1,5 @@
+﻿cminx.config
+============
+
+.. automodule:: cminx.config
+   :members:

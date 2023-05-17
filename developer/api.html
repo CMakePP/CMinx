@@ -20,7 +20,7 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="cminx.rstwriter" href=".autosummary/cminx.rstwriter.html" />
+    <link rel="next" title="cminx.aggregator" href=".autosummary/cminx.aggregator.html" />
     <link rel="prev" title="Overview of How CMinx Works" href="overview.html" /> 
 </head>
 
@@ -108,25 +108,34 @@ meant for use by developers. Users should run the <code class="code docutils lit
 <h2>Python Modules<a class="headerlink" href="#python-modules" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href=".autosummary/cminx.rstwriter.html#module-cminx.rstwriter" title="cminx.rstwriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.rstwriter</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href=".autosummary/cminx.aggregator.html#module-cminx.aggregator" title="cminx.aggregator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.aggregator</span></code></a></p></td>
+<td><p>This module interfaces with the generated CMake parser.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href=".autosummary/cminx.config.html#module-cminx.config" title="cminx.config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.config</span></code></a></p></td>
+<td><p>Contains config objects, their defaults, the config template for confuse, and a function to convert a dictionary to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code> object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href=".autosummary/cminx.documenter.html#module-cminx.documenter" title="cminx.documenter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.documenter</span></code></a></p></td>
+<td><p>This file contains the Documenter class, which is the top-level entrypoint into the CMinx documentation system.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href=".autosummary/cminx.documentation_types.html#module-cminx.documentation_types" title="cminx.documentation_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.documentation_types</span></code></a></p></td>
+<td><p>This module contains a large assortment of dataclasses that represent each of the different types of documented commands that CMinx recognizes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href=".autosummary/cminx.exceptions.html#module-cminx.exceptions" title="cminx.exceptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.exceptions</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href=".autosummary/cminx.rstwriter.html#module-cminx.rstwriter" title="cminx.rstwriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.rstwriter</span></code></a></p></td>
 <td><p>This module and associated classes provide a pure-Python interface for generating reStructuredText.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href=".autosummary/cminx.documenter.html#module-cminx.documenter" title="cminx.documenter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.documenter</span></code></a></p></td>
-<td><p>This file contains the Documenter class, which combines functionality from parser.aggregator and rstwriter to generate RST documentation for CMake files.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href=".autosummary/cminx.aggregator.html#module-cminx.aggregator" title="cminx.aggregator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.aggregator</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href=".autosummary/cminx.parser.CMakeLexer.html#module-cminx.parser.CMakeLexer" title="cminx.parser.CMakeLexer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.parser.CMakeLexer</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href=".autosummary/cminx.parser.CMakeLexer.html#module-cminx.parser.CMakeLexer" title="cminx.parser.CMakeLexer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.parser.CMakeLexer</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href=".autosummary/cminx.parser.CMakeParser.html#module-cminx.parser.CMakeParser" title="cminx.parser.CMakeParser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.parser.CMakeParser</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href=".autosummary/cminx.parser.CMakeParser.html#module-cminx.parser.CMakeParser" title="cminx.parser.CMakeParser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.parser.CMakeParser</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href=".autosummary/cminx.parser.CMakeListener.html#module-cminx.parser.CMakeListener" title="cminx.parser.CMakeListener"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.parser.CMakeListener</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href=".autosummary/cminx.parser.CMakeListener.html#module-cminx.parser.CMakeListener" title="cminx.parser.CMakeListener"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.parser.CMakeListener</span></code></a></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href=".autosummary/cminx.parser.CMakeVisitor.html#module-cminx.parser.CMakeVisitor" title="cminx.parser.CMakeVisitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.parser.CMakeVisitor</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href=".autosummary/cminx.parser.CMakeVisitor.html#module-cminx.parser.CMakeVisitor" title="cminx.parser.CMakeVisitor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cminx.parser.CMakeVisitor</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -171,7 +180,7 @@ meant for use by developers. Users should run the <code class="code docutils lit
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="overview.html" class="btn btn-neutral float-left" title="Overview of How CMinx Works" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href=".autosummary/cminx.rstwriter.html" class="btn btn-neutral float-right" title="cminx.rstwriter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href=".autosummary/cminx.aggregator.html" class="btn btn-neutral float-right" title="cminx.aggregator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

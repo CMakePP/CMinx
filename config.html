@@ -219,6 +219,30 @@ of CMinx and the default values for those options.</p>
 <span class="w">  </span><span class="c1"># body of the function or macro.</span>
 <span class="w">  </span><span class="nt">kwargs_doc_trigger_string</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:keyword&quot;</span>
 
+<span class="w">  </span><span class="c1"># Strips out any string matching this regex</span>
+<span class="w">  </span><span class="c1"># for parameter names. This is useful for when</span>
+<span class="w">  </span><span class="c1"># parameter names have a prefix/postfix to prevent</span>
+<span class="w">  </span><span class="c1"># name collisions. This affects function definitions.</span>
+<span class="w">  </span><span class="c1">#</span>
+<span class="w">  </span><span class="c1"># An example regex that strips the prefix &quot;_abc_&quot;</span>
+<span class="w">  </span><span class="c1"># from parameter names where &quot;abc&quot; is any combination of letters</span>
+<span class="w">  </span><span class="c1"># is below:</span>
+<span class="w">  </span><span class="c1"># function_parameter_name_strip_regex: &quot;^_[a-zA-Z]*_&quot;</span>
+<span class="w">  </span><span class="nt">function_parameter_name_strip_regex</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+
+<span class="w">  </span><span class="c1"># Strips out any string matching this regex</span>
+<span class="w">  </span><span class="c1"># for parameter names. This is useful for when</span>
+<span class="w">  </span><span class="c1"># parameter names have a prefix/postfix to prevent</span>
+<span class="w">  </span><span class="c1"># name collisions. This affects macro definitions</span>
+<span class="w">  </span><span class="nt">macro_parameter_name_strip_regex</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+
+<span class="w">  </span><span class="c1"># Strips out any string matching this regex</span>
+<span class="w">  </span><span class="c1"># for parameter names. This is useful for when</span>
+<span class="w">  </span><span class="c1"># parameter names have a prefix/postfix to prevent</span>
+<span class="w">  </span><span class="c1"># name collisions. This affects CMakePP</span>
+<span class="w">  </span><span class="c1"># class member definitions.</span>
+<span class="w">  </span><span class="nt">member_parameter_name_strip_regex</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+
 <span class="w">  </span><span class="c1"># Whether directories should be documented recursively</span>
 <span class="w">  </span><span class="nt">recursive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 

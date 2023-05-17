@@ -1,0 +1,5 @@
+﻿cminx.documentation_types
+=========================
+
+.. automodule:: cminx.documentation_types
+   :members:

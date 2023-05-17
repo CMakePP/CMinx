@@ -20,8 +20,8 @@
     <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="cminx.parser.CMakeLexer" href="cminx.parser.CMakeLexer.html" />
-    <link rel="prev" title="cminx.documenter" href="cminx.documenter.html" /> 
+    <link rel="next" title="cminx.config" href="cminx.config.html" />
+    <link rel="prev" title="CMinx API" href="../api.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -103,20 +103,69 @@
              
   <section id="module-cminx.aggregator">
 <span id="cminx-aggregator"></span><h1>cminx.aggregator<a class="headerlink" href="#module-cminx.aggregator" title="Permalink to this heading"></a></h1>
+<p>This module interfaces with the generated CMake parser.
+The primary entrypoint is <a class="reference internal" href="#cminx.aggregator.DocumentationAggregator" title="cminx.aggregator.DocumentationAggregator"><code class="xref py py-class docutils literal notranslate"><span class="pre">DocumentationAggregator</span></code></a>,
+which subclasses <a class="reference internal" href="cminx.parser.CMakeListener.html#module-cminx.parser.CMakeListener" title="cminx.parser.CMakeListener"><code class="xref py py-class docutils literal notranslate"><span class="pre">cminx.parser.CMakeListener</span></code></a>. This
+class listens to all relevent parser rules, generates
+<a class="reference internal" href="cminx.documentation_types.html#cminx.documentation_types.DocumentationType" title="cminx.documentation_types.DocumentationType"><code class="xref py py-class docutils literal notranslate"><span class="pre">cminx.documentation_types.DocumentationType</span></code></a>
+objects that represent the parsed CMake, and
+aggregates them in a single list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Branden Butler</p>
+</dd>
+<dt class="field-even">License<span class="colon">:</span></dt>
+<dd class="field-even"><p>Apache 2.0</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="cminx.aggregator.DefinitionCommand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.aggregator.</span></span><span class="sig-name descname"><span class="pre">DefinitionCommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">documentation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.documentation_types.html#cminx.documentation_types.AbstractCommandDefinitionDocumentation" title="cminx.documentation_types.AbstractCommandDefinitionDocumentation"><span class="pre">AbstractCommandDefinitionDocumentation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">should_document</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DefinitionCommand" title="Permalink to this definition"></a></dt>
+<dd><p>A container for documentation of definition commands, used to update
+the parameter list when a <code class="code docutils literal notranslate"><span class="pre">cmake_parse_arguments()</span></code> command
+is encountered.</p>
+<p>A definition command is a command that defines another command,
+so the function() and macro() commands are definition commands.
+Instances of this dataclass are placed on the top of a stack
+when definition commands are encountered.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.aggregator.DefinitionCommand.documentation">
+<span class="sig-name descname"><span class="pre">documentation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.documentation_types.html#cminx.documentation_types.AbstractCommandDefinitionDocumentation" title="cminx.documentation_types.AbstractCommandDefinitionDocumentation"><span class="pre">AbstractCommandDefinitionDocumentation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cminx.aggregator.DefinitionCommand.documentation" title="Permalink to this definition"></a></dt>
+<dd><p>The documentation for the definition command. If None,
+this DefinitionCommand will be ignored when popped.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cminx.aggregator.DefinitionCommand.should_document">
+<span class="sig-name descname"><span class="pre">should_document</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#cminx.aggregator.DefinitionCommand.should_document" title="Permalink to this definition"></a></dt>
+<dd><p>Whether the contained documentation object should be updated
+if a <code class="code docutils literal notranslate"><span class="pre">cmake_parse_arguments()</span></code> command is found.
+When false, this object is ignored.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.aggregator.</span></span><span class="sig-name descname"><span class="pre">DocumentationAggregator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Settings</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Settings(input=InputSettings(include_undocumented_function=True,</span> <span class="pre">include_undocumented_macro=True,</span> <span class="pre">include_undocumented_cpp_class=True,</span> <span class="pre">include_undocumented_cpp_attr=True,</span> <span class="pre">include_undocumented_cpp_constructor=True,</span> <span class="pre">include_undocumented_cpp_member=True,</span> <span class="pre">include_undocumented_ct_add_test=True,</span> <span class="pre">include_undocumented_ct_add_section=True,</span> <span class="pre">include_undocumented_add_test=True,</span> <span class="pre">include_undocumented_option=True,</span> <span class="pre">auto_exclude_directories_without_cmake=True,</span> <span class="pre">kwargs_doc_trigger_string=':param</span> <span class="pre">**kwargs:',</span> <span class="pre">exclude_filters=(),</span> <span class="pre">recursive=False,</span> <span class="pre">follow_symlinks=False),</span> <span class="pre">output=OutputSettings(directory=None,</span> <span class="pre">relative_to_config=False),</span> <span class="pre">logging=LoggingSettings(logger_config={}),</span> <span class="pre">rst=RSTSettings(file_extensions_in_titles=False,</span> <span class="pre">file_extensions_in_modules=False,</span> <span class="pre">prefix=None,</span> <span class="pre">module_path_separator='.',</span> <span class="pre">headers=('#',</span> <span class="pre">'*',</span> <span class="pre">'=',</span> <span class="pre">'-',</span> <span class="pre">'_',</span> <span class="pre">'~',</span> <span class="pre">'!',</span> <span class="pre">'&amp;',</span> <span class="pre">'&#64;',</span> <span class="pre">'^')))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.aggregator.</span></span><span class="sig-name descname"><span class="pre">DocumentationAggregator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.config.html#cminx.config.Settings" title="cminx.config.Settings"><span class="pre">Settings</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Settings(input=InputSettings(include_undocumented_function=True,</span> <span class="pre">include_undocumented_macro=True,</span> <span class="pre">include_undocumented_cpp_class=True,</span> <span class="pre">include_undocumented_cpp_attr=True,</span> <span class="pre">include_undocumented_cpp_constructor=True,</span> <span class="pre">include_undocumented_cpp_member=True,</span> <span class="pre">include_undocumented_ct_add_test=True,</span> <span class="pre">include_undocumented_ct_add_section=True,</span> <span class="pre">include_undocumented_add_test=True,</span> <span class="pre">include_undocumented_option=True,</span> <span class="pre">auto_exclude_directories_without_cmake=True,</span> <span class="pre">kwargs_doc_trigger_string=':param</span> <span class="pre">**kwargs:',</span> <span class="pre">exclude_filters=(),</span> <span class="pre">function_parameter_name_strip_regex='',</span> <span class="pre">macro_parameter_name_strip_regex='',</span> <span class="pre">member_parameter_name_strip_regex='',</span> <span class="pre">recursive=False,</span> <span class="pre">follow_symlinks=False),</span> <span class="pre">output=OutputSettings(directory=None,</span> <span class="pre">relative_to_config=False),</span> <span class="pre">logging=LoggingSettings(logger_config={}),</span> <span class="pre">rst=RSTSettings(file_extensions_in_titles=False,</span> <span class="pre">file_extensions_in_modules=False,</span> <span class="pre">prefix=None,</span> <span class="pre">module_path_separator='.',</span> <span class="pre">headers=('#',</span> <span class="pre">'*',</span> <span class="pre">'=',</span> <span class="pre">'-',</span> <span class="pre">'_',</span> <span class="pre">'~',</span> <span class="pre">'!',</span> <span class="pre">'&amp;',</span> <span class="pre">'&#64;',</span> <span class="pre">'^')))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator" title="Permalink to this definition"></a></dt>
 <dd><p>Processes all docstrings and their associated commands, aggregating
-them in a list.</p>
+them in a list. Uses the given <a class="reference internal" href="cminx.config.html#cminx.config.Settings" title="cminx.config.Settings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code></a> object
+to determine aggregation settings, and will document commands without
+doccomments if the associated settings are set.</p>
+<p>The method used to generate the documentation object for
+a given command is chosen by searching for a method with the name
+<code class="code docutils literal notranslate"><span class="pre">&quot;process_&lt;command</span> <span class="pre">name&gt;&quot;</span></code> with two arguments: <code class="code docutils literal notranslate"><span class="pre">ctx</span></code> that is
+of type <code class="xref py py-class docutils literal notranslate"><span class="pre">cminx.parser.CMakeParser.Command_invocationContext</span></code>,
+and <code class="code docutils literal notranslate"><span class="pre">docstring</span></code> that is of type string.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.consumed">
-<span class="sig-name descname"><span class="pre">consumed</span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.consumed" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">consumed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ParserRuleContext</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.consumed" title="Permalink to this definition"></a></dt>
 <dd><p>A list containing all of the contexts that have already been processed</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.definition_command_stack">
-<span class="sig-name descname"><span class="pre">definition_command_stack</span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.definition_command_stack" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">definition_command_stack</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cminx.aggregator.DefinitionCommand" title="cminx.aggregator.DefinitionCommand"><span class="pre">DefinitionCommand</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.definition_command_stack" title="Permalink to this definition"></a></dt>
 <dd><p>A stack containing the current definition command that we are inside.
 A definition command is any command that defines a construct with both a
 beginning command and an ending command, with all commands within being considered
@@ -126,26 +175,26 @@ function(), macro(), and cpp_class().</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.documented">
-<span class="sig-name descname"><span class="pre">documented</span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.documented" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">documented</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="cminx.documentation_types.html#cminx.documentation_types.DocumentationType" title="cminx.documentation_types.DocumentationType"><span class="pre">DocumentationType</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.documented" title="Permalink to this definition"></a></dt>
 <dd><p>All current documented commands</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.documented_awaiting_function_def">
-<span class="sig-name descname"><span class="pre">documented_awaiting_function_def</span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.documented_awaiting_function_def" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">documented_awaiting_function_def</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.documentation_types.html#cminx.documentation_types.DocumentationType" title="cminx.documentation_types.DocumentationType"><span class="pre">DocumentationType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.documented_awaiting_function_def" title="Permalink to this definition"></a></dt>
 <dd><p>A variable containing a documented command such as cpp_member() that is awaiting its function/macro
 definition</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.documented_classes_stack">
-<span class="sig-name descname"><span class="pre">documented_classes_stack</span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.documented_classes_stack" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">documented_classes_stack</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="cminx.documentation_types.html#cminx.documentation_types.ClassDocumentation" title="cminx.documentation_types.ClassDocumentation"><span class="pre">ClassDocumentation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.documented_classes_stack" title="Permalink to this definition"></a></dt>
 <dd><p>A stack containing the documented classes and inner classes as they are processed</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.enterCommand_invocation">
-<span class="sig-name descname"><span class="pre">enterCommand_invocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.enterCommand_invocation" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">enterCommand_invocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.enterCommand_invocation" title="Permalink to this definition"></a></dt>
 <dd><p>Visitor for all other commands, used for locating position-dependent
 elements of documented commands, such as cpp_end_class() that pops the class stack,
 or a function or method definition for cpp_member().</p>
@@ -153,7 +202,7 @@ or a function or method definition for cpp_member().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.enterDocumented_command">
-<span class="sig-name descname"><span class="pre">enterDocumented_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Documented_commandContext</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.enterDocumented_command" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">enterDocumented_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Documented_commandContext</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.enterDocumented_command" title="Permalink to this definition"></a></dt>
 <dd><p>Main entrypoint into the documentation processor and aggregator. Called by ParseTreeWalker whenever
 encountering a documented command. Cleans the docstring and dispatches ctx to other functions for additional
 processing (process_{command}(), i.e. process_function())</p>
@@ -169,7 +218,7 @@ processing (process_{command}(), i.e. process_function())</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_add_test">
-<span class="sig-name descname"><span class="pre">process_add_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_add_test" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_add_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_add_test" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts information from a CTest add_test() command.
 Note: this is not the processor for the CMakeTest ct_add_test() command,
 but the processor for the vanilla CMake add_test() command.</p>
@@ -185,8 +234,10 @@ but the processor for the vanilla CMake add_test() command.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_cmake_parse_arguments">
-<span class="sig-name descname"><span class="pre">process_cmake_parse_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_cmake_parse_arguments" title="Permalink to this definition"></a></dt>
-<dd><p>Determines whether a documented function or macro uses <a href="#id1"><span class="problematic" id="id2">*</span></a>args or <a href="#id3"><span class="problematic" id="id4">*</span></a>kwargs.</p>
+<span class="sig-name descname"><span class="pre">process_cmake_parse_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_cmake_parse_arguments" title="Permalink to this definition"></a></dt>
+<dd><p>Determines whether a documented function or macro uses <a href="#id1"><span class="problematic" id="id2">*</span></a>args or <a href="#id3"><span class="problematic" id="id4">*</span></a>kwargs.
+Accesses the last element in the <code class="code docutils literal notranslate"><span class="pre">definition_command_stack</span></code> to
+update the documentation’s <code class="code docutils literal notranslate"><span class="pre">has_kwargs</span></code> field.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -199,7 +250,7 @@ but the processor for the vanilla CMake add_test() command.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_cpp_attr">
-<span class="sig-name descname"><span class="pre">process_cpp_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_cpp_attr" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_cpp_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_cpp_attr" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts the name and any default values from the documented cpp_attr
 command.</p>
 <dl class="field-list simple">
@@ -214,7 +265,7 @@ command.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_cpp_class">
-<span class="sig-name descname"><span class="pre">process_cpp_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_cpp_class" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_cpp_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_cpp_class" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts the name and the declared superclasses from the documented
 cpp_class command.</p>
 <dl class="field-list simple">
@@ -229,13 +280,13 @@ cpp_class command.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_cpp_constructor">
-<span class="sig-name descname"><span class="pre">process_cpp_constructor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_cpp_constructor" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_cpp_constructor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_cpp_constructor" title="Permalink to this definition"></a></dt>
 <dd><p>Alias for calling process_cpp_member() with is_constructor=True.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_cpp_member">
-<span class="sig-name descname"><span class="pre">process_cpp_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_constructor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_cpp_member" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_cpp_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_constructor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_cpp_member" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts the method name and declared parameter types from the documented cpp_member
 command.</p>
 <dl class="field-list simple">
@@ -252,7 +303,7 @@ command.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_ct_add_section">
-<span class="sig-name descname"><span class="pre">process_ct_add_section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_ct_add_section" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_ct_add_section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_ct_add_section" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts section name and declared parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -266,7 +317,7 @@ command.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_ct_add_test">
-<span class="sig-name descname"><span class="pre">process_ct_add_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_ct_add_test" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_ct_add_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_ct_add_test" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts test name and declared parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -280,7 +331,7 @@ command.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_function">
-<span class="sig-name descname"><span class="pre">process_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_function" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_function" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts function name and declared parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -294,7 +345,7 @@ command.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_generic_command">
-<span class="sig-name descname"><span class="pre">process_generic_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_generic_command" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_generic_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_generic_command" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts command invocation and arguments for a documented command that does not
 have a dedicated processor function.</p>
 <dl class="field-list simple">
@@ -310,7 +361,7 @@ have a dedicated processor function.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_macro">
-<span class="sig-name descname"><span class="pre">process_macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_macro" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_macro" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts macro name and declared parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -324,7 +375,7 @@ have a dedicated processor function.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_option">
-<span class="sig-name descname"><span class="pre">process_option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_option" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_option" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts information from an <code class="code docutils literal notranslate"><span class="pre">option()</span></code> command and creates
 an OptionDocumentation from it. It extracts the option name,
 the help text, and the default value if any.</p>
@@ -340,7 +391,7 @@ the help text, and the default value if any.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.process_set">
-<span class="sig-name descname"><span class="pre">process_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_set" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Command_invocationContext</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.process_set" title="Permalink to this definition"></a></dt>
 <dd><p>Extracts variable name and values from the documented set command.
 Also determines the type of set command/variable: String, List, or Unset.</p>
 <dl class="field-list simple">
@@ -355,7 +406,7 @@ Also determines the type of set command/variable: String, List, or Unset.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.aggregator.DocumentationAggregator.settings">
-<span class="sig-name descname"><span class="pre">settings</span></span><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.settings" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.config.html#cminx.config.Settings" title="cminx.config.Settings"><span class="pre">Settings</span></a></em><a class="headerlink" href="#cminx.aggregator.DocumentationAggregator.settings" title="Permalink to this definition"></a></dt>
 <dd><p>Application settings used to determine what commands to document</p>
 </dd></dl>
 
@@ -367,8 +418,8 @@ Also determines the type of set command/variable: String, List, or Unset.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cminx.documenter.html" class="btn btn-neutral float-left" title="cminx.documenter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cminx.parser.CMakeLexer.html" class="btn btn-neutral float-right" title="cminx.parser.CMakeLexer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../api.html" class="btn btn-neutral float-left" title="CMinx API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cminx.config.html" class="btn btn-neutral float-right" title="cminx.config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
