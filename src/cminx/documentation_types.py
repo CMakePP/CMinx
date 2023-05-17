@@ -27,7 +27,7 @@ import textwrap
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Union, List
+from typing import Union, List, Dict
 
 from .rstwriter import RSTWriter, Directive, interpreted_text
 
@@ -144,6 +144,12 @@ class VariableDocumentation(DocumentationType):
 
     value: Union[str, None]
     """A default value that the variable has"""
+
+    keywords: Dict[str, bool]
+    """
+    A dictionary between the set() command keywords and whether
+    they were present / active in the documented call.
+    """
 
     def process(self, writer: RSTWriter) -> None:
         d = writer.directive("data", f"{self.name}")
