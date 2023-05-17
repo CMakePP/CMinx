@@ -12,6 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+Contains config objects, their defaults,
+the config template for confuse, and a function
+to convert a dictionary to a :class:`~Settings` object.
+
+The settings object mirrors the template and
+the :code:`config_default.yaml` file. Visit that file
+for information on what each setting does.
+"""
+
 import confuse
 import os
 from typing import List
@@ -40,6 +50,9 @@ def config_template(output_dir_relative_to_config: bool = False) -> dict:
             "auto_exclude_directories_without_cmake": bool,
             "kwargs_doc_trigger_string": confuse.Optional(confuse.String(), default=":keyword"),
             "exclude_filters": confuse.Optional(list, default=()),
+            "function_parameter_name_strip_regex": confuse.Optional(confuse.String(), default=""),
+            "macro_parameter_name_strip_regex": confuse.Optional(confuse.String(), default=""),
+            "member_parameter_name_strip_regex": confuse.Optional(confuse.String(), default=""),
             "recursive": bool,
             "follow_symlinks": bool
         },
@@ -76,6 +89,9 @@ class InputSettings:
     auto_exclude_directories_without_cmake: bool = True
     kwargs_doc_trigger_string: str = ":param **kwargs:"
     exclude_filters: List[str] = ()
+    function_parameter_name_strip_regex: str = ""
+    macro_parameter_name_strip_regex: str = ""
+    member_parameter_name_strip_regex: str = ""
     recursive: bool = False
     follow_symlinks: bool = False
 

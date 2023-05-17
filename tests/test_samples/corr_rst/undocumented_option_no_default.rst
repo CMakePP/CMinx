@@ -12,10 +12,10 @@ test_samples.undocumented_option_no_default
    .. note:: 
 
       
-                  This variable is a user-editable option,
-                  meaning it appears within the cache and can be
-                  edited on the command line by the :code:`-D` flag.
-                  
+      This variable is a user-editable option,
+      meaning it appears within the cache and can be
+      edited on the command line by the :code:`-D` flag.
+      
 
    
 

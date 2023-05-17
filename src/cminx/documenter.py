@@ -13,9 +13,9 @@
 # limitations under the License.
 #
 """
-This file contains the Documenter class, which combines functionality
-from parser.aggregator and rstwriter to generate RST documentation
-for CMake files.
+This file contains the Documenter class, which is the top-level
+entrypoint into the CMinx documentation system. It handles parsing,
+aggregating, and RST writing.
 
 :Author: Branden Butler
 :License: Apache 2.0
@@ -36,7 +36,9 @@ from .rstwriter import RSTWriter, Directive
 
 class Documenter(object):
     """
-    Generates RST documentation from aggregated documentation, combining parser.aggregator and rstwriter.
+    Generates RST documentation from aggregated documentation, combining
+    :class:`~cminx.aggregator.DocumentationAggregator` and :class:`~cminx.rstwriter.RSTWriter`.
+    The entrypoint for this class is the :meth:`process` method.
     """
 
     def __init__(
@@ -44,48 +46,67 @@ class Documenter(object):
             file: str,
             title: str = None,
             module_name: str = None,
-            settings: Settings = Settings()):
+            settings: Settings = Settings()) -> None:
         """
         :param file: CMake file to read documentation from.
         :param title: RST header title to use in the generated document.
+        :param module_name: The name of the CMake module, used in the module directive if
+                            no other name is given in a module doccomment.
         :param settings: Dictionary containing application settings for documentation
         """
 
-        self.settings = settings
+        self.settings: Settings = settings
+        """Settings used for aggregation and RST generation, passed down to all downstream components."""
 
         title = file if title is None else title
 
         if module_name is None:
             module_name = title
 
-        self.module_name = module_name
+        self.module_name: str = module_name
+        """The name of the CMake module, used as a default when no name given via a module doccomment."""
 
-        self.writer = RSTWriter(title, settings=settings)
+        self.writer: RSTWriter = RSTWriter(title, settings=settings)
+        """The writer that is passed to the aggregated documentation objects."""
 
         self.module: Directive
+        """The :code:`.. module::` directive that defines the module's name."""
 
         # We need a string stream of some kind, FileStream is easiest
-        self.input_stream = FileStream(file)
+        self.input_stream: InputStream = FileStream(file)
+        """The string stream used to read the CMake file."""
 
         # Convert those strings into tokens and build a stream from those
-        self.lexer = CMakeLexer(self.input_stream)
-        self.stream = CommonTokenStream(self.lexer)
+        self.lexer: CMakeLexer = CMakeLexer(self.input_stream)
+        """The lexer used to generate the token stream."""
+
+        self.stream: TokenStream = CommonTokenStream(self.lexer)
+        """The stream of tokens from the lexer, should be passed to the parser."""
 
         # We now have a stream of CommonToken instead of strings, parsers
         # require this type of stream
-        self.parser = CMakeParser(self.stream)
+        self.parser: CMakeParser = CMakeParser(self.stream)
+        """
+        The parser used to parse the token stream and call our listener.
+        By default, an instance of :class:`~cminx.parser.ParserErrorListener` is
+        added.
+        """
+
         self.parser.addErrorListener(ParserErrorListener())
 
         # Hard part is done, we now have a fully usable parse tree, now we just
         # need to walk it
-        self.aggregator = DocumentationAggregator(settings)
-        self.walker = ParseTreeWalker()
+        self.aggregator: DocumentationAggregator = DocumentationAggregator(settings)
+        """The aggregator used to listen for parser rules and generate documentation objects."""
+
+        self.walker: ParseTreeWalker = ParseTreeWalker()
+        """Walks the parser tree at a given parser rule, used to kick off aggregation."""
 
     def process(self) -> RSTWriter:
         """
-        Process Documenter.aggregator.documented and build RST document from it.
+        Process :attr:`cminx.aggregator.DocumentationAggregator.documented` and build RST document from it.
 
-        :return: Completed RSTWriter document, also located in Documenter.writer
+        :return: Completed RSTWriter document, also located in :attr:`Documenter.writer`
         """
 
         # Parse and lex the file, then walk the tree and aggregate the
@@ -99,9 +120,10 @@ class Documenter(object):
         self.process_docs(self.aggregator.documented)
         return self.writer
 
-    def process_docs(self, docs: List[DocumentationType]):
+    def process_docs(self, docs: List[DocumentationType]) -> None:
         """
-        Loops over document and calls Documentation.process() with self.writer
+        Loops over document and calls :meth:`cminx.documentation_types.DocumentationType.process` with
+        :attr:`~Documenter.writer`.
 
         :param docs: List of documentation objects.
         """

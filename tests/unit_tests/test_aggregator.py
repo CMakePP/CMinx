@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import textwrap
 import unittest
 
 import pytest
@@ -20,13 +21,15 @@ import pytest
 import context
 from antlr4 import *
 
+from cminx import Settings
+from cminx.config import InputSettings
 from cminx.exceptions import CMakeSyntaxException
 from cminx.parser import ParserErrorListener
 from cminx.parser.CMakeLexer import CMakeLexer
 from cminx.parser.CMakeParser import CMakeParser
 from cminx.aggregator import DocumentationAggregator
 from cminx.documentation_types import FunctionDocumentation, MacroDocumentation, VariableDocumentation, \
-    GenericCommandDocumentation, ClassDocumentation, VarType, DocumentationType
+    GenericCommandDocumentation, ClassDocumentation, VarType, DocumentationType, MethodDocumentation
 
 
 class TestAggregator(unittest.TestCase):
@@ -37,7 +40,7 @@ class TestAggregator(unittest.TestCase):
         self.input_stream = FileStream(self.filename)
         self.reset()
 
-    def reset(self):
+    def reset(self, settings=Settings()):
         # Convert those strings into tokens and build a stream from those
         self.lexer = CMakeLexer(self.input_stream)
         self.stream = CommonTokenStream(self.lexer)
@@ -48,7 +51,7 @@ class TestAggregator(unittest.TestCase):
         self.tree = self.parser.cmake_file()
 
         # Hard part is done, we now have a fully useable parse tree, now we just need to walk it
-        self.aggregator = DocumentationAggregator()
+        self.aggregator = DocumentationAggregator(settings)
         self.walker = ParseTreeWalker()
         self.walker.walk(self.aggregator, self.tree)
 
@@ -109,13 +112,13 @@ endmacro()
         var_name = "TEST_VAR"
         val = "This is a value"
 
-        self.input_stream = InputStream(f'''
-#[[[
- {docstring}
-#]]
-set({var_name} "{val}")
+        self.input_stream = InputStream(textwrap.dedent(f'''
+                                #[[[
+                                 {docstring}
+                                #]]
+                                set({var_name} "{val}")
 
-        ''')
+                            '''))
         self.reset()
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
@@ -129,12 +132,12 @@ set({var_name} "{val}")
         var_name = "listvar"
         params = ["param1", "param2"]
 
-        self.input_stream = InputStream(f'''
-#[[[
- {docstring}
-#]]
-set({var_name} {params[0]} {params[1]})
-        ''')
+        self.input_stream = InputStream(textwrap.dedent(f'''
+                                #[[[
+                                {docstring}
+                                #]]
+                                set({var_name} {params[0]} {params[1]})
+                            '''))
         self.reset()
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
@@ -149,12 +152,12 @@ set({var_name} {params[0]} {params[1]})
         docstring = "Unsetting a variable"
         var_name = "myvar"
 
-        self.input_stream = InputStream(f'''
-#[[[
- {docstring}
-#]]
-set({var_name})
-        ''')
+        self.input_stream = InputStream(textwrap.dedent(f'''
+                                #[[[
+                                {docstring}
+                                #]]
+                                set({var_name})
+                            '''))
         self.reset()
         self.assertEqual(len(self.aggregator.documented), 1, "Different number of documented commands than expected")
         self.assertEqual(type(self.aggregator.documented[0]), VariableDocumentation, "Unexpected documentation type")
@@ -176,27 +179,43 @@ set({var_name})
         attribute_docstring = "#[[[\n# This is an attribute\n#]]"
         class_name = "MyClass"
         inner_class_definitions = '\n'.join(
-            [f'{inner_class_docstring}\ncpp_class({inner_class_name})\ncpp_end_class()' for inner_class_name in
-             inner_classes])
-        method_definitions = '\n'.join([
-            f'{method_docstring}\ncpp_member({method_name} {class_name})\nfunction(' + '${' + method_name + '})\nendfunction()'
-            for method_name in methods])
+            [
+                textwrap.dedent(f"""\
+                    {inner_class_docstring}
+                    cpp_class({inner_class_name})
+                    cpp_end_class()
+                """)
+                for inner_class_name in inner_classes
+            ]
+        )
+        # Curly brackets in f strings are escaped with two brackets. So we end up with "${<value of method_name>}"
+        method_definitions = '\n'.join(
+            [
+                textwrap.dedent(f"""\
+                    {method_docstring}
+                    cpp_member({method_name} {class_name})
+                    function(${{{method_name}}})
+                    endfunction()
+                """)
+                for method_name in methods
+            ]
+        )
         attribute_definitions = '\n'.join(
             [f'{attribute_docstring}\ncpp_attr({class_name} {attr_name})' for attr_name in attributes])
-        self.input_stream = InputStream(f'''
-#[[[
-# {class_docstring}
-#]]
-cpp_class({class_name} {' '.join(superclasses)})
+        self.input_stream = InputStream(textwrap.dedent(f'''
+                                #[[[
+                                # {class_docstring}
+                                #]]
+                                cpp_class({class_name} {' '.join(superclasses)})
 
-    {attribute_definitions}
+                                    {attribute_definitions}
 
-    {method_definitions}
+                                    {method_definitions}
 
-    {inner_class_definitions}
+                                    {inner_class_definitions}
 
-cpp_end_class()
-        ''')
+                                cpp_end_class()
+                            '''))
         self.reset()
         self.assertEqual(len(self.aggregator.documented), 1 + len(inner_classes),
                          "Different number of documented commands than expected")
@@ -214,7 +233,7 @@ cpp_end_class()
         self.assertEqual(len(self.aggregator.documented[0].members), len(methods), "Members incorrectly found")
         self.assertEqual(len(self.aggregator.documented[0].attributes), len(attributes), "Attributes incorrectly found")
 
-    def test_cpp_class_multi_superclass_no_inner(self, superclasses=["SuperClassA", "SuperClassB", "SuperClassC"]):
+    def test_cpp_class_multi_superclass_no_inner(self, superclasses=("SuperClassA", "SuperClassB", "SuperClassC")):
         self.test_cpp_class_multi_superclass_multi_members(superclasses=superclasses, attributes=[], methods=[])
 
     def test_cpp_class_one_superclasses_no_inner(self):
@@ -390,6 +409,92 @@ cpp_end_class()
         self.input_stream = InputStream("#[[[\n#invalid syntax\n#]]\nfunction()\nend_function()")
         with pytest.raises(CMakeSyntaxException):
             self.reset()
+
+    def test_function_param_regex(self):
+        func_name = "test_func"
+        stripped_param_names = ["param1", "param2_with_underscores"]
+        param_names = [f"_tf_{name}" for name in stripped_param_names]
+
+        docstring = "This is a function that has its param name regex-stripped"
+
+        regex = "^_[a-zA-Z]*_"
+
+        self.input_stream = InputStream(textwrap.dedent(f"""
+                    #[[[
+                    # {docstring}
+                    #]]
+                    function({func_name} {' '.join(param_names)})
+                    endfunction()
+                """))
+
+        input_settings = InputSettings(function_parameter_name_strip_regex=regex)
+        self.reset(settings=Settings(input=input_settings))
+        self.assertIsInstance(self.aggregator.documented[0], FunctionDocumentation)
+        self.assertEqual(func_name, self.aggregator.documented[0].name)
+        for i in range(0, len(stripped_param_names)):
+            self.assertEqual(
+                stripped_param_names[i], self.aggregator.documented[0].params[i],
+                "Parameter name was not stripped correctly"
+            )
+
+    def test_macro_param_regex(self):
+        func_name = "test_macro"
+        stripped_param_names = ["param1", "param2_with_underscores"]
+        param_names = [f"_tm_{name}" for name in stripped_param_names]
+
+        docstring = "This is a macro that has its param name regex-stripped"
+
+        regex = "^_[a-zA-Z]*_"
+
+        self.input_stream = InputStream(textwrap.dedent(f"""
+            #[[[
+            # {docstring}
+            #]]
+            macro({func_name} {' '.join(param_names)})
+            endmacro()
+        """))
+
+        input_settings = InputSettings(macro_parameter_name_strip_regex=regex)
+        self.reset(settings=Settings(input=input_settings))
+        self.assertIsInstance(self.aggregator.documented[0], MacroDocumentation)
+        self.assertEqual(func_name, self.aggregator.documented[0].name)
+        for i in range(0, len(stripped_param_names)):
+            self.assertEqual(
+                stripped_param_names[i], self.aggregator.documented[0].params[i],
+                "Parameter name was not stripped correctly"
+            )
+
+    def test_method_param_regex(self):
+        func_name = "test_method"
+        stripped_param_names = ["param1", "param2_with_underscores"]
+        param_names = [f"_tm_{name}" for name in stripped_param_names]
+        param_types = ["desc", "str"]
+
+        docstring = "This is a method that has its param name regex-stripped"
+
+        regex = "^_[a-zA-Z]*_"
+
+        self.input_stream = InputStream(textwrap.dedent(f"""
+                    cpp_class(TestClass)
+                        #[[[
+                        # {docstring}
+                        #]]
+                        cpp_member({func_name} TestClass {' '.join(param_types)})
+                        function("${{{func_name}}}" self {' '.join(param_names)})
+                        endfunction()
+                    cpp_end_class()
+                """))
+
+        input_settings = InputSettings(member_parameter_name_strip_regex=regex)
+        self.reset(settings=Settings(input=input_settings))
+        self.assertIsInstance(self.aggregator.documented[0], ClassDocumentation)
+        self.assertIsInstance(self.aggregator.documented[0].members[0], MethodDocumentation)
+        self.assertEqual(func_name, self.aggregator.documented[0].members[0].name)
+        for i in range(0, len(stripped_param_names)):
+            self.assertEqual(
+                stripped_param_names[i], self.aggregator.documented[0].members[0].params[i],
+                "Parameter name was not stripped correctly"
+            )
 
 
 if __name__ == '__main__':
