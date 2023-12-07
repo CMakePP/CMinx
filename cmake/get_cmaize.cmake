@@ -13,38 +13,40 @@
 # limitations under the License.
 
 include_guard()
+include(versions)
 
 #[[
-# This function encapsulates the process of getting CMakePP using CMake's
+# This function encapsulates the process of getting CMaize using CMake's
 # FetchContent module. We have encapsulated it in a function so we can set
 # the options for its configure step without affecting the options for the
-# parent project's configure step (namely we do not want to build CMakePP's
+# parent project's configure step (namely we do not want to build CMaize's
 # unit tests).
 #]]
-macro(get_cpp)
-    include(cpp/cpp OPTIONAL RESULT_VARIABLE cpp_found)
-    if(NOT cpp_found)
+macro(get_cmaize)
+    include(cmaize/cmaize OPTIONAL RESULT_VARIABLE cmaize_found)
+    if(NOT cmaize_found)
 
 
 
         # Store whether we are building tests or not, then turn off the tests
         set(build_testing_old "${BUILD_TESTING}")
         set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
-        # Download CMakePP and bring it into scope
+        # Download CMaize and bring it into scope
         include(FetchContent)
         FetchContent_Declare(
-             cpp
-             GIT_REPOSITORY https://github.com/CMakePP/CMakePackagingProject
+             cmaize
+             GIT_REPOSITORY https://github.com/CMakePP/CMaize
+             GIT_TAG "${CMAIZE_VERSION}"
        )
-       FetchContent_MakeAvailable(cpp)
+       FetchContent_MakeAvailable(cmaize)
 
        # Restore the previous value
        set(BUILD_TESTING "${build_testing_old}" CACHE BOOL "" FORCE)
     endif()
 endmacro()
 
-# Call the function we just wrote to get CMakePP
-get_cpp()
+# Call the function we just wrote to get CMaize
+get_cmaize()
 
-# Include CMakePP
-include(cpp/cpp)
+# Include CMaize
+include(cmaize/cmaize)
