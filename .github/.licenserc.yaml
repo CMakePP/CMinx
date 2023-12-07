@@ -27,6 +27,7 @@ header:
     - tests/
     - LICENSE
     - MANIFEST.in
+    - CITATION.cff
     - setup.cfg
     - .zenodo.json
 
