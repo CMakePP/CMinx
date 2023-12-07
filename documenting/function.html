@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Documenting a Function &mdash; CMinx v1.1.8 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <title>Documenting a Function &mdash; CMinx v1.1.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=80dc2558"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -36,7 +38,7 @@
             CMinx
           </a>
               <div class="version">
-                1.1.8
+                1.1.9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -96,7 +98,7 @@
            <div itemprop="articleBody">
              
   <section id="documenting-a-function">
-<h1>Documenting a Function<a class="headerlink" href="#documenting-a-function" title="Permalink to this heading"></a></h1>
+<h1>Documenting a Function<a class="headerlink" href="#documenting-a-function" title="Link to this heading"></a></h1>
 <p>CMinx more or less copies your documentation comments verbatim to the resulting
 reST file. Strictly speaking this means you can put whatever you want in the
 comments; however, it is strongly recommended that you follow usual Python reST
@@ -126,7 +128,7 @@ file. A good template is:</p>
 </div>
 <p>The following sections describe the aspects of this template in more detail.</p>
 <section id="basic-function-documentation">
-<h2>Basic Function Documentation<a class="headerlink" href="#basic-function-documentation" title="Permalink to this heading"></a></h2>
+<h2>Basic Function Documentation<a class="headerlink" href="#basic-function-documentation" title="Link to this heading"></a></h2>
 <p>As an example consider the very simple CMake function <code class="docutils literal notranslate"><span class="pre">say_hi_to</span></code> defined as:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">function</span><span class="p">(</span><span class="s">say_hi_to</span><span class="w"> </span><span class="s">person</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;Hi ${person}&quot;</span><span class="p">)</span>
@@ -192,7 +194,7 @@ beyond the brief description. Finally,</p>
 and what their types.</p>
 </section>
 <section id="documenting-keyword-arguments">
-<h2>Documenting Keyword Arguments<a class="headerlink" href="#documenting-keyword-arguments" title="Permalink to this heading"></a></h2>
+<h2>Documenting Keyword Arguments<a class="headerlink" href="#documenting-keyword-arguments" title="Link to this heading"></a></h2>
 <p>In modern CMake it is common practice for functions that accept many
 arguments, to accept those arguments as keyword arguments instead of
 positional arguments. As an example consider an “advanced” version of
@@ -275,7 +277,7 @@ no subsequent value is passed. For these arguments, document them as part of the
 keyword arguments but set the type as <code class="docutils literal notranslate"><span class="pre">option</span></code>.</p>
 </section>
 <section id="recommended-rest-directives">
-<h2>Recommended reST Directives<a class="headerlink" href="#recommended-rest-directives" title="Permalink to this heading"></a></h2>
+<h2>Recommended reST Directives<a class="headerlink" href="#recommended-rest-directives" title="Link to this heading"></a></h2>
 <p>reST’s default set of directives encompasses many language nuances which are
 not found in the CMake language. Of the default reST directives, the ones that
 map directly to aspects of the CMake language are:</p>

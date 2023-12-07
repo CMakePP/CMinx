@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cminx.documenter &mdash; CMinx v1.1.8 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>cminx.documenter &mdash; CMinx v1.1.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=80dc2558"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -36,7 +38,7 @@
             CMinx
           </a>
               <div class="version">
-                1.1.8
+                1.1.9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -102,7 +104,7 @@
            <div itemprop="articleBody">
              
   <section id="module-cminx.documenter">
-<span id="cminx-documenter"></span><h1>cminx.documenter<a class="headerlink" href="#module-cminx.documenter" title="Permalink to this heading"></a></h1>
+<span id="cminx-documenter"></span><h1>cminx.documenter<a class="headerlink" href="#module-cminx.documenter" title="Link to this heading"></a></h1>
 <p>This file contains the Documenter class, which is the top-level
 entrypoint into the CMinx documentation system. It handles parsing,
 aggregating, and RST writing.</p>
@@ -116,43 +118,43 @@ aggregating, and RST writing.</p>
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documenter.</span></span><span class="sig-name descname"><span class="pre">Documenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.config.html#cminx.config.Settings" title="cminx.config.Settings"><span class="pre">Settings</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Settings(input=InputSettings(include_undocumented_function=True,</span> <span class="pre">include_undocumented_macro=True,</span> <span class="pre">include_undocumented_cpp_class=True,</span> <span class="pre">include_undocumented_cpp_attr=True,</span> <span class="pre">include_undocumented_cpp_constructor=True,</span> <span class="pre">include_undocumented_cpp_member=True,</span> <span class="pre">include_undocumented_ct_add_test=True,</span> <span class="pre">include_undocumented_ct_add_section=True,</span> <span class="pre">include_undocumented_add_test=True,</span> <span class="pre">include_undocumented_option=True,</span> <span class="pre">auto_exclude_directories_without_cmake=True,</span> <span class="pre">kwargs_doc_trigger_string=':param</span> <span class="pre">**kwargs:',</span> <span class="pre">exclude_filters=(),</span> <span class="pre">function_parameter_name_strip_regex='',</span> <span class="pre">macro_parameter_name_strip_regex='',</span> <span class="pre">member_parameter_name_strip_regex='',</span> <span class="pre">recursive=False,</span> <span class="pre">follow_symlinks=False),</span> <span class="pre">output=OutputSettings(directory=None,</span> <span class="pre">relative_to_config=False),</span> <span class="pre">logging=LoggingSettings(logger_config={}),</span> <span class="pre">rst=RSTSettings(file_extensions_in_titles=False,</span> <span class="pre">file_extensions_in_modules=False,</span> <span class="pre">prefix=None,</span> <span class="pre">module_path_separator='.',</span> <span class="pre">headers=('#',</span> <span class="pre">'*',</span> <span class="pre">'=',</span> <span class="pre">'-',</span> <span class="pre">'_',</span> <span class="pre">'~',</span> <span class="pre">'!',</span> <span class="pre">'&amp;',</span> <span class="pre">'&#64;',</span> <span class="pre">'^')))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cminx.documenter.</span></span><span class="sig-name descname"><span class="pre">Documenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cminx.config.html#cminx.config.Settings" title="cminx.config.Settings"><span class="pre">Settings</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Settings(input=InputSettings(include_undocumented_function=True,</span> <span class="pre">include_undocumented_macro=True,</span> <span class="pre">include_undocumented_cpp_class=True,</span> <span class="pre">include_undocumented_cpp_attr=True,</span> <span class="pre">include_undocumented_cpp_constructor=True,</span> <span class="pre">include_undocumented_cpp_member=True,</span> <span class="pre">include_undocumented_ct_add_test=True,</span> <span class="pre">include_undocumented_ct_add_section=True,</span> <span class="pre">include_undocumented_add_test=True,</span> <span class="pre">include_undocumented_option=True,</span> <span class="pre">auto_exclude_directories_without_cmake=True,</span> <span class="pre">kwargs_doc_trigger_string=':param</span> <span class="pre">**kwargs:',</span> <span class="pre">exclude_filters=(),</span> <span class="pre">function_parameter_name_strip_regex='',</span> <span class="pre">macro_parameter_name_strip_regex='',</span> <span class="pre">member_parameter_name_strip_regex='',</span> <span class="pre">recursive=False,</span> <span class="pre">follow_symlinks=False),</span> <span class="pre">output=OutputSettings(directory=None,</span> <span class="pre">relative_to_config=False),</span> <span class="pre">logging=LoggingSettings(logger_config={}),</span> <span class="pre">rst=RSTSettings(file_extensions_in_titles=False,</span> <span class="pre">file_extensions_in_modules=False,</span> <span class="pre">prefix=None,</span> <span class="pre">module_path_separator='.',</span> <span class="pre">headers=('#',</span> <span class="pre">'*',</span> <span class="pre">'=',</span> <span class="pre">'-',</span> <span class="pre">'_',</span> <span class="pre">'~',</span> <span class="pre">'!',</span> <span class="pre">'&amp;',</span> <span class="pre">'&#64;',</span> <span class="pre">'^')))</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cminx.documenter.Documenter" title="Link to this definition"></a></dt>
 <dd><p>Generates RST documentation from aggregated documentation, combining
 <a class="reference internal" href="cminx.aggregator.html#cminx.aggregator.DocumentationAggregator" title="cminx.aggregator.DocumentationAggregator"><code class="xref py py-class docutils literal notranslate"><span class="pre">DocumentationAggregator</span></code></a> and <a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">RSTWriter</span></code></a>.
 The entrypoint for this class is the <a class="reference internal" href="#cminx.documenter.Documenter.process" title="cminx.documenter.Documenter.process"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process()</span></code></a> method.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.aggregator">
-<span class="sig-name descname"><span class="pre">aggregator</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.aggregator.html#cminx.aggregator.DocumentationAggregator" title="cminx.aggregator.DocumentationAggregator"><span class="pre">DocumentationAggregator</span></a></em><a class="headerlink" href="#cminx.documenter.Documenter.aggregator" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">aggregator</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.aggregator.html#cminx.aggregator.DocumentationAggregator" title="cminx.aggregator.DocumentationAggregator"><span class="pre">DocumentationAggregator</span></a></em><a class="headerlink" href="#cminx.documenter.Documenter.aggregator" title="Link to this definition"></a></dt>
 <dd><p>The aggregator used to listen for parser rules and generate documentation objects.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.input_stream">
-<span class="sig-name descname"><span class="pre">input_stream</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">InputStream</span></em><a class="headerlink" href="#cminx.documenter.Documenter.input_stream" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">input_stream</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">InputStream</span></em><a class="headerlink" href="#cminx.documenter.Documenter.input_stream" title="Link to this definition"></a></dt>
 <dd><p>The string stream used to read the CMake file.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.lexer">
-<span class="sig-name descname"><span class="pre">lexer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">CMakeLexer</span></em><a class="headerlink" href="#cminx.documenter.Documenter.lexer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">lexer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">CMakeLexer</span></em><a class="headerlink" href="#cminx.documenter.Documenter.lexer" title="Link to this definition"></a></dt>
 <dd><p>The lexer used to generate the token stream.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.module">
-<span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.Directive" title="cminx.rstwriter.Directive"><span class="pre">Directive</span></a></em><a class="headerlink" href="#cminx.documenter.Documenter.module" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.Directive" title="cminx.rstwriter.Directive"><span class="pre">Directive</span></a></em><a class="headerlink" href="#cminx.documenter.Documenter.module" title="Link to this definition"></a></dt>
 <dd><p>The <code class="code docutils literal notranslate"><span class="pre">..</span> <span class="pre">module::</span></code> directive that defines the module’s name.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.module_name">
-<span class="sig-name descname"><span class="pre">module_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cminx.documenter.Documenter.module_name" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">module_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cminx.documenter.Documenter.module_name" title="Link to this definition"></a></dt>
 <dd><p>The name of the CMake module, used as a default when no name given via a module doccomment.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.parser">
-<span class="sig-name descname"><span class="pre">parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">CMakeParser</span></em><a class="headerlink" href="#cminx.documenter.Documenter.parser" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">CMakeParser</span></em><a class="headerlink" href="#cminx.documenter.Documenter.parser" title="Link to this definition"></a></dt>
 <dd><p>The parser used to parse the token stream and call our listener.
 By default, an instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">ParserErrorListener</span></code> is
 added.</p>
@@ -160,7 +162,7 @@ added.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.process">
-<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></span><a class="headerlink" href="#cminx.documenter.Documenter.process" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></span></span><a class="headerlink" href="#cminx.documenter.Documenter.process" title="Link to this definition"></a></dt>
 <dd><p>Process <a class="reference internal" href="cminx.aggregator.html#cminx.aggregator.DocumentationAggregator.documented" title="cminx.aggregator.DocumentationAggregator.documented"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cminx.aggregator.DocumentationAggregator.documented</span></code></a> and build RST document from it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -171,7 +173,7 @@ added.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.process_docs">
-<span class="sig-name descname"><span class="pre">process_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="cminx.documentation_types.html#cminx.documentation_types.DocumentationType" title="cminx.documentation_types.DocumentationType"><span class="pre">DocumentationType</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documenter.Documenter.process_docs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="cminx.documentation_types.html#cminx.documentation_types.DocumentationType" title="cminx.documentation_types.DocumentationType"><span class="pre">DocumentationType</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cminx.documenter.Documenter.process_docs" title="Link to this definition"></a></dt>
 <dd><p>Loops over document and calls <a class="reference internal" href="cminx.documentation_types.html#cminx.documentation_types.DocumentationType.process" title="cminx.documentation_types.DocumentationType.process"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cminx.documentation_types.DocumentationType.process()</span></code></a> with
 <a class="reference internal" href="#cminx.documenter.Documenter.writer" title="cminx.documenter.Documenter.writer"><code class="xref py py-attr docutils literal notranslate"><span class="pre">writer</span></code></a>.</p>
 <dl class="field-list simple">
@@ -183,25 +185,25 @@ added.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.settings">
-<span class="sig-name descname"><span class="pre">settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.config.html#cminx.config.Settings" title="cminx.config.Settings"><span class="pre">Settings</span></a></em><a class="headerlink" href="#cminx.documenter.Documenter.settings" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.config.html#cminx.config.Settings" title="cminx.config.Settings"><span class="pre">Settings</span></a></em><a class="headerlink" href="#cminx.documenter.Documenter.settings" title="Link to this definition"></a></dt>
 <dd><p>Settings used for aggregation and RST generation, passed down to all downstream components.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.stream">
-<span class="sig-name descname"><span class="pre">stream</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">TokenStream</span></em><a class="headerlink" href="#cminx.documenter.Documenter.stream" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">stream</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">TokenStream</span></em><a class="headerlink" href="#cminx.documenter.Documenter.stream" title="Link to this definition"></a></dt>
 <dd><p>The stream of tokens from the lexer, should be passed to the parser.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.walker">
-<span class="sig-name descname"><span class="pre">walker</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ParseTreeWalker</span></em><a class="headerlink" href="#cminx.documenter.Documenter.walker" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">walker</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ParseTreeWalker</span></em><a class="headerlink" href="#cminx.documenter.Documenter.walker" title="Link to this definition"></a></dt>
 <dd><p>Walks the parser tree at a given parser rule, used to kick off aggregation.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cminx.documenter.Documenter.writer">
-<span class="sig-name descname"><span class="pre">writer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></em><a class="headerlink" href="#cminx.documenter.Documenter.writer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">writer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="cminx.rstwriter.html#cminx.rstwriter.RSTWriter" title="cminx.rstwriter.RSTWriter"><span class="pre">RSTWriter</span></a></em><a class="headerlink" href="#cminx.documenter.Documenter.writer" title="Link to this definition"></a></dt>
 <dd><p>The writer that is passed to the aggregated documentation objects.</p>
 </dd></dl>
 

@@ -8,8 +8,9 @@ cmake
 
    cminx
    find_python_module
+   get_cmaize
    get_cmake_test
-   get_cpp
    get_version_from_git
    python_virt_env
+   versions
 

@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CMinx Dependencies &mdash; CMinx v1.1.8 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <title>CMinx Dependencies &mdash; CMinx v1.1.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=80dc2558"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -36,7 +38,7 @@
             CMinx
           </a>
               <div class="version">
-                1.1.8
+                1.1.9
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -113,11 +115,11 @@
            <div itemprop="articleBody">
              
   <section id="cminx-dependencies">
-<h1>CMinx Dependencies<a class="headerlink" href="#cminx-dependencies" title="Permalink to this heading"></a></h1>
+<h1>CMinx Dependencies<a class="headerlink" href="#cminx-dependencies" title="Link to this heading"></a></h1>
 <p>This page describes the packages that CMinx depends on, the supported versions,
 and also why we depend on these packages.</p>
 <section id="cmake">
-<h2>CMake<a class="headerlink" href="#cmake" title="Permalink to this heading"></a></h2>
+<h2>CMake<a class="headerlink" href="#cmake" title="Link to this heading"></a></h2>
 <p>The dependency on CMake has been thrust upon us by the problem scope. Namely, in
 order to extract documentation from CMake scripts, and to integrate well with
 existing CMake workflows, CMinx needs to know about CMake.</p>
@@ -125,7 +127,7 @@ existing CMake workflows, CMinx needs to know about CMake.</p>
 <code class="docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable</span></code> command.</p>
 </section>
 <section id="python">
-<h2>Python<a class="headerlink" href="#python" title="Permalink to this heading"></a></h2>
+<h2>Python<a class="headerlink" href="#python" title="Link to this heading"></a></h2>
 <p>CMinx is a tool meant to be run on existing CMake infrastructure in order to
 generate human-readable documentation. Conceptually this is a parsing
 exercise. Python is an ideal language for writing CMinx on account of its
@@ -144,7 +146,7 @@ Python 3 for future compatibility purposes. CMinx uses a <code class="docutils l
 3.9.</p>
 </section>
 <section id="antlr4">
-<h2>Antlr4<a class="headerlink" href="#antlr4" title="Permalink to this heading"></a></h2>
+<h2>Antlr4<a class="headerlink" href="#antlr4" title="Link to this heading"></a></h2>
 <p>Antlr is arguably the de facto tool for generating language parsers. CMinx is
 ultimately a CMake parser (with the ability to recognize some CMake extensions).
 We use Antlr to generate the core of CMinx.</p>
@@ -154,7 +156,7 @@ requires Antlr version 4.7.2 exactly. In the future this restriction could be
 lifted by having the parser be generated as part of the build process.</p>
 </section>
 <section id="confuse">
-<h2>Confuse<a class="headerlink" href="#confuse" title="Permalink to this heading"></a></h2>
+<h2>Confuse<a class="headerlink" href="#confuse" title="Link to this heading"></a></h2>
 <p>Confuse is a Python library for managing YAML configuration files. CMinx uses
 it to load default configuration values from <code class="docutils literal notranslate"><span class="pre">cminx/config_default.yml</span></code> and
 search system configuration paths such as <code class="docutils literal notranslate"><span class="pre">/etc/cminx/</span></code> and
@@ -166,7 +168,7 @@ for more details.</p>
 versions with the same major version should continue to work.</p>
 </section>
 <section id="pathspec">
-<h2>PathSpec<a class="headerlink" href="#pathspec" title="Permalink to this heading"></a></h2>
+<h2>PathSpec<a class="headerlink" href="#pathspec" title="Link to this heading"></a></h2>
 <p>PathSpec is a Python library for matching file paths against <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>-style filters.
 CMinx uses PathSpec to determine whether files in the input path (or in subdirectories thereof)
 are supposed to be excluded. CMinx’s usage of PathSpec is confined to <code class="docutils literal notranslate"><span class="pre">cminx/__init__.py</span></code>, in
@@ -175,15 +177,15 @@ are supposed to be excluded. CMinx’s usage of PathSpec is confined to <code cl
 </section>
 </section>
 <section id="cminx-testing-dependencies">
-<h1>CMinx Testing Dependencies<a class="headerlink" href="#cminx-testing-dependencies" title="Permalink to this heading"></a></h1>
+<h1>CMinx Testing Dependencies<a class="headerlink" href="#cminx-testing-dependencies" title="Link to this heading"></a></h1>
 <p>To facilitate testing of CMinx we use a couple of additional packages beyond
 those needed to simply build CMinx; they are described in this section.</p>
 <section id="coverage">
-<h2>coverage<a class="headerlink" href="#coverage" title="Permalink to this heading"></a></h2>
+<h2>coverage<a class="headerlink" href="#coverage" title="Link to this heading"></a></h2>
 <p>Coverage.py is used to measure the code coverage of our Python test suite.</p>
 </section>
 <section id="docutils">
-<h2>docutils<a class="headerlink" href="#docutils" title="Permalink to this heading"></a></h2>
+<h2>docutils<a class="headerlink" href="#docutils" title="Link to this heading"></a></h2>
 <p>docutils is used to help test the generated restructured text files.</p>
 <p>After some manual testing it appears that any version of <code class="docutils literal notranslate"><span class="pre">docutils</span></code> newer than
 0.10 will work. Older versions of <code class="docutils literal notranslate"><span class="pre">docutils</span></code> do not appear to be compatible
@@ -192,21 +194,21 @@ for CI, and if developers want to locally test CMinx. As such our CI coverage
 does not exhaustively consider multiple versions of <code class="docutils literal notranslate"><span class="pre">docutils</span></code>.</p>
 </section>
 <section id="pytest">
-<h2>pytest<a class="headerlink" href="#pytest" title="Permalink to this heading"></a></h2>
+<h2>pytest<a class="headerlink" href="#pytest" title="Link to this heading"></a></h2>
 <p>Used to run the Python test suite.</p>
 </section>
 <section id="pytest-cov">
-<h2>pytest-cov<a class="headerlink" href="#pytest-cov" title="Permalink to this heading"></a></h2>
+<h2>pytest-cov<a class="headerlink" href="#pytest-cov" title="Link to this heading"></a></h2>
 <p>A plugin for <cite>pytest</cite> which aids in generating coverage reports for the Python
 test suite.</p>
 </section>
 </section>
 <section id="cminx-documentation-dependencies">
-<h1>CMinx Documentation Dependencies<a class="headerlink" href="#cminx-documentation-dependencies" title="Permalink to this heading"></a></h1>
+<h1>CMinx Documentation Dependencies<a class="headerlink" href="#cminx-documentation-dependencies" title="Link to this heading"></a></h1>
 <p>Building CMinx’s documentation requires additional packages beyond those needed
 to build CMinx itself; they are described in this section.</p>
 <section id="sphinx">
-<h2>sphinx<a class="headerlink" href="#sphinx" title="Permalink to this heading"></a></h2>
+<h2>sphinx<a class="headerlink" href="#sphinx" title="Link to this heading"></a></h2>
 <p>Sphinx is a widely used tool for generating static websites.</p>
 <p>Under normal circumstances we expect the version of <code class="docutils literal notranslate"><span class="pre">sphinx</span></code> used by CMinx to
 only be relevant  to CI and have opted to let pip install what
@@ -214,7 +216,7 @@ ever version it wants. Should the automatically installed version ever end up
 not being compatible with our documentation, then we will pin the version.</p>
 </section>
 <section id="sphinx-rtd-theme">
-<h2>sphinx_rtd_theme<a class="headerlink" href="#sphinx-rtd-theme" title="Permalink to this heading"></a></h2>
+<h2>sphinx_rtd_theme<a class="headerlink" href="#sphinx-rtd-theme" title="Link to this heading"></a></h2>
 <p>The Read-the-Docs Sphinx theme is one of the most full-featured Sphinx themes
 around. Of the themes perused, no other theme generated documentation for CMinx
 which looked as nice. It is probably possible to extend other themes to achieve
