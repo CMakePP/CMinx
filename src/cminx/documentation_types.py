@@ -27,9 +27,35 @@ import textwrap
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Union, List
+from typing import Union, List, Dict
 
 from .rstwriter import RSTWriter, Directive, interpreted_text
+
+
+class SetCommandKeywords(Enum):
+    CACHE = "CACHE"
+    PARENT_SCOPE = "PARENT_SCOPE"
+    BOOL = "BOOL"
+    PATH = "PATH"
+    STRING = "STRING"
+    INTERNAL = "INTERNAL"
+    FORCE = "FORCE"
+
+    @classmethod
+    def values(cls) -> List[str]:
+        return [param.value for param in cls]
+
+
+class CacheVarType(Enum):
+    BOOL = "BOOL"
+    FILEPATH = "FILEPATH"
+    PATH = "PATH"
+    STRING = "STRING"
+    INTERNAL = "INTERNAL"
+
+    @classmethod
+    def values(cls) -> Dict[str, 'CacheVarType']:
+        return {param.value: param for param in cls}
 
 
 class VarType(Enum):
@@ -145,9 +171,23 @@ class VariableDocumentation(DocumentationType):
     value: Union[str, None]
     """A default value that the variable has"""
 
+    keywords: Dict[SetCommandKeywords, bool]
+    """
+    A dictionary between the set() command keywords and whether
+    they were present / active in the documented call.
+    """
+
+    cache_var_type: Union[CacheVarType, None] = None
+
+    cache_var_docstring: str = ""
+
     def process(self, writer: RSTWriter) -> None:
         d = writer.directive("data", f"{self.name}")
         d.text(self.doc)
+        if self.cache_var_type is not None:
+            d.text("Cache help text:")
+            d.text(self.cache_var_docstring)
+            d.field("FORCE", str(self.keywords[SetCommandKeywords.FORCE]))
         d.field("Default value", self.value)
         if self.type == VarType.STRING:
             var_type = "str"
@@ -157,7 +197,7 @@ class VariableDocumentation(DocumentationType):
             var_type = "UNSET"
         else:
             raise ValueError(f"Unknown variable type: {self.type}")
-        d.field("type", var_type)
+        d.field("type", var_type if self.cache_var_type is None else self.cache_var_type.value)
 
 
 @dataclass
@@ -167,11 +207,9 @@ class OptionDocumentation(VariableDocumentation):
     representing a user-configurable option that can
     be selected via the cache. The RST form of this documentation
     also uses the :code:`data` directive, but includes a note
-    specifying the variable is an option.
+    specifying the variable is an option. The help text is
+    the cache_var_docstring field.
     """
-
-    help_text: str
-    """The help text that the option has."""
 
     def process(self, writer: RSTWriter) -> None:
         d = writer.directive("data", f"{self.name}")
@@ -183,7 +221,7 @@ class OptionDocumentation(VariableDocumentation):
             edited on the command line by the :code:`-D` flag.
             """))
         d.text(self.doc)
-        d.field("Help text", self.help_text)
+        d.field("Help text", self.cache_var_docstring)
         d.field("Default value", self.value if self.value is not None else "OFF")
         d.field("type", self.type)
 
