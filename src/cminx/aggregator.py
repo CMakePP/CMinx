@@ -36,7 +36,7 @@ from antlr4 import ParserRuleContext
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
     MethodDocumentation, VarType, CTestDocumentation, ModuleDocumentation, AbstractCommandDefinitionDocumentation, \
-    OptionDocumentation, DanglingDoccomment, DocumentationType
+    OptionDocumentation, DanglingDoccomment, DocumentationType, SetCommandKeywords, CacheVarType
 
 from .exceptions import CMakeSyntaxException
 from .parser.CMakeListener import CMakeListener
@@ -46,18 +46,6 @@ from .parser.CMakeParser import CMakeParser
 from cminx import Settings
 
 
-class SetCommandKeywords(Enum):
-    CACHE = "CACHE"
-    PARENT_SCOPE = "PARENT_SCOPE"
-    BOOL = "BOOL"
-    PATH = "PATH"
-    STRING = "STRING"
-    INTERNAL = "INTERNAL"
-    FORCE = "FORCE"
-
-    @classmethod
-    def values(cls):
-        return [param.value for param in cls]
 
 
 @dataclass
@@ -317,11 +305,20 @@ class DocumentationAggregator(CMakeListener):
             )
         )
 
-        keywords = {kw: kw in params_upper for kw in SetCommandKeywords.values()}
+        keywords = {kw: kw.value in params_upper for kw in SetCommandKeywords}
+
+        if keywords[SetCommandKeywords.CACHE]:
+            cache_keyword_index = params.index(SetCommandKeywords.CACHE.value)
+            cache_var_type = CacheVarType.values()[params[cache_keyword_index + 1]]
+            cache_var_docstring = params[cache_keyword_index + 2]
+        else:
+            cache_var_type = None
+            cache_var_docstring = ""
 
         if len(values) > 1:  # List
             self.documented.append(VariableDocumentation(
-                varname, docstring, VarType.LIST, " ".join(values), keywords))
+                varname, docstring, VarType.LIST, " ".join(values), keywords, cache_var_type, cache_var_docstring
+            ))
         elif len(values) == 1:  # String
             value = ctx.single_argument()[1].getText()
 
@@ -332,10 +329,12 @@ class DocumentationAggregator(CMakeListener):
             if value[-1] == '"':
                 value = value[:-1]
             self.documented.append(VariableDocumentation(
-                varname, docstring, VarType.STRING, value, keywords))
+                varname, docstring, VarType.STRING, value, keywords, cache_var_type, cache_var_docstring
+            ))
         else:  # Unset
             self.documented.append(VariableDocumentation(
-                varname, docstring, VarType.UNSET, None, keywords))
+                varname, docstring, VarType.UNSET, None, keywords
+            ))
 
     def process_cpp_class(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
@@ -513,14 +512,16 @@ class DocumentationAggregator(CMakeListener):
             pretty_text += f"\n{ctx.getText()}"
 
             self.logger.error(
-                f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}")
+                f"option() called with incorrect parameters: {params}\n\n{pretty_text}")
             return
+
         option_doc = OptionDocumentation(
             params[0],
             docstring,
             "bool",
             params[2] if len(params) == 3 else None,
             {},
+            None,
             params[1]
         )
         self.documented.append(option_doc)
