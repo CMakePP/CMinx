@@ -114,7 +114,7 @@ write_basic_package_version_file(
 
 if(BUILD_TESTING)
     message("Building tests")
-    include("${PROJECT_SOURCE_DIR}/cmake/get_cpp.cmake")
+    include("${PROJECT_SOURCE_DIR}/cmake/get_cmaize.cmake")
     include("${PROJECT_SOURCE_DIR}/cmake/get_cmake_test.cmake")
 
     python_venv_pip_install(${CMINX_VENV} "-e" ".[testing]")
