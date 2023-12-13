@@ -42,7 +42,7 @@ class SetCommandKeywords(Enum):
     FORCE = "FORCE"
 
     @classmethod
-    def values(cls) -> list[str]:
+    def values(cls) -> List[str]:
         return [param.value for param in cls]
 
 
@@ -54,7 +54,7 @@ class CacheVarType(Enum):
     INTERNAL = "INTERNAL"
 
     @classmethod
-    def values(cls) -> dict[str, 'CacheVarType']:
+    def values(cls) -> Dict[str, 'CacheVarType']:
         return {param.value: param for param in cls}
 
 
