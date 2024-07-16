@@ -325,7 +325,7 @@ class MethodDocumentation(DocumentationType):
     is_macro: bool = False
     """Whether the linked command is a macro or a function. If true, a note saying so is generated."""
 
-    def process(self, writer: Directive) -> None:
+    def process_rst(self, writer: Directive) -> None:
         params_pretty = ', '.join(
             self.params) + ("[, ...]" if "args" in self.param_types else "")
         d = writer.directive(
@@ -364,7 +364,7 @@ class AttributeDocumentation(DocumentationType):
     default_value: str
     """The default value of this attribute, if it has one."""
 
-    def process(self, writer: Directive) -> None:
+    def process_rst(self, writer: Directive) -> None:
         d = writer.directive("py:attribute", f"{self.name}")
         if self.default_value is not None:
             d.option("value", self.default_value)
