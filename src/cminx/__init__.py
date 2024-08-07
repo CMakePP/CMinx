@@ -280,7 +280,7 @@ def document(input_file: str, settings: Settings):
 
                 if recursive:
                     for directory in subdirs:
-                        toctree.text(os.path.join(directory, "index.rst"))
+                        toctree.text(directory + "/index.rst")
 
                 # Filter filenames for cmake files, then add a toctree entry
                 for file in [f for f in filenames if f.lower().endswith(".cmake")]:
