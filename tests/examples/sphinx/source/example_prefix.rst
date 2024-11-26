@@ -93,6 +93,21 @@ prefix.example
    :type: str
 
 
+.. data:: MyStringCache
+
+   This is an example of a cache variable.
+   This variable is a string variable.
+   
+   Cache help text:
+   "Some string a user can set in cache."
+
+   :FORCE: False
+
+   :Default value: String
+
+   :type: STRING
+
+
 .. function:: message("hello")
 
 
