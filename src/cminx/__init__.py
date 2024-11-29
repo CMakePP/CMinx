@@ -33,15 +33,15 @@ from typing import List
 
 import pathspec
 from confuse import Configuration
-from pkg_resources import get_distribution, DistributionNotFound
+from importlib.metadata import version, PackageNotFoundError
 
 from .config import config_template, dict_to_settings, Settings
 from .documenter import Documenter
 from .rstwriter import RSTWriter
 
 try:
-    __version__ = get_distribution(__name__).version
-except DistributionNotFound:
+    __version__ = version(__name__)
+except PackageNotFoundError:
     # package is not installed
     __version__ = "UNKNOWN"
 
