@@ -28,13 +28,13 @@ jobs:
         python_version: ['3.9.13', '3.10.5', '3.13.0']
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python_version }}
-      - uses: lukka/get-cmake@v3.20.1
+      - uses: lukka/get-cmake@v4.0.3
       - name: Build
         run: |
           python3 --version
