@@ -22,10 +22,10 @@ on:
       
 jobs:
   test_release:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Get the tags
         run: git fetch --all --tags
       - name: Install Python's "build" package
