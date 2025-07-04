@@ -26,17 +26,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Get the tags
-        run: git fetch --all --tags
+        with:
+          fetch-depth: 0
+          fetch-tags: true
       - name: Install Python's "build" package
-        run: python -m pip install build twine --user
+        run: python -m pip install build twine
       - name: Build binary wheel and source tarball
         run: python -m build --sdist --wheel --outdir dist/
       - name: Test Long Description
         run: twine check dist/*
       - name: Test built package
         run: |
-          pip install pytest
-          pip install --user dist/*.tar.gz
+          python -m pip install pytest
+          python -m pip install dist/*.tar.gz
           cd tests
           python -B test_all.py  
