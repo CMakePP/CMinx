@@ -34,7 +34,7 @@ classifiers = ["Development Status :: 5 - Production/Stable",
 ]
 urls = {"GitHub" = "https://github.com/CMakePP/CMinx"}
 scripts = {"cminx" = "cminx:main"}
-dependencies = ["antlr4-python3-runtime==4.7.2",
+dependencies = ["antlr4-python3-runtime==4.13.2",
     "confuse>=1.7",
     "pathspec>=0.9.0"
 ]
