@@ -33,7 +33,7 @@ jobs:
         id: venv
         run: |
           python -m venv venv
-          echo "python=venv/bin/python3" >> $GITHUB_OUTPUT
+          echo "python=$PWD/venv/bin/python3" >> $GITHUB_OUTPUT
       - name: Install Python's "build" package
         run: ${{ steps.venv.outputs.python }} -m pip install build twine packaging>=24.2
       - name: Build binary wheel and source tarball
