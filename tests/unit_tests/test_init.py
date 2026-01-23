@@ -19,6 +19,7 @@ import sys
 import unittest
 
 import context
+import contextlib
 import helpers
 
 import cminx
@@ -48,10 +49,14 @@ class TestInit(unittest.TestCase):
 
     def test_document(self):
         """Tests the document command in the CMinx module"""
-        sys.stdout = open(os.devnull, 'w')
-        cminx.document(self.input_file,
-                       Settings(InputSettings(recursive=True), OutputSettings(directory=self.output_dir)))
-        sys.stdout = sys.__stdout__
+        with open(os.devnull, "w") as devnull, contextlib.redirect_stdout(devnull):
+            cminx.document(
+                self.input_file,
+                Settings(
+                    input=InputSettings(recursive=True),
+                    output=OutputSettings(directory=self.output_dir),
+                ),
+            )
 
         # Test that the top-level directory was found
         is_dir = os.path.isdir(self.output_dir)
@@ -63,11 +68,15 @@ class TestInit(unittest.TestCase):
 
     def test_document_prefix(self):
         """Tests the document command in the CMinx module with the prefix option"""
-        sys.stdout = open(os.devnull, 'w')
-        cminx.document(self.input_file,
-                       Settings(input=InputSettings(recursive=True), output=OutputSettings(directory=self.output_dir),
-                                rst=RSTSettings(prefix=context.prefix)))
-        sys.stdout = sys.__stdout__
+        with open(os.devnull, "w") as devnull, contextlib.redirect_stdout(devnull):
+            cminx.document(
+                self.input_file,
+                Settings(
+                    input=InputSettings(recursive=True),
+                    output=OutputSettings(directory=self.output_dir),
+                    rst=RSTSettings(prefix=context.prefix),
+                ),
+            )
 
         # Test that the top-level directory was found
         is_dir = os.path.isdir(self.output_dir)
