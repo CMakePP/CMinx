@@ -96,6 +96,12 @@ set(MyList "Value" "Value 2")
 #]]
 set(MyString "String")
 
+#[[[
+# This is an example of a cache variable.
+# This variable is a string variable.
+#]]
+set(MyStringCache "String" CACHE STRING "Some string a user can set in cache.")
+
 #[[
 # This is an undocumented variable.
 # Unlike most other elements, it will

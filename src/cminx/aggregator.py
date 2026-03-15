@@ -24,10 +24,11 @@ aggregates them in a single list.
 :Author: Branden Butler
 :License: Apache 2.0
 """
-
+import itertools
 import logging
 import re
 from dataclasses import dataclass
+from enum import Enum
 from typing import List, Union
 
 from antlr4 import ParserRuleContext
@@ -35,7 +36,7 @@ from antlr4 import ParserRuleContext
 from .documentation_types import AttributeDocumentation, FunctionDocumentation, MacroDocumentation, \
     VariableDocumentation, GenericCommandDocumentation, ClassDocumentation, TestDocumentation, SectionDocumentation, \
     MethodDocumentation, VarType, CTestDocumentation, ModuleDocumentation, AbstractCommandDefinitionDocumentation, \
-    OptionDocumentation, DanglingDoccomment, DocumentationType
+    OptionDocumentation, DanglingDoccomment, DocumentationType, SetCommandKeywords, CacheVarType
 
 from .exceptions import CMakeSyntaxException
 from .parser.CMakeListener import CMakeListener
@@ -43,6 +44,8 @@ from .parser.CMakeListener import CMakeListener
 # inconsistencies here
 from .parser.CMakeParser import CMakeParser
 from cminx import Settings
+
+
 
 
 @dataclass
@@ -283,7 +286,7 @@ class DocumentationAggregator(CMakeListener):
 
         :param docstring: Cleaned docstring.
         """
-
+        params = [val.getText() for val in ctx.single_argument()]
         if len(ctx.single_argument()) < 1:
             pretty_text = docstring
             pretty_text += f"\n{ctx.getText()}"
@@ -292,17 +295,31 @@ class DocumentationAggregator(CMakeListener):
                 f"set() called with incorrect parameters: {ctx.single_argument()}\n\n{pretty_text}")
             return
 
-        varname = ctx.single_argument()[
-            0].getText()
-        # First argument is name of variable so ignore that
-        arg_len = len(ctx.single_argument()) - 1
+        varname = params[0]
+        # Used for comparing against the set() command's keywords
+        params_upper = [param.upper() for param in params[1:]]
+        values = list(
+            itertools.takewhile(
+                lambda param: param not in SetCommandKeywords.values(),
+                params[1:]
+            )
+        )
 
-        if arg_len > 1:  # List
-            values = [val.getText()
-                      for val in ctx.single_argument()[1:]]
+        keywords = {kw: kw.value in params_upper for kw in SetCommandKeywords}
+
+        if keywords[SetCommandKeywords.CACHE]:
+            cache_keyword_index = params.index(SetCommandKeywords.CACHE.value)
+            cache_var_type = CacheVarType.values()[params[cache_keyword_index + 1]]
+            cache_var_docstring = params[cache_keyword_index + 2]
+        else:
+            cache_var_type = None
+            cache_var_docstring = ""
+
+        if len(values) > 1:  # List
             self.documented.append(VariableDocumentation(
-                varname, docstring, VarType.LIST, " ".join(values)))
-        elif arg_len == 1:  # String
+                varname, docstring, VarType.LIST, " ".join(values), keywords, cache_var_type, cache_var_docstring
+            ))
+        elif len(values) == 1:  # String
             value = ctx.single_argument()[1].getText()
 
             # If the value includes the quote marks,
@@ -312,10 +329,12 @@ class DocumentationAggregator(CMakeListener):
             if value[-1] == '"':
                 value = value[:-1]
             self.documented.append(VariableDocumentation(
-                varname, docstring, VarType.STRING, value))
+                varname, docstring, VarType.STRING, value, keywords, cache_var_type, cache_var_docstring
+            ))
         else:  # Unset
             self.documented.append(VariableDocumentation(
-                varname, docstring, VarType.UNSET, None))
+                varname, docstring, VarType.UNSET, None, keywords
+            ))
 
     def process_cpp_class(self, ctx: CMakeParser.Command_invocationContext, docstring: str) -> None:
         """
@@ -493,13 +512,16 @@ class DocumentationAggregator(CMakeListener):
             pretty_text += f"\n{ctx.getText()}"
 
             self.logger.error(
-                f"ct_add_section() called with incorrect parameters: {params}\n\n{pretty_text}")
+                f"option() called with incorrect parameters: {params}\n\n{pretty_text}")
             return
+
         option_doc = OptionDocumentation(
             params[0],
             docstring,
             "bool",
             params[2] if len(params) == 3 else None,
+            {},
+            None,
             params[1]
         )
         self.documented.append(option_doc)
