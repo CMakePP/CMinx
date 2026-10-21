@@ -110,6 +110,33 @@ class TestConfig(unittest.TestCase):
         is_dir = os.path.exists(self.output_dir)
         self.assertFalse(is_dir, "Output directory structure created when input should've been ignored")
 
+    def test_exclude_filters_adjacent(self):
+        """Tests that exclusion filters apply to adjacent files and directories"""
+        input_dir = os.path.join(self.cwd, "adjacent_input")
+        self.addCleanup(shutil.rmtree, input_dir, ignore_errors=True)
+        # Exclude all but one entry, so that whatever order os.walk() returns
+        # them in, some excluded entries are adjacent
+        for name in ["a", "b", "c", "d", "keep"]:
+            os.makedirs(os.path.join(input_dir, name + "_dir"))
+            for path in [os.path.join(input_dir, name + ".cmake"),
+                         os.path.join(input_dir, name + "_dir", "file.cmake")]:
+                with open(path, 'w') as f:
+                    f.write("function(func)\nendfunction()\n")
+
+        exclude_args = []
+        for name in ["a", "b", "c", "d"]:
+            exclude_args.extend(["-e", name + ".cmake", "-e", name + "_dir/"])
+        args = ["-r", "-o", self.output_dir] + exclude_args + [input_dir]
+        helpers.quiet_cminx(args)
+
+        generated = sorted(
+            os.path.relpath(os.path.join(root, file), self.output_dir)
+            for root, _, files in os.walk(self.output_dir) for file in files)
+        self.assertEqual(
+            ["index.rst", "keep.rst",
+             os.path.join("keep_dir", "file.rst"), os.path.join("keep_dir", "index.rst")],
+            generated)
+
 
 
 if __name__ == '__main__':

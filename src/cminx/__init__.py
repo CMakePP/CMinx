@@ -207,7 +207,7 @@ def document(input_file: str, settings: Settings):
 
             # Check our subdirs and see if any match the exclusion filters
             # If they do, remove from the list and os.walk() will ignore them
-            for subdir in subdirs:
+            for subdir in copy.copy(subdirs):
                 # The extra os.path.join() with an empty string ensures the
                 # directory has a trailing slash
                 if spec.match_file(
@@ -221,7 +221,7 @@ def document(input_file: str, settings: Settings):
             # Check if any files match the exclusion filters
             # If they do, remove them and the rest of the processing
             # will ignore them
-            for file in filenames:
+            for file in copy.copy(filenames):
                 if spec.match_file(os.path.join(root, file)):
                     filenames.remove(file)
 
