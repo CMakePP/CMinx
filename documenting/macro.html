@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Documenting a Macro &mdash; CMinx v1.1.12 documentation</title>
+  <title>Documenting a Macro &mdash; CMinx v1.1.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=1d12cd6f"></script>
+      <script src="../_static/documentation_options.js?v=b96a4976"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -100,7 +100,7 @@ as a function. For example:</p>
 <span class="c"># :type person: string</span>
 <span class="c">#]]</span>
 <span class="nb">macro</span><span class="p">(</span><span class="s">macro_say_hi</span><span class="w"> </span><span class="s">person</span><span class="p">)</span>
-<span class="w">   </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;Hi ${person}&quot;</span><span class="p">)</span>
+<span class="w">   </span><span class="nb">message</span><span class="p">(</span><span class="s2">"Hi ${person}"</span><span class="p">)</span>
 <span class="nb">endmacro</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -150,9 +150,9 @@ when a macro has keyword arguments as in the following example.</p>
 <span class="c"># :type CATS: list of strings</span>
 <span class="c">#]]</span>
 <span class="nb">macro</span><span class="p">(</span><span class="s">advanced_macro_say_hi</span><span class="w"> </span><span class="s">me</span><span class="p">)</span>
-<span class="w">    </span><span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="s">PARSE_ARGV</span><span class="w"> </span><span class="s">1</span><span class="w"> </span><span class="s">_asht</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="s2">&quot;PERSONS;CATS&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;I, ${me}, want to say hi to the following &quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">&quot;people: ${_asht_PERSONS} and the following cats: ${_asht_CATS}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">cmake_parse_arguments</span><span class="p">(</span><span class="s">PARSE_ARGV</span><span class="w"> </span><span class="s">1</span><span class="w"> </span><span class="s">_asht</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"PERSONS;CATS"</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">"I, ${me}, want to say hi to the following "</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">message</span><span class="p">(</span><span class="s2">"people: ${_asht_PERSONS} and the following cats: ${_asht_CATS}"</span><span class="p">)</span>
 <span class="nb">endmacro</span><span class="p">()</span>
 </pre></div>
 </div>

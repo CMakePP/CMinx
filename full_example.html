@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example CMinx/Sphinx Workflow &mdash; CMinx v1.1.12 documentation</title>
+  <title>Example CMinx/Sphinx Workflow &mdash; CMinx v1.1.13 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=1d12cd6f"></script>
+      <script src="_static/documentation_options.js?v=b96a4976"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -164,7 +164,7 @@ will look something like:</p>
 <span class="linenos"> 3</span><span class="c">   You can adapt this file completely to your liking, but it should at least</span>
 <span class="linenos"> 4</span><span class="c">   contain the root `toctree` directive.</span>
 <span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="gh">Welcome to xxx&#39;s documentation!</span>
+<span class="linenos"> 6</span><span class="gh">Welcome to xxx's documentation!</span>
 <span class="linenos"> 7</span><span class="gh">===============================</span>
 <span class="linenos"> 8</span>
 <span class="linenos"> 9</span><span class="p">..</span> <span class="ow">toctree</span><span class="p">::</span>
@@ -218,7 +218,7 @@ in step 2).</p>
 of building the documentation. To do this we modify the <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> script
 Sphinx generated. In particular we add:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cminx</span>
-<span class="n">cminx</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;output_dir&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;../../cmake])</span>
+<span class="n">cminx</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s1">'-o'</span><span class="p">,</span> <span class="s1">'&lt;output_dir&gt;'</span><span class="p">,</span> <span class="s1">'-r'</span><span class="p">,</span> <span class="s1">'../../cmake])</span>
 </pre></div>
 </div>
 <p>to the <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> file (where in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> is somewhat irrelevant, but its
@@ -237,7 +237,7 @@ module.</p>
 <span class="w">    </span><span class="s">GIT_REPOSITORY</span><span class="w"> </span><span class="s">https://github.com/cmakepp/cminx.git</span>
 <span class="p">)</span>
 <span class="nb">FetchContent_MakeAvailable</span><span class="p">(</span><span class="s">cminx</span><span class="p">)</span>
-<span class="nb">cminx_gen_rst</span><span class="p">(</span><span class="s2">&quot;${CMAKE_CURRENT_LIST_DIR}/cmake&quot;</span><span class="w"> </span><span class="s2">&quot;${output_dir}&quot;</span><span class="p">)</span>
+<span class="nb">cminx_gen_rst</span><span class="p">(</span><span class="s2">"${CMAKE_CURRENT_LIST_DIR}/cmake"</span><span class="w"> </span><span class="s2">"${output_dir}"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This assumes that the CMake script is located in the root directory of your
