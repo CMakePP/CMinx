@@ -74,7 +74,7 @@ class TestDocumenter(unittest.TestCase):
                 self.fail(f"Unknown documentation type: {doc}")
 
     def test_incorrect_variable_type(self):
-        var_doc = VariableDocumentation("name", "Not a valid variable type", "0", "This should fail")
+        var_doc = VariableDocumentation("name", "Not a valid variable type", "0", "This should fail", {})
         self.assertRaises(ValueError, var_doc.process,
                           RSTWriter("test_writer"))
 
