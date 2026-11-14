@@ -13,8 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import logging
 import textwrap
 import unittest
+from unittest import mock
 
 import pytest
 
@@ -464,6 +466,20 @@ endmacro()
                                         "endfunction()\nfunction(undocumented)\nendfunction()")
         self.reset(settings)
         self.assertEqual(["shown", "undocumented"], [doc.name for doc in self.aggregator.documented])
+
+    def test_unrecognised_doc_command(self):
+        self.input_stream = InputStream("#[[[\n# Doc\n# @internal\n#]]\nfunction(f)\nendfunction()")
+        with self.assertLogs("cminx.aggregator", "WARNING") as logs:
+            self.reset()
+        self.assertIn("@internal on line 3", logs.output[0])
+        self.assertIn("@internal", self.aggregator.documented[0].doc)
+
+    def test_escaped_doc_command(self):
+        self.input_stream = InputStream("#[[[\n# Doc\n# \\@internal\n#]]\nfunction(f)\nendfunction()")
+        with mock.patch.object(logging.getLogger("cminx.aggregator"), "warning") as warning:
+            self.reset()
+        warning.assert_not_called()
+        self.assertEqual("Doc\n@internal\n", self.aggregator.documented[0].doc)
 
     def test_function_param_regex(self):
         func_name = "test_func"

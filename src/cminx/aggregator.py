@@ -74,6 +74,9 @@ class DefinitionCommand:
 DOC_COMMAND_PATTERN = re.compile(r"^\s*#(?:\[\[\[)?\s*@([A-Za-z][A-Za-z0-9-]*)")
 """Matches a doc-comment line starting with a doc-comment command, such as :code:`@no-doc`."""
 
+DOC_COMMANDS = {"module", "no-doc"}
+"""The doc-comment commands CMinx recognises."""
+
 BLOCK_END_COMMANDS = {"function": "endfunction", "macro": "endmacro", "cpp_class": "cpp_end_class"}
 """The command ending each block command, used to exempt a whole block from documentation."""
 
@@ -572,23 +575,31 @@ class DocumentationAggregator(CMakeListener):
         cleaned_doc = "\n".join(cleaned_lines)
         if cleaned_doc.startswith("\n"):
             cleaned_doc = cleaned_doc[1:]
+        # Unescape lines starting with an escaped doc-comment command (\@)
+        cleaned_doc = re.sub(r"^(\s*)\\@", r"\1@", cleaned_doc, flags=re.MULTILINE)
 
         return cleaned_doc
 
-    @staticmethod
-    def doc_commands(ctx: ParserRuleContext) -> Dict[str, int]:
+    def doc_commands(self, ctx: ParserRuleContext) -> Dict[str, int]:
         """
         Finds the doc-comment commands, such as :code:`@no-doc`, in a doc-comment.
+        Lines starting with an unrecognised command are kept as text, with a warning.
 
         :param ctx: Doc-comment context, constructed by the Antlr4 parser.
 
-        :return: The line number of each command found, keyed by command name.
+        :return: The line number of each recognised command found, keyed by command name.
         """
         commands = {}
         for line_offset, line in enumerate(ctx.getText().split("\n")):
             match = DOC_COMMAND_PATTERN.match(line)
-            if match is not None:
-                commands.setdefault(match.group(1), ctx.start.line + line_offset)
+            if match is None:
+                continue
+            command, line_num = match.group(1), ctx.start.line + line_offset
+            if command in DOC_COMMANDS:
+                commands.setdefault(command, line_num)
+            else:
+                self.logger.warning(f"Unrecognised doc-comment command @{command} on line {line_num}, keeping it as "
+                                    f"text. Escape it as \\@{command} to silence this warning.")
         return commands
 
     def track_no_doc_scope(self, command: str) -> None:

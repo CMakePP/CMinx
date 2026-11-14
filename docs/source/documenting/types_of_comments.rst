@@ -58,3 +58,7 @@ on the first line of the documentation comment (the line with :code:`#[[[`):
    and therefore Sphinx is entirely unaware of them. Consider them akin to
    preprocessor directives.
 
+A line starting with :code:`@` that is not a CMinx directive is kept as text,
+and CMinx logs a warning so that misspelled directives are noticed. To keep
+such a line without the warning, escape it as :code:`\\@`, which is written
+to the generated RST as :code:`@`.
