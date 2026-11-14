@@ -28,7 +28,7 @@ aggregates them in a single list.
 import logging
 import re
 from dataclasses import dataclass
-from typing import List, Union
+from typing import Dict, List, Union
 
 from antlr4 import ParserRuleContext
 
@@ -69,6 +69,25 @@ class DefinitionCommand:
     if a :code:`cmake_parse_arguments()` command is found.
     When false, this object is ignored.
     """
+
+
+DOC_COMMAND_PATTERN = re.compile(r"^\s*#(?:\[\[\[)?\s*@([A-Za-z][A-Za-z0-9-]*)")
+"""Matches a doc-comment line starting with a doc-comment command, such as :code:`@no-doc`."""
+
+BLOCK_END_COMMANDS = {"function": "endfunction", "macro": "endmacro", "cpp_class": "cpp_end_class"}
+"""The command ending each block command, used to exempt a whole block from documentation."""
+
+
+@dataclass
+class NoDocScope:
+    """
+    The commands exempted from documentation by a :code:`@no-doc` doc-comment command.
+    """
+    command: Union[str, None]
+    """The exempt command, or None when the rest of the file is exempt."""
+
+    depth: int = 0
+    """The number of nested blocks of the exempt command entered."""
 
 
 class DocumentationAggregator(CMakeListener):
@@ -114,6 +133,12 @@ class DocumentationAggregator(CMakeListener):
         """
         A list containing all of the contexts that have already been processed
         """
+
+        self.no_doc_scope: Union[NoDocScope, None] = None
+        """The commands currently exempted from documentation by :code:`@no-doc`, if any"""
+
+        self.found_doc_comment: bool = False
+        """Whether a doc-comment has been found, used to tell if a doc-comment is the first in the file"""
 
         self.logger: logging.Logger = logging.getLogger(__name__)
 
@@ -550,6 +575,40 @@ class DocumentationAggregator(CMakeListener):
 
         return cleaned_doc
 
+    @staticmethod
+    def doc_commands(ctx: ParserRuleContext) -> Dict[str, int]:
+        """
+        Finds the doc-comment commands, such as :code:`@no-doc`, in a doc-comment.
+
+        :param ctx: Doc-comment context, constructed by the Antlr4 parser.
+
+        :return: The line number of each command found, keyed by command name.
+        """
+        commands = {}
+        for line_offset, line in enumerate(ctx.getText().split("\n")):
+            match = DOC_COMMAND_PATTERN.match(line)
+            if match is not None:
+                commands.setdefault(match.group(1), ctx.start.line + line_offset)
+        return commands
+
+    def track_no_doc_scope(self, command: str) -> None:
+        """
+        Ends the current :code:`@no-doc` scope once the exempt command, or the end of its block, is reached.
+
+        :param command: The name of the command being entered.
+        """
+        scope = self.no_doc_scope
+        if scope is None or scope.command is None:
+            return
+
+        end_command = BLOCK_END_COMMANDS.get(scope.command)
+        if command == scope.command:
+            scope.depth += 1
+        elif command == end_command:
+            scope.depth -= 1
+        if end_command is None or scope.depth == 0:
+            self.no_doc_scope = None
+
     def enterDocumented_command(self, ctx: CMakeParser.Documented_commandContext) -> None:
         """
         Main entrypoint into the documentation processor and aggregator. Called by ParseTreeWalker whenever
@@ -561,6 +620,18 @@ class DocumentationAggregator(CMakeListener):
         :raise NotImplementedError: If no processor can be found for the command that was documented.
         """
         self.consumed.append(ctx.bracket_doccomment())
+        self.found_doc_comment = True
+        if self.no_doc_scope is not None:
+            return  # enterCommand_invocation() handles the exempt command as undocumented
+
+        no_doc_line = self.doc_commands(ctx.bracket_doccomment()).get("no-doc")
+        if no_doc_line is not None:
+            command = ctx.command_invocation().Identifier().getText().lower()
+            args = ctx.command_invocation().single_argument()
+            self.no_doc_scope = NoDocScope(command)
+            self.logger.debug(f"@no-doc on line {no_doc_line}: skipping {command}({args[0].getText() if args else ''})")
+            return
+
         text = ctx.bracket_doccomment().getText()
         lines = text.split("\n")
 
@@ -589,9 +660,10 @@ class DocumentationAggregator(CMakeListener):
         """
 
         command = ctx.Identifier().getText().lower()
+        exempt = self.no_doc_scope is not None
 
         try:
-            if command == "cpp_class" and not self.settings.input.include_undocumented_cpp_class:
+            if command == "cpp_class" and (exempt or not self.settings.input.include_undocumented_cpp_class):
                 # This ensures the stack doesn't fall into an inconsistent state
                 self.documented_classes_stack.append(None)
             elif command == "cpp_end_class":
@@ -625,7 +697,7 @@ class DocumentationAggregator(CMakeListener):
             elif command == "endfunction" or command == "endmacro":
                 self.definition_command_stack.pop()
             elif command != "set" and f"process_{command}" in dir(self) and ctx not in self.consumed:
-                if self.settings.input.__dict__[f"include_undocumented_{command}"]:
+                if not exempt and self.settings.input.__dict__[f"include_undocumented_{command}"]:
                     getattr(self, f"process_{command}")(ctx, "")
                 elif command == "function" or command == "macro":
                     self.definition_command_stack.append(DefinitionCommand(None, False))
@@ -635,7 +707,16 @@ class DocumentationAggregator(CMakeListener):
             self.logger.error(f"Caught exception while processing command beginning at line number {line_num}")
             raise e
 
+        self.track_no_doc_scope(command)
+
     def enterDocumented_module(self, ctx: CMakeParser.Documented_moduleContext) -> None:
+        self.found_doc_comment = True
+        no_doc_line = self.doc_commands(ctx).get("no-doc")
+        if no_doc_line is not None:
+            self.no_doc_scope = NoDocScope(None)
+            self.logger.debug(f"@no-doc on line {no_doc_line}: skipping the rest of the file")
+            return
+
         text = ctx.Module_docstring().getText()
         cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
         module_name = cleaned_lines[0].replace("@module", "").strip()
@@ -643,10 +724,23 @@ class DocumentationAggregator(CMakeListener):
         self.documented.append(ModuleDocumentation(module_name, doc))
 
     def enterBracket_doccomment(self, ctx: CMakeParser.Bracket_doccommentContext) -> None:
-        if ctx not in self.consumed:
+        if ctx in self.consumed or self.no_doc_scope is not None:
+            return
+
+        no_doc_line = self.doc_commands(ctx).get("no-doc")
+        if no_doc_line is not None:
+            if self.found_doc_comment:
+                raise CMakeSyntaxException(
+                    "@no-doc must be in the first doc-comment of the file or attached to a command",
+                    no_doc_line
+                )
+            self.no_doc_scope = NoDocScope(None)
+            self.logger.debug(f"@no-doc on line {no_doc_line}: skipping the rest of the file")
+        else:
             # text = ctx.Docstring().getText()
             # cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")
             # self.documented.append(DanglingDoccomment("", "\n".join(cleaned_lines)))
             self.logger.warning(
                 f"Detected dangling doccomment, ignoring. RST may change depending on CMinx version."
             )
+        self.found_doc_comment = True

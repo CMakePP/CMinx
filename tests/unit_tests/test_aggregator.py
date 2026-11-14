@@ -410,6 +410,61 @@ endmacro()
         with pytest.raises(CMakeSyntaxException):
             self.reset()
 
+    def test_no_doc_file(self):
+        self.input_stream = InputStream("#[[[\n# @no-doc\n#]]\n\n#[[[\n# Doc\n#]]\nfunction(hidden)\nendfunction()")
+        self.reset()
+        self.assertEqual([], self.aggregator.documented)
+
+    def test_no_doc_module(self):
+        self.input_stream = InputStream("#[[[ @module\n# @no-doc\n#]]\n"
+                                        "#[[[\n# Doc\n#]]\nfunction(hidden)\nendfunction()")
+        self.reset()
+        self.assertEqual([], self.aggregator.documented)
+
+    def test_no_doc_first_doccomment_attached(self):
+        self.input_stream = InputStream("#[[[\n# @no-doc\n#]]\nfunction(hidden)\nendfunction()\n"
+                                        "#[[[\n# Doc\n#]]\nfunction(shown)\nendfunction()")
+        self.reset()
+        self.assertEqual(["shown"], [doc.name for doc in self.aggregator.documented])
+
+    def test_no_doc_dangling(self):
+        self.input_stream = InputStream("#[[[\n# Doc\n#]]\nfunction(shown)\nendfunction()\n"
+                                        "#[[[\n# @no-doc\n#]]\n\n#[[[\n# Doc\n#]]\nfunction(other)\nendfunction()")
+        with pytest.raises(CMakeSyntaxException) as e:
+            self.reset()
+        self.assertEqual(7, e.value.line)
+
+    def test_no_doc_nested_block(self):
+        self.input_stream = InputStream("#[[[\n# Doc\n#]]\nfunction(shown)\nendfunction()\n"
+                                        "#[[[\n# @no-doc\n#]]\nfunction(hidden)\nfunction(nested)\nendfunction()\n"
+                                        "#[[[\n# Doc\n#]]\nset(hidden_variable 1)\nendfunction()\n"
+                                        "#[[[\n# Doc\n#]]\nset(shown_variable 1)")
+        self.reset()
+        self.assertEqual(["shown", "shown_variable"], [doc.name for doc in self.aggregator.documented])
+
+    def test_no_doc_cpp_class(self):
+        self.input_stream = InputStream("#[[[\n# Doc\n#]]\nfunction(shown)\nendfunction()\n"
+                                        "#[[[\n# @no-doc\n#]]\ncpp_class(Hidden)\ncpp_end_class()\n"
+                                        "#[[[\n# Doc\n#]]\ncpp_class(Shown)\ncpp_end_class()")
+        self.reset()
+        self.assertEqual(["shown", "Shown"], [doc.name for doc in self.aggregator.documented])
+
+    def test_no_doc_inside_definition(self):
+        self.input_stream = InputStream("#[[[\n# Doc\n#]]\nfunction(outer)\n"
+                                        "#[[[\n# @no-doc\n#]]\nfunction(inner)\nendfunction()\n"
+                                        "cmake_parse_arguments(x \"\" \"\" \"\" ${ARGN})\nendfunction()")
+        self.reset()
+        self.assertTrue(self.aggregator.documented[0].has_kwargs, "Enclosing function lost cmake_parse_arguments()")
+
+    def test_no_doc_include_undocumented(self):
+        settings = Settings()
+        settings.input.include_undocumented_function = True
+        self.input_stream = InputStream("#[[[\n# Doc\n#]]\nfunction(shown)\nendfunction()\n"
+                                        "#[[[\n# @no-doc\n#]]\nfunction(hidden)\nfunction(nested)\nendfunction()\n"
+                                        "endfunction()\nfunction(undocumented)\nendfunction()")
+        self.reset(settings)
+        self.assertEqual(["shown", "undocumented"], [doc.name for doc in self.aggregator.documented])
+
     def test_function_param_regex(self):
         func_name = "test_func"
         stripped_param_names = ["param1", "param2_with_underscores"]
