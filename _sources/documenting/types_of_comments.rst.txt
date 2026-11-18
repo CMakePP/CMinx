@@ -42,11 +42,10 @@ For comparison, an annotation comment looks like:
 
 Sometimes documentation comments need additional information in their
 headers to inform CMinx about the type of documentation the comment
-represents. This information is contained in the first
-line of the documentation comment (the line with :code:`#[[[`)
-and is marked by a special directive start character :code:`@`.
-For example, a module documentation comment contains the :code:`@module`
-directive:
+represents. This information is marked by a special directive start
+character :code:`@` at the start of a line. For example, a module
+documentation comment contains the :code:`@module` directive, which must be
+on the first line of the documentation comment (the line with :code:`#[[[`):
 
 .. literalinclude:: ../../../tests/test_samples/basic_module.cmake
    :language: cmake
@@ -59,3 +58,7 @@ directive:
    and therefore Sphinx is entirely unaware of them. Consider them akin to
    preprocessor directives.
 
+A line starting with :code:`@` that is not a CMinx directive is kept as text,
+and CMinx logs a warning so that misspelled directives are noticed. To keep
+such a line without the warning, escape it as :code:`\\@`, which is written
+to the generated RST as :code:`@`.

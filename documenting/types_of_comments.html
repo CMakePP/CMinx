@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Types of Comments &mdash; CMinx v1.1.13 documentation</title>
+  <title>Types of Comments &mdash; CMinx v1.1.15 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=b96a4976"></script>
+      <script src="../_static/documentation_options.js?v=d69b5da2"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -50,6 +50,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Using CMinx to Document Your Code</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Types of Comments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="module.html">Documenting a Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="no_doc.html">Excluding Code from Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function.html">Documenting a Function</a></li>
 <li class="toctree-l2"><a class="reference internal" href="macro.html">Documenting a Macro</a></li>
 <li class="toctree-l2"><a class="reference internal" href="variable.html">Documenting a Variable</a></li>
@@ -126,11 +127,10 @@ character. Thus to indicate that a CMake comment is documentation use
 </div>
 <p>Sometimes documentation comments need additional information in their
 headers to inform CMinx about the type of documentation the comment
-represents. This information is contained in the first
-line of the documentation comment (the line with <code class="code docutils literal notranslate"><span class="pre">#[[[</span></code>)
-and is marked by a special directive start character <code class="code docutils literal notranslate"><span class="pre">&#64;</span></code>.
-For example, a module documentation comment contains the <code class="code docutils literal notranslate"><span class="pre">&#64;module</span></code>
-directive:</p>
+represents. This information is marked by a special directive start
+character <code class="code docutils literal notranslate"><span class="pre">&#64;</span></code> at the start of a line. For example, a module
+documentation comment contains the <code class="code docutils literal notranslate"><span class="pre">&#64;module</span></code> directive, which must be
+on the first line of the documentation comment (the line with <code class="code docutils literal notranslate"><span class="pre">#[[[</span></code>):</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[ @module</span>
 <span class="c"># This is a basic CMake module.</span>
 <span class="c"># The :code:`@module` component is required and</span>
@@ -150,6 +150,10 @@ it in the output, they <em>are not</em> passed through to the generated RST
 and therefore Sphinx is entirely unaware of them. Consider them akin to
 preprocessor directives.</p>
 </div>
+<p>A line starting with <code class="code docutils literal notranslate"><span class="pre">&#64;</span></code> that is not a CMinx directive is kept as text,
+and CMinx logs a warning so that misspelled directives are noticed. To keep
+such a line without the warning, escape it as <code class="code docutils literal notranslate"><span class="pre">\&#64;</span></code>, which is written
+to the generated RST as <code class="code docutils literal notranslate"><span class="pre">&#64;</span></code>.</p>
 </section>
 
 

@@ -27,6 +27,7 @@ Using CMinx to Document Your Code
 
    types_of_comments
    module
+   no_doc
    function
    macro
    variable
