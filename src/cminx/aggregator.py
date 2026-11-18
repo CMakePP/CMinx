@@ -80,6 +80,13 @@ DOC_COMMANDS = {"module", "no-doc"}
 BLOCK_END_COMMANDS = {"function": "endfunction", "macro": "endmacro", "cpp_class": "cpp_end_class"}
 """The command ending each block command, used to exempt a whole block from documentation."""
 
+DEFINED_BY_NEXT_COMMANDS = {
+    "ct_add_test", "ct_add_section", "cpp_member", "cpp_constructor"}
+"""
+Commands implemented by the :code:`function()` or :code:`macro()` that
+follows them, which is exempted along with them.
+"""
+
 
 @dataclass
 class NoDocScope:
@@ -142,6 +149,12 @@ class DocumentationAggregator(CMakeListener):
 
         self.found_doc_comment: bool = False
         """Whether a doc-comment has been found, used to tell if a doc-comment is the first in the file"""
+
+        self.no_doc_file: bool = False
+        """
+        Whether :code:`@no-doc` exempts the whole file, in which case no page
+        should be generated for it
+        """
 
         self.logger: logging.Logger = logging.getLogger(__name__)
 
@@ -605,11 +618,22 @@ class DocumentationAggregator(CMakeListener):
     def track_no_doc_scope(self, command: str) -> None:
         """
         Ends the current :code:`@no-doc` scope once the exempt command, or the end of its block, is reached.
+        For a command implemented by the following :code:`function()` or
+        :code:`macro()`, such as :code:`ct_add_test()`, the scope continues to
+        the end of that definition.
 
         :param command: The name of the command being entered.
         """
         scope = self.no_doc_scope
         if scope is None or scope.command is None:
+            return
+
+        if scope.command in DEFINED_BY_NEXT_COMMANDS:
+            if command in ("function", "macro"):
+                # The exempt command's definition follows, so exempt the
+                # definition's block too
+                scope.command = command
+                scope.depth = 1
             return
 
         end_command = BLOCK_END_COMMANDS.get(scope.command)
@@ -725,7 +749,9 @@ class DocumentationAggregator(CMakeListener):
         no_doc_line = self.doc_commands(ctx).get("no-doc")
         if no_doc_line is not None:
             self.no_doc_scope = NoDocScope(None)
-            self.logger.debug(f"@no-doc on line {no_doc_line}: skipping the rest of the file")
+            self.no_doc_file = True
+            self.logger.debug(
+                f"@no-doc on line {no_doc_line}: skipping the file")
             return
 
         text = ctx.Module_docstring().getText()
@@ -746,7 +772,9 @@ class DocumentationAggregator(CMakeListener):
                     no_doc_line
                 )
             self.no_doc_scope = NoDocScope(None)
-            self.logger.debug(f"@no-doc on line {no_doc_line}: skipping the rest of the file")
+            self.no_doc_file = True
+            self.logger.debug(
+                f"@no-doc on line {no_doc_line}: skipping the file")
         else:
             # text = ctx.Docstring().getText()
             # cleaned_lines = DocumentationAggregator.clean_doc_lines(text.split("\n")).split("\n")

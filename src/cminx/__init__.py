@@ -261,6 +261,17 @@ def document(input_file: str, settings: Settings):
                 # Make sure we have all the directories created
                 os.makedirs(path, exist_ok=True)
 
+            # All preprocessing is complete, now just loop over files with the
+            # .cmake extension and document them, keeping the files a page
+            # was generated for
+            documented_files = [
+                file for file in filenames
+                if "cmake" == file.split(".")[-1].lower()
+                and document_single_file(
+                    os.path.join(root, file), input_path, new_settings)
+            ]
+
+            if output_path is not None:
                 rel_path = os.path.relpath(root, input_path)
 
                 # We need to create an index.rst file for each directory
@@ -282,8 +293,10 @@ def document(input_file: str, settings: Settings):
                     for directory in subdirs:
                         toctree.text(directory + "/index.rst")
 
-                # Filter filenames for cmake files, then add a toctree entry
-                for file in [f for f in filenames if f.lower().endswith(".cmake")]:
+                # Filter documented files for cmake files, then add a toctree
+                # entry
+                for file in [f for f in documented_files
+                             if f.lower().endswith(".cmake")]:
                     toctree.text('.'.join(file.split('.')[:-1]))
 
 
@@ -293,18 +306,6 @@ def document(input_file: str, settings: Settings):
                             output_path,
                             rel_path),
                         "index.rst"))
-
-            # All preprocessing is complete and we have
-            # our index.rst, now just loop over files with the .cmake
-            # extension and document them
-            for file in filenames:
-                if "cmake" == file.split(".")[-1].lower():
-                    document_single_file(
-                        os.path.join(
-                            root,
-                            file),
-                        input_path,
-                        new_settings)
 
             if not recursive:
                 break
@@ -323,6 +324,8 @@ def document_single_file(file, root, settings: Settings):
     generated from the relative path between file and root
     :param settings: Object containing all necessary settings that will be passed down to the
     documenter, aggregator, and RST writer.
+    :return: Whether a page was generated, which is not the case when
+    :code:`@no-doc` exempts the whole file.
     """
 
     output_path: str = settings.output.directory
@@ -361,6 +364,11 @@ def document_single_file(file, root, settings: Settings):
     auto_documenter = Documenter(file, header_name, module_name, settings)
 
     output_writer = auto_documenter.process()
+    if auto_documenter.aggregator.no_doc_file:
+        logger.info(
+            f"Skipping file {file}, which is exempted by @no-doc")
+        return False
+
     if output_path is not None:
         # Determine where to place generated RST file
         os.makedirs(output_path, exist_ok=True)
@@ -382,3 +390,5 @@ def document_single_file(file, root, settings: Settings):
     else:  # Output was not specified so print to screen
         # Use print() for raw output instead of logger
         print(str(output_writer) + "\n")
+
+    return True

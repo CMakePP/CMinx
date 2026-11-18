@@ -103,6 +103,25 @@ class TestInit(unittest.TestCase):
                 open(self.output_file, 'r') as generated_file:
             self.assertEqual(corr_file.read(), generated_file.read())
 
+    def test_no_doc_file(self):
+        """Tests that a file exempted by @no-doc has no page and is left out of the index"""
+        input_dir = os.path.join(self.output_dir, "input")
+        rst_dir = os.path.join(self.output_dir, "rst")
+        os.makedirs(input_dir)
+        with open(os.path.join(input_dir, "shown.cmake"), "w") as f:
+            f.write("#[[[\n# Doc\n#]]\nfunction(shown)\nendfunction()\n")
+        with open(os.path.join(input_dir, "hidden.cmake"), "w") as f:
+            f.write("#[[[ @module\n# @no-doc\n#]]\n\ninclude_guard()\n")
+
+        cminx.document(input_dir, Settings(output=OutputSettings(directory=rst_dir)))
+
+        self.assertTrue(os.path.isfile(os.path.join(rst_dir, "shown.rst")))
+        self.assertFalse(os.path.exists(os.path.join(rst_dir, "hidden.rst")))
+        with open(os.path.join(rst_dir, "index.rst"), "r") as index:
+            toctree = index.read().split("\n")
+        self.assertIn("   shown", toctree)
+        self.assertNotIn("   hidden", toctree)
+
     def test_recursive(self):
         """Tests the use of CMinx in recursive mode"""
         args = ["-r", "-o", self.output_dir, self.input_dir]
