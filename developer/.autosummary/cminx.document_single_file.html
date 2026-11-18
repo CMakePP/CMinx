@@ -115,7 +115,9 @@ specified.</p>
 </dl>
 <p>generated from the relative path between file and root
 :param settings: Object containing all necessary settings that will be passed down to the
-documenter, aggregator, and RST writer.</p>
+documenter, aggregator, and RST writer.
+:return: Whether a page was generated, which is not the case when
+<code class="code docutils literal notranslate"><span class="pre">&#64;no-doc</span></code> exempts the whole file.</p>
 </dd></dl>
 
 </section>

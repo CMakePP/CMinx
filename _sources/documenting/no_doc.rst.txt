@@ -26,7 +26,29 @@ included through the :code:`include_undocumented_*` settings.
 .. literalinclude:: ../../../tests/test_samples/no_doc.cmake
    :language: cmake
 
+For commands implemented by the :code:`function()` or :code:`macro()` that
+follows them, such as :code:`ct_add_test()`, :code:`ct_add_section()`,
+:code:`cpp_member()` and :code:`cpp_constructor()`, the following definition
+is excluded as well.
+
 To exclude a whole file, put :code:`@no-doc` in the first doccomment of the
-file without attaching it to a command, or in the module doccomment. A
-:code:`@no-doc` doccomment anywhere else that is not attached to a command is
-an error.
+file without attaching it to a command, or in the module doccomment. No page
+is generated for the file, and it is left out of its directory's
+:code:`index.rst`. A :code:`@no-doc` doccomment anywhere else that is not
+attached to a command is an error.
+
+.. note::
+
+   Blank lines do not separate a doccomment from the command after it. If the
+   first doccomment of the file is followed by a command, even after blank
+   lines, :code:`@no-doc` excludes only that command rather than the file.
+   To reliably exclude a whole file, put :code:`@no-doc` in a module
+   doccomment at the top of the file:
+
+   .. code-block:: cmake
+
+      #[[[ @module
+      # @no-doc
+      #]]
+
+      include_guard()

@@ -126,10 +126,30 @@ included through the <code class="code docutils literal notranslate"><span class
 <span class="nb">set</span><span class="p">(</span><span class="s">documented_variable</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>For commands implemented by the <code class="code docutils literal notranslate"><span class="pre">function()</span></code> or <code class="code docutils literal notranslate"><span class="pre">macro()</span></code> that
+follows them, such as <code class="code docutils literal notranslate"><span class="pre">ct_add_test()</span></code>, <code class="code docutils literal notranslate"><span class="pre">ct_add_section()</span></code>,
+<code class="code docutils literal notranslate"><span class="pre">cpp_member()</span></code> and <code class="code docutils literal notranslate"><span class="pre">cpp_constructor()</span></code>, the following definition
+is excluded as well.</p>
 <p>To exclude a whole file, put <code class="code docutils literal notranslate"><span class="pre">&#64;no-doc</span></code> in the first doccomment of the
-file without attaching it to a command, or in the module doccomment. A
-<code class="code docutils literal notranslate"><span class="pre">&#64;no-doc</span></code> doccomment anywhere else that is not attached to a command is
-an error.</p>
+file without attaching it to a command, or in the module doccomment. No page
+is generated for the file, and it is left out of its directory’s
+<code class="code docutils literal notranslate"><span class="pre">index.rst</span></code>. A <code class="code docutils literal notranslate"><span class="pre">&#64;no-doc</span></code> doccomment anywhere else that is not
+attached to a command is an error.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Blank lines do not separate a doccomment from the command after it. If the
+first doccomment of the file is followed by a command, even after blank
+lines, <code class="code docutils literal notranslate"><span class="pre">&#64;no-doc</span></code> excludes only that command rather than the file.
+To reliably exclude a whole file, put <code class="code docutils literal notranslate"><span class="pre">&#64;no-doc</span></code> in a module
+doccomment at the top of the file:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#[[[ @module</span>
+<span class="c"># @no-doc</span>
+<span class="c">#]]</span>
+
+<span class="nb">include_guard</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
 </section>
 
 
