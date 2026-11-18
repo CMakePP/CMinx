@@ -416,18 +416,21 @@ endmacro()
         self.input_stream = InputStream("#[[[\n# @no-doc\n#]]\n\n#[[[\n# Doc\n#]]\nfunction(hidden)\nendfunction()")
         self.reset()
         self.assertEqual([], self.aggregator.documented)
+        self.assertTrue(self.aggregator.no_doc_file)
 
     def test_no_doc_module(self):
         self.input_stream = InputStream("#[[[ @module\n# @no-doc\n#]]\n"
                                         "#[[[\n# Doc\n#]]\nfunction(hidden)\nendfunction()")
         self.reset()
         self.assertEqual([], self.aggregator.documented)
+        self.assertTrue(self.aggregator.no_doc_file)
 
     def test_no_doc_first_doccomment_attached(self):
         self.input_stream = InputStream("#[[[\n# @no-doc\n#]]\nfunction(hidden)\nendfunction()\n"
                                         "#[[[\n# Doc\n#]]\nfunction(shown)\nendfunction()")
         self.reset()
         self.assertEqual(["shown"], [doc.name for doc in self.aggregator.documented])
+        self.assertFalse(self.aggregator.no_doc_file)
 
     def test_no_doc_dangling(self):
         self.input_stream = InputStream("#[[[\n# Doc\n#]]\nfunction(shown)\nendfunction()\n"
@@ -466,6 +469,25 @@ endmacro()
                                         "endfunction()\nfunction(undocumented)\nendfunction()")
         self.reset(settings)
         self.assertEqual(["shown", "undocumented"], [doc.name for doc in self.aggregator.documented])
+
+    def test_no_doc_ct_add_test(self):
+        self.input_stream = InputStream("#[[[\n# @no-doc\n#]]\nct_add_test(NAME hidden)\n"
+                                        "function(\"${hidden}\")\n"
+                                        "#[[[\n# @no-doc\n#]]\nct_add_section(NAME hidden_section)\n"
+                                        "function(\"${hidden_section}\")\nendfunction()\nendfunction()\n"
+                                        "#[[[\n# Doc\n#]]\nfunction(shown)\nendfunction()")
+        self.reset()
+        self.assertEqual(["shown"], [doc.name for doc in self.aggregator.documented])
+
+    def test_no_doc_cpp_member(self):
+        self.input_stream = InputStream("#[[[\n# Doc\n#]]\ncpp_class(Shown)\n"
+                                        "#[[[\n# @no-doc\n#]]\ncpp_member(hidden Shown)\n"
+                                        "function(\"${hidden}\" self)\nendfunction()\n"
+                                        "#[[[\n# Doc\n#]]\ncpp_member(shown_method Shown)\n"
+                                        "function(\"${shown_method}\" self)\nendfunction()\ncpp_end_class()")
+        self.reset()
+        self.assertEqual(["Shown"], [doc.name for doc in self.aggregator.documented])
+        self.assertEqual(["shown_method"], [doc.name for doc in self.aggregator.documented[0].members])
 
     def test_unrecognised_doc_command(self):
         self.input_stream = InputStream("#[[[\n# Doc\n# @internal\n#]]\nfunction(f)\nendfunction()")
